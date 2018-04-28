@@ -1,0 +1,218 @@
+format 218
+
+classcanvas 128002 class_ref 128002 // Environment
+  classdiagramsettings member_max_width 0 end
+  xyzwh 548.719 95.7305 2005 139 67
+end
+classcanvas 128130 class_ref 128130 // EnvironmentObject
+  classdiagramsettings member_max_width 0 end
+  xyzwh 624.332 290.579 2005 147 69
+end
+classcanvas 128258 class_ref 128258 // Vehicle
+  classdiagramsettings member_max_width 0 end
+  xyz 559.056 440.483 2005
+end
+classcanvas 128386 class_ref 128386 // RoadNetwork
+  classdiagramsettings member_max_width 0 end
+  xyzwh 332.981 101.344 2005 131 73
+end
+classcanvas 128642 class_ref 128514 // RoadSegment
+  classdiagramsettings member_max_width 0 end
+  xyz 333.035 239.766 2005
+end
+classcanvas 128770 class_ref 128642 // RoadConnection
+  classdiagramsettings member_max_width 0 end
+  xyz 101.506 241.256 2005
+end
+classcanvas 129282 class_ref 128770 // RoadPolyline
+  classdiagramsettings member_max_width 0 end
+  xyz 334.317 318.475 2005
+end
+classcanvas 129538 class_ref 128898 // Vector2f
+  classdiagramsettings member_max_width 0 end
+  xyz 366.761 419.814 2005
+end
+classcanvas 129666 class_ref 129026 // Point
+  classdiagramsettings member_max_width 0 end
+  xyz 521.785 303.708 2005
+end
+classcanvas 130690 class_ref 129154 // Panel
+  classdiagramsettings member_max_width 0 end
+  xyzwh 685.392 401.908 2005 64 35
+end
+classcanvas 130946 class_ref 129282 // Car
+  classdiagramsettings member_max_width 0 end
+  xyz 561.101 544.749 2005
+end
+classcanvas 131202 class_ref 129410 // StopSign
+  classdiagramsettings member_max_width 0 end
+  xyz 662.73 490.219 2005
+end
+classcanvas 131330 class_ref 129538 // TrafficLight
+  classdiagramsettings member_max_width 0 end
+  xyz 736.87 490.505 2005
+end
+classcanvas 131970 class_ref 129666 // Agent
+  classdiagramsettings member_max_width 0 end
+  xyz 127.601 669.482 2005
+end
+classcanvas 132098 class_ref 129794 // VehicleAgent
+  classdiagramsettings member_max_width 0 end
+  xyz 111.165 740.449 2005
+end
+classcanvas 132354 class_ref 129922 // CarGPSAgent
+  classdiagramsettings member_max_width 0 end
+  xyz 237.665 812.783 2005
+end
+classcanvas 132482 class_ref 130050 // CarMapAgent
+  classdiagramsettings member_max_width 0 end
+  xyz 238.575 743.163 2005
+end
+classcanvas 132866 class_ref 130178 // TrafficLightControllerAgent
+  classdiagramsettings member_max_width 0 end
+  xyz 199.682 672.116 2005
+end
+classcanvas 133634 class_ref 130306 // SatNavSkill
+  classdiagramsettings member_max_width 0 end
+  xyz 651.8 793.5 2011
+end
+classcanvas 133762 class_ref 130434 // MapNavSkill
+  classdiagramsettings member_max_width 0 end
+  xyz 763 793.5 2011
+end
+classcanvas 133890 class_ref 130562 // Skill
+  classdiagramsettings member_max_width 0 end
+  xyzwh 701.4 696.2 2011 86 52
+end
+fragment 134402 "Agents"
+  color lightmediumblue xyzwh 82.2 653.4 5 313 221
+end
+fragment 134530 "Skills"
+  color verylightorange xyzwh 632.7 671.9 2005 208 191
+end
+fragment 134658 "Environments"
+  color lightgreen xyzwh 82.3 50.7 0 791 547
+end
+textcanvas 134914 "use"
+  xyzwh 494 753 2011 41 24
+relationcanvas 128514 relation_ref 128002 // <composition>
+  from ref 128386 z 2006 to ref 128002
+  role_a_pos 479 116 2011 no_role_b
+  multiplicity_a_pos 530 133 2011 no_multiplicity_b
+end
+relationcanvas 128898 relation_ref 128130 // <composition>
+  from ref 128386 z 2006 stereotype "<<List>>" xyz 235 203 2011 to ref 128770
+  role_a_pos 184 224 2011 no_role_b
+  multiplicity_a_pos 184 241 2011 no_multiplicity_b
+end
+relationcanvas 129026 relation_ref 128258 // <composition>
+  from ref 128386 z 2006 stereotype "<<List>>" xyz 361.5 205 2011 to ref 128642
+  role_a_pos 385 225 2011 no_role_b
+  multiplicity_a_pos 350 225 2011 no_multiplicity_b
+end
+relationcanvas 129154 relation_ref 128386 // <association>
+  from ref 128770 z 2006 to ref 128642
+  role_a_pos 278 244 2011 role_b_pos 202 244 2011
+  multiplicity_a_pos 305 261 2011 multiplicity_b_pos 203 261 2011
+end
+relationcanvas 129410 relation_ref 128514 // <generalisation>
+  from ref 129282 z 2006 to ref 128642
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129794 relation_ref 128642 // <unidirectional association>
+  from ref 129666 z 2006 to ref 128642
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129922 relation_ref 128770 // <composition>
+  from ref 128130 z 2006 to ref 129666
+  no_role_a no_role_b
+  multiplicity_a_pos 575 325 2011 no_multiplicity_b
+end
+relationcanvas 130050 relation_ref 128898 // <composition>
+  from ref 128642 z 2006 to ref 128130
+  role_a_pos 564 277 2011 no_role_b
+  multiplicity_a_pos 609 314 2011 multiplicity_b_pos 421 270 2011
+end
+relationcanvas 130178 relation_ref 129026 // <generalisation>
+  from ref 128258 z 2006 to ref 128130
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130306 relation_ref 129154 // <composition>
+  from ref 129282 z 2006 to ref 129538
+  role_a_pos 399 408 2011 no_role_b
+  multiplicity_a_pos 360 408 2011 no_multiplicity_b
+end
+relationcanvas 130818 relation_ref 129282 // <generalisation>
+  decenter_begin 200
+  from ref 130690 z 2006 to ref 128130
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131074 relation_ref 129410 // <generalisation>
+  from ref 130946 z 2006 to ref 128258
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131458 relation_ref 129538 // <generalisation>
+  from ref 131202 z 2006 to ref 130690
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131586 relation_ref 129666 // <generalisation>
+  decenter_begin 194
+  from ref 131330 z 2006 to ref 130690
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131714 relation_ref 129794 // <composition>
+  from ref 128770 z 2006 to point 145.38 434.119
+  line 131842 z 2006 to ref 129538
+  no_role_a no_role_b
+  multiplicity_a_pos 349 441 2013 no_multiplicity_b
+end
+relationcanvas 132226 relation_ref 129922 // <generalisation>
+  from ref 132098 z 2006 to ref 131970
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 132610 relation_ref 130050 // <generalisation>
+  from ref 132354 z 2006 to ref 132098
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 132738 relation_ref 130178 // <generalisation>
+  from ref 132482 z 2006 to ref 132098
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 132994 relation_ref 130306 // <generalisation>
+  from ref 132866 z 2006 to ref 131970
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 133122 relation_ref 130434 // <unidirectional association>
+  from ref 132482 z 2006 to ref 130946
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 133506 relation_ref 130562 // <unidirectional association>
+  from ref 132354 z 2006 to ref 130946
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 134018 relation_ref 130690 // <generalisation>
+  from ref 133634 z 2006 to ref 133890
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 134146 relation_ref 130818 // <generalisation>
+  from ref 133762 z 2006 to ref 133890
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+line 134786 -_-_
+  from ref 134402 z 2006 to ref 134530
+end
