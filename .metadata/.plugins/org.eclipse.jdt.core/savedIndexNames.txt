@@ -1,0 +1,2 @@
+INDEX VERSION 1.130+C:\Users\jerem\Documents\GitHub\IA51---Traffic-Simulation\.metadata\.plugins\org.eclipse.jdt.core
+2459338761.index
