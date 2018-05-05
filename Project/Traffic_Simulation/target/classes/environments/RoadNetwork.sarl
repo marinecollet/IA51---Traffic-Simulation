@@ -1,0 +1,22 @@
+/** 
+ * 
+ */
+package environments
+
+/** 
+ * @author jerem
+ * 
+ */
+public class RoadNetwork {
+	
+	val roadNetwork : Environment
+	
+	new(){
+		this.roadNetwork = new Environment
+		
+	} 
+	
+	
+	 
+	
+}

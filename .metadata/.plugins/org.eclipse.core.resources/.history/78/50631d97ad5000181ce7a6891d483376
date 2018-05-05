@@ -7,5 +7,7 @@ package environments
  * @author jerem
  * 
  */
-public class Environment {
+public class RoadNetwork {
+	
+	Environment roadNetwork;
 }
