@@ -3,6 +3,8 @@
  */
 package environments
 
+import java.util.ArrayList
+
 /** 
  * @author jerem
  * 
@@ -12,8 +14,12 @@ class RoadSegment {
 	val start : RoadConnection
 	val end : RoadConnection
 	
+	val objects : ArrayList<EnvironmentObject>
+	
 	new(){
 		start = new RoadConnection
 		end = new RoadConnection 
+		
+		objects = new ArrayList<EnvironmentObject>
 	}
 }
