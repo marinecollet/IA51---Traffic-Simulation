@@ -1,6 +1,6 @@
 format 218
 "Diagramme classes"
-  revision 1
+  revision 2
   modified_by 2 "jerem"
 
 
@@ -32,7 +32,7 @@ format 218
   
   class_color yellow duration_color transparent continuation_color gray note_color blue fragment_color transparent subject_color transparent usecase_color yellow package_color transparent component_color green artifact_color green deploymentnode_color gray state_color yellow stateaction_color transparent activity_color transparent activityregion_color transparent activitypartition_color transparent activityaction_color transparent parameterpin_color white generalization_color black 
   dpi 72
-  font_size 10
+  font_size 8
   diagram_format A4
 
   image_root_dir ""
@@ -200,7 +200,7 @@ ${inlines}
 	relation_ref 128258 // <composition>
       end
 
-      classrelation 128898 // connections (<association>)
+      classrelation 128898 // <association>
 	relation_ref 128386 // <association>
       end
 
@@ -243,7 +243,7 @@ ${inlines}
 	  b role_name "connections" multiplicity "2" private
 	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${multiplicity}${value};
 "
-	    classrelation_ref 128898 // connections (<association>)
+	    classrelation_ref 128898 // <association>
       end
 
       classrelation 130690 // <composition>
@@ -339,6 +339,15 @@ ${inlines}
 
       classrelation 129410 // <composition>
 	relation_ref 128770 // <composition>
+      end
+
+      classrelation 138626 // <unidirectional association>
+	relation 137346 --->
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 138626 // <unidirectional association>
+	  b parent class_ref 128642 // RoadConnection
       end
     end
 
