@@ -1,0 +1,19 @@
+/** 
+ * 
+ */
+package environments
+
+/** 
+ * @author jerem
+ * 
+ */
+class RoadSegment {
+	
+	val start : RoadConnection
+	val end : RoadConnection
+	
+	new(){
+		start = new RoadConnection
+		end = new RoadConnection
+	}
+}

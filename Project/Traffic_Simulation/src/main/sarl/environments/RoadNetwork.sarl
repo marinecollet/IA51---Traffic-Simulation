@@ -3,16 +3,22 @@
  */
 package environments
 
+import java.util.ArrayList
+
 /** 
  * @author jerem
  * 
  */
-public class RoadNetwork {
+class RoadNetwork {
 	
 	val roadNetwork : Environment
+	val segments : ArrayList<RoadSegment>
+	val connections : ArrayList<RoadConnection>
 	
 	new(){
 		this.roadNetwork = new Environment
+		segments = new ArrayList<RoadSegment>
+		connections = new ArrayList<RoadConnection>
 		
 	} 
 	

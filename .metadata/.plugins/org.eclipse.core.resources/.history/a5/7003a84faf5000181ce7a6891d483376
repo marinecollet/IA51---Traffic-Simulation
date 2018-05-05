@@ -15,7 +15,7 @@ class RoadConnection {
 	
 	val onSegments : ArrayList<RoadSegment>
 	
-	new ()
+	new RoadConnection()
 	{
 		onSegments = new ArrayList<RoadSegment>
 	}

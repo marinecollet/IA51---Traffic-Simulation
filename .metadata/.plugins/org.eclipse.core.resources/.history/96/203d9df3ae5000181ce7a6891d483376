@@ -1,0 +1,28 @@
+/** 
+ * 
+ */
+package environments
+
+import java.util.List
+
+/** 
+ * @author jerem
+ * 
+ */
+class RoadNetwork {
+	
+	val roadNetwork : Environment
+	val segments : List<RoadSegment>
+	val connections : List<RoadConnection>
+	
+	new(){
+		this.roadNetwork = new Environment
+		segments = new List<RoadSegment>
+		connections = new List<RoadConnection>
+		
+	} 
+	
+	
+	 
+	
+}

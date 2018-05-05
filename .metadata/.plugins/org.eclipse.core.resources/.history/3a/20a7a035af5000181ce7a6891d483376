@@ -7,5 +7,7 @@ package environments
  * @author jerem
  * 
  */
-class Environment {
+class RoadConnection {
+
+	//val position : Vector2f	??
 }

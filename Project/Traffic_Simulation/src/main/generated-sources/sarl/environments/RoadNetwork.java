@@ -1,9 +1,12 @@
 package environments;
 
 import environments.Environment;
+import environments.RoadConnection;
+import environments.RoadSegment;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import java.util.ArrayList;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -15,9 +18,17 @@ import org.eclipse.xtext.xbase.lib.Pure;
 public class RoadNetwork {
   private final Environment roadNetwork;
   
+  private final ArrayList<RoadSegment> segments;
+  
+  private final ArrayList<RoadConnection> connections;
+  
   public RoadNetwork() {
     Environment _environment = new Environment();
     this.roadNetwork = _environment;
+    ArrayList<RoadSegment> _arrayList = new ArrayList<RoadSegment>();
+    this.segments = _arrayList;
+    ArrayList<RoadConnection> _arrayList_1 = new ArrayList<RoadConnection>();
+    this.connections = _arrayList_1;
   }
   
   @Override

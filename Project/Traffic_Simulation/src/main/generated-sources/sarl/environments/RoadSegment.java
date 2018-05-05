@@ -1,10 +1,9 @@
 package environments;
 
-import environments.RoadSegment;
+import environments.RoadConnection;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import java.util.ArrayList;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -13,12 +12,16 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public class RoadConnection {
-  private final ArrayList<RoadSegment> onSegments;
+public class RoadSegment {
+  private final RoadConnection start;
   
-  public RoadConnection() {
-    ArrayList<RoadSegment> _arrayList = new ArrayList<RoadSegment>();
-    this.onSegments = _arrayList;
+  private final RoadConnection end;
+  
+  public RoadSegment() {
+    RoadConnection _roadConnection = new RoadConnection();
+    this.start = _roadConnection;
+    RoadConnection _roadConnection_1 = new RoadConnection();
+    this.end = _roadConnection_1;
   }
   
   @Override
