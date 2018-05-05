@@ -12,9 +12,4 @@ import java.util.ArrayList
 abstract class EnvironmentObject {
 	
 	val points : ArrayList<Point>
-	
-	new()
-	{
-		points = new ArrayList<Point>
-	}
 }

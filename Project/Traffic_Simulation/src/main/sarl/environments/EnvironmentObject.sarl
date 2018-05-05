@@ -3,9 +3,18 @@
  */
 package environments
 
+import java.util.ArrayList
+
 /** 
  * @author jerem
  * 
  */
 abstract class EnvironmentObject {
+	
+	val points : ArrayList<Point>
+	
+	new()
+	{
+		points = new ArrayList<Point>
+	}
 }
