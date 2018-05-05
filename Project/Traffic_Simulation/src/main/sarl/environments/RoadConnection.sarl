@@ -1,0 +1,13 @@
+/** 
+ * 
+ */
+package environments
+
+/** 
+ * @author jerem
+ * 
+ */
+class RoadConnection {
+
+	//val position : Vector2f	??
+}
