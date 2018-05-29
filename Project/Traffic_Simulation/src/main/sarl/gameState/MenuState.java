@@ -1,5 +1,6 @@
 package gameState;
 
+import org.arakhne.afc.io.shape.ShapeFileIndexWriter;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -33,6 +34,9 @@ public class MenuState extends BasicGame
 			appgc = new AppGameContainer(new MenuState("Simple Slick Game"));
 			appgc.setDisplayMode(640, 480, false);
 			appgc.start();
+			
+			ShapeFileIndexWriter reader;
+			
 		}
 		catch (SlickException ex)
 		{
