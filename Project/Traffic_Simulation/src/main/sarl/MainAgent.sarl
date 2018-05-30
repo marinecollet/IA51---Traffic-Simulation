@@ -16,11 +16,11 @@ agent MainAgent
 	uses Lifecycle
 	
 	on Initialize {
-		val appgc = new AppGameContainer(new MenuState("Simple Slick Game"))
+		/*val appgc = new AppGameContainer(new MenuState("Simple Slick Game"))
 		appgc.setDisplayMode(640, 480, false)
 		appgc.start()
 		var gui = appgc
 
-		spawn(typeof(EnvironmentAgent), 640, 480, gui)
+		spawn(typeof(EnvironmentAgent), 640, 480, gui)*/
 	}
 }

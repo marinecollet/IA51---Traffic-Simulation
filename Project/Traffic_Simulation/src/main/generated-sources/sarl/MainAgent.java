@@ -1,5 +1,3 @@
-import framework.environment.EnvironmentAgent;
-import gamestates.MenuState;
 import io.sarl.core.Initialize;
 import io.sarl.core.Lifecycle;
 import io.sarl.lang.annotation.ImportedCapacityFeature;
@@ -15,11 +13,9 @@ import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
-import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.AppGameContainer;
 
 @SarlSpecification("0.7")
 @SarlElementType(18)
@@ -27,17 +23,6 @@ import org.newdawn.slick.AppGameContainer;
 public class MainAgent extends Agent {
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    try {
-      MenuState _menuState = new MenuState("Simple Slick Game");
-      final AppGameContainer appgc = new AppGameContainer(_menuState);
-      appgc.setDisplayMode(640, 480, false);
-      appgc.start();
-      AppGameContainer gui = appgc;
-      Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
-      _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawn(EnvironmentAgent.class, Integer.valueOf(640), Integer.valueOf(480), gui);
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
   }
   
   @Extension
