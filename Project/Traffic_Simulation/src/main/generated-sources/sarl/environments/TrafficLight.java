@@ -6,6 +6,7 @@ import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
@@ -28,7 +29,7 @@ public class TrafficLight extends Panel {
   }
   
   @SyntheticMember
-  public TrafficLight() {
-    super();
+  public TrafficLight(final Vector2f vector, final boolean isUpdatable, final boolean isDrawable) {
+    super(vector, isUpdatable, isDrawable);
   }
 }

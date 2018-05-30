@@ -1,0 +1,115 @@
+/** 
+ * 
+ */
+package environments
+
+import org.newdawn.slick.Image
+import org.newdawn.slick.geom.Vector2f
+import org.newdawn.slick.SlickException
+import org.newdawn.slick.GameContainer
+import org.newdawn.slick.state.StateBasedGame
+import org.newdawn.slick.Graphics
+
+/** 
+ * @author jerem
+ * 
+ */
+class Button extends EntityClickable implements EntityDrawable
+{
+
+	var img_actual : Image
+
+	var img_idle : Image
+	var img_hover : Image
+	var img_pressed : Image
+
+	/**
+	 * Constructeur.
+	 * @param _position
+	 * @param _img_idle
+	 * @param _img_hover
+	 * @param _img_pressed
+	 */
+	new(_position : Vector2f, _img_idle : String, _img_hover : String, _img_pressed : String) 
+	{
+
+		super(_position);
+
+		try {
+			img_idle = new Image(_img_idle);
+			img_hover = new Image(_img_hover);
+			img_pressed = new Image(_img_pressed);
+		} catch (e : SlickException) {
+			e.printStackTrace();
+		}
+
+		img_actual = img_idle;
+		size.x = img_actual.getWidth();
+		size.y = img_actual.getHeight()
+		drawable = true;
+		
+	}
+
+/**
+ * Constructeur.
+ * @param _position
+ * @param height
+ * @param width
+ * @param _img_idle
+ * @param _img_hover
+ * @param _img_pressed
+ */
+	new(_position : Vector2f, height : float, width : float, _img_idle : String, _img_hover : String,
+		 _img_pressed : String) 
+	{
+
+		super(_position);
+
+		try {
+			img_idle = new Image(_img_idle);
+			img_hover = new Image(_img_hover);
+			img_pressed = new Image(_img_pressed);
+		} catch (e : SlickException) {
+			e.printStackTrace();
+		}
+
+		img_actual = img_idle;
+		size.x = width;
+		size.y = height;
+	}
+
+
+	def override render(arg2 : Graphics) {
+		img_actual.draw(position.x, position.y, size.x, size.y);
+	}
+
+
+	def override update(gc : GameContainer, sbg : StateBasedGame, delta : int) {
+		super.update(gc, sbg, delta);
+
+		/**
+		 * Logique de changement d'image suivant la position de la souris
+		 */
+		if (isMouseHover) {
+
+			if (isMouseHoverAndPressed) {
+				img_actual = img_pressed;
+			} else {
+				img_actual = img_hover;
+			}
+		} else {
+			img_actual = img_idle;
+		}
+	}
+
+/** 
+ * Permet de mettre en place l'action qui sera menï¿½ quand le bouton de la
+ * souris sera cliquï¿½
+ * 
+ * @param _mouseClicked
+ * L'interface surchargï¿½e
+ */
+	def setEventCallback(_mouseClicked : EventEntityMouseClicked) {
+		clickedEvent = _mouseClicked;
+	}
+}

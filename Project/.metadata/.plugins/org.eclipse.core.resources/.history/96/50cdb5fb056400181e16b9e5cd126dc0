@@ -1,0 +1,15 @@
+/** 
+ * 
+ */
+package environments
+
+/** 
+ * @author jerem
+ * 
+ */
+abstract class Vehicle extends EnvironmentObject {
+	
+	new(){
+		super()
+	}
+}

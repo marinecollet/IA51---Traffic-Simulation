@@ -1,0 +1,71 @@
+/** 
+ * 
+ */
+package environments
+
+import java.util.ArrayList
+import org.newdawn.slick.Graphics
+
+/** 
+ * @author jerem
+ * 
+ */
+class EntityCollection implements EntityUpdateable, EntityDrawable {
+	var entities : ArrayList<Entity>
+
+	new() {
+		entities = new ArrayList<Entity>();
+	}
+
+	def getEntities() : ArrayList<Entity> {
+		return entities;
+	}
+
+	def add(_entity : Entity) {
+		entities.add(_entity);
+	}
+
+	def addAt(_entity : Entity, index : int) {
+		entities.add(index, _entity);
+	}
+
+	def delete(_entity : Entity) : boolean {
+		return entities.remove(_entity);
+	}
+
+/**
+	 * Permet de supprimer avec une �galit� profonde, contrairement a delete
+ * (qui utilise la methode equals pour comparer les objets)
+ * 
+ * @param _entity
+ * @return
+ */
+	def deleteObject(_entity : Entity) : boolean {
+		for (var i = 0; i < entities.size(); i++) {
+			if (entities.get(i) == _entity) {
+				entities.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	def override render(arg2 : Graphics) {
+		for (entitie : entities) {
+			if (entitie.isDrawable()) {
+				((EntityDrawable) entitie).render(arg2);
+			}
+		}
+	}
+
+	def override update(gc : GameContainer, sbg : StateBasedGame, delta : int) {
+		for (Entity entitie : entities) {
+			if (entitie.isUpdateble()) {
+				((EntityUpdateable) entitie).update(gc, sbg, delta * Map.getInstance().simulationSpeed);
+				;
+			}
+		}
+	}
+	
+	
+}

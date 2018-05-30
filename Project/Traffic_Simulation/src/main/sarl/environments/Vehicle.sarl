@@ -3,9 +3,15 @@
  */
 package environments
 
+import org.newdawn.slick.geom.Vector2f
+
 /** 
  * @author jerem
  * 
  */
 abstract class Vehicle extends EnvironmentObject {
+	
+	new(vector : Vector2f){
+		super(vector,true,true)
+	}
 }

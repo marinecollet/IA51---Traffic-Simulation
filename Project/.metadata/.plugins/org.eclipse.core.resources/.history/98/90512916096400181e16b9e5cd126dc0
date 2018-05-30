@@ -1,0 +1,21 @@
+/** 
+ * 
+ */
+package environments
+
+import java.util.ArrayList
+import org.newdawn.slick.geom.Vector2f
+
+/** 
+ * @author jerem
+ * 
+ */
+abstract class EnvironmentObject extends Entity implements EntityDrawable, EntityUpdateable, Runnable {
+	
+	var points = new ArrayList<Point>
+	
+	new(vector : Vector2f)
+	{
+		super(vector)
+	}
+}

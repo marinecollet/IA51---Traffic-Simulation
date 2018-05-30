@@ -1,0 +1,36 @@
+/** 
+ * 
+ */
+package environments
+
+import org.newdawn.slick.Graphics
+import org.newdawn.slick.GameContainer
+import org.newdawn.slick.state.StateBasedGame
+import org.newdawn.slick.geom.Rectangle
+
+/** 
+ * @author jerem
+ * 
+ */
+class Car extends Vehicle{
+	
+	val shape : Rectangle;
+	
+	new(){
+		shape = new Rectangle(0,0,10,50)
+	}
+	
+	def render(arg2 : Graphics) {
+		arg2.fill(shape)
+		arg2.draw(shape)
+	}
+	
+	def update(gc : GameContainer, sbg : StateBasedGame, delta : int) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def run {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+}

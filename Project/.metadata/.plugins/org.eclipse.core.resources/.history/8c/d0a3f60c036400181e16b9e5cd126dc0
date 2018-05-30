@@ -1,0 +1,12 @@
+/** 
+ * 
+ */
+package environments
+
+/** 
+ * @author jerem
+ * 
+ */
+interface EntityUpdateable {
+	update(gc : GameContainer, sbg : StateBasedGame, delta : int);
+}

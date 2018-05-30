@@ -17,19 +17,19 @@ public class Entity {
   /**
    * La position de l'entitï¿½
    */
-  private final Vector2f position;
+  private Vector2f position;
   
-  private final Vector2f size;
+  private Vector2f size;
   
   /**
    * Permet de savoir si l'entité est updatable
    */
-  private final boolean updatable;
+  private boolean updatable;
   
   /**
    * Permet de savoir si l'entité est dessinable
    */
-  private final boolean drawable;
+  private boolean drawable;
   
   /**
    * Construit une entitï¿½ qui possï¿½de la position et la taille donnï¿½e
@@ -39,13 +39,13 @@ public class Entity {
    * @param _size
    *            La taille de l'entitï¿½
    */
-  public Entity(final Vector2f _position, final Vector2f _size) {
+  public Entity(final Vector2f _position, final Vector2f _size, final boolean isUpdatable, final boolean isDrawable) {
     Vector2f _vector2f = new Vector2f(_position.x, _position.y);
     this.position = _vector2f;
     Vector2f _vector2f_1 = new Vector2f(_size.x, _size.y);
     this.size = _vector2f_1;
-    this.updatable = false;
-    this.drawable = false;
+    this.updatable = isUpdatable;
+    this.drawable = isDrawable;
   }
   
   /**
@@ -55,13 +55,13 @@ public class Entity {
    * @param _position
    *            La position de l'entitï¿½
    */
-  public Entity(final Vector2f _position) {
+  public Entity(final Vector2f _position, final boolean isUpdatable, final boolean isDrawable) {
     Vector2f _vector2f = new Vector2f(_position.x, _position.y);
     this.position = _vector2f;
     Vector2f _vector2f_1 = new Vector2f();
     this.size = _vector2f_1;
-    this.updatable = false;
-    this.drawable = false;
+    this.updatable = isUpdatable;
+    this.drawable = isDrawable;
   }
   
   /**
@@ -148,7 +148,7 @@ public class Entity {
    */
   @Pure
   public Rectangle getRect() {
-    final Rectangle rect = new Rectangle(this.position.x, this.position.y, this.size.x, this.size.y);
+    Rectangle rect = new Rectangle(this.position.x, this.position.y, this.size.x, this.size.y);
     return rect;
   }
   

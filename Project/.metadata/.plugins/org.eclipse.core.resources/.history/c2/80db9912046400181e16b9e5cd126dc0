@@ -1,0 +1,11 @@
+/** 
+ * 
+ */
+package environments
+
+/** 
+ * @author jerem
+ * 
+ */
+interface EntityDrawable {
+}

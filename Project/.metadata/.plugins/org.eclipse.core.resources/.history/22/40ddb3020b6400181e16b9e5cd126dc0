@@ -1,0 +1,75 @@
+/** 
+ * 
+ */
+package environments
+
+import java.util.ArrayList
+
+/** 
+ * @author jerem
+ * 
+ */
+class EntityCollection implements EntityUpdateable, EntityDrawable {
+	var entities : ArrayList<Entity>
+
+	new() {
+		entities = new ArrayList<Entity>();
+	}
+
+	def getEntities() : ArrayList<Entity> {
+		return entities;
+	}
+
+	def add(_entity : Entity) {
+		entities.add(_entity);
+	}
+
+	def addAt(_entity : Entity, index : int) {
+		entities.add(index, _entity);
+	}
+
+public boolean delete(Entity _entity) {
+		return entities.remove(_entity);
+
+	}
+
+/**
+	 * Permet de supprimer avec une �galit� profonde, contrairement a delete
+ * (qui utilise la methode equals pour comparer les objets)
+ * 
+ * @param _entity
+ * @return
+ */
+public boolean deleteObject(Entity _entity) {
+		for (int i = 0; i < entities.size(); ++i) {
+			if (entities.get(i) == _entity) {
+				entities.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
+@Override
+
+public void render(Graphics arg2) {
+		for (Entity entitie : entities) {
+			if (entitie.isDrawable()) {
+				((EntityDrawable) entitie).render(arg2);
+			}
+		}
+	}
+
+@Override
+
+public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+		for (Entity entitie : entities) {
+			if (entitie.isUpdateble()) {
+				((EntityUpdateable) entitie).update(gc, sbg, delta * Map.getInstance().simulationSpeed);
+				;
+			}
+		}
+	}
+	
+	
+}

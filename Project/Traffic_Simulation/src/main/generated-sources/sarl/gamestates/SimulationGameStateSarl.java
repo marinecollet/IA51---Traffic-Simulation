@@ -1,6 +1,5 @@
 package gamestates;
 
-import entities.EntityCollection;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -18,7 +17,7 @@ import org.newdawn.slick.state.StateBasedGame;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class SimulationGameStateSarl extends BasicGameState {
-  private final EntityCollection entities = new EntityCollection();
+  private final Object entities /* Skipped initializer because of errors */;
   
   public int getID() {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");

@@ -3,7 +3,7 @@ package environments;
 import environments.EnvironmentObject;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
-import io.sarl.lang.annotation.SyntheticMember;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -12,8 +12,7 @@ import io.sarl.lang.annotation.SyntheticMember;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public abstract class Vehicle extends EnvironmentObject {
-  @SyntheticMember
-  public Vehicle() {
-    super();
+  public Vehicle(final Vector2f vector) {
+    super(vector, true, true);
   }
 }

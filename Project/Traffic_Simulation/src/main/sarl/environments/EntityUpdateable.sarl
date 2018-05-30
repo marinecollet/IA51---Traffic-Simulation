@@ -1,0 +1,15 @@
+/** 
+ * 
+ */
+package environments
+
+import org.newdawn.slick.GameContainer
+import org.newdawn.slick.state.StateBasedGame
+
+/** 
+ * @author jerem
+ * 
+ */
+interface EntityUpdateable {
+	def update(gc : GameContainer, sbg : StateBasedGame, delta : int);
+}

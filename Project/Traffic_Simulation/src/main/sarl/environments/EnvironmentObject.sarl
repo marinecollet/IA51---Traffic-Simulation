@@ -4,10 +4,7 @@
 package environments
 
 import java.util.ArrayList
-import entities.EntityDrawable
-import entities.EntityUpdateable
 import org.newdawn.slick.geom.Vector2f
-import entities.Entity
 
 /** 
  * @author jerem
@@ -15,12 +12,10 @@ import entities.Entity
  */
 abstract class EnvironmentObject extends Entity implements EntityDrawable, EntityUpdateable, Runnable {
 	
-	val points : ArrayList<Point>
+	var points = new ArrayList<Point>
 	
-	new()
+	new(vector : Vector2f, isUpdatable : boolean, isDrawable : boolean)
 	{
-		val vec = new Vector2f(0.0f,0.0f)
-		super(vec)
-		points = new ArrayList<Point>
+		super(vector, isUpdatable, isDrawable)
 	}
 }

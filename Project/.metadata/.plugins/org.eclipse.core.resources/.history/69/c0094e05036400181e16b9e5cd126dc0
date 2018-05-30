@@ -1,0 +1,12 @@
+/** 
+ * 
+ */
+package environments
+
+/** 
+ * @author jerem
+ * 
+ */
+interface EntityUpdateable {
+	void update(GameContainer gc, StateBasedGame sbg, int delta);
+}

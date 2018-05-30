@@ -1,0 +1,12 @@
+/** 
+ * 
+ */
+package environments
+
+/** 
+ * @author jerem
+ * 
+ */
+interface EntityDrawable {
+	def render(arg2 : Graphics);
+}

@@ -15,17 +15,17 @@ class Entity {
 	/** 
 	* La position de l'entitï¿½
 	*/
-	val position : Vector2f;
-	val size : Vector2f;
+	var position : Vector2f;
+	var size : Vector2f;
 
 	/**
 	 * Permet de savoir si l'entité est updatable
 	 */
-	val updatable : boolean;
+	var updatable : boolean;
 	/**
 	 * Permet de savoir si l'entité est dessinable
 	 */
-	val drawable : boolean;
+	var drawable : boolean;
 
 	/**
 	 * Construit une entitï¿½ qui possï¿½de la position et la taille donnï¿½e
@@ -35,12 +35,12 @@ class Entity {
 	 * @param _size
 	 *            La taille de l'entitï¿½
 	 */
-	new (_position : Vector2f, _size : Vector2f) {
+	new (_position : Vector2f, _size : Vector2f, isUpdatable : boolean, isDrawable:boolean) {
 		position = new Vector2f(_position.x, _position.y)
 		size = new Vector2f(_size.x, _size.y)
 
-		updatable = false
-		drawable = false
+		updatable = isUpdatable
+		drawable = isDrawable
 	}
 
 	/**
@@ -50,12 +50,12 @@ class Entity {
 	 * @param _position
 	 *            La position de l'entitï¿½
 	 */
-	new (_position : Vector2f) {
+	new (_position : Vector2f, isUpdatable : boolean, isDrawable : boolean) {
 		position = new Vector2f(_position.x, _position.y)
 		size = new Vector2f
 		
-		updatable = false
-		drawable = false
+		updatable = isUpdatable
+		drawable = isDrawable
 	}
 
 	/**
@@ -125,7 +125,7 @@ class Entity {
  * @return
  */
 	def getRect() : Rectangle {
-		val rect = new Rectangle( position.x, position.y,  size.x, size.y);
+		var rect = new Rectangle( position.x, position.y,  size.x, size.y);
 		return rect;
 	}
 

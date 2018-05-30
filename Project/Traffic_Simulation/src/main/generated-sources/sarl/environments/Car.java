@@ -8,6 +8,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
@@ -17,9 +18,10 @@ import org.newdawn.slick.state.StateBasedGame;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class Car extends Vehicle {
-  private final Rectangle shape;
+  private Rectangle shape;
   
-  public Car() {
+  public Car(final Vector2f vector) {
+    super(vector);
     Rectangle _rectangle = new Rectangle(0, 0, 10, 50);
     this.shape = _rectangle;
   }

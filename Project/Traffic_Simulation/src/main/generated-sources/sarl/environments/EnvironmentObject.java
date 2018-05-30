@@ -1,14 +1,15 @@
 package environments;
 
-import entities.Entity;
-import entities.EntityDrawable;
-import entities.EntityUpdateable;
+import environments.Entity;
+import environments.EntityDrawable;
+import environments.EntityUpdateable;
 import environments.Point;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.ArrayList;
 import org.eclipse.xtext.xbase.lib.Pure;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -17,11 +18,10 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public abstract class EnvironmentObject extends Entity implements EntityDrawable, EntityUpdateable, Runnable {
-  private final ArrayList<Point> points;
+  private ArrayList<Point> points = new ArrayList<Point>();
   
-  public EnvironmentObject() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nConstructor call must be the first expression in a constructor");
+  public EnvironmentObject(final Vector2f vector, final boolean isUpdatable, final boolean isDrawable) {
+    super(vector, isUpdatable, isDrawable);
   }
   
   @Override
