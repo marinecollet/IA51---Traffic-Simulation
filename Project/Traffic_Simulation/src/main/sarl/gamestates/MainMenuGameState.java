@@ -5,10 +5,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.Image;
 import entities.Button;
+import entities.EventEntityMouseClicked;
 
 import org.newdawn.slick.Graphics;
 
@@ -25,16 +27,34 @@ public class MainMenuGameState extends BasicGameState
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		arg0.getGraphics().setBackground(Color.white);
+	
+		
+		play_button = new Button(new Vector2f((Map.WIDTH / 2) - (600 / 2), 375), "asset/b_play_idle.png",
+				"asset/b_play_hover.png", "asset/b_play_pressed.png");
+		play_button.setEventCallback(new EventEntityMouseClicked() {
+			@Override
+			public void mouseClicked() {
+				try {
+					arg1.getState(SimulationWindow.GS_SIMULATION).init(arg0, arg1);
+					arg1.enterState(SimulationWindow.GS_SIMULATION);
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
+			}
+});
+		
 		
 	}
 
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {}
-
-	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException
 	{
-		arg2.drawString("Howdy!", 100, 10);
+		play_button.render(arg2);
+	}
+	
+	@Override
+	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
+		play_button.update(arg0, arg1, arg2);
 	}
 
 	@Override

@@ -19,5 +19,7 @@ public class SimulationWindow extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
 		addState(new MainMenuGameState());
+		addState(new SimulationGameState());
+
 	}
 }
