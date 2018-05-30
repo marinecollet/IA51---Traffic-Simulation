@@ -1,5 +1,6 @@
 package environments;
 
+import entities.Entity;
 import entities.EntityDrawable;
 import entities.EntityUpdateable;
 import environments.Point;
@@ -15,12 +16,12 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public abstract class EnvironmentObject implements EntityDrawable, EntityUpdateable, Runnable {
+public abstract class EnvironmentObject extends Entity implements EntityDrawable, EntityUpdateable, Runnable {
   private final ArrayList<Point> points;
   
   public EnvironmentObject() {
-    ArrayList<Point> _arrayList = new ArrayList<Point>();
-    this.points = _arrayList;
+    throw new Error("Unresolved compilation problems:"
+      + "\nConstructor call must be the first expression in a constructor");
   }
   
   @Override

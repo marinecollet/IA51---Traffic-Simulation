@@ -8,11 +8,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
 import entities.Button;
 import entities.EntityCollection;
 import entities.EventEntityMouseClicked;
 import logic.Map;
+import environments.*;
+
 
 public class SimulationGameState extends BasicGameState {
 

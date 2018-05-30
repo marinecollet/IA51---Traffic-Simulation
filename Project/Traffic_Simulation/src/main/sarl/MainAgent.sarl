@@ -4,10 +4,9 @@
 
 import io.sarl.core.Initialize
 import org.newdawn.slick.AppGameContainer
-import gamestates.MenuState
 import framework.environment.EnvironmentAgent
 import io.sarl.core.Lifecycle
-
+import environments.*
 
 agent MainAgent
 {
@@ -20,7 +19,9 @@ agent MainAgent
 		appgc.setDisplayMode(640, 480, false)
 		appgc.start()
 		var gui = appgc
-
+		
 		spawn(typeof(EnvironmentAgent), 640, 480, gui)*/
+		//val car = new Car
+		
 	}
 }
