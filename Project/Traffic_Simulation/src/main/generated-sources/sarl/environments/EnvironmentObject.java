@@ -1,5 +1,7 @@
 package environments;
 
+import entities.EntityDrawable;
+import entities.EntityUpdateable;
 import environments.Point;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
@@ -13,7 +15,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public abstract class EnvironmentObject {
+public abstract class EnvironmentObject implements EntityDrawable, EntityUpdateable, Runnable {
   private final ArrayList<Point> points;
   
   public EnvironmentObject() {

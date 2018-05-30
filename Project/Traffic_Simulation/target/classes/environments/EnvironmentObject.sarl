@@ -4,12 +4,14 @@
 package environments
 
 import java.util.ArrayList
+import entities.EntityDrawable
+import entities.EntityUpdateable
 
 /** 
  * @author jerem
  * 
  */
-abstract class EnvironmentObject {
+abstract class EnvironmentObject implements EntityDrawable, EntityUpdateable, Runnable {
 	
 	val points : ArrayList<Point>
 	

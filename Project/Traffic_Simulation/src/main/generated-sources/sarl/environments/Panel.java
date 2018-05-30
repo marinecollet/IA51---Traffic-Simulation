@@ -11,7 +11,7 @@ import io.sarl.lang.annotation.SyntheticMember;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public class Panel extends EnvironmentObject {
+public abstract class Panel extends EnvironmentObject {
   @SyntheticMember
   public Panel() {
     super();
