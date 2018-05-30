@@ -4,6 +4,11 @@
 package environments
 
 import java.util.ArrayList
+import org.arakhne.afc.io.shape.ShapeFileReader
+import org.arakhne.afc.io.dbase.DBaseFileReader
+import org.arakhne.afc.io.shape.ElementFactory
+import java.io.File
+import org.arakhne.afc.io.shape.ShapeFileIndexReader
 
 /** 
  * @author jerem
@@ -11,18 +16,30 @@ import java.util.ArrayList
  */
 class RoadNetwork {
 	
-	val roadNetwork : Environment
+	
+	//val roadNetwork : Environment
 	val segments : ArrayList<RoadSegment>
 	val connections : ArrayList<RoadConnection>
 	
 	new(){
-		this.roadNetwork = new Environment
+		//this.roadNetwork = new Environment
 		segments = new ArrayList<RoadSegment>
 		connections = new ArrayList<RoadConnection>
 		
 	} 
 	
-	
+	def LoadShapeFile(){
+		var shapefile = new File("asset/Belfort.shp")
+		var dbfile = new File("asset/Belfort.dbf")
+		var dbreader = new DBaseFileReader(dbfile)
+		var reader = new ShapeFileReader(shapefile,dbreader,null)
+		
+		
+		println(reader.fileReadingPosition)
+		
+
+		
+	}
 	 
 	
 }

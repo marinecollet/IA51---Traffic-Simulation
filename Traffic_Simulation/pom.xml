@@ -16,4 +16,16 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.arakhne.afc.advanced</groupId>
+  		<artifactId>shapefile</artifactId>
+  		<version>14.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.arakhne.afc.advanced</groupId>
+  		<artifactId>dbasefile</artifactId>
+  		<version>14.0</version>
+  	</dependency>
+  </dependencies>
 </project>

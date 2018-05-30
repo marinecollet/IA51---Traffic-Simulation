@@ -1,8 +1,8 @@
-window_sizes 1920 1027 450 1465 874 104
+window_sizes 1920 1027 450 1465 877 104
 
 diagrams
   active  classdiagram_ref 128002 // env
-    1172 699 100 A3-Landscape 348 0
+    1172 699 100 A3-Landscape 0 0
 end
 show_stereotypes
 selected classdiagram_ref 128002 // env

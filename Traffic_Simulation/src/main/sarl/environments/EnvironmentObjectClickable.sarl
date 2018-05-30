@@ -19,6 +19,7 @@ abstract class EnvironmentObjectClickable extends EnvironmentObject implements E
 	var isMouseHoverAndPressed : boolean;
 	var isMousePressed : boolean;
 
+
 	/**
 	 * Avec ce constructeur on donne directement le EventEntityMouseClicked
 	 * 

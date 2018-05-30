@@ -12,21 +12,19 @@ import logic.Map
 import io.sarl.core.Logging
 
 agent MainAgent
-{
-	// Error when launching Janus: URL invalide: file:C:\Users\jerem\Documents\GitHub\IA51---Traffic-Simulation\Project\Traffic_Simulation/
-	
+{	
 	uses Lifecycle
 	uses Logging
 	
+	var rd = new RoadNetwork
+	
 	on Initialize {
-		info("coucou")
+		info("Init MainAgent")
 		val container = new AppGameContainer(new SimulationWindow("Traffic Simulation"), Map.WIDTH, Map.HEIGHT, false)
 		container.setTargetFrameRate(60)
-		container.start()
-		//var gui = appgc
-		
-		//spawn(typeof(EnvironmentAgent), 640, 480, gui)
-		//val car = new Car
+		var data = rd.LoadShapeFile
+
+		//container.start()
 		
 	}
 }

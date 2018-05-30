@@ -1,3 +1,4 @@
+import environments.RoadNetwork;
 import gamestates.SimulationWindow;
 import io.sarl.core.Initialize;
 import io.sarl.core.Lifecycle;
@@ -26,15 +27,17 @@ import org.newdawn.slick.AppGameContainer;
 @SarlElementType(18)
 @SuppressWarnings("all")
 public class MainAgent extends Agent {
+  private RoadNetwork rd = new RoadNetwork();
+  
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     try {
       Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-      _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("coucou");
+      _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Init MainAgent");
       SimulationWindow _simulationWindow = new SimulationWindow("Traffic Simulation");
       final AppGameContainer container = new AppGameContainer(_simulationWindow, Map.WIDTH, Map.HEIGHT, false);
       container.setTargetFrameRate(60);
-      container.start();
+      Integer data = this.rd.LoadShapeFile();
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -76,6 +79,21 @@ public class MainAgent extends Agent {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
+  }
+  
+  @Override
+  @Pure
+  @SyntheticMember
+  public boolean equals(final Object obj) {
+    return super.equals(obj);
+  }
+  
+  @Override
+  @Pure
+  @SyntheticMember
+  public int hashCode() {
+    int result = super.hashCode();
+    return result;
   }
   
   @SyntheticMember
