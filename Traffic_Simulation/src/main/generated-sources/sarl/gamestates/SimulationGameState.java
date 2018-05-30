@@ -1,7 +1,7 @@
 package gamestates;
 
 import environments.Car;
-import environments.EntityCollection;
+import environments.EnvironmentObjectCollection;
 import gamestates.SimulationWindow;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
@@ -21,7 +21,7 @@ import org.newdawn.slick.state.StateBasedGame;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class SimulationGameState extends BasicGameState {
-  private final EntityCollection entities = new EntityCollection();
+  private final EnvironmentObjectCollection entities = new EnvironmentObjectCollection();
   
   public int getID() {
     return SimulationWindow.GS_SIMULATION();

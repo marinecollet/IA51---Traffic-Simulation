@@ -17,7 +17,7 @@ import org.newdawn.slick.geom.Vector2f
  */
 class SimulationGameState extends BasicGameState {
 	
-	val entities = new EntityCollection
+	val entities = new EnvironmentObjectCollection
 	
 	def getID : int {
 		return SimulationWindow.GS_SIMULATION

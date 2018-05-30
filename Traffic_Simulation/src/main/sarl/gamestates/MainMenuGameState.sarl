@@ -5,7 +5,7 @@ package gamestates
 
 import org.newdawn.slick.state.BasicGameState
 import environments.Button
-import environments.EventEntityMouseClicked
+import environments.EventEnvironmentObjectMouseClicked
 import org.newdawn.slick.Image
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.state.StateBasedGame
@@ -33,7 +33,7 @@ class MainMenuGameState extends BasicGameState {
 		
 		play_button = new Button(new Vector2f((Map.WIDTH / 2) - (600 / 2), 375), "asset/b_play_idle.png",
 				"asset/b_play_hover.png", "asset/b_play_pressed.png");
-		play_button.setEventCallback(new EventEntityMouseClicked() {
+		play_button.setEventCallback(new EventEnvironmentObjectMouseClicked() {
 			def override mouseClicked() {
 				try {
 					arg1.getState(SimulationWindow.GS_SIMULATION).init(arg0, arg1);

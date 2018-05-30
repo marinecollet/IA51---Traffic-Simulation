@@ -5,17 +5,73 @@ package environments
 
 import java.util.ArrayList
 import org.newdawn.slick.geom.Vector2f
+import org.newdawn.slick.geom.Rectangle
 
 /** 
  * @author jerem
  * 
  */
-abstract class EnvironmentObject extends Entity implements EntityDrawable, EntityUpdateable, Runnable {
+abstract class EnvironmentObject implements EnvironmentObjectDrawable, EnvironmentObjectUpdateable {
+
+	var updatable : boolean;
+	var drawable : boolean;
+
+	var position : Vector2f;
+	var size : Vector2f;
 	
 	var points = new ArrayList<Point>
+
+	new (_position : Vector2f, _size : Vector2f, isUpdatable : boolean, isDrawable : boolean) {
+		position = new Vector2f(_position.x, _position.y)
+		size = new Vector2f(_size.x,_size.y)
+
+		updatable = isUpdatable
+		drawable = isDrawable
+	}
+
+	new (_position : Vector2f, isUpdatable : boolean, isDrawable : boolean) {
+		position = new Vector2f(_position.x, _position.y)
+		size = new Vector2f
+
+		updatable = isUpdatable
+		drawable = isDrawable
+	}
 	
-	new(vector : Vector2f, isUpdatable : boolean, isDrawable : boolean)
-	{
-		super(vector, isUpdatable, isDrawable)
+	
+
+	def getPosition() : Vector2f {
+		return position;
+	}
+
+	def setPosition(_position : Vector2f) {
+		position.x = _position.x;
+		position.y = _position.y;
+	}
+
+	def move(_offset : Vector2f) {
+		position.x += _offset.x;
+		position.y += _offset.y;
+	}
+
+	def getSize() : Vector2f {
+		return size;
+	}
+
+	def setSize(_size : Vector2f) {
+		size.x = _size.x;
+		size.y = _size.y;
+	}
+
+	def getRect() : Rectangle {
+		var rect = new Rectangle(position.x, position.y, size.x, size.y);
+		return rect;
+	}
+
+	def isUpdateble() : boolean {
+		return updatable;
+	}
+
+	def isDrawable() : boolean {
+		return drawable;
 	}
 }

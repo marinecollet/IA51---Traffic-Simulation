@@ -1,8 +1,8 @@
 package environments;
 
-import environments.EntityClickable;
-import environments.EntityDrawable;
-import environments.EventEntityMouseClicked;
+import environments.EnvironmentObjectClickable;
+import environments.EnvironmentObjectDrawable;
+import environments.EventEnvironmentObjectMouseClicked;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -21,7 +21,7 @@ import org.newdawn.slick.state.StateBasedGame;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public class Button extends EntityClickable implements EntityDrawable {
+public class Button extends EnvironmentObjectClickable implements EnvironmentObjectDrawable {
   private Image img_actual;
   
   private Image img_idle;
@@ -122,7 +122,7 @@ public class Button extends EntityClickable implements EntityDrawable {
    * @param _mouseClicked
    * L'interface surchargï¿½e
    */
-  public void setEventCallback(final EventEntityMouseClicked _mouseClicked) {
+  public void setEventCallback(final EventEnvironmentObjectMouseClicked _mouseClicked) {
     this.setClickedEvent(_mouseClicked);
   }
   

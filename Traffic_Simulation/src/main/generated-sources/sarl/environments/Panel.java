@@ -14,7 +14,12 @@ import org.newdawn.slick.geom.Vector2f;
 @SuppressWarnings("all")
 public abstract class Panel extends EnvironmentObject {
   @SyntheticMember
-  public Panel(final Vector2f vector, final boolean isUpdatable, final boolean isDrawable) {
-    super(vector, isUpdatable, isDrawable);
+  public Panel(final Vector2f _position, final boolean isUpdatable, final boolean isDrawable) {
+    super(_position, isUpdatable, isDrawable);
+  }
+  
+  @SyntheticMember
+  public Panel(final Vector2f _position, final Vector2f _size, final boolean isUpdatable, final boolean isDrawable) {
+    super(_position, _size, isUpdatable, isDrawable);
   }
 }

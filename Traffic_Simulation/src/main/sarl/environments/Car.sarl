@@ -28,11 +28,8 @@ class Car extends Vehicle{
 	}
 	
 	def update(gc : GameContainer, sbg : StateBasedGame, delta : int) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		
 	}
 	
-	def run {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
 	
 }

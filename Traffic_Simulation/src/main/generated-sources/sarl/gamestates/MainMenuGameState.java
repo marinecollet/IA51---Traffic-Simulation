@@ -1,7 +1,7 @@
 package gamestates;
 
 import environments.Button;
-import environments.EventEntityMouseClicked;
+import environments.EventEnvironmentObjectMouseClicked;
 import gamestates.SimulationWindow;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
@@ -40,7 +40,7 @@ public class MainMenuGameState extends BasicGameState {
     Button _button = new Button(_vector2f, "asset/b_play_idle.png", 
       "asset/b_play_hover.png", "asset/b_play_pressed.png");
     this.play_button = _button;
-    this.play_button.setEventCallback(new EventEntityMouseClicked() {
+    this.play_button.setEventCallback(new EventEnvironmentObjectMouseClicked() {
       @Override
       public void mouseClicked() {
         try {

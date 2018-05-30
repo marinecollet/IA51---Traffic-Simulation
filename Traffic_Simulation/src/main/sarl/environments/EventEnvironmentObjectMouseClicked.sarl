@@ -1,0 +1,12 @@
+/** 
+ * 
+ */
+package environments
+
+/** 
+ * @author jerem
+ * 
+ */
+interface EventEnvironmentObjectMouseClicked {
+	def mouseClicked();
+}

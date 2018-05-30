@@ -14,7 +14,7 @@ import org.newdawn.slick.Graphics
  * @author jerem
  * 
  */
-class Button extends EntityClickable implements EntityDrawable
+class Button extends EnvironmentObjectClickable implements EnvironmentObjectDrawable
 {
 
 	var img_actual : Image
@@ -109,7 +109,7 @@ class Button extends EntityClickable implements EntityDrawable
  * @param _mouseClicked
  * L'interface surchargï¿½e
  */
-	def setEventCallback(_mouseClicked : EventEntityMouseClicked) {
+	def setEventCallback(_mouseClicked : EventEnvironmentObjectMouseClicked) {
 		clickedEvent = _mouseClicked;
 	}
 }

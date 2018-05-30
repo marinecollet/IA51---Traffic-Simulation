@@ -4,6 +4,7 @@ import environments.Panel;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import org.eclipse.xtext.xbase.lib.Pure;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Vector2f;
@@ -24,12 +25,18 @@ public class TrafficLight extends Panel {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
+  @Pure
   public void run() {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
   @SyntheticMember
-  public TrafficLight(final Vector2f vector, final boolean isUpdatable, final boolean isDrawable) {
-    super(vector, isUpdatable, isDrawable);
+  public TrafficLight(final Vector2f _position, final boolean isUpdatable, final boolean isDrawable) {
+    super(_position, isUpdatable, isDrawable);
+  }
+  
+  @SyntheticMember
+  public TrafficLight(final Vector2f _position, final Vector2f _size, final boolean isUpdatable, final boolean isDrawable) {
+    super(_position, _size, isUpdatable, isDrawable);
   }
 }

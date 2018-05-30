@@ -1,0 +1,73 @@
+/** 
+ * 
+ */
+package environments
+
+import java.util.ArrayList
+import org.newdawn.slick.Graphics
+import logic.Map
+import org.newdawn.slick.GameContainer
+import org.newdawn.slick.state.StateBasedGame
+
+/** 
+ * @author jerem
+ * 
+ */
+class EnvironmentObjectCollection implements EnvironmentObjectUpdateable, EnvironmentObjectDrawable {
+	var entities : ArrayList<EnvironmentObject>
+
+	new() {
+		entities = new ArrayList<EnvironmentObject>();
+	}
+
+	def getEntities() : ArrayList<EnvironmentObject> {
+		return entities;
+	}
+
+	def add(_entity : EnvironmentObject) {
+		entities.add(_entity);
+	}
+
+	def addAt(_entity : EnvironmentObject, index : int) {
+		entities.add(index, _entity);
+	}
+
+	def delete(_entity : EnvironmentObject) : boolean {
+		return entities.remove(_entity);
+	}
+
+/**
+	 * Permet de supprimer avec une �galit� profonde, contrairement a delete
+ * (qui utilise la methode equals pour comparer les objets)
+ * 
+ * @param _entity
+ * @return
+ */
+	def deleteObject(_entity : EnvironmentObject) : boolean {
+		for (var i = 0; i < entities.size(); i++) {
+			if (entities.get(i) == _entity) {
+				entities.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	def override render(arg2 : Graphics) {
+		for (entitie : entities) {
+			if (entitie.isDrawable()) {
+				(entitie as EnvironmentObjectDrawable).render(arg2);
+			}
+		}
+	}
+
+	def override update(gc : GameContainer, sbg : StateBasedGame, delta : int) {
+		for ( entitie : entities) {
+			if (entitie.isUpdateble()) {
+				(entitie as EnvironmentObjectUpdateable ).update(gc, sbg, delta * Map.getInstance().simulationSpeed);
+			}
+		}
+	}
+	
+	
+}
