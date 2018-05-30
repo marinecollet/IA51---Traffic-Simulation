@@ -1,0 +1,26 @@
+/** 
+ * 
+ */
+package gamestates
+
+import org.newdawn.slick.state.StateBasedGame
+
+/** 
+ * @author jerem
+ * 
+ */
+
+class SimulationWindow extends StateBasedGame {
+	// Les ids de tous les GameState du jeu
+	val GS_MAIN_MENU = 0;
+	val GS_SIMULATION = 1;
+	val GS_PAUSE_MENU = 2;
+	val GS_OPTION_MENU = 3;
+	val GS_GAME_OVER = 4;
+	
+	new(name : String) {
+		super(name);
+	}
+	
+	
+}

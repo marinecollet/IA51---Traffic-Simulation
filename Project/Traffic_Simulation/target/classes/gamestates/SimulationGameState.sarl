@@ -1,0 +1,41 @@
+/** 
+ * 
+ */
+package gamestates
+
+import org.newdawn.slick.state.BasicGameState
+import org.newdawn.slick.GameContainer
+import org.newdawn.slick.state.StateBasedGame
+import org.newdawn.slick.SlickException
+import org.newdawn.slick.Graphics
+import environments.*
+import org.newdawn.slick.geom.Vector2f
+
+/** 
+ * @author jerem
+ * 
+ */
+class SimulationGameState extends BasicGameState {
+	
+	val entities = new EntityCollection
+	
+	def getID : int {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def init(arg0 : GameContainer, arg1 : StateBasedGame) throws SlickException {
+		//entities = new EntityCollection
+		
+		var car = new Car( new Vector2f(0.0f,0.0f))
+		entities.add(car);
+	}
+	
+	def render(arg0 : GameContainer, arg1 : StateBasedGame, arg2 : Graphics) throws SlickException {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def update(arg0 : GameContainer, arg1 : StateBasedGame, arg2 : int) throws SlickException {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+}

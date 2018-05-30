@@ -8,14 +8,13 @@ import org.newdawn.slick.GameContainer
 import org.newdawn.slick.state.StateBasedGame
 import org.newdawn.slick.SlickException
 import org.newdawn.slick.Graphics
-import entities.EntityCollection
-import environments.Car
+import environments.*
 
 /** 
  * @author jerem
  * 
  */
-class SimulationGameStateSarl extends BasicGameState {
+class SimulationGameState extends BasicGameState {
 	
 	val entities = new EntityCollection
 	
@@ -26,8 +25,8 @@ class SimulationGameStateSarl extends BasicGameState {
 	def init(arg0 : GameContainer, arg1 : StateBasedGame) throws SlickException {
 		//entities = new EntityCollection
 		
-		//val car = new Car
-		//entities.add(car);
+		var car = new Car
+		entities.add(car);
 	}
 	
 	def render(arg0 : GameContainer, arg1 : StateBasedGame, arg2 : Graphics) throws SlickException {

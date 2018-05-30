@@ -7,6 +7,8 @@ import org.newdawn.slick.AppGameContainer
 import framework.environment.EnvironmentAgent
 import io.sarl.core.Lifecycle
 import environments.*
+import gamestates.*
+import logic.Map
 
 agent MainAgent
 {
@@ -15,12 +17,12 @@ agent MainAgent
 	uses Lifecycle
 	
 	on Initialize {
-		/*val appgc = new AppGameContainer(new MenuState("Simple Slick Game"))
-		appgc.setDisplayMode(640, 480, false)
-		appgc.start()
-		var gui = appgc
+		val container = new AppGameContainer(new SimulationWindow("Traffic Simulation"), Map.WIDTH, Map.HEIGHT, false)
+		container.setTargetFrameRate(60)
+		container.start()
+		//var gui = appgc
 		
-		spawn(typeof(EnvironmentAgent), 640, 480, gui)*/
+		//spawn(typeof(EnvironmentAgent), 640, 480, gui)
 		//val car = new Car
 		
 	}

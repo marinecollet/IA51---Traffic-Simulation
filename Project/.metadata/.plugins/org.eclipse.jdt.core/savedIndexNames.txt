@@ -27,7 +27,6 @@ INDEX VERSION 1.130+/Users/jerem/GitHub/IA51---Traffic-Simulation/Project/.metad
 374124832.index
 2258777587.index
 1181155288.index
-1225699222.index
 878976152.index
 562313274.index
 3518468346.index

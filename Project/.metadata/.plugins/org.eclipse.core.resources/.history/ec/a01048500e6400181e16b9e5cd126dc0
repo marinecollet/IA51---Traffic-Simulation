@@ -1,0 +1,27 @@
+/** 
+ * 
+ */
+
+import io.sarl.core.Initialize
+import org.newdawn.slick.AppGameContainer
+import framework.environment.EnvironmentAgent
+import io.sarl.core.Lifecycle
+import environments.*
+
+agent MainAgent
+{
+	// Error when launching Janus: URL invalide: file:C:\Users\jerem\Documents\GitHub\IA51---Traffic-Simulation\Project\Traffic_Simulation/
+	
+	uses Lifecycle
+	
+	on Initialize {
+		/*val appgc = new AppGameContainer(new MenuState("Simple Slick Game"))
+		appgc.setDisplayMode(640, 480, false)
+		appgc.start()
+		var gui = appgc
+		
+		spawn(typeof(EnvironmentAgent), 640, 480, gui)*/
+		//val car = new Car
+		
+	}
+}
