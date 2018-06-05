@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
 import logic.Map;
-import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
@@ -38,7 +37,9 @@ public class MainAgent extends Agent {
       SimulationWindow _simulationWindow = new SimulationWindow("Traffic Simulation");
       final AppGameContainer container = new AppGameContainer(_simulationWindow, Map.WIDTH, Map.HEIGHT, false);
       container.setTargetFrameRate(60);
-      MapElementLayer<?> data = this.rd.LoadShapeFile();
+      Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1 = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+      _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1.info("DEBUG TRACE");
+      container.start();
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

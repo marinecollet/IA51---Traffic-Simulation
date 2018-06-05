@@ -14,7 +14,7 @@ import org.newdawn.slick.Graphics
  * @author jerem
  * 
  */
-class Button extends EnvironmentObjectClickable implements EnvironmentObjectDrawable
+class Button extends Clickable implements Drawable
 {
 
 	var img_actual : Image

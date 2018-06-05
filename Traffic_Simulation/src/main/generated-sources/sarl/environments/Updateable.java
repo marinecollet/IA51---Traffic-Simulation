@@ -2,7 +2,8 @@ package environments;
 
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
-import org.newdawn.slick.Graphics;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * @author jerem
@@ -11,6 +12,6 @@ import org.newdawn.slick.Graphics;
 @SarlSpecification("0.7")
 @SarlElementType(11)
 @SuppressWarnings("all")
-public interface EnvironmentObjectDrawable {
-  public abstract void render(final Graphics arg2);
+public interface Updateable {
+  public abstract void update(final GameContainer gc, final StateBasedGame sbg, final int delta);
 }

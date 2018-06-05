@@ -12,7 +12,7 @@ import org.newdawn.slick.Input
  * @author jerem
  * 
  */
-abstract class EnvironmentObjectClickable extends EnvironmentObject implements EnvironmentObjectUpdateable {
+abstract class Clickable extends EnvironmentObject implements Updateable {
 
 	var clickedEvent : EventEnvironmentObjectMouseClicked
 	var isMouseHover : boolean;
@@ -41,7 +41,7 @@ abstract class EnvironmentObjectClickable extends EnvironmentObject implements E
 
 		//updatable = true;
 	}
-
+	
 /** 
  * Avec ce constructeur on est oblig� de d�finir le
  * EventEntityMouseClicked dans la classe qui h�rite

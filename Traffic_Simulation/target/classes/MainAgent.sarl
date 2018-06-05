@@ -22,9 +22,12 @@ agent MainAgent
 		info("Init MainAgent")
 		val container = new AppGameContainer(new SimulationWindow("Traffic Simulation"), Map.WIDTH, Map.HEIGHT, false)
 		container.setTargetFrameRate(60)
-		var data = rd.LoadShapeFile
-
-		//container.start()
+		//var data = rd.LoadShapeFile
+		info("DEBUG TRACE")
+		//info(data.findFirst[el | el.class == typeof(org.arakhne.afc.gis.road.RoadPolyline)])
+		container.start()
+		
+		
 		
 	}
 }

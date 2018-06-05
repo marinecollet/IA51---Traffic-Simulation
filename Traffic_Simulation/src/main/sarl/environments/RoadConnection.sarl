@@ -4,6 +4,7 @@
 package environments
 
 import java.util.ArrayList
+import org.newdawn.slick.geom.Vector2f
 
 /** 
  * @author jerem
@@ -11,13 +12,22 @@ import java.util.ArrayList
  */
 class RoadConnection {
 
-	//val position : Vector2f	??
+	var position : Vector2f
 	
-	val onSegments : ArrayList<RoadSegment>
+	var onSegments : ArrayList<RoadSegment>
 	
-	new ()
+	new (pos : Vector2f)
 	{
+		position = pos
 		onSegments = new ArrayList<RoadSegment>
+	}
+	
+	def getPosition : Vector2f{
+		return position
+	}
+	
+	def addConnectionOnSegment(seg : RoadSegment){
+		onSegments.add(seg)
 	}
 	
 }

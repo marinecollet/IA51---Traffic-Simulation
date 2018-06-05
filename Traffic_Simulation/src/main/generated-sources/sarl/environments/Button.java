@@ -1,7 +1,7 @@
 package environments;
 
-import environments.EnvironmentObjectClickable;
-import environments.EnvironmentObjectDrawable;
+import environments.Clickable;
+import environments.Drawable;
 import environments.EventEnvironmentObjectMouseClicked;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
@@ -21,7 +21,7 @@ import org.newdawn.slick.state.StateBasedGame;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public class Button extends EnvironmentObjectClickable implements EnvironmentObjectDrawable {
+public class Button extends Clickable implements Drawable {
   private Image img_actual;
   
   private Image img_idle;

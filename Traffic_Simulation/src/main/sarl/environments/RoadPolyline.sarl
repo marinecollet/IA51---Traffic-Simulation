@@ -13,4 +13,7 @@ class RoadPolyline extends RoadSegment {
 
 	//val points : ArrayList<Vector2f>
 	
+	new(start : RoadConnection, end : RoadConnection){
+		super(start,end)
+	}
 }

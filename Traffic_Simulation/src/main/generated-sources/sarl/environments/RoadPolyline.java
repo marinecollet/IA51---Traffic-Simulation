@@ -1,9 +1,9 @@
 package environments;
 
+import environments.RoadConnection;
 import environments.RoadSegment;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
-import io.sarl.lang.annotation.SyntheticMember;
 
 /**
  * @author jerem
@@ -12,8 +12,7 @@ import io.sarl.lang.annotation.SyntheticMember;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class RoadPolyline extends RoadSegment {
-  @SyntheticMember
-  public RoadPolyline() {
-    super();
+  public RoadPolyline(final RoadConnection start, final RoadConnection end) {
+    super(start, end);
   }
 }

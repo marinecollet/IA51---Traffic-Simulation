@@ -21,6 +21,9 @@ import org.arakhne.afc.io.shape.ShapeElementType
 import org.arakhne.afc.gis.road.RoadPolyline
 import java.io.IOException
 import java.io.IOError
+import org.arakhne.afc.math.geometry.d2.d.Point2d
+import org.newdawn.slick.geom.Vector2f
+import logic.Map
 
 /** 
  * @author jerem
@@ -28,10 +31,9 @@ import java.io.IOError
  */
 class RoadNetwork {
 	
-	
 	//val roadNetwork : Environment
-	val segments = new ArrayList<RoadSegment>
-	val connections = new ArrayList<RoadConnection>
+	var segments = new ArrayList<RoadSegment>
+	var connections = new ArrayList<RoadConnection>
 	
 	
 	def LoadShapeFile() : MapElementLayer<?> {
@@ -71,14 +73,13 @@ class RoadNetwork {
 						if (network == null) {
 							network = new StandardRoadNetwork(worldRect);
 						}
-					val sgmt = element as RoadPolyline
-					try {
-						//network.addRoadPolyline(sgmt)
-						network.addRoadSegment(sgmt);
-					} catch (e : RoadNetworkException) {
-						throw new RuntimeException(e);
-					}
-					
+						val sgmt = element as RoadPolyline
+						try {
+							network.addRoadSegment(sgmt);
+						} catch (e : RoadNetworkException) {
+							throw new RuntimeException(e);
+						}
+						
 					
 					} else {
 						if (layer == null) {
@@ -103,5 +104,41 @@ class RoadNetwork {
 			throw new IOError(exception);
 		}
 	} 
+	
+	
+	def createTestMap() : ArrayList<EnvironmentObject> {
+		
+		var liste = new ArrayList<EnvironmentObject>
+		
+		var milieu = new RoadConnection(new Vector2f(Map.WIDTH / 2, Map.HEIGHT / 2))
+		var haut = new RoadConnection(new Vector2f(Map.WIDTH / 2, Map.HEIGHT / 2 + 100))
+		var bas = new RoadConnection(new Vector2f(Map.WIDTH / 2, Map.HEIGHT / 2 - 100))
+		var gauche = new RoadConnection(new Vector2f(Map.WIDTH / 2 - 100, Map.HEIGHT / 2))
+		var droite = new RoadConnection(new Vector2f(Map.WIDTH / 2 + 100, Map.HEIGHT / 2))
+		
+		connections.add(milieu)
+		connections.add(haut)
+		connections.add(bas)
+		connections.add(gauche)
+		connections.add(droite)
+		
+		var segH = new RoadSegment(milieu, haut)
+		var segB = new RoadSegment(milieu, bas)
+		var segG = new RoadSegment(milieu, gauche)
+		var segD = new RoadSegment(milieu, droite)
+		
+		segments.add(segH)
+		segments.add(segB)
+		segments.add(segG)
+		segments.add(segD)
+		
+		liste.add(segH)
+		liste.add(segB)
+		liste.add(segG)
+		liste.add(segD)
+		
+		
+		return liste
+	}
 	
 }

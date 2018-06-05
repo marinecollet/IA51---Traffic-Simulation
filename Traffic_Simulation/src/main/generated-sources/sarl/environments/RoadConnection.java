@@ -6,6 +6,7 @@ import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.ArrayList;
 import org.eclipse.xtext.xbase.lib.Pure;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -14,11 +15,23 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class RoadConnection {
-  private final ArrayList<RoadSegment> onSegments;
+  private Vector2f position;
   
-  public RoadConnection() {
+  private ArrayList<RoadSegment> onSegments;
+  
+  public RoadConnection(final Vector2f pos) {
+    this.position = pos;
     ArrayList<RoadSegment> _arrayList = new ArrayList<RoadSegment>();
     this.onSegments = _arrayList;
+  }
+  
+  @Pure
+  public Vector2f getPosition() {
+    return this.position;
+  }
+  
+  public boolean addConnectionOnSegment(final RoadSegment seg) {
+    return this.onSegments.add(seg);
   }
   
   @Override

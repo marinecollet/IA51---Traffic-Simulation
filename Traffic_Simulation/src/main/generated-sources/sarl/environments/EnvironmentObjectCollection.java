@@ -1,9 +1,9 @@
 package environments;
 
 import com.google.common.base.Objects;
+import environments.Drawable;
 import environments.EnvironmentObject;
-import environments.EnvironmentObjectDrawable;
-import environments.EnvironmentObjectUpdateable;
+import environments.Updateable;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -20,7 +20,7 @@ import org.newdawn.slick.state.StateBasedGame;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public class EnvironmentObjectCollection implements EnvironmentObjectUpdateable, EnvironmentObjectDrawable {
+public class EnvironmentObjectCollection implements Updateable, Drawable {
   private ArrayList<EnvironmentObject> entities;
   
   public EnvironmentObjectCollection() {
@@ -69,7 +69,7 @@ public class EnvironmentObjectCollection implements EnvironmentObjectUpdateable,
     for (final EnvironmentObject entitie : this.entities) {
       boolean _isDrawable = entitie.isDrawable();
       if (_isDrawable) {
-        ((EnvironmentObjectDrawable) entitie).render(arg2);
+        ((Drawable) entitie).render(arg2);
       }
     }
   }
@@ -79,7 +79,7 @@ public class EnvironmentObjectCollection implements EnvironmentObjectUpdateable,
     for (final EnvironmentObject entitie : this.entities) {
       boolean _isUpdateble = entitie.isUpdateble();
       if (_isUpdateble) {
-        ((EnvironmentObjectUpdateable) entitie).update(gc, sbg, (delta * Map.getInstance().simulationSpeed));
+        ((Updateable) entitie).update(gc, sbg, (delta * Map.getInstance().simulationSpeed));
       }
     }
   }

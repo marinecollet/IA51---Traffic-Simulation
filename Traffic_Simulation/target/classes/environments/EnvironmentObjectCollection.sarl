@@ -13,7 +13,7 @@ import org.newdawn.slick.state.StateBasedGame
  * @author jerem
  * 
  */
-class EnvironmentObjectCollection implements EnvironmentObjectUpdateable, EnvironmentObjectDrawable {
+class EnvironmentObjectCollection implements Updateable, Drawable {
 	var entities : ArrayList<EnvironmentObject>
 
 	new() {
@@ -56,7 +56,7 @@ class EnvironmentObjectCollection implements EnvironmentObjectUpdateable, Enviro
 	def override render(arg2 : Graphics) {
 		for (entitie : entities) {
 			if (entitie.isDrawable()) {
-				(entitie as EnvironmentObjectDrawable).render(arg2);
+				(entitie as Drawable).render(arg2);
 			}
 		}
 	}
@@ -64,7 +64,7 @@ class EnvironmentObjectCollection implements EnvironmentObjectUpdateable, Enviro
 	def override update(gc : GameContainer, sbg : StateBasedGame, delta : int) {
 		for ( entitie : entities) {
 			if (entitie.isUpdateble()) {
-				(entitie as EnvironmentObjectUpdateable ).update(gc, sbg, delta * Map.getInstance().simulationSpeed);
+				(entitie as Updateable ).update(gc, sbg, delta * Map.getInstance().simulationSpeed);
 			}
 		}
 	}

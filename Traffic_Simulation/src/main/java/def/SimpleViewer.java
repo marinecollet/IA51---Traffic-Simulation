@@ -58,7 +58,7 @@ public class SimpleViewer extends Application {
 		try {
 			StandardRoadNetwork network = null;
 			MapElementLayer<MapElement> layer = null;
-
+			
 			final File dbfFile = FileSystem.replaceExtension(file, DBaseFileFilter.EXTENSION_DBASE_FILE);
 			final URL dbfUrl;
 			if (dbfFile.canRead()) {

@@ -1,6 +1,7 @@
 package environments;
 
 import com.google.common.base.Objects;
+import environments.EnvironmentObject;
 import environments.RoadConnection;
 import environments.RoadSegment;
 import io.sarl.lang.annotation.SarlElementType;
@@ -12,6 +13,7 @@ import java.io.IOError;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import logic.Map;
 import org.arakhne.afc.gis.io.shape.GISShapeFileReader;
 import org.arakhne.afc.gis.mapelement.MapElement;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
@@ -27,6 +29,7 @@ import org.arakhne.afc.math.geometry.d2.d.Rectangle2d;
 import org.arakhne.afc.vmutil.FileSystem;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Pure;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -35,9 +38,9 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class RoadNetwork {
-  private final ArrayList<RoadSegment> segments = new ArrayList<RoadSegment>();
+  private ArrayList<RoadSegment> segments = new ArrayList<RoadSegment>();
   
-  private final ArrayList<RoadConnection> connections = new ArrayList<RoadConnection>();
+  private ArrayList<RoadConnection> connections = new ArrayList<RoadConnection>();
   
   public MapElementLayer<?> LoadShapeFile() {
     try {
@@ -137,6 +140,38 @@ public class RoadNetwork {
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
+  }
+  
+  public ArrayList<EnvironmentObject> createTestMap() {
+    ArrayList<EnvironmentObject> liste = new ArrayList<EnvironmentObject>();
+    Vector2f _vector2f = new Vector2f((Map.WIDTH / 2), (Map.HEIGHT / 2));
+    RoadConnection milieu = new RoadConnection(_vector2f);
+    Vector2f _vector2f_1 = new Vector2f((Map.WIDTH / 2), ((Map.HEIGHT / 2) + 100));
+    RoadConnection haut = new RoadConnection(_vector2f_1);
+    Vector2f _vector2f_2 = new Vector2f((Map.WIDTH / 2), ((Map.HEIGHT / 2) - 100));
+    RoadConnection bas = new RoadConnection(_vector2f_2);
+    Vector2f _vector2f_3 = new Vector2f(((Map.WIDTH / 2) - 100), (Map.HEIGHT / 2));
+    RoadConnection gauche = new RoadConnection(_vector2f_3);
+    Vector2f _vector2f_4 = new Vector2f(((Map.WIDTH / 2) + 100), (Map.HEIGHT / 2));
+    RoadConnection droite = new RoadConnection(_vector2f_4);
+    this.connections.add(milieu);
+    this.connections.add(haut);
+    this.connections.add(bas);
+    this.connections.add(gauche);
+    this.connections.add(droite);
+    RoadSegment segH = new RoadSegment(milieu, haut);
+    RoadSegment segB = new RoadSegment(milieu, bas);
+    RoadSegment segG = new RoadSegment(milieu, gauche);
+    RoadSegment segD = new RoadSegment(milieu, droite);
+    this.segments.add(segH);
+    this.segments.add(segB);
+    this.segments.add(segG);
+    this.segments.add(segD);
+    liste.add(segH);
+    liste.add(segB);
+    liste.add(segG);
+    liste.add(segD);
+    return liste;
   }
   
   @Override

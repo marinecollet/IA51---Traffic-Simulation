@@ -1,8 +1,8 @@
 package environments;
 
-import environments.EnvironmentObjectDrawable;
-import environments.EnvironmentObjectUpdateable;
+import environments.Drawable;
 import environments.Point;
+import environments.Updateable;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -17,7 +17,7 @@ import org.newdawn.slick.geom.Vector2f;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public abstract class EnvironmentObject implements EnvironmentObjectDrawable, EnvironmentObjectUpdateable {
+public abstract class EnvironmentObject implements Drawable, Updateable {
   private boolean updatable;
   
   private boolean drawable;

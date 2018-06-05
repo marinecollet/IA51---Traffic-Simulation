@@ -2,8 +2,8 @@ package environments;
 
 import com.google.common.base.Objects;
 import environments.EnvironmentObject;
-import environments.EnvironmentObjectUpdateable;
 import environments.EventEnvironmentObjectMouseClicked;
+import environments.Updateable;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -19,7 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public abstract class EnvironmentObjectClickable extends EnvironmentObject implements EnvironmentObjectUpdateable {
+public abstract class Clickable extends EnvironmentObject implements Updateable {
   private EventEnvironmentObjectMouseClicked clickedEvent;
   
   private boolean isMouseHover;
@@ -39,7 +39,7 @@ public abstract class EnvironmentObjectClickable extends EnvironmentObject imple
    * @param _size
    *            La taille de l'entit�
    */
-  public EnvironmentObjectClickable(final EventEnvironmentObjectMouseClicked _clickedEvent, final Vector2f _position, final Vector2f _size) {
+  public Clickable(final EventEnvironmentObjectMouseClicked _clickedEvent, final Vector2f _position, final Vector2f _size) {
     super(_position, _size, true, true);
     this.clickedEvent = _clickedEvent;
     this.isMouseHover = false;
@@ -56,7 +56,7 @@ public abstract class EnvironmentObjectClickable extends EnvironmentObject imple
    * @param _size
    * La taille de l'entit�
    */
-  public EnvironmentObjectClickable(final Vector2f _position, final Vector2f _size) {
+  public Clickable(final Vector2f _position, final Vector2f _size) {
     super(_position, _size, true, true);
     this.clickedEvent = null;
     this.isMouseHover = false;
@@ -71,7 +71,7 @@ public abstract class EnvironmentObjectClickable extends EnvironmentObject imple
    * @param _position
    * La position de l'entit�
    */
-  public EnvironmentObjectClickable(final Vector2f _position) {
+  public Clickable(final Vector2f _position) {
     super(_position, true, true);
     this.clickedEvent = null;
     this.isMouseHover = false;
@@ -130,7 +130,7 @@ public abstract class EnvironmentObjectClickable extends EnvironmentObject imple
       return false;
     if (getClass() != obj.getClass())
       return false;
-    EnvironmentObjectClickable other = (EnvironmentObjectClickable) obj;
+    Clickable other = (Clickable) obj;
     if (other.isMouseHover != this.isMouseHover)
       return false;
     if (other.isMouseHoverAndPressed != this.isMouseHoverAndPressed)

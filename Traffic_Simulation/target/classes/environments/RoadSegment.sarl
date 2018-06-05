@@ -4,22 +4,51 @@
 package environments
 
 import java.util.ArrayList
+import org.newdawn.slick.geom.Polygon
+import org.newdawn.slick.Graphics
+import org.newdawn.slick.geom.Vector2f
+import org.newdawn.slick.GameContainer
+import org.newdawn.slick.state.StateBasedGame
+import org.newdawn.slick.Color
 
 /** 
  * @author jerem
  * 
  */
-class RoadSegment {
+class RoadSegment extends EnvironmentObject {
 	
 	val start : RoadConnection
 	val end : RoadConnection
 	
+	var polygonRender : Polygon
+	
 	val objects : ArrayList<EnvironmentObject>
 	
-	new(){
-		start = new RoadConnection
-		end = new RoadConnection 
-		
+	new(start : RoadConnection, end : RoadConnection) {
+		super(start.position,new Vector2f(1,1),false,true)
+		this.start = start
+		this.end = end
+		setPolygon
 		objects = new ArrayList<EnvironmentObject>
 	}
+	
+	private def setPolygon() {
+		polygonRender = new Polygon()
+		polygonRender.closed = false
+		
+		polygonRender.addPoint(start.position.x, start.position.y)
+		polygonRender.addPoint(end.position.x, end.position.y)
+		
+	}
+	
+	def render(arg2 : Graphics) {
+		arg2.setLineWidth(5);
+		arg2.setColor(Color.darkGray);
+		arg2.draw(polygonRender);		
+	}
+	
+	def update(gc : GameContainer, sbg : StateBasedGame, delta : int) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }
