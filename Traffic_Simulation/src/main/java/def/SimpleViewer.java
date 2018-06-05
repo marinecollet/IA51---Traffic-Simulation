@@ -8,8 +8,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -123,7 +125,10 @@ public class SimpleViewer extends Application {
 		final FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle(Locale.getString(SimpleViewer.class, "OPEN_WINDOW_TITLE")); //$NON-NLS-1$
 		fileChooser.getExtensionFilters().add(new ShapeFileFilter().toJavaFX());
-		final List<File> shapeFiles = fileChooser.showOpenMultipleDialog(primaryStage);
+		
+		List<File> shapeFiles = new ArrayList<File>(); //fileChooser.showOpenMultipleDialog(primaryStage);
+		shapeFiles.add(new File("asset/Belfort.shp"));
+		
 		if (shapeFiles != null && !shapeFiles.isEmpty()) {
 			final List<MapElementLayer> containers = new ArrayList<>();
 			final StringBuilder filename = new StringBuilder();

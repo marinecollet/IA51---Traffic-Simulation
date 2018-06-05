@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
 import logic.Map;
+import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
@@ -37,7 +38,7 @@ public class MainAgent extends Agent {
       SimulationWindow _simulationWindow = new SimulationWindow("Traffic Simulation");
       final AppGameContainer container = new AppGameContainer(_simulationWindow, Map.WIDTH, Map.HEIGHT, false);
       container.setTargetFrameRate(60);
-      Integer data = this.rd.LoadShapeFile();
+      MapElementLayer<?> data = this.rd.LoadShapeFile();
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

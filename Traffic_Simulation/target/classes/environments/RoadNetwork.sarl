@@ -4,11 +4,23 @@
 package environments
 
 import java.util.ArrayList
-import org.arakhne.afc.io.shape.ShapeFileReader
-import org.arakhne.afc.io.dbase.DBaseFileReader
-import org.arakhne.afc.io.shape.ElementFactory
+import org.arakhne.afc.gis.road.StandardRoadNetwork
+import org.arakhne.afc.gis.maplayer.MapElementLayer
 import java.io.File
-import org.arakhne.afc.io.shape.ShapeFileIndexReader
+import org.arakhne.afc.gis.mapelement.MapElement
+import org.arakhne.afc.io.dbase.DBaseFileFilter
+import org.arakhne.afc.vmutil.FileSystem
+import java.net.URL
+import java.io.FileInputStream
+import org.arakhne.afc.gis.io.shape.GISShapeFileReader
+import org.arakhne.afc.math.geometry.d2.d.Rectangle2d
+import org.arakhne.afc.gis.road.layer.RoadNetworkLayer
+import org.arakhne.afc.gis.road.primitive.RoadNetworkException
+import org.arakhne.afc.gis.maplayer.TreeMapElementLayer
+import org.arakhne.afc.io.shape.ShapeElementType
+import org.arakhne.afc.gis.road.RoadPolyline
+import java.io.IOException
+import java.io.IOError
 
 /** 
  * @author jerem
@@ -18,28 +30,78 @@ class RoadNetwork {
 	
 	
 	//val roadNetwork : Environment
-	val segments : ArrayList<RoadSegment>
-	val connections : ArrayList<RoadConnection>
+	val segments = new ArrayList<RoadSegment>
+	val connections = new ArrayList<RoadConnection>
 	
-	new(){
-		//this.roadNetwork = new Environment
-		segments = new ArrayList<RoadSegment>
-		connections = new ArrayList<RoadConnection>
-		
-	} 
 	
-	def LoadShapeFile(){
+	def LoadShapeFile() : MapElementLayer<?> {
 		var shapefile = new File("asset/Belfort.shp")
-		var dbfile = new File("asset/Belfort.dbf")
-		var dbreader = new DBaseFileReader(dbfile)
-		var reader = new ShapeFileReader(shapefile,dbreader,null)
-		
-		
-		println(reader.fileReadingPosition)
-		
 
-		
-	}
-	 
+		var network : StandardRoadNetwork
+		var layer : MapElementLayer<MapElement>
+		val dbfFile = FileSystem.replaceExtension(shapefile, DBaseFileFilter.EXTENSION_DBASE_FILE)
+		var dbfUrl : URL
+		if (dbfFile.canRead()) {
+			dbfUrl = dbfFile.toURI().toURL()
+		} else {
+			dbfUrl = null
+		}	
+			
+		var is : FileInputStream
+		try
+		{	
+			is = new FileInputStream(shapefile)
+			assert is != null
+			var reader : GISShapeFileReader
+			try
+			{
+				reader = new GISShapeFileReader(is, null, dbfUrl)
+				val worldRect = new Rectangle2d();
+				val esriBounds = reader.getBoundsFromHeader();
+				worldRect.setFromCorners(esriBounds.getMinX(), esriBounds.getMinY(), esriBounds.getMaxX(), esriBounds.getMaxY());
+	
+				if (reader.getShapeElementType() == ShapeElementType.POLYLINE) {
+					reader.setMapElementType(typeof(RoadPolyline));
+				}
+	
+				var element : MapElement
+	
+				while ((element = reader.read()) != null) {
+					if (element instanceof RoadPolyline) {
+						if (network == null) {
+							network = new StandardRoadNetwork(worldRect);
+						}
+					val sgmt = element as RoadPolyline
+					try {
+						//network.addRoadPolyline(sgmt)
+						network.addRoadSegment(sgmt);
+					} catch (e : RoadNetworkException) {
+						throw new RuntimeException(e);
+					}
+					
+					
+					} else {
+						if (layer == null) {
+							layer = new TreeMapElementLayer <MapElement> (worldRect);
+						}
+						try {
+							layer.addMapElement(element);
+						} catch (e : RoadNetworkException) {
+							throw new RuntimeException(e);
+						}
+					}
+				}
+			}catch(ex : IOException){
+				throw new IOException(ex)
+			}
+			if (network != null) {
+				val networkLayer = new RoadNetworkLayer(network);
+				return networkLayer;
+			}
+			return layer;
+		} catch ( exception : IOException) {
+			throw new IOError(exception);
+		}
+	} 
 	
 }
