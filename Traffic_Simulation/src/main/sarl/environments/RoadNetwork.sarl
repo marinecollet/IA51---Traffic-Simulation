@@ -21,9 +21,9 @@ import org.arakhne.afc.io.shape.ShapeElementType
 import org.arakhne.afc.gis.road.RoadPolyline
 import java.io.IOException
 import java.io.IOError
-import org.arakhne.afc.math.geometry.d2.d.Point2d
 import org.newdawn.slick.geom.Vector2f
 import logic.Map
+import org.arakhne.afc.gis.location.GeoLocation
 
 /** 
  * @author jerem
@@ -36,8 +36,8 @@ class RoadNetwork {
 	var connections = new ArrayList<RoadConnection>
 	
 	
-	def LoadShapeFile() : MapElementLayer<?> {
-		var shapefile = new File("asset/Belfort.shp")
+	def LoadShapeFile(name : String) : MapElementLayer<?> {
+		var shapefile = new File(name)
 
 		var network : StandardRoadNetwork
 		var layer : MapElementLayer<MapElement>
@@ -105,6 +105,46 @@ class RoadNetwork {
 		}
 	} 
 	
+	def initMap() : ArrayList<EnvironmentObject> {
+		var liste = new ArrayList<EnvironmentObject>
+		
+		var objs = LoadShapeFile("asset/Ville.shp")
+		for(mapEl : objs)
+		{
+			var tmp = mapEl as RoadPolyline
+			if(tmp == null){
+				println("coucou")
+				continue
+			}
+			
+			var listCon = new ArrayList<RoadConnection>
+			for( pt : tmp.points)
+			{
+				var con = new RoadConnection(getXY(pt.x,pt.y))
+				
+				if(!connections.contains(con))
+					connections.add(con)
+				listCon.add(con)
+			}
+			//Ne pas oublier de rajouter les points intermédiaires
+			segments.add(new RoadSegment(listCon.get(0),listCon.get(listCon.length-1)))
+			
+			
+			//var vec = getXY(tmp.geoLocation.toGeodesicPosition.latitude, tmp.geoLocation.toGeodesicPosition.longitude)
+			//println(vec)
+			
+		}		
+		
+		return liste
+	}
+
+	def getXY(lat:double, lng:double):Vector2f
+	{
+		var screenX = ((lng + 180) * (Map.WIDTH / 360)) as float;
+		var screenY = (((lat * (-1)) + 90) * (Map.HEIGHT / 180)) as float;
+	
+		return new Vector2f(screenX,screenY);
+}
 	
 	def createTestMap() : ArrayList<EnvironmentObject> {
 		

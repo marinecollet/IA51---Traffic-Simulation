@@ -127,8 +127,9 @@ public class SimpleViewer extends Application {
 		fileChooser.getExtensionFilters().add(new ShapeFileFilter().toJavaFX());
 		
 		List<File> shapeFiles = new ArrayList<File>(); //fileChooser.showOpenMultipleDialog(primaryStage);
-		shapeFiles.add(new File("asset/Belfort.shp"));
-		
+		//shapeFiles.add(new File("asset/Belfort.shp"));
+		shapeFiles.add(new File("asset/Ville.shp"));
+
 		if (shapeFiles != null && !shapeFiles.isEmpty()) {
 			final List<MapElementLayer> containers = new ArrayList<>();
 			final StringBuilder filename = new StringBuilder();

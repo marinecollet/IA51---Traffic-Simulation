@@ -32,6 +32,7 @@ class RoadSegment extends EnvironmentObject {
 		objects = new ArrayList<EnvironmentObject>
 	}
 	
+	
 	private def setPolygon() {
 		polygonRender = new Polygon()
 		polygonRender.closed = false

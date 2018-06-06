@@ -25,9 +25,12 @@ import org.arakhne.afc.gis.road.primitive.RoadNetworkException;
 import org.arakhne.afc.io.dbase.DBaseFileFilter;
 import org.arakhne.afc.io.shape.ESRIBounds;
 import org.arakhne.afc.io.shape.ShapeElementType;
+import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.arakhne.afc.math.geometry.d2.d.Rectangle2d;
 import org.arakhne.afc.vmutil.FileSystem;
+import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -42,9 +45,9 @@ public class RoadNetwork {
   
   private ArrayList<RoadConnection> connections = new ArrayList<RoadConnection>();
   
-  public MapElementLayer<?> LoadShapeFile() {
+  public MapElementLayer<?> LoadShapeFile(final String name) {
     try {
-      File shapefile = new File("asset/Belfort.shp");
+      File shapefile = new File(name);
       StandardRoadNetwork network = null;
       MapElementLayer<MapElement> layer = null;
       final File dbfFile = FileSystem.replaceExtension(shapefile, DBaseFileFilter.EXTENSION_DBASE_FILE);
@@ -140,6 +143,50 @@ public class RoadNetwork {
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
+  }
+  
+  public ArrayList<EnvironmentObject> initMap() {
+    ArrayList<EnvironmentObject> liste = new ArrayList<EnvironmentObject>();
+    MapElementLayer<?> objs = this.LoadShapeFile("asset/Ville.shp");
+    for (final Object mapEl : objs) {
+      {
+        RoadPolyline tmp = ((RoadPolyline) mapEl);
+        boolean _equals = Objects.equal(tmp, null);
+        if (_equals) {
+          InputOutput.<String>println("coucou");
+          continue;
+        }
+        ArrayList<RoadConnection> listCon = new ArrayList<RoadConnection>();
+        Iterable<Point2d> _points = tmp.points();
+        for (final Point2d pt : _points) {
+          {
+            Vector2f _xY = this.getXY(pt.getX(), pt.getY());
+            RoadConnection con = new RoadConnection(_xY);
+            boolean _contains = this.connections.contains(con);
+            boolean _not = (!_contains);
+            if (_not) {
+              this.connections.add(con);
+            }
+            listCon.add(con);
+          }
+        }
+        RoadConnection _get = listCon.get(0);
+        final ArrayList<RoadConnection> _converted_listCon = (ArrayList<RoadConnection>)listCon;
+        int _length = ((Object[])Conversions.unwrapArray(_converted_listCon, Object.class)).length;
+        int _minus = (_length - 1);
+        RoadConnection _get_1 = listCon.get(_minus);
+        RoadSegment _roadSegment = new RoadSegment(_get, _get_1);
+        this.segments.add(_roadSegment);
+      }
+    }
+    return liste;
+  }
+  
+  @Pure
+  public Vector2f getXY(final double lat, final double lng) {
+    float screenX = ((float) ((lng + 180) * (Map.WIDTH / 360)));
+    float screenY = ((float) (((lat * (-1)) + 90) * (Map.HEIGHT / 180)));
+    return new Vector2f(screenX, screenY);
   }
   
   public ArrayList<EnvironmentObject> createTestMap() {

@@ -10,6 +10,8 @@ import environments.*
 import gamestates.*
 import logic.Map
 import io.sarl.core.Logging
+import org.arakhne.afc.gis.mapelement.MapElement
+import org.arakhne.afc.math.geometry.d2.d.Shape2d
 
 agent MainAgent
 {	
@@ -22,12 +24,16 @@ agent MainAgent
 		info("Init MainAgent")
 		val container = new AppGameContainer(new SimulationWindow("Traffic Simulation"), Map.WIDTH, Map.HEIGHT, false)
 		container.setTargetFrameRate(60)
-		//var data = rd.LoadShapeFile
+		
+		val grand = "asset/Belfort.shp"
+		val ville = "asset/Ville.shp"
+		
+		//var data = rd.LoadShapeFile(ville)
+		var data = rd.initMap()
 		info("DEBUG TRACE")
+		
 		//info(data.findFirst[el | el.class == typeof(org.arakhne.afc.gis.road.RoadPolyline)])
 		container.start()
-		
-		
 		
 	}
 }
