@@ -26,7 +26,7 @@ skill SkillGPSMoving implements MovingVehicle {
 		info("Uninstalling the skill")
 	}
 	
-	def moveVehicle(from : Vector2f, to : Vector2f) {
+	def moveVehicle(from : Vector2f, to : Vector2f, speed : double) : Vector2f {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
@@ -47,8 +47,28 @@ skill SkillBasicMoving implements MovingVehicle {
 		info("Uninstalling the skill")
 	}
 
-	def moveVehicle(from : Vector2f, to : Vector2f) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	def moveVehicle(from : Vector2f, to : Vector2f, speed : double) : Vector2f {
+		var newPos = new Vector2f
+
+		if (from.x < to.x && from.y < to.y) {
+			newPos = new Vector2f(from.x - 1, from.y - 1);
+		} else if (from.x > to.x && from.y > to.y) {
+			newPos = new Vector2f(from.x + 1, from.y + 1);
+		} else if (from.x > to.x && from.y == to.y) {
+			newPos = new Vector2f(from.x + 1, from.y);
+		} else if (from.x > to.x && from.y < to.y) {
+			newPos = new Vector2f(from.x + 1, from.y - 1);
+		} else if (from.x == to.x && from.y > to.y) {
+			newPos = new Vector2f(from.x, from.y + 1);
+		} else if (from.x == to.x && from.y < to.y) {
+			newPos = new Vector2f(from.x, from.y - 1);
+		} else if (from.x < to.x && from.y > to.y) {
+			newPos = new Vector2f(from.x - 1, from.y + 1);
+		} else if (from.x < to.x && from.y == to.y) {
+			newPos = new Vector2f(from.x - 1, from.y);
+		}
+		
+		return newPos
 	}
 
 }

@@ -28,8 +28,48 @@ public class SkillBasicMoving extends Skill implements MovingVehicle {
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Uninstalling the skill");
   }
   
-  public void moveVehicle(final Vector2f from, final Vector2f to) {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
+  public Vector2f moveVehicle(final Vector2f from, final Vector2f to, final double speed) {
+    Vector2f newPos = new Vector2f();
+    if (((from.x < to.x) && (from.y < to.y))) {
+      Vector2f _vector2f = new Vector2f((from.x - 1), (from.y - 1));
+      newPos = _vector2f;
+    } else {
+      if (((from.x > to.x) && (from.y > to.y))) {
+        Vector2f _vector2f_1 = new Vector2f((from.x + 1), (from.y + 1));
+        newPos = _vector2f_1;
+      } else {
+        if (((from.x > to.x) && (from.y == to.y))) {
+          Vector2f _vector2f_2 = new Vector2f((from.x + 1), from.y);
+          newPos = _vector2f_2;
+        } else {
+          if (((from.x > to.x) && (from.y < to.y))) {
+            Vector2f _vector2f_3 = new Vector2f((from.x + 1), (from.y - 1));
+            newPos = _vector2f_3;
+          } else {
+            if (((from.x == to.x) && (from.y > to.y))) {
+              Vector2f _vector2f_4 = new Vector2f(from.x, (from.y + 1));
+              newPos = _vector2f_4;
+            } else {
+              if (((from.x == to.x) && (from.y < to.y))) {
+                Vector2f _vector2f_5 = new Vector2f(from.x, (from.y - 1));
+                newPos = _vector2f_5;
+              } else {
+                if (((from.x < to.x) && (from.y > to.y))) {
+                  Vector2f _vector2f_6 = new Vector2f((from.x - 1), (from.y + 1));
+                  newPos = _vector2f_6;
+                } else {
+                  if (((from.x < to.x) && (from.y == to.y))) {
+                    Vector2f _vector2f_7 = new Vector2f((from.x - 1), from.y);
+                    newPos = _vector2f_7;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return newPos;
   }
   
   @Extension

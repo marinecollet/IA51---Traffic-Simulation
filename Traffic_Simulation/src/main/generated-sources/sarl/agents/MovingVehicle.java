@@ -14,7 +14,7 @@ import org.newdawn.slick.geom.Vector2f;
 @SarlElementType(19)
 @SuppressWarnings("all")
 public interface MovingVehicle extends Capacity {
-  public abstract void moveVehicle(final Vector2f from, final Vector2f to);
+  public abstract Vector2f moveVehicle(final Vector2f from, final Vector2f to, final double speed);
   
   /**
    * @ExcludeFromApidoc
@@ -24,10 +24,10 @@ public interface MovingVehicle extends Capacity {
       super(capacity, caller);
     }
     
-    public void moveVehicle(final Vector2f from, final Vector2f to) {
+    public Vector2f moveVehicle(final Vector2f from, final Vector2f to, final double speed) {
       try {
         ensureCallerInLocalThread();
-        this.capacity.moveVehicle(from, to);
+        return this.capacity.moveVehicle(from, to, speed);
       } finally {
         resetCallerInLocalThread();
       }

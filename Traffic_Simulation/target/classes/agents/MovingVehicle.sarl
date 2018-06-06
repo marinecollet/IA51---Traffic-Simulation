@@ -11,6 +11,6 @@ import org.newdawn.slick.geom.Vector2f
  */
 capacity MovingVehicle {
 	
-	def moveVehicle(from : Vector2f,to : Vector2f)
+	def moveVehicle(from : Vector2f, to : Vector2f, speed : double) : Vector2f
 	
 }
