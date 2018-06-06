@@ -1,8 +1,8 @@
 package gamestates;
 
-import environments.EnvironmentObject;
 import environments.EnvironmentObjectCollection;
 import environments.RoadNetwork;
+import environments.RoadSegment;
 import gamestates.SimulationWindow;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
@@ -24,16 +24,19 @@ import org.newdawn.slick.state.StateBasedGame;
 public class SimulationGameState extends BasicGameState {
   private RoadNetwork rd = new RoadNetwork();
   
-  private final EnvironmentObjectCollection entities = new EnvironmentObjectCollection();
+  private EnvironmentObjectCollection entities = new EnvironmentObjectCollection();
   
   public int getID() {
     return SimulationWindow.GS_SIMULATION();
   }
   
   public void init(final GameContainer arg0, final StateBasedGame arg1) throws SlickException {
-    ArrayList<EnvironmentObject> list = this.rd.createTestMap();
-    for (final EnvironmentObject el : list) {
-      this.entities.add(el);
+    EnvironmentObjectCollection _environmentObjectCollection = new EnvironmentObjectCollection();
+    this.entities = _environmentObjectCollection;
+    this.rd.initMap();
+    ArrayList<RoadSegment> list = this.rd.getSegments();
+    for (final RoadSegment eo : list) {
+      this.entities.add(eo);
     }
   }
   

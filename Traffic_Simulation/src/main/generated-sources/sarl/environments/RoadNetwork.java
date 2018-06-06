@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import logic.Map;
+import org.arakhne.afc.gis.coordinate.GeodesicPosition;
 import org.arakhne.afc.gis.io.shape.GISShapeFileReader;
+import org.arakhne.afc.gis.location.GeoLocationPointList;
 import org.arakhne.afc.gis.mapelement.MapElement;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.arakhne.afc.gis.maplayer.TreeMapElementLayer;
@@ -30,7 +32,9 @@ import org.arakhne.afc.math.geometry.d2.d.Rectangle2d;
 import org.arakhne.afc.vmutil.FileSystem;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.InputOutput;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -44,6 +48,16 @@ public class RoadNetwork {
   private ArrayList<RoadSegment> segments = new ArrayList<RoadSegment>();
   
   private ArrayList<RoadConnection> connections = new ArrayList<RoadConnection>();
+  
+  @Pure
+  public ArrayList<RoadSegment> getSegments() {
+    return this.segments;
+  }
+  
+  @Pure
+  public ArrayList<RoadConnection> getConnections() {
+    return this.connections;
+  }
   
   public MapElementLayer<?> LoadShapeFile(final String name) {
     try {
@@ -145,43 +159,66 @@ public class RoadNetwork {
     }
   }
   
-  public ArrayList<EnvironmentObject> initMap() {
-    ArrayList<EnvironmentObject> liste = new ArrayList<EnvironmentObject>();
-    MapElementLayer<?> objs = this.LoadShapeFile("asset/Ville.shp");
-    for (final Object mapEl : objs) {
-      {
-        RoadPolyline tmp = ((RoadPolyline) mapEl);
-        boolean _equals = Objects.equal(tmp, null);
-        if (_equals) {
-          InputOutput.<String>println("coucou");
-          continue;
-        }
-        ArrayList<RoadConnection> listCon = new ArrayList<RoadConnection>();
-        Iterable<Point2d> _points = tmp.points();
-        for (final Point2d pt : _points) {
-          {
-            Vector2f _xY = this.getXY(pt.getX(), pt.getY());
-            RoadConnection con = new RoadConnection(_xY);
-            boolean _contains = this.connections.contains(con);
-            boolean _not = (!_contains);
-            if (_not) {
-              this.connections.add(con);
+  public String initMap() {
+    String _xblockexpression = null;
+    {
+      MapElementLayer<?> objs = this.LoadShapeFile("asset/Ville.shp");
+      for (final Object mapEl : objs) {
+        {
+          RoadPolyline tmp = ((RoadPolyline) mapEl);
+          boolean _equals = Objects.equal(tmp, null);
+          if (_equals) {
+            continue;
+          }
+          ArrayList<RoadConnection> listCon = new ArrayList<RoadConnection>();
+          Iterable<Point2d> _points = tmp.points();
+          for (final Point2d pt : _points) {
+            {
+              double _x = pt.getX();
+              double _y = pt.getY();
+              GeodesicPosition geoP = new GeoLocationPointList(_x, _y).toGeodesicPosition();
+              Vector2f newVec = this.getXY(geoP.phi, geoP.lambda);
+              RoadConnection con = new RoadConnection(newVec);
+              final Function1<RoadConnection, Boolean> _function = (RoadConnection el) -> {
+                return Boolean.valueOf(((el.getPosition().x == newVec.x) && (el.getPosition().y == newVec.y)));
+              };
+              boolean _exists = IterableExtensions.<RoadConnection>exists(this.connections, _function);
+              boolean _not = (!_exists);
+              if (_not) {
+                this.connections.add(con);
+              }
+              listCon.add(con);
             }
-            listCon.add(con);
+          }
+          RoadConnection _get = listCon.get(0);
+          final ArrayList<RoadConnection> _converted_listCon = (ArrayList<RoadConnection>)listCon;
+          int _length = ((Object[])Conversions.unwrapArray(_converted_listCon, Object.class)).length;
+          int _minus = (_length - 1);
+          RoadConnection _get_1 = listCon.get(_minus);
+          RoadSegment rs = new RoadSegment(_get, _get_1);
+          final Function1<RoadSegment, Boolean> _function = (RoadSegment el) -> {
+            return Boolean.valueOf(((Objects.equal(el.getStart().getPosition(), rs.getStart().getPosition()) && Objects.equal(el.getEnd().getPosition(), rs.getEnd().getPosition())) || (Objects.equal(el.getStart().getPosition(), rs.getEnd().getPosition()) && Objects.equal(el.getEnd().getPosition(), rs.getStart().getPosition()))));
+          };
+          boolean _exists = IterableExtensions.<RoadSegment>exists(this.segments, _function);
+          boolean _not = (!_exists);
+          if (_not) {
+            this.segments.add(rs);
           }
         }
-        RoadConnection _get = listCon.get(0);
-        final ArrayList<RoadConnection> _converted_listCon = (ArrayList<RoadConnection>)listCon;
-        int _length = ((Object[])Conversions.unwrapArray(_converted_listCon, Object.class)).length;
-        int _minus = (_length - 1);
-        RoadConnection _get_1 = listCon.get(_minus);
-        RoadSegment _roadSegment = new RoadSegment(_get, _get_1);
-        this.segments.add(_roadSegment);
       }
+      int _length = ((Object[])Conversions.unwrapArray(this.segments, Object.class)).length;
+      String _plus = (Integer.valueOf(_length) + " segments ont été ajoutés depuis le shapefile");
+      InputOutput.<String>println(_plus);
+      int _length_1 = ((Object[])Conversions.unwrapArray(this.connections, Object.class)).length;
+      String _plus_1 = (Integer.valueOf(_length_1) + " connections ont été ajoutés depuis le shapefile");
+      _xblockexpression = InputOutput.<String>println(_plus_1);
     }
-    return liste;
+    return _xblockexpression;
   }
   
+  /**
+   * XY from lat lng
+   */
   @Pure
   public Vector2f getXY(final double lat, final double lng) {
     float screenX = ((float) ((lng + 180) * (Map.WIDTH / 360)));

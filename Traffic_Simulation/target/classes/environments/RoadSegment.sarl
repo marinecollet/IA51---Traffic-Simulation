@@ -28,18 +28,30 @@ class RoadSegment extends EnvironmentObject {
 		super(start.position,new Vector2f(1,1),false,true)
 		this.start = start
 		this.end = end
+		
+		this.start.addConnectionOnSegment(this)
+		this.end.addConnectionOnSegment(this)
+		
 		setPolygon
 		objects = new ArrayList<EnvironmentObject>
 	}
 	
+	def getStart : RoadConnection{
+		return start
+	}
+	
+	def getEnd:RoadConnection{
+		return end
+	}
 	
 	private def setPolygon() {
 		polygonRender = new Polygon()
-		polygonRender.closed = false
+		polygonRender.closed = true
 		
 		polygonRender.addPoint(start.position.x, start.position.y)
 		polygonRender.addPoint(end.position.x, end.position.y)
 		
+		println(start.position.x + " - " + start.position.y + " ||| " + end.position.x + " - " + end.position.y)
 	}
 	
 	def render(arg2 : Graphics) {

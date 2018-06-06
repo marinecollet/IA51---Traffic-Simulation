@@ -6,6 +6,7 @@ import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.ArrayList;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -33,17 +34,40 @@ public class RoadSegment extends EnvironmentObject {
     super(start.getPosition(), new Vector2f(1, 1), false, true);
     this.start = start;
     this.end = end;
+    this.start.addConnectionOnSegment(this);
+    this.end.addConnectionOnSegment(this);
     this.setPolygon();
     ArrayList<EnvironmentObject> _arrayList = new ArrayList<EnvironmentObject>();
     this.objects = _arrayList;
   }
   
-  private void setPolygon() {
-    Polygon _polygon = new Polygon();
-    this.polygonRender = _polygon;
-    this.polygonRender.setClosed(false);
-    this.polygonRender.addPoint(this.start.getPosition().x, this.start.getPosition().y);
-    this.polygonRender.addPoint(this.end.getPosition().x, this.end.getPosition().y);
+  @Pure
+  public RoadConnection getStart() {
+    return this.start;
+  }
+  
+  @Pure
+  public RoadConnection getEnd() {
+    return this.end;
+  }
+  
+  private String setPolygon() {
+    String _xblockexpression = null;
+    {
+      Polygon _polygon = new Polygon();
+      this.polygonRender = _polygon;
+      this.polygonRender.setClosed(true);
+      this.polygonRender.addPoint(this.start.getPosition().x, this.start.getPosition().y);
+      this.polygonRender.addPoint(this.end.getPosition().x, this.end.getPosition().y);
+      String _plus = (Float.valueOf(this.start.getPosition().x) + " - ");
+      String _plus_1 = (_plus + Float.valueOf(this.start.getPosition().y));
+      String _plus_2 = (_plus_1 + " ||| ");
+      String _plus_3 = (_plus_2 + Float.valueOf(this.end.getPosition().x));
+      String _plus_4 = (_plus_3 + " - ");
+      String _plus_5 = (_plus_4 + Float.valueOf(this.end.getPosition().y));
+      _xblockexpression = InputOutput.<String>println(_plus_5);
+    }
+    return _xblockexpression;
   }
   
   public void render(final Graphics arg2) {

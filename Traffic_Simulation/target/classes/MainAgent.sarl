@@ -29,7 +29,7 @@ agent MainAgent
 		val ville = "asset/Ville.shp"
 		
 		//var data = rd.LoadShapeFile(ville)
-		var data = rd.initMap()
+		//var data = rd.initMap()
 		info("DEBUG TRACE")
 		
 		//info(data.findFirst[el | el.class == typeof(org.arakhne.afc.gis.road.RoadPolyline)])

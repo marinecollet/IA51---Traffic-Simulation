@@ -20,20 +20,21 @@ class SimulationGameState extends BasicGameState {
 	
 	var rd = new RoadNetwork
 	
-	val entities = new EnvironmentObjectCollection
+	var entities = new EnvironmentObjectCollection
 	
 	def getID : int {
 		return SimulationWindow.GS_SIMULATION
 	}
 	
 	def init(arg0 : GameContainer, arg1 : StateBasedGame) throws SlickException {
+		entities = new EnvironmentObjectCollection
 		
-		var list = rd.createTestMap;
-		
-		for(el : list){
-			entities.add(el)
+		//var list = rd.createTestMap
+		rd.initMap;
+		var list = rd.segments
+		for(eo : list){
+			entities.add(eo)
 		}
-		
 		//var car = new Car(new Vector2f(Map.WIDTH / 2, Map.HEIGHT / 2))
 		//entities.add(car);
 	}
@@ -44,6 +45,7 @@ class SimulationGameState extends BasicGameState {
 	
 	def update(arg0 : GameContainer, arg1 : StateBasedGame, arg2 : int) throws SlickException {
 		entities.update(arg0, arg1, arg2);
+		
 	}
 	
 }

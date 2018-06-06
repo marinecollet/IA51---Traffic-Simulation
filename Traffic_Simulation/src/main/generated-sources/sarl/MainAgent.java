@@ -1,4 +1,3 @@
-import environments.EnvironmentObject;
 import environments.RoadNetwork;
 import gamestates.SimulationWindow;
 import io.sarl.core.Initialize;
@@ -14,7 +13,6 @@ import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
@@ -41,7 +39,6 @@ public class MainAgent extends Agent {
       container.setTargetFrameRate(60);
       final String grand = "asset/Belfort.shp";
       final String ville = "asset/Ville.shp";
-      ArrayList<EnvironmentObject> data = this.rd.initMap();
       Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1 = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
       _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1.info("DEBUG TRACE");
       container.start();

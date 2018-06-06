@@ -23,7 +23,7 @@ import java.io.IOException
 import java.io.IOError
 import org.newdawn.slick.geom.Vector2f
 import logic.Map
-import org.arakhne.afc.gis.location.GeoLocation
+import org.arakhne.afc.gis.location.GeoLocationPointList
 
 /** 
  * @author jerem
@@ -35,6 +35,13 @@ class RoadNetwork {
 	var segments = new ArrayList<RoadSegment>
 	var connections = new ArrayList<RoadConnection>
 	
+	def getSegments : ArrayList<RoadSegment>{
+		return segments
+	}
+	
+	def getConnections : ArrayList<RoadConnection>{
+		return connections
+	}
 	
 	def LoadShapeFile(name : String) : MapElementLayer<?> {
 		var shapefile = new File(name)
@@ -105,46 +112,46 @@ class RoadNetwork {
 		}
 	} 
 	
-	def initMap() : ArrayList<EnvironmentObject> {
-		var liste = new ArrayList<EnvironmentObject>
-		
+	def initMap() {				
 		var objs = LoadShapeFile("asset/Ville.shp")
 		for(mapEl : objs)
 		{
 			var tmp = mapEl as RoadPolyline
-			if(tmp == null){
-				println("coucou")
+			if(tmp == null)
 				continue
-			}
-			
+				
 			var listCon = new ArrayList<RoadConnection>
 			for( pt : tmp.points)
 			{
-				var con = new RoadConnection(getXY(pt.x,pt.y))
+				var geoP = new GeoLocationPointList(pt.x,pt.y).toGeodesicPosition				
+				var newVec = getXY(geoP.phi, geoP.lambda)
 				
-				if(!connections.contains(con))
+				var con = new RoadConnection(newVec)
+				
+				if (!connections.exists[el|el.position.x == newVec.x && el.position.y == newVec.y])
 					connections.add(con)
+				
 				listCon.add(con)
 			}
 			//Ne pas oublier de rajouter les points intermédiaires
-			segments.add(new RoadSegment(listCon.get(0),listCon.get(listCon.length-1)))
-			
-			
-			//var vec = getXY(tmp.geoLocation.toGeodesicPosition.latitude, tmp.geoLocation.toGeodesicPosition.longitude)
-			//println(vec)
-			
-		}		
-		
-		return liste
+			var rs = new RoadSegment(listCon.get(0), listCon.get(listCon.length - 1))
+			if (!segments.exists[el|(el.start.position == rs.start.position && el.end.position == rs.end.position) || 
+				(el.start.position == rs.end.position && el.end.position == rs.start.position)
+			])
+				segments.add(rs)
+		}
+		println(segments.length + " segments ont été ajoutés depuis le shapefile")
+		println(connections.length + " connections ont été ajoutés depuis le shapefile")	
 	}
 
-	def getXY(lat:double, lng:double):Vector2f
+	/*XY from lat lng */
+	 def getXY(lat:double, lng:double):Vector2f
 	{
 		var screenX = ((lng + 180) * (Map.WIDTH / 360)) as float;
 		var screenY = (((lat * (-1)) + 90) * (Map.HEIGHT / 180)) as float;
 	
 		return new Vector2f(screenX,screenY);
-}
+	}
 	
 	def createTestMap() : ArrayList<EnvironmentObject> {
 		
