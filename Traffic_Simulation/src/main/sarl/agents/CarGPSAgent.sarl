@@ -24,7 +24,7 @@ agent CarGPSAgent extends VehicleAgent{
 
 	on Initialize {
 		setSkill(new SkillGPSMoving)
-		body = new Car(new Vector2f(0, 0))
+		body = new Car(new Vector2f(0, 0),this.ID)
 		info("The agent was started.")
 	}
 

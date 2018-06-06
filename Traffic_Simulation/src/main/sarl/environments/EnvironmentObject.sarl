@@ -6,6 +6,7 @@ package environments
 import java.util.ArrayList
 import org.newdawn.slick.geom.Vector2f
 import org.newdawn.slick.geom.Rectangle
+import java.util.UUID
 
 /** 
  * @author jerem
@@ -13,11 +14,11 @@ import org.newdawn.slick.geom.Rectangle
  */
 abstract class EnvironmentObject implements Drawable, Updateable {
 
-	var updatable : boolean;
-	var drawable : boolean;
-
-	var position : Vector2f;
-	var size : Vector2f;
+	var updatable : boolean
+	var drawable : boolean
+	
+	var position : Vector2f
+	var size : Vector2f
 	
 	var points = new ArrayList<Point>
 

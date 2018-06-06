@@ -42,7 +42,8 @@ public class CarMapAgent extends VehicleAgent {
     SkillBasicMoving _skillBasicMoving = new SkillBasicMoving();
     this.<SkillBasicMoving>setSkill(_skillBasicMoving);
     Vector2f _vector2f = new Vector2f(0, 0);
-    Car _car = new Car(_vector2f);
+    UUID _iD = this.getID();
+    Car _car = new Car(_vector2f, _iD);
     this.body = _car;
     Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("The agent was started.");
@@ -140,6 +141,11 @@ public class CarMapAgent extends VehicleAgent {
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberLeft$7(occurrence));
   }
   
+  /**
+   * on Perception {
+   * //body.move(moveVehicle(body.position,))
+   * }
+   */
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$AgentSpawned(final AgentSpawned occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {

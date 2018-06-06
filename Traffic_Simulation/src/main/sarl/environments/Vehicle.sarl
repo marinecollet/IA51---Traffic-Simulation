@@ -4,6 +4,7 @@
 package environments
 
 import org.newdawn.slick.geom.Vector2f
+import java.util.UUID
 
 /** 
  * @author jerem
@@ -11,7 +12,18 @@ import org.newdawn.slick.geom.Vector2f
  */
 abstract class Vehicle extends EnvironmentObject {
 	
-	new(vector : Vector2f){
+	val agentId : UUID
+	
+	
+	new(vector : Vector2f, id : UUID){
 		super(vector,true,true)
+		agentId = id
 	}
+
+	final def getAgentId : UUID {
+		this.agentId
+	}
+
+	abstract def moveVehicle(newPos : Vector2f);
+	
 }

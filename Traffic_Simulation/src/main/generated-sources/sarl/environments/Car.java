@@ -4,6 +4,7 @@ import environments.Vehicle;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import java.util.UUID;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -21,15 +22,36 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Car extends Vehicle {
   private Polygon polygon;
   
-  public Car(final Vector2f vector) {
-    super(vector);
+  private Vector2f position;
+  
+  public Car(final Vector2f vector, final UUID id) {
+    super(vector, id);
+    this.position = vector;
     Polygon _polygon = new Polygon();
     this.polygon = _polygon;
-    this.polygon.addPoint((vector.x - 1f), (vector.y - 5f));
-    this.polygon.addPoint((vector.x - 1f), (vector.y + 5f));
-    this.polygon.addPoint((vector.x + 1f), (vector.y - 5f));
-    this.polygon.addPoint((vector.x + 1f), (vector.y + 5f));
+    this.polygon.addPoint((this.position.x - 1f), (this.position.y - 5f));
+    this.polygon.addPoint((this.position.x - 1f), (this.position.y + 5f));
+    this.polygon.addPoint((this.position.x + 1f), (this.position.y - 5f));
+    this.polygon.addPoint((this.position.x + 1f), (this.position.y + 5f));
     this.polygon.setClosed(true);
+  }
+  
+  @Override
+  public void moveVehicle(final Vector2f newPos) {
+    this.position = newPos;
+    Polygon _polygon = new Polygon();
+    this.polygon = _polygon;
+    this.polygon.addPoint((this.position.x - 1f), (this.position.y - 5f));
+    this.polygon.addPoint((this.position.x - 1f), (this.position.y + 5f));
+    this.polygon.addPoint((this.position.x + 1f), (this.position.y - 5f));
+    this.polygon.addPoint((this.position.x + 1f), (this.position.y + 5f));
+    this.polygon.setClosed(true);
+    super.move(newPos);
+  }
+  
+  @Pure
+  public Vector2f getPosition() {
+    return this.position;
   }
   
   public void render(final Graphics arg2) {

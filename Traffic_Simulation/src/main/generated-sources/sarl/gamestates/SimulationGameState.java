@@ -1,6 +1,5 @@
 package gamestates;
 
-import environments.Car;
 import environments.EnvironmentObject;
 import environments.EnvironmentObjectCollection;
 import environments.RoadNetwork;
@@ -9,12 +8,10 @@ import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.ArrayList;
-import logic.Map;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -38,9 +35,6 @@ public class SimulationGameState extends BasicGameState {
     for (final EnvironmentObject el : list) {
       this.entities.add(el);
     }
-    Vector2f _vector2f = new Vector2f((Map.WIDTH / 2), (Map.HEIGHT / 2));
-    Car car = new Car(_vector2f);
-    this.entities.add(car);
   }
   
   public void render(final GameContainer arg0, final StateBasedGame arg1, final Graphics arg2) throws SlickException {

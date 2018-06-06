@@ -34,8 +34,8 @@ class SimulationGameState extends BasicGameState {
 			entities.add(el)
 		}
 		
-		var car = new Car(new Vector2f(Map.WIDTH / 2, Map.HEIGHT / 2))
-		entities.add(car);
+		//var car = new Car(new Vector2f(Map.WIDTH / 2, Map.HEIGHT / 2))
+		//entities.add(car);
 	}
 	
 	def render(arg0 : GameContainer, arg1 : StateBasedGame, arg2 : Graphics) throws SlickException {

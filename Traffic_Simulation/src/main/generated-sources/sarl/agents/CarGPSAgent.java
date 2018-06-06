@@ -41,7 +41,8 @@ public class CarGPSAgent extends VehicleAgent {
     SkillGPSMoving _skillGPSMoving = new SkillGPSMoving();
     this.<SkillGPSMoving>setSkill(_skillGPSMoving);
     Vector2f _vector2f = new Vector2f(0, 0);
-    Car _car = new Car(_vector2f);
+    UUID _iD = this.getID();
+    Car _car = new Car(_vector2f, _iD);
     this.body = _car;
     Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("The agent was started.");

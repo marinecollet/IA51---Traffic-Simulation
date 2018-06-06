@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Rectangle
 import org.newdawn.slick.geom.Vector2f
 import org.newdawn.slick.Color
 import org.newdawn.slick.geom.Polygon
+import java.util.UUID
 
 /** 
  * @author jerem
@@ -18,16 +19,39 @@ import org.newdawn.slick.geom.Polygon
 class Car extends Vehicle{
 	
 	var polygon : Polygon;
+	var position : Vector2f
 	
-	new(vector : Vector2f){
-		super(vector)
+	
+	new(vector : Vector2f, id : UUID){
+		super(vector,id)
+		position = vector
+		
 		polygon = new Polygon
-		polygon.addPoint(vector.x - 1f, vector.y - 5f)
-		polygon.addPoint(vector.x - 1f, vector.y + 5f)
-		polygon.addPoint(vector.x + 1f, vector.y - 5f)
-		polygon.addPoint(vector.x + 1f, vector.y + 5f)
+		polygon.addPoint(position.x - 1f, position.y - 5f)
+		polygon.addPoint(position.x - 1f, position.y + 5f)
+		polygon.addPoint(position.x + 1f, position.y - 5f)
+		polygon.addPoint(position.x + 1f, position.y + 5f)
 		polygon.closed = true
 		
+	}
+
+	override moveVehicle(newPos : Vector2f)
+	{
+		position = newPos
+		
+		polygon = new Polygon
+		polygon.addPoint(position.x - 1f, position.y - 5f)
+		polygon.addPoint(position.x - 1f, position.y + 5f)
+		polygon.addPoint(position.x + 1f, position.y - 5f)
+		polygon.addPoint(position.x + 1f, position.y + 5f)
+		polygon.closed = true
+		
+		super.move(newPos)
+		
+	}
+	
+	def getPosition():Vector2f{
+		return position
 	}
 	
 	def render(arg2 : Graphics) {
