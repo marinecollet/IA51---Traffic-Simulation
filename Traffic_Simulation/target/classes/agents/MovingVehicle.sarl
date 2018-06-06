@@ -1,0 +1,16 @@
+/** 
+ * 
+ */
+package agents
+
+import org.newdawn.slick.geom.Vector2f
+
+/** 
+ * @author jerem
+ * 
+ */
+capacity MovingVehicle {
+	
+	def moveVehicle(from : Vector2f,to : Vector2f)
+	
+}

@@ -12,6 +12,7 @@ import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
+import environments.Vehicle
 
 /** 
  * @author jerem
@@ -19,6 +20,11 @@ import io.sarl.core.MemberLeft
  */
 agent VehicleAgent {
 	uses Logging
+
+	/*
+	 * Agent body
+	 */
+	protected var body : Vehicle
 
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.

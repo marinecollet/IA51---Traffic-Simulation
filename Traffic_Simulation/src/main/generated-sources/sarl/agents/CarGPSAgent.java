@@ -1,5 +1,8 @@
 package agents;
 
+import agents.SkillGPSMoving;
+import agents.VehicleAgent;
+import environments.Car;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
 import io.sarl.core.ContextJoined;
@@ -14,7 +17,6 @@ import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import io.sarl.lang.core.Agent;
 import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
@@ -25,6 +27,7 @@ import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -32,9 +35,14 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlSpecification("0.7")
 @SarlElementType(18)
 @SuppressWarnings("all")
-public class CarGPSAgent extends Agent {
+public class CarGPSAgent extends VehicleAgent {
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
+    SkillGPSMoving _skillGPSMoving = new SkillGPSMoving();
+    this.<SkillGPSMoving>setSkill(_skillGPSMoving);
+    Vector2f _vector2f = new Vector2f(0, 0);
+    Car _car = new Car(_vector2f);
+    this.body = _car;
     Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("The agent was started.");
   }

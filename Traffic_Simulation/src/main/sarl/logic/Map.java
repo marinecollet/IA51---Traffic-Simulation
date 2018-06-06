@@ -21,5 +21,5 @@ public class Map {
 		if (INSTANCE == null)
 			INSTANCE = new Map();
 		return INSTANCE;
-}
+	}
 }

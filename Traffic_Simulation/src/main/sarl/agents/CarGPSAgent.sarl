@@ -12,17 +12,19 @@ import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
+import org.newdawn.slick.geom.Vector2f
+import environments.Car
 
 /** 
  * @author jerem
  * 
  */
-agent CarGPSAgent {
+agent CarGPSAgent extends VehicleAgent{
 	uses Logging
 
 	on Initialize {
-		// Event trigger before the agent begin to live or to be used.
-		// You should put all the initialization statements in this block of code.
+		setSkill(new SkillGPSMoving)
+		body = new Car(new Vector2f(0, 0))
 		info("The agent was started.")
 	}
 

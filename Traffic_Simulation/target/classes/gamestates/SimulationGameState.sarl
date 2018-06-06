@@ -27,7 +27,6 @@ class SimulationGameState extends BasicGameState {
 	}
 	
 	def init(arg0 : GameContainer, arg1 : StateBasedGame) throws SlickException {
-		//entities = new EntityCollection
 		
 		var list = rd.createTestMap;
 		
