@@ -124,7 +124,8 @@ class RoadNetwork {
 			for( pt : tmp.points)
 			{
 				var geoP = new GeoLocationPointList(pt.x,pt.y).toGeodesicPosition				
-				var newVec = getXY(geoP.phi, geoP.lambda)
+				//var newVec = getXY(geoP.phi, geoP.lambda)
+				var newVec = new Vector2f(geoP.phi as float, geoP.lambda as float)
 				
 				var con = new RoadConnection(newVec)
 				

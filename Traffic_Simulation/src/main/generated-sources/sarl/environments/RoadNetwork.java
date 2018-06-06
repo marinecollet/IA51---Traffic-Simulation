@@ -177,7 +177,7 @@ public class RoadNetwork {
               double _x = pt.getX();
               double _y = pt.getY();
               GeodesicPosition geoP = new GeoLocationPointList(_x, _y).toGeodesicPosition();
-              Vector2f newVec = this.getXY(geoP.phi, geoP.lambda);
+              Vector2f newVec = new Vector2f(((float) geoP.phi), ((float) geoP.lambda));
               RoadConnection con = new RoadConnection(newVec);
               final Function1<RoadConnection, Boolean> _function = (RoadConnection el) -> {
                 return Boolean.valueOf(((el.getPosition().x == newVec.x) && (el.getPosition().y == newVec.y)));

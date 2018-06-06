@@ -51,12 +51,12 @@ class RoadSegment extends EnvironmentObject {
 		polygonRender.addPoint(start.position.x, start.position.y)
 		polygonRender.addPoint(end.position.x, end.position.y)
 		
-		println(start.position.x + " - " + start.position.y + " ||| " + end.position.x + " - " + end.position.y)
+		//println(start.position.x + " - " + start.position.y + " ||| " + end.position.x + " - " + end.position.y)
 	}
 	
 	def render(arg2 : Graphics) {
 		arg2.setLineWidth(5);
-		arg2.setColor(Color.darkGray);
+		arg2.setColor(Color.red);
 		arg2.draw(polygonRender);		
 	}
 	
