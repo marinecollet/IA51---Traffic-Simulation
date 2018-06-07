@@ -121,39 +121,46 @@ public class SimpleViewer extends Application {
 	@Override
 	@SuppressWarnings({"checkstyle:magicnumber", "checkstyle:regexp", "checkstyle:npathcomplexity",
 		"checkstyle:nestedifdepth", "rawtypes", "unchecked"})
-	public void start(Stage primaryStage) {
-		final FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle(Locale.getString(SimpleViewer.class, "OPEN_WINDOW_TITLE")); //$NON-NLS-1$
-		fileChooser.getExtensionFilters().add(new ShapeFileFilter().toJavaFX());
-		
-		List<File> shapeFiles = new ArrayList<File>(); //fileChooser.showOpenMultipleDialog(primaryStage);
-		//shapeFiles.add(new File("asset/Belfort.shp"));
+	public void start(Stage primaryStage) 
+	{	
+		List<File> shapeFiles = new ArrayList<File>();
 		shapeFiles.add(new File("asset/Ville.shp"));
 
-		if (shapeFiles != null && !shapeFiles.isEmpty()) {
+		if (shapeFiles != null && !shapeFiles.isEmpty()) 
+		{
 			final List<MapElementLayer> containers = new ArrayList<>();
 			final StringBuilder filename = new StringBuilder();
-			for (final File shapeFile : shapeFiles) {
+			
+			for (final File shapeFile : shapeFiles) 
+			{
 				final MapElementLayer loadedResource = loadShapeFile(shapeFile);
-				if (loadedResource != null) {
+				if (loadedResource != null) 
+				{
 					containers.add(loadedResource);
-					if (filename.length() > 0) {
+					
+					if (filename.length() > 0) 
+					{
 						filename.append(", "); //$NON-NLS-1$
 					}
 					filename.append(shapeFile.getName());
 				}
 			}
 
-			if (containers.isEmpty()) {
+			if (containers.isEmpty()) 
+			{
 				System.exit(0);
 			}
 
 			final GISContainer container;
-			if (containers.size() == 1) {
+			if (containers.size() == 1) 
+			{
 				container = containers.get(0);
-			} else {
+			} 
+			else 
+			{
 				final MultiMapLayer layer = new MultiMapLayer<>();
-				for (final MapLayer child : containers) {
+				for (final MapLayer child : containers) 
+				{
 					layer.addMapLayer(child);
 				}
 				container = layer;
@@ -162,7 +169,7 @@ public class SimpleViewer extends Application {
 			
 			final BorderPane root = new BorderPane();
 
-			final Label messageBar = new Label(""); //$NON-NLS-1$
+			final Label messageBar = new Label("");
 			messageBar.setTextAlignment(TextAlignment.CENTER);
 
 			final GisPane scrollPane = new GisPane(container);

@@ -34,6 +34,8 @@ agent MainAgent extends FrameworkLauncher
 		val grand = "asset/Belfort.shp"
 		val ville = "asset/Ville.shp"
 		
+		rd.LoadShapeFile(ville);
+		
 		// Launch application
 		ui.Application.launch(ui.Application);
 		

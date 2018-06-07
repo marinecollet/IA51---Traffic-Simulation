@@ -12,6 +12,7 @@ import org.arakhne.afc.io.dbase.DBaseFileFilter
 import org.arakhne.afc.vmutil.FileSystem
 import java.net.URL
 import java.io.FileInputStream
+
 import org.arakhne.afc.gis.io.shape.GISShapeFileReader
 import org.arakhne.afc.math.geometry.d2.d.Rectangle2d
 import org.arakhne.afc.gis.road.layer.RoadNetworkLayer
@@ -19,10 +20,14 @@ import org.arakhne.afc.gis.road.primitive.RoadNetworkException
 import org.arakhne.afc.gis.maplayer.TreeMapElementLayer
 import org.arakhne.afc.io.shape.ShapeElementType
 import org.arakhne.afc.gis.road.RoadPolyline
+import org.arakhne.afc.math.geometry.d2.d.Rectangle2d;
+import org.arakhne.afc.io.shape.ESRIBounds
+import org.arakhne.afc.gis.location.GeoLocationPointList
+
 import java.io.IOException
 import java.io.IOError
 import logic.Map
-import org.arakhne.afc.gis.location.GeoLocationPointList
+
 import framework.math.Point2f
 
 /** 
@@ -177,6 +182,104 @@ class RoadNetwork {
 		segments.add(segB)
 		segments.add(segG)
 		segments.add(segD)
+	}
+
+	private
+
+	def loadShapeFile(file : File) : MapElementLayer<?> 
+	{
+		try 
+		{
+			var network: StandardRoadNetwork = null;
+			var layer: MapElementLayer<MapElement> = null;
+
+			var dbfFile = FileSystem.replaceExtension(file, DBaseFileFilter.EXTENSION_DBASE_FILE);
+
+			var dbfUrl: URL;
+			if (dbfFile.canRead()) 
+			{
+				dbfUrl = dbfFile.toURI().toURL();
+			} 
+			else 
+			{
+				dbfUrl = null;
+			}
+
+			try
+			{
+				var is: FileInputStream = new FileInputStream(file);
+				
+				assert is != null;
+				
+				try
+				{
+					var reader: GISShapeFileReader = new GISShapeFileReader(is, null, dbfUrl);
+					var worldRect: Rectangle2d = new Rectangle2d();
+					var esriBounds : ESRIBounds = reader.getBoundsFromHeader();
+					
+					worldRect.setFromCorners(
+							esriBounds.getMinX(),
+							esriBounds.getMinY(),
+							esriBounds.getMaxX(),
+							esriBounds.getMaxY()
+					);
+
+					if (reader.getShapeElementType() == ShapeElementType.POLYLINE) {
+						reader.setMapElementType(RoadPolyline);
+					}
+
+					var element: MapElement;
+
+					while ((element = reader.read()) != null) 
+					{
+						if (element instanceof RoadPolyline) 
+						{
+							if (network == null) 
+							{
+								network = new StandardRoadNetwork(worldRect);
+							}
+							
+							var sgmt : RoadPolyline = element as RoadPolyline;
+							
+							try 
+							{
+								network.addRoadSegment(sgmt);
+							} 
+							catch (e : RoadNetworkException) 
+							{
+								throw new RuntimeException(e);
+							}
+						} 
+						else 
+						{
+							if (layer == null) 
+							{
+								layer = new TreeMapElementLayer<>(worldRect);
+							}
+							
+							try 
+							{
+								layer.addMapElement(element);
+							} 
+							catch (e: RoadNetworkException) 
+							{
+								throw new RuntimeException(e);
+							}
+						}
+					}
+				}
+			
+				if(network != null) 
+				{
+					var networkLayer: RoadNetworkLayer = new RoadNetworkLayer(network);
+					return networkLayer;
+				}
+				return layer;
+		} 
+		catch (exception: IOException) 
+		{
+			throw new IOError(exception);
+		}
 	}
 	
 }

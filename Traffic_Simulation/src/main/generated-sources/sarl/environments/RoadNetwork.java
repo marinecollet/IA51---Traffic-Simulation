@@ -256,6 +256,13 @@ public class RoadNetwork {
     return _xblockexpression;
   }
   
+  private MapElementLayer<?> loadShapeFile(final File file) {
+    throw new Error("Unresolved compilation problems:"
+      + "\n\'if\' is a reserved keyword which is not allowed as identifier. Please choose another word."
+      + "\nno viable alternative at input \'}\'"
+      + "\n<> cannot be resolved.");
+  }
+  
   @Override
   @Pure
   @SyntheticMember
