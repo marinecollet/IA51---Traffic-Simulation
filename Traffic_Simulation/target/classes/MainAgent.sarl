@@ -24,22 +24,19 @@ agent MainAgent extends FrameworkLauncher
 	val WORLD_SIZE_X = 1280f
 	val WORLD_SIZE_Y = 640f
 	
-	on Initialize {
-		
-		
+	on Initialize 
+	{
+		// Nothing to do here	
 	}
 	
-	override initializeSimulation(parameters : List<Object>) : boolean {
-		info("Init MainAgent")
-
+	override initializeSimulation(parameters : List<Object>) : boolean 
+	{
 		val grand = "asset/Belfort.shp"
 		val ville = "asset/Ville.shp"
 		
-		// var data = rd.LoadShapeFile(ville)
-		// var data = rd.initMap()
-		info("DEBUG TRACE")
-
-		// info(data.findFirst[el | el.class == typeof(org.arakhne.afc.gis.road.RoadPolyline)])
+		// Launch application
+		ui.Application.launch(ui.Application);
+		
 		return true;
 	}
 	
