@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
+import ui.Application;
 
 @SarlSpecification("0.7")
 @SarlElementType(18)
@@ -36,8 +37,10 @@ public class MainAgent extends FrameworkLauncher {
   
   @Override
   protected boolean initializeSimulation(final List<Object> parameters) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method LoadShapeFile(String) is undefined for the type RoadNetwork");
+    final String grand = "asset/Belfort.shp";
+    final String ville = "asset/Ville.shp";
+    Application.launch();
+    return true;
   }
   
   @Extension
@@ -82,29 +85,17 @@ public class MainAgent extends FrameworkLauncher {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    MainAgent other = (MainAgent) obj;
-    if (Float.floatToIntBits(other.WORLD_SIZE_X) != Float.floatToIntBits(this.WORLD_SIZE_X))
-      return false;
-    if (Float.floatToIntBits(other.WORLD_SIZE_Y) != Float.floatToIntBits(this.WORLD_SIZE_Y))
-      return false;
-    return super.equals(obj);
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + Float.floatToIntBits(this.WORLD_SIZE_X);
-    result = prime * result + Float.floatToIntBits(this.WORLD_SIZE_Y);
-    return result;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @SyntheticMember

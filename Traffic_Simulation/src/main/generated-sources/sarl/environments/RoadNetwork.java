@@ -10,7 +10,7 @@ import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
- * @author jerem
+ * @author jerem, Thomas Gredin
  */
 @SarlSpecification("0.7")
 @SarlElementType(10)

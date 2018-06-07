@@ -31,18 +31,18 @@ import logic.Map
 import framework.math.Point2f
 
 /** 
- * @author jerem
+ * @author jerem, Thomas Gredin
  * 
  */
 class RoadNetwork 
 {
-	var segments = new ArrayList<RoadSegment>
-	var connections = new ArrayList<RoadConnection>
+	var segments = new ArrayList<RoadSegment>();
+	var connections = new ArrayList<RoadConnection>();
 	
 	/** Contains all elements loaded from the Shape file */
 	var mapElements: MapElementLayer<?>;
 	
-	def getSegments : ArrayList<RoadSegment>()
+	def getSegments: ArrayList<RoadSegment>()
 	{
 		return segments;
 	}
@@ -91,8 +91,10 @@ class RoadNetwork
 		}	
 	}
 	
-	def loadShapeFile(file : File) : MapElementLayer<?> 
+	def loadShapeFile(filepath : String) : MapElementLayer<?> 
 	{
+		var file: File = new File(filepath);
+		
 		try
 		{
 			var network: StandardRoadNetwork = null;

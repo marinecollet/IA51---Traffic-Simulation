@@ -75,4 +75,14 @@ class Application extends javafx.application.Application
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
+	
+	static def launch()
+	{
+		// Load Shape file
+		
+		// Setup JavaFX stage
+		
+		// Launch application
+		Application.launch(Application);
+	}
 }

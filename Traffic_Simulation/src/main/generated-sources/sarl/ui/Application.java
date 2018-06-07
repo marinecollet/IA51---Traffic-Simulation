@@ -34,6 +34,11 @@ public class Application extends javafx.application.Application {
     primaryStage.show();
   }
   
+  @Pure
+  public static void launch() {
+    Application.launch(Application.class);
+  }
+  
   @Override
   @Pure
   @SyntheticMember
