@@ -11,25 +11,35 @@ import logic.Map
 import io.sarl.core.Logging
 import org.arakhne.afc.gis.mapelement.MapElement
 import org.arakhne.afc.math.geometry.d2.d.Shape2d
+import framework.FrameworkLauncher
+import java.util.List
 
-agent MainAgent
+agent MainAgent extends FrameworkLauncher 
 {	
 	uses Lifecycle
 	uses Logging
 	
 	var rd = new RoadNetwork
+
+	val WORLD_SIZE_X = 1280f
+	val WORLD_SIZE_Y = 640f
 	
 	on Initialize {
-		info("Init MainAgent")
 		
+		
+	}
+	
+	override initializeSimulation(parameters : List<Object>) : boolean {
+		info("Init MainAgent")
+
 		val grand = "asset/Belfort.shp"
 		val ville = "asset/Ville.shp"
 		
-		//var data = rd.LoadShapeFile(ville)
-		//var data = rd.initMap()
+		// var data = rd.LoadShapeFile(ville)
+		// var data = rd.initMap()
 		info("DEBUG TRACE")
-		
-		//info(data.findFirst[el | el.class == typeof(org.arakhne.afc.gis.road.RoadPolyline)])
-		
+
+		// info(data.findFirst[el | el.class == typeof(org.arakhne.afc.gis.road.RoadPolyline)])
 	}
+	
 }

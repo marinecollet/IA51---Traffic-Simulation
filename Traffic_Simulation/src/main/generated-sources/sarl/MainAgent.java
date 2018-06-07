@@ -1,4 +1,5 @@
 import environments.RoadNetwork;
+import framework.FrameworkLauncher;
 import io.sarl.core.Initialize;
 import io.sarl.core.Lifecycle;
 import io.sarl.core.Logging;
@@ -7,12 +8,12 @@ import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import io.sarl.lang.core.Agent;
 import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -22,17 +23,21 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlSpecification("0.7")
 @SarlElementType(18)
 @SuppressWarnings("all")
-public class MainAgent extends Agent {
+public class MainAgent extends FrameworkLauncher {
   private RoadNetwork rd = new RoadNetwork();
+  
+  private final float WORLD_SIZE_X = 1280f;
+  
+  private final float WORLD_SIZE_Y = 640f;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Init MainAgent");
-    final String grand = "asset/Belfort.shp";
-    final String ville = "asset/Ville.shp";
-    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1 = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1.info("DEBUG TRACE");
+  }
+  
+  @Override
+  protected boolean initializeSimulation(final List<Object> parameters) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from void to boolean");
   }
   
   @Extension
@@ -77,6 +82,17 @@ public class MainAgent extends Agent {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    MainAgent other = (MainAgent) obj;
+    if (Float.floatToIntBits(other.WORLD_SIZE_X) != Float.floatToIntBits(this.WORLD_SIZE_X))
+      return false;
+    if (Float.floatToIntBits(other.WORLD_SIZE_Y) != Float.floatToIntBits(this.WORLD_SIZE_Y))
+      return false;
     return super.equals(obj);
   }
   
@@ -85,6 +101,9 @@ public class MainAgent extends Agent {
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
+    final int prime = 31;
+    result = prime * result + Float.floatToIntBits(this.WORLD_SIZE_X);
+    result = prime * result + Float.floatToIntBits(this.WORLD_SIZE_Y);
     return result;
   }
   
