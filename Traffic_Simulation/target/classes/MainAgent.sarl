@@ -40,6 +40,7 @@ agent MainAgent extends FrameworkLauncher
 		info("DEBUG TRACE")
 
 		// info(data.findFirst[el | el.class == typeof(org.arakhne.afc.gis.road.RoadPolyline)])
+		return true;
 	}
 	
 }
