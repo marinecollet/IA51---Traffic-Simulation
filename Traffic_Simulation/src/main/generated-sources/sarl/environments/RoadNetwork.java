@@ -5,7 +5,6 @@ import environments.RoadSegment;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import java.io.File;
 import java.util.ArrayList;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -21,36 +20,28 @@ public class RoadNetwork {
   
   private ArrayList<RoadConnection> connections = new ArrayList<RoadConnection>();
   
-  @Pure
-  public ArrayList<RoadSegment> getSegments() {
-    return this.segments;
-  }
+  /**
+   * Contains all elements loaded from the Shape file
+   */
+  private MapElementLayer<?> mapElements;
   
-  @Pure
-  public ArrayList<RoadConnection> getConnections() {
-    return this.connections;
-  }
-  
-  public MapElementLayer<?> loadShapeFile(final File file) {
-    throw new Error("Unresolved compilation problems:"
-      + "\n\'if\' is a reserved keyword which is not allowed as identifier. Please choose another word."
-      + "\nno viable alternative at input \'}\'"
-      + "\n<> cannot be resolved.");
-  }
+  public abstract ArrayList<RoadSegment> getSegments();
   
   @Override
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    return super.equals(obj);
+    throw new Error("Unresolved compilation problems:"
+      + "\nmismatched input \'(\' expecting \'}\'"
+      + "\nmismatched input \'(\' expecting \'}\'");
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    int result = super.hashCode();
-    return result;
+    throw new Error("Unresolved compilation problems:"
+      + "\nmismatched input \'(\' expecting \'}\'");
   }
   
   @SyntheticMember

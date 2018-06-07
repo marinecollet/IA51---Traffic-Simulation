@@ -34,23 +34,66 @@ import framework.math.Point2f
  * @author jerem
  * 
  */
-class RoadNetwork {
-	
-	//val roadNetwork : Environment
+class RoadNetwork 
+{
 	var segments = new ArrayList<RoadSegment>
 	var connections = new ArrayList<RoadConnection>
 	
-	def getSegments : ArrayList<RoadSegment>{
-		return segments
+	/** Contains all elements loaded from the Shape file */
+	var mapElements: MapElementLayer<?>;
+	
+	def getSegments : ArrayList<RoadSegment>()
+	{
+		return segments;
 	}
 	
-	def getConnections : ArrayList<RoadConnection>{
-		return connections
+	def getConnections : ArrayList<RoadConnection>()
+	{
+		return connections;
 	}
-
+	
+	/** 
+	 * Get all elements loaded in the given Shape file, Shape file 
+	 * must be loaded with the loadFromShapeFile method
+	 */
+	def getMapElements(): MapElementsLayer()
+	{
+		return mapElements;
+	}
+	
+	def initMap()
+	{
+		for(mapEl : mapElements)
+		{
+			var tmp = mapEl as RoadPolyline
+			if(tmp == null)
+				continue
+				
+			var listCon = new ArrayList<RoadConnection>
+			for( pt : tmp.points)
+			{
+				var geoP = new GeoLocationPointList(pt.x,pt.y).toGeodesicPosition
+				var newPoint = new Point2f(geoP.phi as float, geoP.lambda as float)
+				
+				var con = new RoadConnection(newPoint)
+				
+				if (!connections.exists[el|el.position.x == newPoint.x && el.position.y == newPoint.y])
+					connections.add(con)
+				
+				listCon.add(con)
+			}
+			
+			var rs = new RoadSegment(listCon.get(0), listCon.get(listCon.length - 1))
+			if (!segments.exists[el|(el.start.position == rs.start.position && el.end.position == rs.end.position) || 
+				(el.start.position == rs.end.position && el.end.position == rs.start.position)
+			])
+				segments.add(rs)
+		}	
+	}
+	
 	def loadShapeFile(file : File) : MapElementLayer<?> 
 	{
-		try 
+		try
 		{
 			var network: StandardRoadNetwork = null;
 			var layer: MapElementLayer<MapElement> = null;
