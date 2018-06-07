@@ -21,9 +21,9 @@ import org.arakhne.afc.io.shape.ShapeElementType
 import org.arakhne.afc.gis.road.RoadPolyline
 import java.io.IOException
 import java.io.IOError
-import org.newdawn.slick.geom.Vector2f
 import logic.Map
 import org.arakhne.afc.gis.location.GeoLocationPointList
+import framework.math.Point2f
 
 /** 
  * @author jerem
@@ -74,7 +74,6 @@ class RoadNetwork {
 				}
 	
 				var element : MapElement
-	
 				while ((element = reader.read()) != null) {
 					if (element instanceof RoadPolyline) {
 						if (network == null) {
@@ -86,6 +85,7 @@ class RoadNetwork {
 						} catch (e : RoadNetworkException) {
 							throw new RuntimeException(e);
 						}
+						println(element.geoLocation.toGeodesicPosition.latitude)
 						
 					
 					} else {
@@ -123,13 +123,14 @@ class RoadNetwork {
 			var listCon = new ArrayList<RoadConnection>
 			for( pt : tmp.points)
 			{
-				var geoP = new GeoLocationPointList(pt.x,pt.y).toGeodesicPosition				
+				var geoP = new GeoLocationPointList(pt.x,pt.y).toGeodesicPosition	
+				//println(new GeoLocationPointList(pt.x, pt.y).toGeodesicPosition.toString)			
 				//var newVec = getXY(geoP.phi, geoP.lambda)
-				var newVec = new Vector2f(geoP.phi as float, geoP.lambda as float)
+				var newPoint = new Point2f(geoP.phi as float, geoP.lambda as float)
 				
-				var con = new RoadConnection(newVec)
+				var con = new RoadConnection(newPoint)
 				
-				if (!connections.exists[el|el.position.x == newVec.x && el.position.y == newVec.y])
+				if (!connections.exists[el|el.position.x == newPoint.x && el.position.y == newPoint.y])
 					connections.add(con)
 				
 				listCon.add(con)
@@ -146,23 +147,20 @@ class RoadNetwork {
 	}
 
 	/*XY from lat lng */
-	 def getXY(lat:double, lng:double):Vector2f
+	 def getXY(lat : double, lng : double) : Point2f
 	{
 		var screenX = ((lng + 180) * (Map.WIDTH / 360)) as float;
 		var screenY = (((lat * (-1)) + 90) * (Map.HEIGHT / 180)) as float;
 	
-		return new Vector2f(screenX,screenY);
+		return new Point2f(screenX, screenY);
 	}
 	
-	def createTestMap() : ArrayList<EnvironmentObject> {
-		
-		var liste = new ArrayList<EnvironmentObject>
-		
-		var milieu = new RoadConnection(new Vector2f(Map.WIDTH / 2, Map.HEIGHT / 2))
-		var haut = new RoadConnection(new Vector2f(Map.WIDTH / 2, Map.HEIGHT / 2 + 100))
-		var bas = new RoadConnection(new Vector2f(Map.WIDTH / 2, Map.HEIGHT / 2 - 100))
-		var gauche = new RoadConnection(new Vector2f(Map.WIDTH / 2 - 100, Map.HEIGHT / 2))
-		var droite = new RoadConnection(new Vector2f(Map.WIDTH / 2 + 100, Map.HEIGHT / 2))
+	def createTestMap() {		
+		var milieu = new RoadConnection(new Point2f(Map.WIDTH / 2, Map.HEIGHT / 2))
+		var haut = new RoadConnection(new Point2f(Map.WIDTH / 2, Map.HEIGHT / 2 + 100))
+		var bas = new RoadConnection(new Point2f(Map.WIDTH / 2, Map.HEIGHT / 2 - 100))
+		var gauche = new RoadConnection(new Point2f(Map.WIDTH / 2 - 100, Map.HEIGHT / 2))
+		var droite = new RoadConnection(new Point2f(Map.WIDTH / 2 + 100, Map.HEIGHT / 2))
 		
 		connections.add(milieu)
 		connections.add(haut)
@@ -179,14 +177,6 @@ class RoadNetwork {
 		segments.add(segB)
 		segments.add(segG)
 		segments.add(segD)
-		
-		liste.add(segH)
-		liste.add(segB)
-		liste.add(segG)
-		liste.add(segD)
-		
-		
-		return liste
 	}
 	
 }

@@ -1,18 +1,12 @@
 package environments;
 
 import com.google.common.base.Objects;
-import environments.Drawable;
 import environments.EnvironmentObject;
-import environments.Updateable;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.ArrayList;
-import logic.Map;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * @author jerem
@@ -20,7 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public class EnvironmentObjectCollection implements Updateable, Drawable {
+public class EnvironmentObjectCollection {
   private ArrayList<EnvironmentObject> entities;
   
   public EnvironmentObjectCollection() {
@@ -62,26 +56,6 @@ public class EnvironmentObjectCollection implements Updateable, Drawable {
       }
     }
     return false;
-  }
-  
-  @Override
-  public void render(final Graphics arg2) {
-    for (final EnvironmentObject entitie : this.entities) {
-      boolean _isDrawable = entitie.isDrawable();
-      if (_isDrawable) {
-        ((Drawable) entitie).render(arg2);
-      }
-    }
-  }
-  
-  @Override
-  public void update(final GameContainer gc, final StateBasedGame sbg, final int delta) {
-    for (final EnvironmentObject entitie : this.entities) {
-      boolean _isUpdateble = entitie.isUpdateble();
-      if (_isUpdateble) {
-        ((Updateable) entitie).update(gc, sbg, (delta * Map.getInstance().simulationSpeed));
-      }
-    }
   }
   
   @Override

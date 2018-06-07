@@ -1,15 +1,13 @@
 package environments;
 
-import environments.Drawable;
 import environments.Point;
-import environments.Updateable;
+import framework.math.Point2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.ArrayList;
+import javafx.scene.shape.Rectangle;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -17,77 +15,88 @@ import org.newdawn.slick.geom.Vector2f;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public abstract class EnvironmentObject implements Drawable, Updateable {
+public abstract class EnvironmentObject {
   private boolean updatable;
   
   private boolean drawable;
   
-  private Vector2f position;
+  private Point2f position;
   
-  private Vector2f size;
+  private Point2f size;
   
   private ArrayList<Point> points = new ArrayList<Point>();
   
-  public EnvironmentObject(final Vector2f _position, final Vector2f _size, final boolean isUpdatable, final boolean isDrawable) {
-    Vector2f _vector2f = new Vector2f(_position.x, _position.y);
-    this.position = _vector2f;
-    Vector2f _vector2f_1 = new Vector2f(_size.x, _size.y);
-    this.size = _vector2f_1;
+  public EnvironmentObject(final Point2f _position, final Point2f _size, final boolean isUpdatable, final boolean isDrawable) {
+    float _x = _position.getX();
+    float _y = _position.getY();
+    Point2f _point2f = new Point2f(_x, _y);
+    this.position = _point2f;
+    float _x_1 = _size.getX();
+    float _y_1 = _size.getY();
+    Point2f _point2f_1 = new Point2f(_x_1, _y_1);
+    this.size = _point2f_1;
     this.updatable = isUpdatable;
     this.drawable = isDrawable;
   }
   
-  public EnvironmentObject(final Vector2f _position, final boolean isUpdatable, final boolean isDrawable) {
-    Vector2f _vector2f = new Vector2f(_position.x, _position.y);
-    this.position = _vector2f;
-    Vector2f _vector2f_1 = new Vector2f();
-    this.size = _vector2f_1;
+  public EnvironmentObject(final Point2f _position, final boolean isUpdatable, final boolean isDrawable) {
+    float _x = _position.getX();
+    float _y = _position.getY();
+    Point2f _point2f = new Point2f(_x, _y);
+    this.position = _point2f;
+    Point2f _point2f_1 = new Point2f();
+    this.size = _point2f_1;
     this.updatable = isUpdatable;
     this.drawable = isDrawable;
+  }
+  
+  public EnvironmentObject() {
+    Point2f _point2f = new Point2f();
+    this.position = _point2f;
+    Point2f _point2f_1 = new Point2f();
+    this.size = _point2f_1;
+    this.updatable = false;
+    this.drawable = false;
   }
   
   @Pure
-  public Vector2f getPosition() {
+  public Point2f getPosition() {
     return this.position;
   }
   
-  public float setPosition(final Vector2f _position) {
-    float _xblockexpression = (float) 0;
-    {
-      this.position.x = _position.x;
-      _xblockexpression = this.position.y = _position.y;
-    }
-    return _xblockexpression;
+  public void setPosition(final Point2f _position) {
+    this.position.setX(_position.getX());
+    this.position.setY(_position.getY());
   }
   
-  public float move(final Vector2f _offset) {
-    float _xblockexpression = (float) 0;
-    {
-      float _x = this.position.x;
-      this.position.x = (_x + _offset.x);
-      float _y = this.position.y;
-      _xblockexpression = this.position.y = (_y + _offset.y);
-    }
-    return _xblockexpression;
+  public void move(final Point2f _offset) {
+    float _x = this.position.getX();
+    float _x_1 = _offset.getX();
+    float _plus = (_x + _x_1);
+    this.position.setX(_plus);
+    float _y = this.position.getY();
+    float _y_1 = _offset.getY();
+    float _plus_1 = (_y + _y_1);
+    this.position.setY(_plus_1);
   }
   
   @Pure
-  public Vector2f getSize() {
+  public Point2f getSize() {
     return this.size;
   }
   
-  public float setSize(final Vector2f _size) {
-    float _xblockexpression = (float) 0;
-    {
-      this.size.x = _size.x;
-      _xblockexpression = this.size.y = _size.y;
-    }
-    return _xblockexpression;
+  public void setSize(final Point2f _size) {
+    this.size.setX(_size.getX());
+    this.size.setY(_size.getY());
   }
   
   @Pure
   public Rectangle getRect() {
-    Rectangle rect = new Rectangle(this.position.x, this.position.y, this.size.x, this.size.y);
+    float _x = this.position.getX();
+    float _y = this.position.getY();
+    float _x_1 = this.size.getX();
+    float _y_1 = this.size.getY();
+    Rectangle rect = new Rectangle(_x, _y, _x_1, _y_1);
     return rect;
   }
   

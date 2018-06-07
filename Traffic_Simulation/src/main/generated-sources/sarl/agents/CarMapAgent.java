@@ -3,7 +3,6 @@ package agents;
 import agents.MovingVehicle;
 import agents.SkillBasicMoving;
 import agents.VehicleAgent;
-import environments.Car;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
 import io.sarl.core.ContextJoined;
@@ -28,7 +27,6 @@ import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -41,10 +39,6 @@ public class CarMapAgent extends VehicleAgent {
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     SkillBasicMoving _skillBasicMoving = new SkillBasicMoving();
     this.<SkillBasicMoving>setSkill(_skillBasicMoving);
-    Vector2f _vector2f = new Vector2f(0, 0);
-    UUID _iD = this.getID();
-    Car _car = new Car(_vector2f, _iD);
-    this.body = _car;
     Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("The agent was started.");
   }

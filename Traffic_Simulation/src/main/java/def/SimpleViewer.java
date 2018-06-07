@@ -159,6 +159,7 @@ public class SimpleViewer extends Application {
 				container = layer;
 			}
 
+			
 			final BorderPane root = new BorderPane();
 
 			final Label messageBar = new Label(""); //$NON-NLS-1$

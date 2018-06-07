@@ -1,12 +1,12 @@
 package environments;
 
 import environments.RoadSegment;
+import framework.math.Point2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.ArrayList;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -15,18 +15,18 @@ import org.newdawn.slick.geom.Vector2f;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class RoadConnection {
-  private Vector2f position;
+  private Point2f position;
   
   private ArrayList<RoadSegment> onSegments;
   
-  public RoadConnection(final Vector2f pos) {
+  public RoadConnection(final Point2f pos) {
     this.position = pos;
     ArrayList<RoadSegment> _arrayList = new ArrayList<RoadSegment>();
     this.onSegments = _arrayList;
   }
   
   @Pure
-  public Vector2f getPosition() {
+  public Point2f getPosition() {
     return this.position;
   }
   

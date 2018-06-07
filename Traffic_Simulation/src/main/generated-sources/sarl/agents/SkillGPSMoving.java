@@ -1,6 +1,7 @@
 package agents;
 
 import agents.MovingVehicle;
+import framework.math.Point2f;
 import io.sarl.core.Logging;
 import io.sarl.lang.annotation.ImportedCapacityFeature;
 import io.sarl.lang.annotation.SarlElementType;
@@ -12,7 +13,6 @@ import io.sarl.lang.util.ClearableReference;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -31,7 +31,7 @@ public class SkillGPSMoving extends Skill implements MovingVehicle {
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Uninstalling the skill");
   }
   
-  public Vector2f moveVehicle(final Vector2f from, final Vector2f to, final double speed) {
+  public Point2f moveVehicle(final Point2f from, final Point2f to, final double speed) {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   

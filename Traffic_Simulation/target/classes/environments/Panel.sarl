@@ -8,4 +8,5 @@ package environments
  * 
  */
 abstract class Panel extends EnvironmentObject {
+	
 }

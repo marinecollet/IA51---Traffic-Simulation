@@ -3,7 +3,6 @@
  */
 
 import io.sarl.core.Initialize
-import org.newdawn.slick.AppGameContainer
 import framework.environment.EnvironmentAgent
 import io.sarl.core.Lifecycle
 import environments.*
@@ -22,8 +21,6 @@ agent MainAgent
 	
 	on Initialize {
 		info("Init MainAgent")
-		val container = new AppGameContainer(new SimulationWindow("Traffic Simulation"), Map.WIDTH, Map.HEIGHT, false)
-		container.setTargetFrameRate(60)
 		
 		val grand = "asset/Belfort.shp"
 		val ville = "asset/Ville.shp"
@@ -33,7 +30,6 @@ agent MainAgent
 		info("DEBUG TRACE")
 		
 		//info(data.findFirst[el | el.class == typeof(org.arakhne.afc.gis.road.RoadPolyline)])
-		container.start()
 		
 	}
 }

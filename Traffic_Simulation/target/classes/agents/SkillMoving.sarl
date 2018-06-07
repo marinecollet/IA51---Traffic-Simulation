@@ -5,7 +5,7 @@ package agents
 
 import io.sarl.core.Logging
 import io.sarl.lang.core.Capacity
-import org.newdawn.slick.geom.Vector2f
+import framework.math.Point2f
 
 /** 
  * @author jerem
@@ -26,7 +26,7 @@ skill SkillGPSMoving implements MovingVehicle {
 		info("Uninstalling the skill")
 	}
 	
-	def moveVehicle(from : Vector2f, to : Vector2f, speed : double) : Vector2f {
+	def moveVehicle(from : Point2f, to : Point2f, speed : double) : Point2f {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
@@ -47,25 +47,25 @@ skill SkillBasicMoving implements MovingVehicle {
 		info("Uninstalling the skill")
 	}
 
-	def moveVehicle(from : Vector2f, to : Vector2f, speed : double) : Vector2f {
-		var newPos = new Vector2f
+	def moveVehicle(from : Point2f, to : Point2f, speed : double) : Point2f {
+		var newPos = new Point2f
 
 		if (from.x < to.x && from.y < to.y) {
-			newPos = new Vector2f(from.x - 1, from.y - 1);
+			newPos = new Point2f(from.x - 1, from.y - 1);
 		} else if (from.x > to.x && from.y > to.y) {
-			newPos = new Vector2f(from.x + 1, from.y + 1);
+			newPos = new Point2f(from.x + 1, from.y + 1);
 		} else if (from.x > to.x && from.y == to.y) {
-			newPos = new Vector2f(from.x + 1, from.y);
+			newPos = new Point2f(from.x + 1, from.y);
 		} else if (from.x > to.x && from.y < to.y) {
-			newPos = new Vector2f(from.x + 1, from.y - 1);
+			newPos = new Point2f(from.x + 1, from.y - 1);
 		} else if (from.x == to.x && from.y > to.y) {
-			newPos = new Vector2f(from.x, from.y + 1);
+			newPos = new Point2f(from.x, from.y + 1);
 		} else if (from.x == to.x && from.y < to.y) {
-			newPos = new Vector2f(from.x, from.y - 1);
+			newPos = new Point2f(from.x, from.y - 1);
 		} else if (from.x < to.x && from.y > to.y) {
-			newPos = new Vector2f(from.x - 1, from.y + 1);
+			newPos = new Point2f(from.x - 1, from.y + 1);
 		} else if (from.x < to.x && from.y == to.y) {
-			newPos = new Vector2f(from.x - 1, from.y);
+			newPos = new Point2f(from.x - 1, from.y);
 		}
 		
 		return newPos

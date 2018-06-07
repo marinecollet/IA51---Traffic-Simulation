@@ -3,9 +3,57 @@
  */
 package environments
 
+import framework.environment.AbstractEnvironment
+import framework.environment.AgentBody
+import java.util.List
+import framework.environment.Influence
+import framework.environment.Percept
+import java.util.Collection
+import framework.environment.MotionInfluence
+import framework.time.TimeManager
+import framework.environment.SituatedObject
+import java.util.UUID
+
 /** 
  * @author jerem
  * 
  */
-class Environment {
+class Environment extends AbstractEnvironment{
+	
+	protected def onAgentBodyCreated(body : AgentBody) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	protected def onAgentBodyDestroyed(body : AgentBody) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	protected def computeEndogenousBehaviorInfluences : List<Influence> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	protected def applyInfluences(motionInfluences : Collection<MotionInfluence>, otherInfluences : Collection<Influence>, timeManager : TimeManager) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getAllObjects : Iterable<? extends SituatedObject> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+
+	/*def createBody(type : String) {
+		/*var body = new AgentBody(UUID::randomUUID, new Circle2f(0f, 0f, RABBIT_SIZE), // body
+				5f,						// max linear speed m/s
+		0.5f,						// max linear acceleration (m/s)/s
+		MathUtil::PI / 4f, // max angular speed r/s
+		MathUtil::PI / 10f, // max angular acceleration (r/s)/s
+		null); // no frustum since computePerceptionsFor() is not using this parameter
+		body.name = MessageFormat::format("Body #{0}", this.agentBodyNumber + 1)
+		body.type = type
+		addAgentBody(body, randomPosition, Math::random as float * MathUtil::TWO_PI)
+	}*/
+
 }

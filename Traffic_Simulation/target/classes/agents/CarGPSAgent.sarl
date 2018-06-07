@@ -12,7 +12,6 @@ import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
-import org.newdawn.slick.geom.Vector2f
 import environments.Car
 
 /** 
@@ -24,7 +23,6 @@ agent CarGPSAgent extends VehicleAgent{
 
 	on Initialize {
 		setSkill(new SkillGPSMoving)
-		body = new Car(new Vector2f(0, 0),this.ID)
 		info("The agent was started.")
 	}
 

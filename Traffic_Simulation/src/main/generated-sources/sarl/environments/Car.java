@@ -1,17 +1,11 @@
 package environments;
 
 import environments.Vehicle;
+import framework.math.Point2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import java.util.UUID;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * @author jerem
@@ -20,46 +14,20 @@ import org.newdawn.slick.state.StateBasedGame;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class Car extends Vehicle {
-  private Polygon polygon;
+  private Point2f position;
   
-  private Vector2f position;
-  
-  public Car(final Vector2f vector, final UUID id) {
-    super(vector, id);
-    this.position = vector;
-    Polygon _polygon = new Polygon();
-    this.polygon = _polygon;
-    this.polygon.addPoint((this.position.x - 1f), (this.position.y - 5f));
-    this.polygon.addPoint((this.position.x - 1f), (this.position.y + 5f));
-    this.polygon.addPoint((this.position.x + 1f), (this.position.y - 5f));
-    this.polygon.addPoint((this.position.x + 1f), (this.position.y + 5f));
-    this.polygon.setClosed(true);
+  public Car(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration) {
+    super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration);
+    this.position = point;
   }
   
   @Override
-  public void moveVehicle(final Vector2f newPos) {
+  public void moveVehicle(final Point2f newPos) {
     this.position = newPos;
-    Polygon _polygon = new Polygon();
-    this.polygon = _polygon;
-    this.polygon.addPoint((this.position.x - 1f), (this.position.y - 5f));
-    this.polygon.addPoint((this.position.x - 1f), (this.position.y + 5f));
-    this.polygon.addPoint((this.position.x + 1f), (this.position.y - 5f));
-    this.polygon.addPoint((this.position.x + 1f), (this.position.y + 5f));
-    this.polygon.setClosed(true);
-    super.move(newPos);
   }
   
-  @Pure
-  public Vector2f getPosition() {
+  public Point2f getPosition() {
     return this.position;
-  }
-  
-  public void render(final Graphics arg2) {
-    arg2.setColor(Color.red);
-    arg2.draw(this.polygon);
-  }
-  
-  public void update(final GameContainer gc, final StateBasedGame sbg, final int delta) {
   }
   
   @Override
@@ -76,4 +44,18 @@ public class Car extends Vehicle {
     int result = super.hashCode();
     return result;
   }
+  
+  @Override
+  @Pure
+  @SyntheticMember
+  public Car clone() {
+    try {
+      return (Car) super.clone();
+    } catch (Throwable exception) {
+      throw new Error(exception);
+    }
+  }
+  
+  @SyntheticMember
+  private final static long serialVersionUID = 2920673959L;
 }

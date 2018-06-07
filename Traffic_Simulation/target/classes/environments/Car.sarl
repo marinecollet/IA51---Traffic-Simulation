@@ -3,14 +3,9 @@
  */
 package environments
 
-import org.newdawn.slick.Graphics
-import org.newdawn.slick.GameContainer
-import org.newdawn.slick.state.StateBasedGame
-import org.newdawn.slick.geom.Rectangle
-import org.newdawn.slick.geom.Vector2f
-import org.newdawn.slick.Color
-import org.newdawn.slick.geom.Polygon
 import java.util.UUID
+import framework.math.Rectangle2f
+import framework.math.Point2f
 
 /** 
  * @author jerem
@@ -18,50 +13,29 @@ import java.util.UUID
  */
 class Car extends Vehicle{
 	
-	var polygon : Polygon;
-	var position : Vector2f
+	//var rectangle : Rectangle2f;
+	var position : Point2f
 	
 	
-	new(vector : Vector2f, id : UUID){
-		super(vector,id)
-		position = vector
-		
-		polygon = new Polygon
-		polygon.addPoint(position.x - 1f, position.y - 5f)
-		polygon.addPoint(position.x - 1f, position.y + 5f)
-		polygon.addPoint(position.x + 1f, position.y - 5f)
-		polygon.addPoint(position.x + 1f, position.y + 5f)
-		polygon.closed = true
+	
+	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
+		maxAngularAcceleration : float) {
+		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration)
+		position = point
+
+		//rectangle = new Rectangle2f(new Point2f(position.x, position.y - 0.5),
+			//new Point2f(position.x, position.y + 0.5))
 		
 	}
 
-	override moveVehicle(newPos : Vector2f)
+	override moveVehicle(newPos : Point2f)
 	{
-		position = newPos
-		
-		polygon = new Polygon
-		polygon.addPoint(position.x - 1f, position.y - 5f)
-		polygon.addPoint(position.x - 1f, position.y + 5f)
-		polygon.addPoint(position.x + 1f, position.y - 5f)
-		polygon.addPoint(position.x + 1f, position.y + 5f)
-		polygon.closed = true
-		
-		super.move(newPos)
-		
+		position = newPos		
+		//super.move(newPos)		
 	}
 	
-	def getPosition():Vector2f{
+	def getPosition():Point2f{
 		return position
 	}
-	
-	def render(arg2 : Graphics) {
-		arg2.color = Color.red
-		arg2.draw(polygon)
-	}
-	
-	def update(gc : GameContainer, sbg : StateBasedGame, delta : int) {
-		
-	}
-	
 	
 }

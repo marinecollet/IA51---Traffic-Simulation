@@ -4,12 +4,8 @@
 package environments
 
 import java.util.ArrayList
-import org.newdawn.slick.geom.Polygon
-import org.newdawn.slick.Graphics
-import org.newdawn.slick.geom.Vector2f
-import org.newdawn.slick.GameContainer
-import org.newdawn.slick.state.StateBasedGame
-import org.newdawn.slick.Color
+import framework.math.Point2f
+import javafx.scene.shape.Rectangle
 
 /** 
  * @author jerem
@@ -20,20 +16,22 @@ class RoadSegment extends EnvironmentObject {
 	val start : RoadConnection
 	val end : RoadConnection
 	
-	var polygonRender : Polygon
+	var rectangle : Rectangle
 	
 	val objects : ArrayList<EnvironmentObject>
 	
 	new(start : RoadConnection, end : RoadConnection) {
-		super(start.position,new Vector2f(1,1),false,true)
+		super(start.position, new Point2f(1, 1), false, true)
 		this.start = start
 		this.end = end
 		
 		this.start.addConnectionOnSegment(this)
 		this.end.addConnectionOnSegment(this)
 		
-		setPolygon
+		
 		objects = new ArrayList<EnvironmentObject>
+		
+		rectangle = new Rectangle()
 	}
 	
 	def getStart : RoadConnection{
@@ -44,24 +42,5 @@ class RoadSegment extends EnvironmentObject {
 		return end
 	}
 	
-	private def setPolygon() {
-		polygonRender = new Polygon()
-		polygonRender.closed = true
-		
-		polygonRender.addPoint(start.position.x, start.position.y)
-		polygonRender.addPoint(end.position.x, end.position.y)
-		
-		//println(start.position.x + " - " + start.position.y + " ||| " + end.position.x + " - " + end.position.y)
-	}
-	
-	def render(arg2 : Graphics) {
-		arg2.setLineWidth(5);
-		arg2.setColor(Color.red);
-		arg2.draw(polygonRender);		
-	}
-	
-	def update(gc : GameContainer, sbg : StateBasedGame, delta : int) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
 	
 }

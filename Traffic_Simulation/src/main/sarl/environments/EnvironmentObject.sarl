@@ -4,61 +4,68 @@
 package environments
 
 import java.util.ArrayList
-import org.newdawn.slick.geom.Vector2f
-import org.newdawn.slick.geom.Rectangle
 import java.util.UUID
+import framework.math.Point2f
+import javafx.scene.shape.Rectangle
 
 /** 
  * @author jerem
  * 
  */
-abstract class EnvironmentObject implements Drawable, Updateable {
+abstract class EnvironmentObject {
 
 	var updatable : boolean
 	var drawable : boolean
 	
-	var position : Vector2f
-	var size : Vector2f
+	var position : Point2f
+	var size : Point2f
 	
 	var points = new ArrayList<Point>
 
-	new (_position : Vector2f, _size : Vector2f, isUpdatable : boolean, isDrawable : boolean) {
-		position = new Vector2f(_position.x, _position.y)
-		size = new Vector2f(_size.x,_size.y)
+	new (_position : Point2f, _size : Point2f, isUpdatable : boolean, isDrawable : boolean) {
+		position = new Point2f(_position.x, _position.y)
+		size = new Point2f(_size.x, _size.y)
 
 		updatable = isUpdatable
 		drawable = isDrawable
 	}
 
-	new (_position : Vector2f, isUpdatable : boolean, isDrawable : boolean) {
-		position = new Vector2f(_position.x, _position.y)
-		size = new Vector2f
+	new (_position : Point2f, isUpdatable : boolean, isDrawable : boolean) {
+		position = new Point2f(_position.x, _position.y)
+		size = new Point2f
 
 		updatable = isUpdatable
 		drawable = isDrawable
 	}
 	
+	new() {
+		position = new Point2f()
+		size = new Point2f
+
+		updatable = false
+		drawable = false
+	}
 	
 
-	def getPosition() : Vector2f {
+	def getPosition() : Point2f {
 		return position;
 	}
 
-	def setPosition(_position : Vector2f) {
+	def setPosition(_position : Point2f) {
 		position.x = _position.x;
 		position.y = _position.y;
 	}
 
-	def move(_offset : Vector2f) {
-		position.x += _offset.x;
-		position.y += _offset.y;
+	def move(_offset : Point2f) {
+		position.x = position.x + _offset.x;
+		position.y = position.y + _offset.y;
 	}
 
-	def getSize() : Vector2f {
+	def getSize() : Point2f {
 		return size;
 	}
 
-	def setSize(_size : Vector2f) {
+	def setSize(_size : Point2f) {
 		size.x = _size.x;
 		size.y = _size.y;
 	}

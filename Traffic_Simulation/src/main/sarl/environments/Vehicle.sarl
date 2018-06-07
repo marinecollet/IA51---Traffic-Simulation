@@ -3,27 +3,31 @@
  */
 package environments
 
-import org.newdawn.slick.geom.Vector2f
 import java.util.UUID
+import framework.environment.AgentBody
+import framework.math.Rectangle2f
+import framework.math.Point2f
 
 /** 
  * @author jerem
  * 
  */
-abstract class Vehicle extends EnvironmentObject {
-	
-	val agentId : UUID
+abstract class Vehicle extends AgentBody {//EnvironmentObject {
 	
 	
-	new(vector : Vector2f, id : UUID){
-		super(vector,true,true)
-		agentId = id
+	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
+		maxAngularAcceleration : float) {
+		super(
+			UUID.randomUUID,
+			new Rectangle2f(new Point2f(point.x, point.y - 0.5f), new Point2f(point.x, point.y + 0.5f)),
+			maxLinearSpeed,
+			maxLinearAcceleration,
+			maxAngularSpeed,
+			maxAngularAcceleration,
+			null
+		)
 	}
 
-	final def getAgentId : UUID {
-		this.agentId
-	}
-
-	abstract def moveVehicle(newPos : Vector2f);
+	abstract def moveVehicle(newPos : Point2f);
 	
 }

@@ -35,7 +35,7 @@ import static extension java.lang.Math.*
  * @version $Name$ $Revision$ $Date$
  */
 abstract class AbstractMobileObject extends AbstractSituatedObject implements MobileObject {
-
+	
 	val maxLinearSpeed : float
 	val maxLinearAcceleration : float
 	val maxAngularSpeed : float

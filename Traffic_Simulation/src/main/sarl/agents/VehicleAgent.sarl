@@ -21,11 +21,6 @@ import environments.Vehicle
 agent VehicleAgent {
 	uses Logging
 
-	/*
-	 * Agent body
-	 */
-	protected var body : Vehicle
-
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.

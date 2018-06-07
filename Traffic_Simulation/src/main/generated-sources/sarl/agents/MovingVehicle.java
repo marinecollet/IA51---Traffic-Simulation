@@ -1,10 +1,10 @@
 package agents;
 
+import framework.math.Point2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.core.AgentTrait;
 import io.sarl.lang.core.Capacity;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -14,7 +14,7 @@ import org.newdawn.slick.geom.Vector2f;
 @SarlElementType(19)
 @SuppressWarnings("all")
 public interface MovingVehicle extends Capacity {
-  public abstract Vector2f moveVehicle(final Vector2f from, final Vector2f to, final double speed);
+  public abstract Point2f moveVehicle(final Point2f from, final Point2f to, final double speed);
   
   /**
    * @ExcludeFromApidoc
@@ -24,7 +24,7 @@ public interface MovingVehicle extends Capacity {
       super(capacity, caller);
     }
     
-    public Vector2f moveVehicle(final Vector2f from, final Vector2f to, final double speed) {
+    public Point2f moveVehicle(final Point2f from, final Point2f to, final double speed) {
       try {
         ensureCallerInLocalThread();
         return this.capacity.moveVehicle(from, to, speed);

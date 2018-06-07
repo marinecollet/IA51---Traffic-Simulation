@@ -1,5 +1,4 @@
 import environments.RoadNetwork;
-import gamestates.SimulationWindow;
 import io.sarl.core.Initialize;
 import io.sarl.core.Lifecycle;
 import io.sarl.core.Logging;
@@ -16,12 +15,9 @@ import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
-import logic.Map;
-import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.AppGameContainer;
 
 @SarlSpecification("0.7")
 @SarlElementType(18)
@@ -31,20 +27,12 @@ public class MainAgent extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    try {
-      Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-      _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Init MainAgent");
-      SimulationWindow _simulationWindow = new SimulationWindow("Traffic Simulation");
-      final AppGameContainer container = new AppGameContainer(_simulationWindow, Map.WIDTH, Map.HEIGHT, false);
-      container.setTargetFrameRate(60);
-      final String grand = "asset/Belfort.shp";
-      final String ville = "asset/Ville.shp";
-      Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1 = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-      _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1.info("DEBUG TRACE");
-      container.start();
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Init MainAgent");
+    final String grand = "asset/Belfort.shp";
+    final String ville = "asset/Ville.shp";
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1 = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1.info("DEBUG TRACE");
   }
   
   @Extension

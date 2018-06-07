@@ -1,13 +1,13 @@
 package environments;
 
-import environments.EnvironmentObject;
+import framework.environment.AgentBody;
+import framework.math.Point2f;
+import framework.math.Rectangle2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import java.util.Objects;
 import java.util.UUID;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -15,45 +15,27 @@ import org.newdawn.slick.geom.Vector2f;
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public abstract class Vehicle extends EnvironmentObject {
-  private final UUID agentId;
-  
-  public Vehicle(final Vector2f vector, final UUID id) {
-    super(vector, true, true);
-    this.agentId = id;
+public abstract class Vehicle extends AgentBody {
+  public Vehicle(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration) {
+    super(
+      UUID.randomUUID(), 
+      new Rectangle2f(new Point2f(point.getX(), (point.getY() - 0.5f)), new Point2f(point.getX(), (point.getY() + 0.5f))), maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
+      null);
   }
   
-  @Pure
-  public final UUID getAgentId() {
-    return this.agentId;
-  }
-  
-  public abstract void moveVehicle(final Vector2f newPos);
+  public abstract void moveVehicle(final Point2f newPos);
   
   @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    Vehicle other = (Vehicle) obj;
-    if (!Objects.equals(this.agentId, other.agentId)) {
-      return false;
+  public Vehicle clone() {
+    try {
+      return (Vehicle) super.clone();
+    } catch (Throwable exception) {
+      throw new Error(exception);
     }
-    return super.equals(obj);
   }
   
-  @Override
-  @Pure
   @SyntheticMember
-  public int hashCode() {
-    int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + Objects.hashCode(this.agentId);
-    return result;
-  }
+  private final static long serialVersionUID = -617805095L;
 }

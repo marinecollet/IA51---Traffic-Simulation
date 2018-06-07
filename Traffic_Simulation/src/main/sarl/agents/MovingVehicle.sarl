@@ -3,7 +3,7 @@
  */
 package agents
 
-import org.newdawn.slick.geom.Vector2f
+import framework.math.Point2f
 
 /** 
  * @author jerem
@@ -11,6 +11,6 @@ import org.newdawn.slick.geom.Vector2f
  */
 capacity MovingVehicle {
 	
-	def moveVehicle(from : Vector2f, to : Vector2f, speed : double) : Vector2f
+	def moveVehicle(from : Point2f, to : Point2f, speed : double) : Point2f
 	
 }

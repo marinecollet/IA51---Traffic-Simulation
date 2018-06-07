@@ -1,9 +1,9 @@
 package environments;
 
 import com.google.common.base.Objects;
-import environments.EnvironmentObject;
 import environments.RoadConnection;
 import environments.RoadSegment;
+import framework.math.Point2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -36,7 +36,6 @@ import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * @author jerem
@@ -114,6 +113,7 @@ public class RoadNetwork {
                   throw Exceptions.sneakyThrow(_t);
                 }
               }
+              InputOutput.<Double>println(Double.valueOf(((RoadPolyline)element).getGeoLocation().toGeodesicPosition().getLatitude()));
             } else {
               boolean _equals_2 = Objects.equal(layer, null);
               if (_equals_2) {
@@ -177,10 +177,10 @@ public class RoadNetwork {
               double _x = pt.getX();
               double _y = pt.getY();
               GeodesicPosition geoP = new GeoLocationPointList(_x, _y).toGeodesicPosition();
-              Vector2f newVec = new Vector2f(((float) geoP.phi), ((float) geoP.lambda));
-              RoadConnection con = new RoadConnection(newVec);
+              Point2f newPoint = new Point2f(((float) geoP.phi), ((float) geoP.lambda));
+              RoadConnection con = new RoadConnection(newPoint);
               final Function1<RoadConnection, Boolean> _function = (RoadConnection el) -> {
-                return Boolean.valueOf(((el.getPosition().x == newVec.x) && (el.getPosition().y == newVec.y)));
+                return Boolean.valueOf(((el.getPosition().getX() == newPoint.getX()) && (el.getPosition().getY() == newPoint.getY())));
               };
               boolean _exists = IterableExtensions.<RoadConnection>exists(this.connections, _function);
               boolean _not = (!_exists);
@@ -220,42 +220,40 @@ public class RoadNetwork {
    * XY from lat lng
    */
   @Pure
-  public Vector2f getXY(final double lat, final double lng) {
+  public Point2f getXY(final double lat, final double lng) {
     float screenX = ((float) ((lng + 180) * (Map.WIDTH / 360)));
     float screenY = ((float) (((lat * (-1)) + 90) * (Map.HEIGHT / 180)));
-    return new Vector2f(screenX, screenY);
+    return new Point2f(screenX, screenY);
   }
   
-  public ArrayList<EnvironmentObject> createTestMap() {
-    ArrayList<EnvironmentObject> liste = new ArrayList<EnvironmentObject>();
-    Vector2f _vector2f = new Vector2f((Map.WIDTH / 2), (Map.HEIGHT / 2));
-    RoadConnection milieu = new RoadConnection(_vector2f);
-    Vector2f _vector2f_1 = new Vector2f((Map.WIDTH / 2), ((Map.HEIGHT / 2) + 100));
-    RoadConnection haut = new RoadConnection(_vector2f_1);
-    Vector2f _vector2f_2 = new Vector2f((Map.WIDTH / 2), ((Map.HEIGHT / 2) - 100));
-    RoadConnection bas = new RoadConnection(_vector2f_2);
-    Vector2f _vector2f_3 = new Vector2f(((Map.WIDTH / 2) - 100), (Map.HEIGHT / 2));
-    RoadConnection gauche = new RoadConnection(_vector2f_3);
-    Vector2f _vector2f_4 = new Vector2f(((Map.WIDTH / 2) + 100), (Map.HEIGHT / 2));
-    RoadConnection droite = new RoadConnection(_vector2f_4);
-    this.connections.add(milieu);
-    this.connections.add(haut);
-    this.connections.add(bas);
-    this.connections.add(gauche);
-    this.connections.add(droite);
-    RoadSegment segH = new RoadSegment(milieu, haut);
-    RoadSegment segB = new RoadSegment(milieu, bas);
-    RoadSegment segG = new RoadSegment(milieu, gauche);
-    RoadSegment segD = new RoadSegment(milieu, droite);
-    this.segments.add(segH);
-    this.segments.add(segB);
-    this.segments.add(segG);
-    this.segments.add(segD);
-    liste.add(segH);
-    liste.add(segB);
-    liste.add(segG);
-    liste.add(segD);
-    return liste;
+  public boolean createTestMap() {
+    boolean _xblockexpression = false;
+    {
+      Point2f _point2f = new Point2f((Map.WIDTH / 2), (Map.HEIGHT / 2));
+      RoadConnection milieu = new RoadConnection(_point2f);
+      Point2f _point2f_1 = new Point2f((Map.WIDTH / 2), ((Map.HEIGHT / 2) + 100));
+      RoadConnection haut = new RoadConnection(_point2f_1);
+      Point2f _point2f_2 = new Point2f((Map.WIDTH / 2), ((Map.HEIGHT / 2) - 100));
+      RoadConnection bas = new RoadConnection(_point2f_2);
+      Point2f _point2f_3 = new Point2f(((Map.WIDTH / 2) - 100), (Map.HEIGHT / 2));
+      RoadConnection gauche = new RoadConnection(_point2f_3);
+      Point2f _point2f_4 = new Point2f(((Map.WIDTH / 2) + 100), (Map.HEIGHT / 2));
+      RoadConnection droite = new RoadConnection(_point2f_4);
+      this.connections.add(milieu);
+      this.connections.add(haut);
+      this.connections.add(bas);
+      this.connections.add(gauche);
+      this.connections.add(droite);
+      RoadSegment segH = new RoadSegment(milieu, haut);
+      RoadSegment segB = new RoadSegment(milieu, bas);
+      RoadSegment segG = new RoadSegment(milieu, gauche);
+      RoadSegment segD = new RoadSegment(milieu, droite);
+      this.segments.add(segH);
+      this.segments.add(segB);
+      this.segments.add(segG);
+      _xblockexpression = this.segments.add(segD);
+    }
+    return _xblockexpression;
   }
   
   @Override

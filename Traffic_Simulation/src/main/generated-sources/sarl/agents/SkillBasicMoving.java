@@ -1,6 +1,7 @@
 package agents;
 
 import agents.MovingVehicle;
+import framework.math.Point2f;
 import io.sarl.core.Logging;
 import io.sarl.lang.annotation.ImportedCapacityFeature;
 import io.sarl.lang.annotation.SarlElementType;
@@ -12,7 +13,6 @@ import io.sarl.lang.util.ClearableReference;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.newdawn.slick.geom.Vector2f;
 
 @SarlSpecification("0.7")
 @SarlElementType(21)
@@ -28,39 +28,67 @@ public class SkillBasicMoving extends Skill implements MovingVehicle {
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Uninstalling the skill");
   }
   
-  public Vector2f moveVehicle(final Vector2f from, final Vector2f to, final double speed) {
-    Vector2f newPos = new Vector2f();
-    if (((from.x < to.x) && (from.y < to.y))) {
-      Vector2f _vector2f = new Vector2f((from.x - 1), (from.y - 1));
-      newPos = _vector2f;
+  public Point2f moveVehicle(final Point2f from, final Point2f to, final double speed) {
+    Point2f newPos = new Point2f();
+    if (((from.getX() < to.getX()) && (from.getY() < to.getY()))) {
+      float _x = from.getX();
+      float _minus = (_x - 1);
+      float _y = from.getY();
+      float _minus_1 = (_y - 1);
+      Point2f _point2f = new Point2f(_minus, _minus_1);
+      newPos = _point2f;
     } else {
-      if (((from.x > to.x) && (from.y > to.y))) {
-        Vector2f _vector2f_1 = new Vector2f((from.x + 1), (from.y + 1));
-        newPos = _vector2f_1;
+      if (((from.getX() > to.getX()) && (from.getY() > to.getY()))) {
+        float _x_1 = from.getX();
+        float _plus = (_x_1 + 1);
+        float _y_1 = from.getY();
+        float _plus_1 = (_y_1 + 1);
+        Point2f _point2f_1 = new Point2f(_plus, _plus_1);
+        newPos = _point2f_1;
       } else {
-        if (((from.x > to.x) && (from.y == to.y))) {
-          Vector2f _vector2f_2 = new Vector2f((from.x + 1), from.y);
-          newPos = _vector2f_2;
+        if (((from.getX() > to.getX()) && (from.getY() == to.getY()))) {
+          float _x_2 = from.getX();
+          float _plus_2 = (_x_2 + 1);
+          float _y_2 = from.getY();
+          Point2f _point2f_2 = new Point2f(_plus_2, _y_2);
+          newPos = _point2f_2;
         } else {
-          if (((from.x > to.x) && (from.y < to.y))) {
-            Vector2f _vector2f_3 = new Vector2f((from.x + 1), (from.y - 1));
-            newPos = _vector2f_3;
+          if (((from.getX() > to.getX()) && (from.getY() < to.getY()))) {
+            float _x_3 = from.getX();
+            float _plus_3 = (_x_3 + 1);
+            float _y_3 = from.getY();
+            float _minus_2 = (_y_3 - 1);
+            Point2f _point2f_3 = new Point2f(_plus_3, _minus_2);
+            newPos = _point2f_3;
           } else {
-            if (((from.x == to.x) && (from.y > to.y))) {
-              Vector2f _vector2f_4 = new Vector2f(from.x, (from.y + 1));
-              newPos = _vector2f_4;
+            if (((from.getX() == to.getX()) && (from.getY() > to.getY()))) {
+              float _x_4 = from.getX();
+              float _y_4 = from.getY();
+              float _plus_4 = (_y_4 + 1);
+              Point2f _point2f_4 = new Point2f(_x_4, _plus_4);
+              newPos = _point2f_4;
             } else {
-              if (((from.x == to.x) && (from.y < to.y))) {
-                Vector2f _vector2f_5 = new Vector2f(from.x, (from.y - 1));
-                newPos = _vector2f_5;
+              if (((from.getX() == to.getX()) && (from.getY() < to.getY()))) {
+                float _x_5 = from.getX();
+                float _y_5 = from.getY();
+                float _minus_3 = (_y_5 - 1);
+                Point2f _point2f_5 = new Point2f(_x_5, _minus_3);
+                newPos = _point2f_5;
               } else {
-                if (((from.x < to.x) && (from.y > to.y))) {
-                  Vector2f _vector2f_6 = new Vector2f((from.x - 1), (from.y + 1));
-                  newPos = _vector2f_6;
+                if (((from.getX() < to.getX()) && (from.getY() > to.getY()))) {
+                  float _x_6 = from.getX();
+                  float _minus_4 = (_x_6 - 1);
+                  float _y_6 = from.getY();
+                  float _plus_5 = (_y_6 + 1);
+                  Point2f _point2f_6 = new Point2f(_minus_4, _plus_5);
+                  newPos = _point2f_6;
                 } else {
-                  if (((from.x < to.x) && (from.y == to.y))) {
-                    Vector2f _vector2f_7 = new Vector2f((from.x - 1), from.y);
-                    newPos = _vector2f_7;
+                  if (((from.getX() < to.getX()) && (from.getY() == to.getY()))) {
+                    float _x_7 = from.getX();
+                    float _minus_5 = (_x_7 - 1);
+                    float _y_7 = from.getY();
+                    Point2f _point2f_7 = new Point2f(_minus_5, _y_7);
+                    newPos = _point2f_7;
                   }
                 }
               }
