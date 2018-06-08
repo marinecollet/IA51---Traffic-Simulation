@@ -45,17 +45,16 @@ agent MainAgent extends FrameworkLauncher
 	{
 		// Nothing to do here	
 	}
+
 	
 	override initializeSimulation(parameters : List<Object>) : boolean 
 	{
 		val grand = "asset/Belfort.shp";
 		val ville = "asset/Ville.shp";
 
-		var type = BehaviorTypeSelector.open
 		var environment = new Environment(WORLD_SIZE_X, WORLD_SIZE_Y)
 
-		var params = newArrayList
-		params += parameters
+	
 		// Launch application
 		application = new Application
 		//application.launch(Application, ville)

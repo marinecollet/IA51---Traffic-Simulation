@@ -15,6 +15,10 @@ import java.util.List
 import org.arakhne.afc.gis.maplayer.MapElementLayer
 import ui.Application
 import framework.time.StepTimeManager
+import java.text.MessageFormat
+import framework.math.MathUtil
+import java.util.UUID
+import framework.math.Rectangle2f
 
 /** 
  * @author jerem
@@ -90,7 +94,7 @@ class Environment extends AbstractEnvironment
 	}
 
 	/*def createBody(type : String) {
-		/*var body = new AgentBody(UUID::randomUUID, new Circle2f(0f, 0f, RABBIT_SIZE), // body
+		var body = new AgentBody(UUID::randomUUID, new Rectangle2f(new Point2f()), // body
 				5f,						// max linear speed m/s
 		0.5f,						// max linear acceleration (m/s)/s
 		MathUtil::PI / 4f, // max angular speed r/s

@@ -13,6 +13,11 @@ import org.arakhne.afc.gis.primitive.GISContainer
 import org.arakhne.afc.gis.maplayer.MultiMapLayer
 import org.arakhne.afc.gis.ui.GisPane
 import org.arakhne.afc.nodefx.ZoomablePane
+import javafx.scene.shape.Rectangle
+import framework.math.Point2f
+import framework.math.Rectangle2f
+import org.arakhne.afc.gis.maplayer.TreeMapElementLayer
+import org.arakhne.afc.gis.mapelement.MapElement
 
 /** 
  * @author Thomas Gredin
@@ -55,10 +60,12 @@ class Application extends javafx.application.Application
 		
 		/** Create the GISContainer to display Roads Segments in the window */
 		var container : GISContainer
+		var layer : MultiMapLayer
+		
 		if (containers.size() == 1) {
 			container = containers.get(0)
 		} else {
-			var layer = new MultiMapLayer
+			layer = new MultiMapLayer
 				for (child : containers)
 				{
 					layer.addMapLayer(child);

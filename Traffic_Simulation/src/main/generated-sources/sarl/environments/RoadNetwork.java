@@ -205,8 +205,10 @@ public class RoadNetwork {
       boolean _notEquals = (!Objects.equal(network, null));
       if (_notEquals) {
         RoadNetworkLayer networkLayer = new RoadNetworkLayer(network);
+        this.mapElements = networkLayer;
         return networkLayer;
       }
+      this.mapElements = layer;
       return layer;
     } catch (final Throwable _t_2) {
       if (_t_2 instanceof IOException) {

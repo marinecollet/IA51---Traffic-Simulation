@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
+import org.arakhne.afc.gis.maplayer.MapLayer;
 import org.arakhne.afc.gis.maplayer.MultiMapLayer;
 import org.arakhne.afc.gis.primitive.GISContainer;
 import org.arakhne.afc.nodefx.ZoomablePane;
@@ -53,12 +54,14 @@ public class Application extends javafx.application.Application {
       containers.add(loadedResource);
     }
     GISContainer container = null;
+    MultiMapLayer layer = null;
     int _size = containers.size();
     boolean _equals = (_size == 1);
     if (_equals) {
       container = containers.get(0);
     } else {
-      MultiMapLayer<MapElementLayer> layer = new MultiMapLayer<MapElementLayer>();
+      MultiMapLayer<MapLayer> _multiMapLayer = new MultiMapLayer<MapLayer>();
+      layer = _multiMapLayer;
       for (final MapElementLayer child : containers) {
         layer.addMapLayer(child);
       }

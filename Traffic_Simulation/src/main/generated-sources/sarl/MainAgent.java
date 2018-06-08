@@ -1,9 +1,6 @@
-import com.google.common.collect.Iterables;
 import environments.Environment;
 import environments.RoadNetwork;
 import framework.FrameworkLauncher;
-import framework.environment.DynamicType;
-import framework.gui.BehaviorTypeSelector;
 import io.sarl.core.Initialize;
 import io.sarl.core.Lifecycle;
 import io.sarl.core.Logging;
@@ -16,12 +13,10 @@ import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
-import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -59,10 +54,7 @@ public class MainAgent extends FrameworkLauncher {
   protected boolean initializeSimulation(final List<Object> parameters) {
     final String grand = "asset/Belfort.shp";
     final String ville = "asset/Ville.shp";
-    DynamicType type = BehaviorTypeSelector.open();
     Environment environment = new Environment(this.WORLD_SIZE_X, this.WORLD_SIZE_Y);
-    ArrayList<Object> params = CollectionLiterals.<Object>newArrayList();
-    Iterables.<Object>addAll(params, parameters);
     Application _application = new Application();
     this.application = _application;
     Application.launch(Application.class, ville);

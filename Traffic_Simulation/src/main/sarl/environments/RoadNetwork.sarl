@@ -170,8 +170,10 @@ class RoadNetwork
 			if (network != null) 
 			{
 				var networkLayer: RoadNetworkLayer = new RoadNetworkLayer(network)
+				mapElements = networkLayer
 				return networkLayer
 			}
+			mapElements = layer
 			return layer;
 		} catch (exception: IOException) 
 		{
