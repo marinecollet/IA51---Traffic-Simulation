@@ -3,52 +3,10 @@
  */
 package ui
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOError;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-
-import org.arakhne.afc.gis.io.shape.GISShapeFileReader;
-import org.arakhne.afc.gis.mapelement.GISElementContainer;
-import org.arakhne.afc.gis.mapelement.MapElement;
-import org.arakhne.afc.gis.maplayer.GISLayerContainer;
-import org.arakhne.afc.gis.maplayer.MapElementLayer;
-import org.arakhne.afc.gis.maplayer.MapLayer;
-import org.arakhne.afc.gis.maplayer.MultiMapLayer;
-import org.arakhne.afc.gis.maplayer.TreeMapElementLayer;
-import org.arakhne.afc.gis.primitive.FlagContainer;
-import org.arakhne.afc.gis.primitive.GISContainer;
-import org.arakhne.afc.gis.road.RoadPolyline;
-import org.arakhne.afc.gis.road.StandardRoadNetwork;
-import org.arakhne.afc.gis.road.layer.RoadNetworkLayer;
-import org.arakhne.afc.gis.road.primitive.RoadNetworkException;
-import org.arakhne.afc.gis.ui.GisPane;
-import org.arakhne.afc.io.dbase.DBaseFileFilter;
-import org.arakhne.afc.io.shape.ESRIBounds;
-import org.arakhne.afc.io.shape.ShapeElementType;
-import org.arakhne.afc.io.shape.ShapeFileFilter;
-import org.arakhne.afc.math.geometry.d2.d.Point2d;
-import org.arakhne.afc.math.geometry.d2.d.Rectangle2d;
-import org.arakhne.afc.text.TextUtil;
-import org.arakhne.afc.vmutil.FileSystem;
-import org.arakhne.afc.vmutil.json.JsonBuffer;
-import org.arakhne.afc.vmutil.locale.Locale;
+import javafx.scene.Scene
+import javafx.scene.layout.BorderPane
+import javafx.stage.Stage
+import org.arakhne.afc.gis.maplayer.MapElementLayer
 
 /** 
  * @author Thomas Gredin
@@ -79,12 +37,14 @@ class Application extends javafx.application.Application
 		var root = new BorderPane();
 		var scene = new Scene(root, 1024, 768);
 		
-		// Setup GISContainer and other visual components
-		// setupRoadNetworkContainer();
+		info(file);
 		
 		primaryStage.setTitle("Traffic simulation !");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		// Launch the environment
+		
 	}
 	
 	/**
@@ -99,9 +59,9 @@ class Application extends javafx.application.Application
 	 * 
 	 * @return GISContainer ready to be used
 	 */
-	def setupRoadNetworkContainer(elements: MapElementLayer): GISContainer
+	def setupRoadNetworkContainer(elements: MapElementLayer): boolean
 	{
-		
+		return true;
 	}
 	
 	/**
@@ -110,8 +70,9 @@ class Application extends javafx.application.Application
 	 * @description
 	 * Get the singleton instance of the application
 	 */
-	def getInstance(): Application
+	static def getInstance(): Application
 	{
 		return instance;
 	}
+	
 }

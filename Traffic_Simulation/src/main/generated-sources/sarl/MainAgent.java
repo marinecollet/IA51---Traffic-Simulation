@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
-import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -46,8 +45,7 @@ public class MainAgent extends FrameworkLauncher {
   protected boolean initializeSimulation(final List<Object> parameters) {
     final String grand = "asset/Belfort.shp";
     final String ville = "asset/Ville.shp";
-    MapElementLayer network = this.rd.loadShapeFile(ville);
-    Application.launch(Application.class);
+    Application.launch(Application.class, ville);
     return true;
   }
   

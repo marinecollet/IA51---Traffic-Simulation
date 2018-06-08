@@ -5,14 +5,15 @@ package environments
 
 import framework.environment.AbstractEnvironment
 import framework.environment.AgentBody
-import java.util.List
 import framework.environment.Influence
-import framework.environment.Percept
-import java.util.Collection
 import framework.environment.MotionInfluence
-import framework.time.TimeManager
+import framework.environment.Percept
 import framework.environment.SituatedObject
-import java.util.UUID
+import framework.time.TimeManager
+import java.util.Collection
+import java.util.List
+import org.arakhne.afc.gis.maplayer.MapElementLayer
+import ui.Application
 
 /** 
  * @author jerem
@@ -31,10 +32,22 @@ class Environment extends AbstractEnvironment
 	 * that will create the GISContainer to display road segments in
 	 * the window.
 	 */
-	protected def initialize(filepath: String)
+	protected def initialize(filepath: String): boolean
 	{
+		/** Load Shape file */
 		roadNetwork = new RoadNetwork();
-		roadNetwork.loadShapeFile(filepath);
+		var mapElementLayer: MapElementLayer = roadNetwork.loadShapeFile(filepath);
+		
+		/** Check if there is extracted data */
+		if(mapElementLayer === null)
+		{
+			return false;
+		}
+		
+		/** Give data to application instance */
+		Application.instance.setupRoadNetworkContainer(mapElementLayer);
+		
+		return true;
 	}
 		
 	protected def onAgentBodyCreated(body : AgentBody) 

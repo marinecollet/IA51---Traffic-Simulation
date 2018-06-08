@@ -3,11 +3,8 @@ package ui;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
-import org.arakhne.afc.gis.primitive.GISContainer;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -38,11 +35,9 @@ public class Application extends javafx.application.Application {
   }
   
   public void start(final Stage primaryStage) {
-    BorderPane root = new BorderPane();
-    Scene scene = new Scene(root, 1024, 768);
-    primaryStage.setTitle("Traffic simulation !");
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method info(Object) is undefined"
+      + "\nThe method or field file is undefined");
   }
   
   /**
@@ -57,8 +52,8 @@ public class Application extends javafx.application.Application {
    * 
    * @return GISContainer ready to be used
    */
-  public GISContainer setupRoadNetworkContainer(final MapElementLayer elements) {
-    return null;
+  public boolean setupRoadNetworkContainer(final MapElementLayer elements) {
+    return true;
   }
   
   /**
@@ -68,7 +63,7 @@ public class Application extends javafx.application.Application {
    * Get the singleton instance of the application
    */
   @Pure
-  public Application getInstance() {
+  public static Application getInstance() {
     return Application.instance;
   }
   
