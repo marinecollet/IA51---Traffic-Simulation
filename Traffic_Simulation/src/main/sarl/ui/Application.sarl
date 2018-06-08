@@ -18,6 +18,7 @@ import framework.math.Point2f
 import framework.math.Rectangle2f
 import org.arakhne.afc.gis.maplayer.TreeMapElementLayer
 import org.arakhne.afc.gis.mapelement.MapElement
+import javafx.scene.canvas.Canvas
 
 /** 
  * @author Thomas Gredin
@@ -73,6 +74,7 @@ class Application extends javafx.application.Application
 			container = layer;
 		}
 		
+				
 		/** Create scroll pane and put GISContainer inside */
 		var scrollPane = new ZoomablePane(container)
 		root.setCenter(scrollPane);
