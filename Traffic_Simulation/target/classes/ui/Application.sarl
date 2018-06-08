@@ -35,7 +35,7 @@ class Application extends javafx.application.Application
 	
 	def init()
 	{
-		// Initialisation stuff for application
+		// Initialization stuff for application
 	}
 	
 	def start(primaryStage: Stage)
@@ -43,15 +43,17 @@ class Application extends javafx.application.Application
 		var root = new BorderPane()
 		var scene = new Scene(root, 1024, 768)
 		
-		// info(file);
 		var containers = new ArrayList <MapElementLayer>
 		var rd = new RoadNetwork
+		
+		/** Load the shape file content */
 		var loadedResource = rd.loadShapeFile("asset/Ville.shp");	
 		
 		if (loadedResource != null) {
 			containers.add(loadedResource)
 		}
 		
+		/** Create the GISContainer to display Roads Segments in the window */
 		var container : GISContainer
 		if (containers.size() == 1) {
 			container = containers.get(0)
@@ -63,19 +65,19 @@ class Application extends javafx.application.Application
 				}
 			container = layer;
 		}
-
-		//var scrollPane = new GisPane(container)
 		
+		/** Create scroll pane and put GISContainer inside */
 		var scrollPane = new ZoomablePane(container)
 		root.setCenter(scrollPane);
 		
-		
+		/** Set global stage informations */
 		primaryStage.setTitle("Traffic simulation !");
 		primaryStage.setScene(scene);
+		
+		/** Show the stage in the window */
 		primaryStage.show();
 		
 		// Launch the environment
-		
 	}
 	
 	/**
