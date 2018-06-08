@@ -42,12 +42,12 @@ class RoadNetwork
 	/** Contains all elements loaded from the Shape file */
 	var mapElements: MapElementLayer<?>;
 	
-	def getSegments: ArrayList<RoadSegment>()
+	def getSegments: ArrayList<RoadSegment>
 	{
 		return segments;
 	}
 	
-	def getConnections : ArrayList<RoadConnection>()
+	def getConnections : ArrayList<RoadConnection>
 	{
 		return connections;
 	}
@@ -56,7 +56,7 @@ class RoadNetwork
 	 * Get all elements loaded in the given Shape file, Shape file 
 	 * must be loaded with the loadFromShapeFile method
 	 */
-	def getMapElements(): MapElementsLayer()
+	def getMapElement: MapElementLayer<?>
 	{
 		return mapElements;
 	}
@@ -93,100 +93,81 @@ class RoadNetwork
 	
 	def loadShapeFile(filepath : String) : MapElementLayer<?> 
 	{
-		var file: File = new File(filepath);
-		
+		var file = new File(filepath)
 		try
 		{
-			var network: StandardRoadNetwork = null;
-			var layer: MapElementLayer<MapElement> = null;
-
-			var dbfFile = FileSystem.replaceExtension(file, DBaseFileFilter.EXTENSION_DBASE_FILE);
-
-			var dbfUrl: URL;
+			var network: StandardRoadNetwork = null
+			var layer: MapElementLayer<MapElement> = null
+			var dbfFile = FileSystem.replaceExtension(file, DBaseFileFilter.EXTENSION_DBASE_FILE)
+			var dbfUrl: URL
 			if (dbfFile.canRead()) 
-			{
-				dbfUrl = dbfFile.toURI().toURL();
-			} 
+				dbfUrl = dbfFile.toURI().toURL()
 			else 
-			{
-				dbfUrl = null;
-			}
-
+				dbfUrl = null
 			try
 			{
-				var is: FileInputStream = new FileInputStream(file);
-				
-				assert is != null;
+				var is: FileInputStream = new FileInputStream(file)		
+				assert is != null
 				
 				try
 				{
-					var reader: GISShapeFileReader = new GISShapeFileReader(is, null, dbfUrl);
-					var worldRect: Rectangle2d = new Rectangle2d();
-					var esriBounds : ESRIBounds = reader.getBoundsFromHeader();
+					var reader: GISShapeFileReader = new GISShapeFileReader(is, null, dbfUrl)
+					var worldRect: Rectangle2d = new Rectangle2d()
+					var esriBounds : ESRIBounds = reader.getBoundsFromHeader()
 					
-					worldRect.setFromCorners(
-							esriBounds.getMinX(),
-							esriBounds.getMinY(),
-							esriBounds.getMaxX(),
-							esriBounds.getMaxY()
-					);
+					worldRect.setFromCorners(esriBounds.getMinX(),esriBounds.getMinY(),esriBounds.getMaxX(),esriBounds.getMaxY())
 
 					if (reader.getShapeElementType() == ShapeElementType.POLYLINE) {
-						reader.setMapElementType(RoadPolyline);
+						reader.setMapElementType(RoadPolyline)
 					}
 
-					var element: MapElement;
+					var element: MapElement
 
 					while ((element = reader.read()) != null) 
 					{
 						if (element instanceof RoadPolyline) 
 						{
 							if (network == null) 
-							{
-								network = new StandardRoadNetwork(worldRect);
-							}
-							
-							var sgmt : RoadPolyline = element as RoadPolyline;
+								network = new StandardRoadNetwork(worldRect)
+						
+							var sgmt : RoadPolyline = element as RoadPolyline
 							
 							try 
 							{
-								network.addRoadSegment(sgmt);
+								network.addRoadSegment(sgmt)
 							} 
 							catch (e : RoadNetworkException) 
 							{
-								throw new RuntimeException(e);
+								throw new RuntimeException(e)
 							}
 						} 
 						else 
 						{
 							if (layer == null) 
-							{
-								layer = new TreeMapElementLayer<>(worldRect);
-							}
+								layer = new TreeMapElementLayer<MapElement>(worldRect)
 							
 							try 
 							{
-								layer.addMapElement(element);
+								layer.addMapElement(element)
 							} 
 							catch (e: RoadNetworkException) 
 							{
-								throw new RuntimeException(e);
+								throw new RuntimeException(e)
 							}
 						}
 					}
-				}
+				}catch(exc : Exception){ println(exc.toString) }
+			} catch (ex : Exception) { println(ex.toString) }
 			
-				if(network != null) 
-				{
-					var networkLayer: RoadNetworkLayer = new RoadNetworkLayer(network);
-					return networkLayer;
-				}
-				return layer;
-		} 
-		catch (exception: IOException) 
+			if (network != null) 
+			{
+				var networkLayer: RoadNetworkLayer = new RoadNetworkLayer(network)
+				return networkLayer
+			}
+			return layer;
+		} catch (exception: IOException) 
 		{
 			throw new IOError(exception);
 		}
 	}
-	
 }
