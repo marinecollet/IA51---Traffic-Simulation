@@ -133,6 +133,7 @@ public class SimpleViewer extends Application {
 			
 			for (final File shapeFile : shapeFiles) 
 			{
+				// Load the shape file
 				final MapElementLayer loadedResource = loadShapeFile(shapeFile);
 				if (loadedResource != null) 
 				{

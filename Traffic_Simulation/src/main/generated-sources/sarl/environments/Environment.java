@@ -1,5 +1,6 @@
 package environments;
 
+import environments.RoadNetwork;
 import framework.environment.AbstractEnvironment;
 import framework.environment.AgentBody;
 import framework.environment.Influence;
@@ -12,6 +13,8 @@ import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.Collection;
 import java.util.List;
+import org.arakhne.afc.gis.maplayer.MapElementLayer;
+import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
  * @author jerem
@@ -20,28 +23,61 @@ import java.util.List;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class Environment extends AbstractEnvironment {
+  private RoadNetwork roadNetwork;
+  
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Method to initialize the environment.
+   * Here we load the given Shape file and give it to the Application
+   * that will create the GISContainer to display road segments in
+   * the window.
+   */
+  protected MapElementLayer<?> initialize(final String filepath) {
+    MapElementLayer<?> _xblockexpression = null;
+    {
+      RoadNetwork _roadNetwork = new RoadNetwork();
+      this.roadNetwork = _roadNetwork;
+      _xblockexpression = this.roadNetwork.loadShapeFile(filepath);
+    }
+    return _xblockexpression;
+  }
+  
   protected void onAgentBodyCreated(final AgentBody body) {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
   protected void onAgentBodyDestroyed(final AgentBody body) {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
   protected List<Influence> computeEndogenousBehaviorInfluences() {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
+    return null;
   }
   
   protected List<Percept> computePerceptionsFor(final AgentBody agent) {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
+    return null;
   }
   
   protected void applyInfluences(final Collection<MotionInfluence> motionInfluences, final Collection<Influence> otherInfluences, final TimeManager timeManager) {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
   public Iterable<? extends SituatedObject> getAllObjects() {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
+    return null;
+  }
+  
+  @Override
+  @Pure
+  @SyntheticMember
+  public boolean equals(final Object obj) {
+    return super.equals(obj);
+  }
+  
+  @Override
+  @Pure
+  @SyntheticMember
+  public int hashCode() {
+    int result = super.hashCode();
+    return result;
   }
   
   /**

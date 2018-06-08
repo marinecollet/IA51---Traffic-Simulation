@@ -40,7 +40,7 @@ agent MainAgent extends FrameworkLauncher
 		var network: MapElementLayer = rd.loadShapeFile(ville);
 		
 		// Launch application
-		Application.launch();
+		Application.launch(Application);
 		
 		return true;
 	}

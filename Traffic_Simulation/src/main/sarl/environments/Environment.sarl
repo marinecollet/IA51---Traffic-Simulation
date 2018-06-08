@@ -18,30 +18,57 @@ import java.util.UUID
  * @author jerem
  * 
  */
-class Environment extends AbstractEnvironment{
+class Environment extends AbstractEnvironment
+{
+	var roadNetwork: RoadNetwork;
 	
-	protected def onAgentBodyCreated(body : AgentBody) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Method to initialize the environment.
+	 * Here we load the given Shape file and give it to the Application
+	 * that will create the GISContainer to display road segments in
+	 * the window.
+	 */
+	protected def initialize(filepath: String)
+	{
+		roadNetwork = new RoadNetwork();
+		roadNetwork.loadShapeFile(filepath);
+	}
+		
+	protected def onAgentBodyCreated(body : AgentBody) 
+	{
+		
 	}
 	
-	protected def onAgentBodyDestroyed(body : AgentBody) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	protected def onAgentBodyDestroyed(body : AgentBody) 
+	{
+		
 	}
 	
-	protected def computeEndogenousBehaviorInfluences : List<Influence> {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	protected def computeEndogenousBehaviorInfluences : List<Influence> 
+	{
+		
 	}
 	
-	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> 
+	{
+		
 	}
 	
-	protected def applyInfluences(motionInfluences : Collection<MotionInfluence>, otherInfluences : Collection<Influence>, timeManager : TimeManager) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	protected def applyInfluences(
+		motionInfluences : Collection<MotionInfluence>, 
+		otherInfluences : Collection<Influence>, 
+		timeManager : TimeManager
+	) 
+	{
+		
 	}
 	
-	def getAllObjects : Iterable<? extends SituatedObject> {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	def getAllObjects : Iterable<? extends SituatedObject> 
+	{
+		
 	}
 
 	/*def createBody(type : String) {

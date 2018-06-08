@@ -47,7 +47,7 @@ public class MainAgent extends FrameworkLauncher {
     final String grand = "asset/Belfort.shp";
     final String ville = "asset/Ville.shp";
     MapElementLayer network = this.rd.loadShapeFile(ville);
-    Application.launch();
+    Application.launch(Application.class);
     return true;
   }
   
