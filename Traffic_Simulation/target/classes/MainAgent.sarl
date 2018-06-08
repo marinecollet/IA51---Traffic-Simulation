@@ -10,6 +10,9 @@ import io.sarl.core.Logging
 import java.util.List
 import org.arakhne.afc.gis.maplayer.MapElementLayer
 import ui.Application
+import agents.CarGPSAgent
+import agents.CarMapAgent
+import environments.Environment
 
 /**
  * @description
@@ -46,12 +49,26 @@ agent MainAgent extends FrameworkLauncher
 	{
 		val grand = "asset/Belfort.shp";
 		val ville = "asset/Ville.shp";
-		
+
+		var environment = new Environment(WORLD_SIZE_X, WORLD_SIZE_Y,)
+
+		var params = newArrayList
+		params += parameters
 		// Launch application
-		//application = new Application
+		application = new Application
 		//application.launch(Application, ville)
 		Application.launch(Application, ville);
 		
+		return initializeSimulation(environment, type, application, params) [
+		var agentType = it.type
+				if ("LEADER" == agentType) {
+					return typeof(CarGPSAgent)
+				}
+				if ("FOLLOWER" == agentType) {
+					return typeof(CarMapAgent)
+				}
+				throw new IllegalArgumentException		
+		]
 		return true;
 	}
 	

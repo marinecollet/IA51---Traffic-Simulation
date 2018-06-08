@@ -12,10 +12,12 @@ import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -51,11 +53,14 @@ public class MainAgent extends FrameworkLauncher {
   
   @Override
   protected boolean initializeSimulation(final List<Object> parameters) {
-    final String grand = "asset/Belfort.shp";
-    final String ville = "asset/Ville.shp";
-    Application.launch(Application.class, ville);
-    return true;
+    throw new Error("Unresolved compilation problems:"
+      + "\nno viable alternative at input \')\'"
+      + "\nmismatched input \',\' expecting \'}\'"
+      + "\nInvalid number of arguments. The constructor Environment(float, float, TimeManager) is not applicable without arguments"
+      + "\nType mismatch: cannot convert from float to boolean");
   }
+  
+  private ArrayList<Object> params = CollectionLiterals.<Object>newArrayList();
   
   @Extension
   @ImportedCapacityFeature(Lifecycle.class)
@@ -99,29 +104,17 @@ public class MainAgent extends FrameworkLauncher {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    MainAgent other = (MainAgent) obj;
-    if (Float.floatToIntBits(other.WORLD_SIZE_X) != Float.floatToIntBits(this.WORLD_SIZE_X))
-      return false;
-    if (Float.floatToIntBits(other.WORLD_SIZE_Y) != Float.floatToIntBits(this.WORLD_SIZE_Y))
-      return false;
-    return super.equals(obj);
+    throw new Error("Unresolved compilation problems:"
+      + "\nmismatched input \'params\' expecting \'}\'"
+      + "\nmismatched input \'params\' expecting \'}\'");
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + Float.floatToIntBits(this.WORLD_SIZE_X);
-    result = prime * result + Float.floatToIntBits(this.WORLD_SIZE_Y);
-    return result;
+    throw new Error("Unresolved compilation problems:"
+      + "\nmismatched input \'params\' expecting \'}\'");
   }
   
   @SyntheticMember
