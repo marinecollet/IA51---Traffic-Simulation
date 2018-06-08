@@ -13,6 +13,7 @@ import ui.Application
 import agents.CarGPSAgent
 import agents.CarMapAgent
 import environments.Environment
+import framework.gui.BehaviorTypeSelector
 
 /**
  * @description
@@ -50,8 +51,8 @@ agent MainAgent extends FrameworkLauncher
 		val grand = "asset/Belfort.shp";
 		val ville = "asset/Ville.shp";
 
-
-		var environment = new Environment(WORLD_SIZE_X, WORLD_SIZE_Y,)
+		var type = BehaviorTypeSelector.open
+		var environment = new Environment(WORLD_SIZE_X, WORLD_SIZE_Y)
 
 		var params = newArrayList
 		params += parameters
@@ -61,7 +62,7 @@ agent MainAgent extends FrameworkLauncher
 
 		Application.launch(Application, ville);
 		
-		return initializeSimulation(environment, type, application, params) [
+		/*return initializeSimulation(environment, type, application, params) [
 		var agentType = it.type
 				if ("LEADER" == agentType) {
 					return typeof(CarGPSAgent)
@@ -70,7 +71,7 @@ agent MainAgent extends FrameworkLauncher
 					return typeof(CarMapAgent)
 				}
 				throw new IllegalArgumentException		
-		]
+		]*/
 		return true;
 	}
 	

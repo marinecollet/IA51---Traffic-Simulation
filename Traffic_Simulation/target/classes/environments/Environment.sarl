@@ -14,6 +14,7 @@ import java.util.Collection
 import java.util.List
 import org.arakhne.afc.gis.maplayer.MapElementLayer
 import ui.Application
+import framework.time.StepTimeManager
 
 /** 
  * @author jerem
@@ -21,7 +22,11 @@ import ui.Application
  */
 class Environment extends AbstractEnvironment
 {
-	var roadNetwork: RoadNetwork;
+	var roadNetwork : RoadNetwork;
+
+	new (width : float, height : float) {
+		super(width, height, new StepTimeManager(500))
+	}
 	
 	/**
 	 * @author Thomas Gredin

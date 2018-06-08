@@ -7,6 +7,7 @@ import framework.environment.Influence;
 import framework.environment.MotionInfluence;
 import framework.environment.Percept;
 import framework.environment.SituatedObject;
+import framework.time.StepTimeManager;
 import framework.time.TimeManager;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
@@ -25,6 +26,10 @@ import ui.Application;
 @SuppressWarnings("all")
 public class Environment extends AbstractEnvironment {
   private RoadNetwork roadNetwork;
+  
+  public Environment(final float width, final float height) {
+    super(width, height, new StepTimeManager(500));
+  }
   
   /**
    * @author Thomas Gredin
@@ -80,15 +85,5 @@ public class Environment extends AbstractEnvironment {
   public int hashCode() {
     int result = super.hashCode();
     return result;
-  }
-  
-  /**
-   * @param width is the width of the environment.
-   * @param height is the height of the environment.
-   * @param timeManager is the time manager to use.
-   */
-  @SyntheticMember
-  public Environment(final float width, final float height, final TimeManager timeManager) {
-    super(width, height, timeManager);
   }
 }

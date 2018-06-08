@@ -1,5 +1,9 @@
+import com.google.common.collect.Iterables;
+import environments.Environment;
 import environments.RoadNetwork;
 import framework.FrameworkLauncher;
+import framework.environment.DynamicType;
+import framework.gui.BehaviorTypeSelector;
 import io.sarl.core.Initialize;
 import io.sarl.core.Lifecycle;
 import io.sarl.core.Logging;
@@ -53,14 +57,17 @@ public class MainAgent extends FrameworkLauncher {
   
   @Override
   protected boolean initializeSimulation(final List<Object> parameters) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nno viable alternative at input \')\'"
-      + "\nmismatched input \',\' expecting \'}\'"
-      + "\nInvalid number of arguments. The constructor Environment(float, float, TimeManager) is not applicable without arguments"
-      + "\nType mismatch: cannot convert from float to boolean");
+    final String grand = "asset/Belfort.shp";
+    final String ville = "asset/Ville.shp";
+    DynamicType type = BehaviorTypeSelector.open();
+    Environment environment = new Environment(this.WORLD_SIZE_X, this.WORLD_SIZE_Y);
+    ArrayList<Object> params = CollectionLiterals.<Object>newArrayList();
+    Iterables.<Object>addAll(params, parameters);
+    Application _application = new Application();
+    this.application = _application;
+    Application.launch(Application.class, ville);
+    return true;
   }
-  
-  private ArrayList<Object> params = CollectionLiterals.<Object>newArrayList();
   
   @Extension
   @ImportedCapacityFeature(Lifecycle.class)
@@ -104,17 +111,29 @@ public class MainAgent extends FrameworkLauncher {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nmismatched input \'params\' expecting \'}\'"
-      + "\nmismatched input \'params\' expecting \'}\'");
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    MainAgent other = (MainAgent) obj;
+    if (Float.floatToIntBits(other.WORLD_SIZE_X) != Float.floatToIntBits(this.WORLD_SIZE_X))
+      return false;
+    if (Float.floatToIntBits(other.WORLD_SIZE_Y) != Float.floatToIntBits(this.WORLD_SIZE_Y))
+      return false;
+    return super.equals(obj);
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nmismatched input \'params\' expecting \'}\'");
+    int result = super.hashCode();
+    final int prime = 31;
+    result = prime * result + Float.floatToIntBits(this.WORLD_SIZE_X);
+    result = prime * result + Float.floatToIntBits(this.WORLD_SIZE_Y);
+    return result;
   }
   
   @SyntheticMember
