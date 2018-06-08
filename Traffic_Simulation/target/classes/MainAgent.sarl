@@ -22,10 +22,20 @@ agent MainAgent extends FrameworkLauncher
 	uses Lifecycle
 	uses Logging
 	
+	//pour tester
 	var rd = new RoadNetwork
 
+
+	/*
+	 * Size of the screen
+	 */
 	val WORLD_SIZE_X = 1280f
 	val WORLD_SIZE_Y = 640f
+	
+	/*
+	 * Application JavaFX
+	 */
+	var application : Application
 	
 	on Initialize 
 	{
@@ -38,6 +48,8 @@ agent MainAgent extends FrameworkLauncher
 		val ville = "asset/Ville.shp";
 		
 		// Launch application
+		//application = new Application
+		//application.launch(Application, ville)
 		Application.launch(Application, ville);
 		
 		return true;

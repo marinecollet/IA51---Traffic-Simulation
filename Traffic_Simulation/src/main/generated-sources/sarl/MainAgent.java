@@ -33,9 +33,17 @@ import ui.Application;
 public class MainAgent extends FrameworkLauncher {
   private RoadNetwork rd = new RoadNetwork();
   
+  /**
+   * Size of the screen
+   */
   private final float WORLD_SIZE_X = 1280f;
   
   private final float WORLD_SIZE_Y = 640f;
+  
+  /**
+   * Application JavaFX
+   */
+  private Application application;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {

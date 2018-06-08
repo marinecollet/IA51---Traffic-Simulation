@@ -1,10 +1,18 @@
 package ui;
 
+import com.google.common.base.Objects;
+import environments.RoadNetwork;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import java.util.ArrayList;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
+import org.arakhne.afc.gis.maplayer.MultiMapLayer;
+import org.arakhne.afc.gis.primitive.GISContainer;
+import org.arakhne.afc.nodefx.ZoomablePane;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -35,9 +43,32 @@ public class Application extends javafx.application.Application {
   }
   
   public void start(final Stage primaryStage) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method info(Object) is undefined"
-      + "\nThe method or field file is undefined");
+    BorderPane root = new BorderPane();
+    Scene scene = new Scene(root, 1024, 768);
+    ArrayList<MapElementLayer> containers = new ArrayList<MapElementLayer>();
+    RoadNetwork rd = new RoadNetwork();
+    MapElementLayer<?> loadedResource = rd.loadShapeFile("asset/Ville.shp");
+    boolean _notEquals = (!Objects.equal(loadedResource, null));
+    if (_notEquals) {
+      containers.add(loadedResource);
+    }
+    GISContainer container = null;
+    int _size = containers.size();
+    boolean _equals = (_size == 1);
+    if (_equals) {
+      container = containers.get(0);
+    } else {
+      MultiMapLayer<MapElementLayer> layer = new MultiMapLayer<MapElementLayer>();
+      for (final MapElementLayer child : containers) {
+        layer.addMapLayer(child);
+      }
+      container = layer;
+    }
+    ZoomablePane<GISContainer> scrollPane = new ZoomablePane<GISContainer>(container);
+    root.setCenter(scrollPane);
+    primaryStage.setTitle("Traffic simulation !");
+    primaryStage.setScene(scene);
+    primaryStage.show();
   }
   
   /**

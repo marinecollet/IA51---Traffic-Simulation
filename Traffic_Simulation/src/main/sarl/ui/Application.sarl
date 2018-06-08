@@ -7,6 +7,12 @@ import javafx.scene.Scene
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
 import org.arakhne.afc.gis.maplayer.MapElementLayer
+import environments.RoadNetwork
+import java.util.ArrayList
+import org.arakhne.afc.gis.primitive.GISContainer
+import org.arakhne.afc.gis.maplayer.MultiMapLayer
+import org.arakhne.afc.gis.ui.GisPane
+import org.arakhne.afc.nodefx.ZoomablePane
 
 /** 
  * @author Thomas Gredin
@@ -22,7 +28,7 @@ class Application extends javafx.application.Application
 	/** Create a singleton mimic to access instance outside */
 	static var instance: Application;
 	
-	def new()
+	new()
 	{
 		instance = this;
 	}
@@ -34,10 +40,35 @@ class Application extends javafx.application.Application
 	
 	def start(primaryStage: Stage)
 	{
-		var root = new BorderPane();
-		var scene = new Scene(root, 1024, 768);
+		var root = new BorderPane()
+		var scene = new Scene(root, 1024, 768)
 		
-		info(file);
+		// info(file);
+		var containers = new ArrayList <MapElementLayer>
+		var rd = new RoadNetwork
+		var loadedResource = rd.loadShapeFile("asset/Ville.shp");	
+		
+		if (loadedResource != null) {
+			containers.add(loadedResource)
+		}
+		
+		var container : GISContainer
+		if (containers.size() == 1) {
+			container = containers.get(0)
+		} else {
+			var layer = new MultiMapLayer
+				for (child : containers)
+				{
+					layer.addMapLayer(child);
+				}
+			container = layer;
+		}
+
+		//var scrollPane = new GisPane(container)
+		
+		var scrollPane = new ZoomablePane(container)
+		root.setCenter(scrollPane);
+		
 		
 		primaryStage.setTitle("Traffic simulation !");
 		primaryStage.setScene(scene);
