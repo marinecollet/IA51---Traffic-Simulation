@@ -2,18 +2,21 @@
  * 
  */
 
-import io.sarl.core.Initialize
-import framework.environment.EnvironmentAgent
-import io.sarl.core.Lifecycle
-import environments.*
-import gamestates.*
-import logic.Map
-import io.sarl.core.Logging
-import org.arakhne.afc.gis.mapelement.MapElement
-import org.arakhne.afc.math.geometry.d2.d.Shape2d
+import environments.RoadNetwork
 import framework.FrameworkLauncher
+import io.sarl.core.Initialize
+import io.sarl.core.Lifecycle
+import io.sarl.core.Logging
 import java.util.List
+import org.arakhne.afc.gis.maplayer.MapElementLayer
+import ui.Application
 
+/**
+ * @description
+ * Agent MainAgent.
+ * 
+ * This agent is used to setup and launch the application.
+ */
 agent MainAgent extends FrameworkLauncher 
 {	
 	uses Lifecycle
@@ -34,10 +37,10 @@ agent MainAgent extends FrameworkLauncher
 		val grand = "asset/Belfort.shp";
 		val ville = "asset/Ville.shp";
 		
-		rd.loadShapeFile(ville);
+		var network: MapElementLayer = rd.loadShapeFile(ville);
 		
 		// Launch application
-		ui.Application.launch();
+		Application.launch();
 		
 		return true;
 	}

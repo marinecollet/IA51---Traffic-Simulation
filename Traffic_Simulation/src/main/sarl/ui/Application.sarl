@@ -61,6 +61,14 @@ class Application extends javafx.application.Application
 	/** Variable to handle dragging events */
 	var dragging: boolean;
 	
+	/** Create a singleton mimic to access instance outside */
+	static var instance: Application;
+	
+	def new()
+	{
+		instance = this;
+	}
+	
 	def init()
 	{
 		// Initialisation stuff for application
@@ -72,7 +80,7 @@ class Application extends javafx.application.Application
 		var scene = new Scene(root, 1024, 768);
 		
 		// Setup GISContainer and other visual components
-		setupRoadNetworkContainer();
+		// setupRoadNetworkContainer();
 		
 		primaryStage.setTitle("Traffic simulation !");
 		primaryStage.setScene(scene);
@@ -91,18 +99,19 @@ class Application extends javafx.application.Application
 	 * 
 	 * @return GISContainer ready to be used
 	 */
-	def setupRoadNetworkContainer(): GISContainer
+	def setupRoadNetworkContainer(elements: MapElementLayer): GISContainer
 	{
 		
 	}
 	
-	static def launch()
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Get the singleton instance of the application
+	 */
+	def getInstance(): Application
 	{
-		// Load Shape file
-		
-		// Setup JavaFX stage
-		
-		// Launch application
-		Application.launch(Application);
+		return instance;
 	}
 }

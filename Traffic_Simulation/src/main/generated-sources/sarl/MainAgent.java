@@ -16,11 +16,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
+import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.Application;
 
+/**
+ * @description
+ * Agent MainAgent.
+ * 
+ * This agent is used to setup and launch the application.
+ */
 @SarlSpecification("0.7")
 @SarlElementType(18)
 @SuppressWarnings("all")
@@ -39,7 +46,7 @@ public class MainAgent extends FrameworkLauncher {
   protected boolean initializeSimulation(final List<Object> parameters) {
     final String grand = "asset/Belfort.shp";
     final String ville = "asset/Ville.shp";
-    this.rd.loadShapeFile(ville);
+    MapElementLayer network = this.rd.loadShapeFile(ville);
     Application.launch();
     return true;
   }

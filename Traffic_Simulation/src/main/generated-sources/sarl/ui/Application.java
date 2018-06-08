@@ -6,6 +6,7 @@ import io.sarl.lang.annotation.SyntheticMember;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.arakhne.afc.gis.primitive.GISContainer;
 import org.eclipse.xtext.xbase.lib.Pure;
 
@@ -24,13 +25,21 @@ public class Application extends javafx.application.Application {
    */
   private boolean dragging;
   
+  /**
+   * Create a singleton mimic to access instance outside
+   */
+  private static Application instance;
+  
+  public Application() {
+    Application.instance = this;
+  }
+  
   public void init() {
   }
   
   public void start(final Stage primaryStage) {
     BorderPane root = new BorderPane();
     Scene scene = new Scene(root, 1024, 768);
-    this.setupRoadNetworkContainer();
     primaryStage.setTitle("Traffic simulation !");
     primaryStage.setScene(scene);
     primaryStage.show();
@@ -48,13 +57,19 @@ public class Application extends javafx.application.Application {
    * 
    * @return GISContainer ready to be used
    */
-  public GISContainer setupRoadNetworkContainer() {
+  public GISContainer setupRoadNetworkContainer(final MapElementLayer elements) {
     return null;
   }
   
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Get the singleton instance of the application
+   */
   @Pure
-  public static void launch() {
-    Application.launch(Application.class);
+  public Application getInstance() {
+    return Application.instance;
   }
   
   @Override
@@ -81,10 +96,5 @@ public class Application extends javafx.application.Application {
     final int prime = 31;
     result = prime * result + (this.dragging ? 1231 : 1237);
     return result;
-  }
-  
-  @SyntheticMember
-  public Application() {
-    super();
   }
 }
