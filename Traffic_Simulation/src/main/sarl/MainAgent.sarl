@@ -47,9 +47,6 @@ agent MainAgent extends FrameworkLauncher
 		val grand = "asset/Belfort.shp";
 		val ville = "asset/Ville.shp";
 		
-		// Launch application
-		//application = new Application
-		//application.launch(Application, ville)
 		Application.launch(Application, ville);
 		
 		return true;
