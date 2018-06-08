@@ -156,8 +156,16 @@ class RoadNetwork
 							}
 						}
 					}
-				}catch(exc : Exception){ println(exc.toString) }
-			} catch (ex : Exception) { println(ex.toString) }
+				}
+				catch(exc : Exception)
+				{ 
+					println(exc.toString);
+				}
+			} 
+			catch (ex : Exception) 
+			{ 
+				println(ex.toString);
+			}
 			
 			if (network != null) 
 			{

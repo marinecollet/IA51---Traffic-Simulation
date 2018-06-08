@@ -6,6 +6,7 @@ import io.sarl.lang.annotation.SyntheticMember;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.arakhne.afc.gis.primitive.GISContainer;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -29,9 +30,26 @@ public class Application extends javafx.application.Application {
   public void start(final Stage primaryStage) {
     BorderPane root = new BorderPane();
     Scene scene = new Scene(root, 1024, 768);
+    this.setupRoadNetworkContainer();
     primaryStage.setTitle("Traffic simulation !");
     primaryStage.setScene(scene);
     primaryStage.show();
+  }
+  
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * setupRoadNetwork
+   * 
+   * Function that create GISContainer.
+   * This container handle the display of the map which is extracted from
+   * the loaded Shape file.
+   * 
+   * @return GISContainer ready to be used
+   */
+  public GISContainer setupRoadNetworkContainer() {
+    return null;
   }
   
   @Pure

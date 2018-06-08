@@ -71,9 +71,29 @@ class Application extends javafx.application.Application
 		var root = new BorderPane();
 		var scene = new Scene(root, 1024, 768);
 		
+		// Setup GISContainer and other visual components
+		setupRoadNetworkContainer();
+		
 		primaryStage.setTitle("Traffic simulation !");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * setupRoadNetwork
+	 * 
+	 * Function that create GISContainer.
+	 * This container handle the display of the map which is extracted from
+	 * the loaded Shape file.
+	 * 
+	 * @return GISContainer ready to be used
+	 */
+	def setupRoadNetworkContainer(): GISContainer
+	{
+		
 	}
 	
 	static def launch()

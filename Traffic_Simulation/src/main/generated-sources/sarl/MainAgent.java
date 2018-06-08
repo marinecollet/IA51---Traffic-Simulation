@@ -39,6 +39,7 @@ public class MainAgent extends FrameworkLauncher {
   protected boolean initializeSimulation(final List<Object> parameters) {
     final String grand = "asset/Belfort.shp";
     final String ville = "asset/Ville.shp";
+    this.rd.loadShapeFile(ville);
     Application.launch();
     return true;
   }
