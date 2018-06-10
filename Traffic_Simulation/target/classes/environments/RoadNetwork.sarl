@@ -134,7 +134,16 @@ class RoadNetwork
 							
 							try 
 							{
+								//var car = new Car(new Point2f(sgmt.points.get(1).x - 10, sgmt.points.get(1).y-10),0,0,0,0)
+								//println(sgmt)
+								//sgmt.addAttributes(car.element)
+								/*println("go")
+								for(el : sgmt.attributes)
+									println(el)
+								*/
+								//sgmt.addPoint(sgmt.points.get(1).x - 10, sgmt.points.get(1).y-10)
 								network.addRoadSegment(sgmt)
+								
 							} 
 							catch (e : RoadNetworkException) 
 							{

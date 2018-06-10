@@ -6,6 +6,9 @@ package environments
 import java.util.UUID
 import framework.math.Rectangle2f
 import framework.math.Point2f
+import org.arakhne.afc.gis.mapelement.MapElement
+import org.arakhne.afc.gis.mapelement.MapPoint
+import org.arakhne.afc.gis.mapelement.MapCircle
 
 /** 
  * @author jerem
@@ -16,7 +19,7 @@ class Car extends Vehicle{
 	//var rectangle : Rectangle2f;
 	var position : Point2f
 	
-	
+	var element : MapCircle
 	
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
 		maxAngularAcceleration : float) {
@@ -25,7 +28,8 @@ class Car extends Vehicle{
 
 		//rectangle = new Rectangle2f(new Point2f(position.x, position.y - 0.5),
 			//new Point2f(position.x, position.y + 0.5))
-		
+		element = new MapCircle(position.x, position.y,100)
+		println(element.shape)
 	}
 
 	override moveVehicle(newPos : Point2f)
@@ -38,4 +42,7 @@ class Car extends Vehicle{
 		return position
 	}
 	
+	def getElement:MapCircle{
+		return element
+	}
 }

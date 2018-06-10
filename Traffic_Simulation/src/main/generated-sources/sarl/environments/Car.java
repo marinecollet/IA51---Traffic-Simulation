@@ -5,6 +5,9 @@ import framework.math.Point2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import org.arakhne.afc.gis.mapelement.MapCircle;
+import org.arakhne.afc.math.geometry.d2.d.Shape2d;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -16,9 +19,16 @@ import org.eclipse.xtext.xbase.lib.Pure;
 public class Car extends Vehicle {
   private Point2f position;
   
+  private MapCircle element;
+  
   public Car(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration) {
     super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration);
     this.position = point;
+    float _x = this.position.getX();
+    float _y = this.position.getY();
+    MapCircle _mapCircle = new MapCircle(_x, _y, 100);
+    this.element = _mapCircle;
+    InputOutput.<Shape2d<?>>println(this.element.getShape());
   }
   
   @Override
@@ -28,6 +38,11 @@ public class Car extends Vehicle {
   
   public Point2f getPosition() {
     return this.position;
+  }
+  
+  @Pure
+  public MapCircle getElement() {
+    return this.element;
   }
   
   @Override
@@ -57,5 +72,5 @@ public class Car extends Vehicle {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 2920673959L;
+  private final static long serialVersionUID = 3948015698L;
 }

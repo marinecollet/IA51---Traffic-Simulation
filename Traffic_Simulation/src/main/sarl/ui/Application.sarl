@@ -11,14 +11,9 @@ import environments.RoadNetwork
 import java.util.ArrayList
 import org.arakhne.afc.gis.primitive.GISContainer
 import org.arakhne.afc.gis.maplayer.MultiMapLayer
-import org.arakhne.afc.gis.ui.GisPane
 import org.arakhne.afc.nodefx.ZoomablePane
-import javafx.scene.shape.Rectangle
-import framework.math.Point2f
-import framework.math.Rectangle2f
-import org.arakhne.afc.gis.maplayer.TreeMapElementLayer
-import org.arakhne.afc.gis.mapelement.MapElement
-import javafx.scene.canvas.Canvas
+import org.arakhne.afc.gis.mapelement.MapCircle
+import org.arakhne.afc.gis.maplayer.ArrayMapElementLayer
 
 /** 
  * @author Thomas Gredin
@@ -55,9 +50,22 @@ class Application extends javafx.application.Application
 		/** Load the shape file content */
 		var loadedResource = rd.loadShapeFile("asset/Ville.shp");	
 		
+		
+		var circle = new MapCircle(940052, 2302886, 10)
+		//var circle = new MapCircle(0, 0, 1000)
+		
+		circle.color = 2
+		
+		var lay = new ArrayMapElementLayer<MapCircle>
+		lay.addMapElement(circle)
+		containers.add(lay)
+
 		if (loadedResource != null) {
 			containers.add(loadedResource)
 		}
+		// var carLayer : MapElementLayer
+		//layer.addMapLayer()
+			
 		
 		/** Create the GISContainer to display Roads Segments in the window */
 		var container : GISContainer
@@ -71,10 +79,10 @@ class Application extends javafx.application.Application
 				{
 					layer.addMapLayer(child);
 				}
+				
 			container = layer;
 		}
-		
-				
+						
 		/** Create scroll pane and put GISContainer inside */
 		var scrollPane = new ZoomablePane(container)
 		root.setCenter(scrollPane);

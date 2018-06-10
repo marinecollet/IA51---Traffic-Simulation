@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.arakhne.afc.gis.mapelement.MapCircle;
+import org.arakhne.afc.gis.maplayer.ArrayMapElementLayer;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.arakhne.afc.gis.maplayer.MapLayer;
 import org.arakhne.afc.gis.maplayer.MultiMapLayer;
@@ -49,6 +51,11 @@ public class Application extends javafx.application.Application {
     ArrayList<MapElementLayer> containers = new ArrayList<MapElementLayer>();
     RoadNetwork rd = new RoadNetwork();
     MapElementLayer<?> loadedResource = rd.loadShapeFile("asset/Ville.shp");
+    MapCircle circle = new MapCircle(940052, 2302886, 10);
+    circle.setColor(2);
+    ArrayMapElementLayer<MapCircle> lay = new ArrayMapElementLayer<MapCircle>();
+    lay.addMapElement(circle);
+    containers.add(lay);
     boolean _notEquals = (!Objects.equal(loadedResource, null));
     if (_notEquals) {
       containers.add(loadedResource);
