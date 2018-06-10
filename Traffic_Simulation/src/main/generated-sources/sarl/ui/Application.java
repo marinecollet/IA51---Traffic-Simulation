@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.arakhne.afc.gis.mapelement.MapCircle;
+import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.arakhne.afc.gis.maplayer.ArrayMapElementLayer;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.arakhne.afc.gis.maplayer.MapLayer;
@@ -38,28 +39,35 @@ public class Application extends javafx.application.Application {
    */
   private static Application instance;
   
+  private MapElementLayer<?> roadNetworkLayer;
+  
   public Application() {
     Application.instance = this;
   }
   
   public void init() {
+    RoadNetwork rd = new RoadNetwork();
+    this.roadNetworkLayer = rd.loadShapeFile("asset/Ville.shp");
   }
   
   public void start(final Stage primaryStage) {
     BorderPane root = new BorderPane();
     Scene scene = new Scene(root, 1024, 768);
     ArrayList<MapElementLayer> containers = new ArrayList<MapElementLayer>();
-    RoadNetwork rd = new RoadNetwork();
-    MapElementLayer<?> loadedResource = rd.loadShapeFile("asset/Ville.shp");
-    MapCircle circle = new MapCircle(940052, 2302886, 10);
-    circle.setColor(2);
-    ArrayMapElementLayer<MapCircle> lay = new ArrayMapElementLayer<MapCircle>();
-    lay.addMapElement(circle);
-    containers.add(lay);
-    boolean _notEquals = (!Objects.equal(loadedResource, null));
+    boolean _notEquals = (!Objects.equal(this.roadNetworkLayer, null));
     if (_notEquals) {
-      containers.add(loadedResource);
+      containers.add(this.roadNetworkLayer);
     }
+    MapCircle circle = new MapCircle(940052, 2302886, 4);
+    circle.setColor(255);
+    MapPolygon polygon = new MapPolygon();
+    polygon.addPoint(940052, 2302886);
+    polygon.addPoint((940052 - 20), 2302886);
+    polygon.addPoint((940052 - 20), (2302886 - 20));
+    polygon.addPoint(940052, (2302886 - 20));
+    ArrayMapElementLayer<MapPolygon> lay = new ArrayMapElementLayer<MapPolygon>();
+    lay.addMapElement(polygon);
+    containers.add(lay);
     GISContainer container = null;
     MultiMapLayer layer = null;
     int _size = containers.size();
