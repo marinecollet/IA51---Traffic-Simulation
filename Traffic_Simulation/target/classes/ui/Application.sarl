@@ -69,14 +69,17 @@ class Application extends javafx.application.Application
 		var container : GISContainer;
 		var layer : MultiMapLayer;
 		
-		if (containers.size() == 1) {
+		if (containers.size() == 1) 
+		{
 			container = containers.get(0);
-		} else {
+		} 
+		else 
+		{
 			layer = new MultiMapLayer;
-				for (child : containers)
-				{
-					layer.addMapLayer(child);
-				}
+			for (child : containers)
+			{
+				layer.addMapLayer(child);
+			}
 				
 			container = layer;
 		}
