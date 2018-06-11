@@ -93,22 +93,6 @@ public class Application extends javafx.application.Application {
    * @author Thomas Gredin
    * 
    * @description
-   * setupRoadNetwork
-   * 
-   * Function that create GISContainer.
-   * This container handle the display of the map which is extracted from
-   * the loaded Shape file.
-   * 
-   * @return GISContainer ready to be used
-   */
-  public boolean setupRoadNetworkContainer(final MapElementLayer elements) {
-    return true;
-  }
-  
-  /**
-   * @author Thomas Gredin
-   * 
-   * @description
    * Get the singleton instance of the application
    */
   @Pure
