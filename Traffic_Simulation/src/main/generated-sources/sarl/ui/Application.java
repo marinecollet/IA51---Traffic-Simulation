@@ -106,6 +106,16 @@ public class Application extends javafx.application.Application {
    * @author Thomas Gredin
    * 
    * @description
+   * Remove given map element from the map elements layer.
+   */
+  public boolean removeMapElement(final MapElement element) {
+    return this.mapElementsLayer.removeMapElement(element);
+  }
+  
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
    * Get the singleton instance of the application
    */
   @Pure

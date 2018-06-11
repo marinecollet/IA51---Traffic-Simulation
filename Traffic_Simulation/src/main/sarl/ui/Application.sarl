@@ -125,6 +125,17 @@ class Application extends javafx.application.Application
 	 * @author Thomas Gredin
 	 * 
 	 * @description
+	 * Remove given map element from the map elements layer.
+	 */
+	def removeMapElement(element: MapElement)
+	{
+		mapElementsLayer.removeMapElement(element);
+	}
+	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
 	 * Get the singleton instance of the application
 	 */
 	static def getInstance(): Application
