@@ -5,7 +5,7 @@ import framework.math.Point2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import org.arakhne.afc.gis.mapelement.MapCircle;
+import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.Application;
 
@@ -24,16 +24,34 @@ public class Car extends Vehicle {
   /**
    * The representation of the car (here a circle)
    */
-  private MapCircle element;
+  private MapPolygon element;
   
   public Car(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration) {
     super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration);
     this.position = point;
+    MapPolygon _mapPolygon = new MapPolygon();
+    this.element = _mapPolygon;
     float _x = this.position.getX();
+    float _minus = (_x - 10);
     float _y = this.position.getY();
-    MapCircle _mapCircle = new MapCircle(_x, _y, 100);
-    this.element = _mapCircle;
-    Application.getInstance().addMapElement(this.element);
+    float _plus = (_y + 20);
+    this.element.addPoint(_minus, _plus);
+    float _x_1 = this.position.getX();
+    float _minus_1 = (_x_1 - 10);
+    float _y_1 = this.position.getY();
+    float _minus_2 = (_y_1 - 20);
+    this.element.addPoint(_minus_1, _minus_2);
+    float _x_2 = this.position.getX();
+    float _plus_1 = (_x_2 + 10);
+    float _y_2 = this.position.getY();
+    float _minus_3 = (_y_2 - 20);
+    this.element.addPoint(_plus_1, _minus_3);
+    float _x_3 = this.position.getX();
+    float _plus_2 = (_x_3 + 10);
+    float _y_3 = this.position.getY();
+    float _plus_3 = (_y_3 + 20);
+    this.element.addPoint(_plus_2, _plus_3);
+    Application.getInstance().addAgentBodyInLayer(this.element);
   }
   
   /**
@@ -43,7 +61,7 @@ public class Car extends Vehicle {
    * Do cleaning stuff, must be called before destroying
    */
   public boolean cleanUp() {
-    return Application.getInstance().removeMapElement(this.element);
+    return Application.getInstance().removeAgentBodyInLayer(this.element);
   }
   
   @Override
@@ -56,7 +74,7 @@ public class Car extends Vehicle {
   }
   
   @Pure
-  public MapCircle getElement() {
+  public MapPolygon getElement() {
     return this.element;
   }
   
@@ -87,5 +105,5 @@ public class Car extends Vehicle {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 4738187908L;
+  private final static long serialVersionUID = 4996291056L;
 }

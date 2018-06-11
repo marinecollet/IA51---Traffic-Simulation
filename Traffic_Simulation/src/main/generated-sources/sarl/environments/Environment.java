@@ -14,6 +14,7 @@ import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.Collection;
 import java.util.List;
+import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -39,8 +40,13 @@ public class Environment extends AbstractEnvironment {
    * the window.
    */
   protected boolean initialize(final String filepath) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method setupRoadNetworkContainer(MapElementLayer) is undefined for the type Application");
+    RoadNetwork _roadNetwork = new RoadNetwork();
+    this.roadNetwork = _roadNetwork;
+    MapElementLayer mapElementLayer = this.roadNetwork.loadShapeFile(filepath);
+    if ((mapElementLayer == null)) {
+      return false;
+    }
+    return true;
   }
   
   protected void onAgentBodyCreated(final AgentBody body) {
@@ -68,14 +74,16 @@ public class Environment extends AbstractEnvironment {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    return super.equals(obj);
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    int result = super.hashCode();
-    return result;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
 }

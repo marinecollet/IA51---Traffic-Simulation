@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.arakhne.afc.gis.mapelement.MapCircle;
-import org.arakhne.afc.gis.mapelement.MapElement;
+import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.arakhne.afc.gis.maplayer.ArrayMapElementLayer;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.arakhne.afc.gis.maplayer.MapLayer;
@@ -34,7 +34,11 @@ public class Application extends javafx.application.Application {
    */
   private boolean dragging;
   
-  private ArrayMapElementLayer mapElementsLayer;
+  private ArrayMapElementLayer<MapPolygon> agentBodyLayer = new ArrayMapElementLayer<MapPolygon>();
+  
+  private ArrayMapElementLayer<MapPolygon> stopLayer = new ArrayMapElementLayer<MapPolygon>();
+  
+  private ArrayMapElementLayer<MapCircle> flashlightLayer = new ArrayMapElementLayer<MapCircle>();
   
   /**
    * Create a singleton mimic to access instance outside
@@ -60,12 +64,15 @@ public class Application extends javafx.application.Application {
     if (_notEquals) {
       containers.add(this.roadNetworkLayer);
     }
-    MapCircle circle = new MapCircle(940052, 2302886, 4);
-    circle.setColor(255);
-    ArrayMapElementLayer<MapCircle> _arrayMapElementLayer = new ArrayMapElementLayer<MapCircle>();
-    this.mapElementsLayer = _arrayMapElementLayer;
-    this.mapElementsLayer.addMapElement(circle);
-    containers.add(this.mapElementsLayer);
+    containers.add(this.agentBodyLayer);
+    containers.add(this.stopLayer);
+    containers.add(this.flashlightLayer);
+    MapPolygon poly = new MapPolygon();
+    poly.addPoint(940050, 2302880);
+    poly.addPoint((940050 - 40), 2302880);
+    poly.addPoint((940050 - 40), (2302880 - 40));
+    poly.addPoint(940050, (2302880 - 40));
+    this.agentBodyLayer.addMapElement(poly);
     GISContainer container = null;
     MultiMapLayer layer = null;
     int _size = containers.size();
@@ -94,8 +101,8 @@ public class Application extends javafx.application.Application {
    * Add an element to draw into the map elements layer of the
    * window.
    */
-  public boolean addMapElement(final MapElement element) {
-    return this.mapElementsLayer.addMapElement(element);
+  public boolean addAgentBodyInLayer(final MapPolygon element) {
+    return this.agentBodyLayer.addMapElement(element);
   }
   
   /**
@@ -104,8 +111,24 @@ public class Application extends javafx.application.Application {
    * @description
    * Remove given map element from the map elements layer.
    */
-  public boolean removeMapElement(final MapElement element) {
-    return this.mapElementsLayer.removeMapElement(element);
+  public boolean removeAgentBodyInLayer(final MapPolygon element) {
+    return this.agentBodyLayer.removeMapElement(element);
+  }
+  
+  public boolean addStopInLayer(final MapPolygon element) {
+    return this.stopLayer.addMapElement(element);
+  }
+  
+  public boolean removeStopInLayer(final MapPolygon element) {
+    return this.stopLayer.removeMapElement(element);
+  }
+  
+  public boolean addFlashlightInLayer(final MapCircle element) {
+    return this.flashlightLayer.addMapElement(element);
+  }
+  
+  public boolean removeFlashlightInLayer(final MapCircle element) {
+    return this.flashlightLayer.removeMapElement(element);
   }
   
   /**

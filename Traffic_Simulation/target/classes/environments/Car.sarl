@@ -10,6 +10,7 @@ import org.arakhne.afc.gis.mapelement.MapElement
 import org.arakhne.afc.gis.mapelement.MapPoint
 import org.arakhne.afc.gis.mapelement.MapCircle
 import ui.Application
+import org.arakhne.afc.gis.mapelement.MapPolygon
 
 /** 
  * @author jerem
@@ -22,7 +23,7 @@ class Car extends Vehicle
 	var position : Point2f
 	
 	/** The representation of the car (here a circle) */
-	var element : MapCircle
+	var element : MapPolygon
 	
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
 		maxAngularAcceleration : float) 
@@ -31,8 +32,13 @@ class Car extends Vehicle
 		position = point;
 
 		/** Create and add the element to the layer */
-		element = new MapCircle(position.x, position.y,100);
-		Application.instance.addMapElement(element);
+		element = new MapPolygon();
+		element.addPoint(position.x - 10, position.y + 20)
+		element.addPoint(position.x - 10, position.y - 20)
+		element.addPoint(position.x + 10, position.y - 20)
+		element.addPoint(position.x + 10, position.y + 20)
+		
+		Application.instance.addAgentBodyInLayer(element);
 	}
 	
 	/**
@@ -44,7 +50,7 @@ class Car extends Vehicle
 	def cleanUp()
 	{
 		/** Remove the circle from the map elements layer of the application */
-		Application.instance.removeMapElement(element);
+		Application.instance.removeAgentBodyInLayer(element);
 	}
 
 	override moveVehicle(newPos : Point2f)
@@ -57,7 +63,7 @@ class Car extends Vehicle
 		return position
 	}
 	
-	def getElement:MapCircle
+	def getElement:MapPolygon
 	{
 		return element
 	}

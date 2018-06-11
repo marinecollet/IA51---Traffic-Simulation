@@ -52,9 +52,9 @@ class Environment extends AbstractEnvironment
 		{
 			return false;
 		}
-		
+
 		/** Give data to application instance */
-		Application.instance.setupRoadNetworkContainer(mapElementLayer);
+		//Application.instance.setupRoadNetworkContainer(mapElementLayer);
 		
 		return true;
 	}

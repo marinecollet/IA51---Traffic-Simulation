@@ -28,7 +28,9 @@ class Application extends javafx.application.Application
 	/** Variable to handle dragging events */
 	var dragging: boolean;
 	
-	var mapElementsLayer: ArrayMapElementLayer;
+	var agentBodyLayer = new ArrayMapElementLayer<MapPolygon>;
+	var stopLayer = new ArrayMapElementLayer<MapPolygon>;
+	var flashlightLayer = new ArrayMapElementLayer<MapCircle>;
 	
 	/** Create a singleton mimic to access instance outside */
 	static var instance : Application;
@@ -58,12 +60,21 @@ class Application extends javafx.application.Application
 			containers.add(roadNetworkLayer)
 		}
 		
-		var circle = new MapCircle(940052, 2302886,4);
-		circle.color = 255;
-
-		mapElementsLayer = new ArrayMapElementLayer<MapCircle>();
-		mapElementsLayer.addMapElement(circle);
-		containers.add(mapElementsLayer);
+		containers.add(agentBodyLayer);
+		containers.add(stopLayer);
+		containers.add(flashlightLayer);
+		
+		
+		
+		
+		
+		var poly = new MapPolygon()
+		poly.addPoint(940050, 2302880)
+		poly.addPoint(940050-40, 2302880)
+		poly.addPoint(940050-40, 2302880-40)
+		poly.addPoint(940050, 2302880-40)
+		
+		agentBodyLayer.addMapElement(poly)
 		
 		/** Create the GISContainer to display Roads Segments in the window */
 		var container : GISContainer;
@@ -105,9 +116,9 @@ class Application extends javafx.application.Application
 	 * Add an element to draw into the map elements layer of the
 	 * window.
 	 */
-	def addMapElement(element: MapElement)
+	def addAgentBodyInLayer(element: MapPolygon)
 	{
-		mapElementsLayer.addMapElement(element);
+		agentBodyLayer.addMapElement(element);
 	}
 	
 	/**
@@ -116,9 +127,25 @@ class Application extends javafx.application.Application
 	 * @description
 	 * Remove given map element from the map elements layer.
 	 */
-	def removeMapElement(element: MapElement)
+	def removeAgentBodyInLayer(element : MapPolygon)
 	{
-		mapElementsLayer.removeMapElement(element);
+		agentBodyLayer.removeMapElement(element);
+	}
+
+	def addStopInLayer(element : MapPolygon) {
+		stopLayer.addMapElement(element);
+	}
+
+	def removeStopInLayer(element : MapPolygon) {
+		stopLayer.removeMapElement(element);
+	}
+
+	def addFlashlightInLayer(element : MapCircle) {
+		flashlightLayer.addMapElement(element);
+	}
+
+	def removeFlashlightInLayer(element : MapCircle) {
+		flashlightLayer.removeMapElement(element);
 	}
 	
 	/**

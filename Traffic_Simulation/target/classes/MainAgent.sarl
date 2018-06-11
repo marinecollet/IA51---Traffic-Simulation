@@ -45,7 +45,6 @@ agent MainAgent extends FrameworkLauncher
 	{
 		// Nothing to do here	
 	}
-
 	
 	override initializeSimulation(parameters : List<Object>) : boolean 
 	{
