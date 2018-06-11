@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.arakhne.afc.gis.mapelement.MapCircle;
+import org.arakhne.afc.gis.mapelement.MapElement;
 import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.arakhne.afc.gis.maplayer.ArrayMapElementLayer;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
@@ -33,6 +34,8 @@ public class Application extends javafx.application.Application {
    * Variable to handle dragging events
    */
   private boolean dragging;
+  
+  private ArrayMapElementLayer mapElementsLayer;
   
   /**
    * Create a singleton mimic to access instance outside
@@ -65,9 +68,8 @@ public class Application extends javafx.application.Application {
     polygon.addPoint((940052 - 20), 2302886);
     polygon.addPoint((940052 - 20), (2302886 - 20));
     polygon.addPoint(940052, (2302886 - 20));
-    ArrayMapElementLayer<MapPolygon> lay = new ArrayMapElementLayer<MapPolygon>();
-    lay.addMapElement(polygon);
-    containers.add(lay);
+    this.mapElementsLayer.addMapElement(polygon);
+    containers.add(this.mapElementsLayer);
     GISContainer container = null;
     MultiMapLayer layer = null;
     int _size = containers.size();
@@ -87,6 +89,17 @@ public class Application extends javafx.application.Application {
     primaryStage.setTitle("Traffic simulation !");
     primaryStage.setScene(scene);
     primaryStage.show();
+  }
+  
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Add an element to draw into the map elements layer of the
+   * window.
+   */
+  public boolean addMapElement(final MapElement element) {
+    return this.mapElementsLayer.addMapElement(element);
   }
   
   /**
