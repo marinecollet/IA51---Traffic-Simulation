@@ -53,40 +53,26 @@ class Application extends javafx.application.Application
 		var scene = new Scene(root, 1024, 768)
 		
 		var containers = new ArrayList <MapElementLayer>
-		
-		
-		
-
-		if (roadNetworkLayer != null) {
+		if (roadNetworkLayer != null) 
+		{
 			containers.add(roadNetworkLayer)
 		}
 		
-		var circle = new MapCircle(940052, 2302886,4)
-		//var circle = new MapCircle(0, 0, 1000)
-		circle.color = 255
-		
-		var polygon = new MapPolygon()
-		polygon.addPoint(940052, 2302886)
-		polygon.addPoint(940052-20, 2302886)
-		polygon.addPoint(940052-20, 2302886-20)
-		polygon.addPoint(940052, 2302886-20)
+		var circle = new MapCircle(940052, 2302886,4);
+		circle.color = 255;
 
-		mapElementsLayer.addMapElement(polygon)
-		containers.add(mapElementsLayer)
-		
-		
-		// var carLayer : MapElementLayer
-		//layer.addMapLayer()
-			
+		mapElementsLayer = new ArrayMapElementLayer<MapCircle>();
+		mapElementsLayer.addMapElement(circle);
+		containers.add(mapElementsLayer);
 		
 		/** Create the GISContainer to display Roads Segments in the window */
-		var container : GISContainer
-		var layer : MultiMapLayer
+		var container : GISContainer;
+		var layer : MultiMapLayer;
 		
 		if (containers.size() == 1) {
-			container = containers.get(0)
+			container = containers.get(0);
 		} else {
-			layer = new MultiMapLayer
+			layer = new MultiMapLayer;
 				for (child : containers)
 				{
 					layer.addMapLayer(child);

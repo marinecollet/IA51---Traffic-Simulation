@@ -11,7 +11,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.arakhne.afc.gis.mapelement.MapCircle;
 import org.arakhne.afc.gis.mapelement.MapElement;
-import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.arakhne.afc.gis.maplayer.ArrayMapElementLayer;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.arakhne.afc.gis.maplayer.MapLayer;
@@ -63,12 +62,9 @@ public class Application extends javafx.application.Application {
     }
     MapCircle circle = new MapCircle(940052, 2302886, 4);
     circle.setColor(255);
-    MapPolygon polygon = new MapPolygon();
-    polygon.addPoint(940052, 2302886);
-    polygon.addPoint((940052 - 20), 2302886);
-    polygon.addPoint((940052 - 20), (2302886 - 20));
-    polygon.addPoint(940052, (2302886 - 20));
-    this.mapElementsLayer.addMapElement(polygon);
+    ArrayMapElementLayer<MapCircle> _arrayMapElementLayer = new ArrayMapElementLayer<MapCircle>();
+    this.mapElementsLayer = _arrayMapElementLayer;
+    this.mapElementsLayer.addMapElement(circle);
     containers.add(this.mapElementsLayer);
     GISContainer container = null;
     MultiMapLayer layer = null;
