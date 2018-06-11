@@ -34,6 +34,18 @@ class Car extends Vehicle
 		element = new MapCircle(position.x, position.y,100);
 		Application.instance.addMapElement(element);
 	}
+	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Do cleaning stuff, must be called before destroying
+	 */
+	def cleanUp()
+	{
+		/** Remove the circle from the map elements layer of the application */
+		Application.instance.removeMapElement(element);
+	}
 
 	override moveVehicle(newPos : Point2f)
 	{

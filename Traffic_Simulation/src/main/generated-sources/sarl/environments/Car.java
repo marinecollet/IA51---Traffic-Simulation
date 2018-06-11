@@ -36,6 +36,16 @@ public class Car extends Vehicle {
     Application.getInstance().addMapElement(this.element);
   }
   
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Do cleaning stuff, must be called before destroying
+   */
+  public boolean cleanUp() {
+    return Application.getInstance().removeMapElement(this.element);
+  }
+  
   @Override
   public void moveVehicle(final Point2f newPos) {
     this.position = newPos;
@@ -77,5 +87,5 @@ public class Car extends Vehicle {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 3948015698L;
+  private final static long serialVersionUID = 4738187908L;
 }
