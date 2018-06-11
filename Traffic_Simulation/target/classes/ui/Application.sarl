@@ -16,6 +16,9 @@ import org.arakhne.afc.gis.mapelement.MapCircle
 import org.arakhne.afc.gis.maplayer.ArrayMapElementLayer
 import org.arakhne.afc.gis.mapelement.MapPolygon
 import org.arakhne.afc.gis.mapelement.MapElement
+import io.sarl.core.Initialize
+import io.sarl.core.Lifecycle
+import io.sarl.core.Logging
 
 /** 
  * @author Thomas Gredin
@@ -23,6 +26,22 @@ import org.arakhne.afc.gis.mapelement.MapElement
  * @description Class that handle all stuff about window that display the feedback of the
  * animation of the simulation.
  */
+ agent ApplicationAgent {
+	uses Lifecycle
+	uses Logging
+ 	
+ 	on Initialize {
+ 		
+ 		
+ 		
+ 		//Thread.
+		Application.launch(Application);
+		Application.instance.init
+		Application.instance.start(new Stage())
+		info("TERMINE TOI");
+ 	}
+ }
+ 
 class Application extends javafx.application.Application
 {
 	/** Variable to handle dragging events */
@@ -31,6 +50,8 @@ class Application extends javafx.application.Application
 	var agentBodyLayer = new ArrayMapElementLayer<MapPolygon>;
 	var stopLayer = new ArrayMapElementLayer<MapPolygon>;
 	var flashlightLayer = new ArrayMapElementLayer<MapCircle>;
+	
+	var isReady = false
 	
 	/** Create a singleton mimic to access instance outside */
 	static var instance : Application;
@@ -47,10 +68,12 @@ class Application extends javafx.application.Application
 		var rd = new RoadNetwork
 		/** Load the shape file content*/
 		roadNetworkLayer = rd.loadShapeFile("asset/Ville.shp");
+		
 	}
 	
 	def start(primaryStage: Stage)
 	{
+		
 		var root = new BorderPane()
 		var scene = new Scene(root, 1024, 768)
 		
@@ -64,17 +87,6 @@ class Application extends javafx.application.Application
 		containers.add(stopLayer);
 		containers.add(flashlightLayer);
 		
-		
-		
-		
-		
-		var poly = new MapPolygon()
-		poly.addPoint(940050, 2302880)
-		poly.addPoint(940050-40, 2302880)
-		poly.addPoint(940050-40, 2302880-40)
-		poly.addPoint(940050, 2302880-40)
-		
-		agentBodyLayer.addMapElement(poly)
 		
 		/** Create the GISContainer to display Roads Segments in the window */
 		var container : GISContainer;
@@ -102,11 +114,12 @@ class Application extends javafx.application.Application
 		/** Set global stage informations */
 		primaryStage.setTitle("Traffic simulation !");
 		primaryStage.setScene(scene);
+		isReady = true
 		
 		/** Show the stage in the window */
 		primaryStage.show();
-		
 		// Launch the environment
+		
 	}
 	
 	/**
@@ -148,6 +161,10 @@ class Application extends javafx.application.Application
 		flashlightLayer.removeMapElement(element);
 	}
 	
+	def getIsReady():boolean{
+		return isReady
+	}
+	
 	/**
 	 * @author Thomas Gredin
 	 * 
@@ -156,6 +173,8 @@ class Application extends javafx.application.Application
 	 */
 	static def getInstance(): Application
 	{
+		if(instance == null)
+			instance = new Application
 		return instance;
 	}
 	

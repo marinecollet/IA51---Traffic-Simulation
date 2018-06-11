@@ -1,89 +1,121 @@
 package environments;
 
+import agents.CarGPSAgent;
+import environments.Car;
 import environments.RoadNetwork;
-import framework.environment.AbstractEnvironment;
-import framework.environment.AgentBody;
-import framework.environment.Influence;
-import framework.environment.MotionInfluence;
-import framework.environment.Percept;
-import framework.environment.SituatedObject;
-import framework.time.StepTimeManager;
-import framework.time.TimeManager;
+import framework.math.Point2f;
+import io.sarl.core.DefaultContextInteractions;
+import io.sarl.core.Initialize;
+import io.sarl.core.Lifecycle;
+import io.sarl.lang.annotation.ImportedCapacityFeature;
+import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import io.sarl.lang.core.Agent;
+import io.sarl.lang.core.BuiltinCapacitiesProvider;
+import io.sarl.lang.core.DynamicSkillProvider;
+import io.sarl.lang.core.Skill;
+import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
-import java.util.List;
-import org.arakhne.afc.gis.maplayer.MapElementLayer;
+import java.util.UUID;
+import javax.inject.Inject;
+import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.Inline;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
+import ui.Application;
 
 /**
  * @author jerem
  */
 @SarlSpecification("0.7")
-@SarlElementType(10)
+@SarlElementType(18)
 @SuppressWarnings("all")
-public class Environment extends AbstractEnvironment {
+public class Environment extends Agent {
   private RoadNetwork roadNetwork;
   
-  public Environment(final float width, final float height) {
-    super(width, height, new StepTimeManager(500));
-  }
-  
-  /**
-   * @author Thomas Gredin
-   * 
-   * @description
-   * Method to initialize the environment.
-   * Here we load the given Shape file and give it to the Application
-   * that will create the GISContainer to display road segments in
-   * the window.
-   */
-  protected boolean initialize(final String filepath) {
-    RoadNetwork _roadNetwork = new RoadNetwork();
-    this.roadNetwork = _roadNetwork;
-    MapElementLayer mapElementLayer = this.roadNetwork.loadShapeFile(filepath);
-    if ((mapElementLayer == null)) {
-      return false;
+  @SyntheticMember
+  private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
+    while ((!Application.getInstance().getIsReady())) {
+      InputOutput.<String>println("Chargement JavaFX");
     }
-    return true;
+    Point2f _point2f = new Point2f(940050, 2302880);
+    Car car = new Car(_point2f, 0, 0, 0, 0);
+    Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawnInContextWithID(CarGPSAgent.class, car.getID(), _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.getDefaultContext());
+    InputOutput.<String>println("fin");
   }
   
-  protected void onAgentBodyCreated(final AgentBody body) {
+  @Extension
+  @ImportedCapacityFeature(Lifecycle.class)
+  @SyntheticMember
+  private transient ClearableReference<Skill> $CAPACITY_USE$IO_SARL_CORE_LIFECYCLE;
+  
+  @SyntheticMember
+  @Pure
+  @Inline(value = "$castSkill(Lifecycle.class, ($0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || $0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = $0$getSkill(Lifecycle.class)) : $0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE)", imported = Lifecycle.class)
+  private Lifecycle $CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER() {
+    if (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) {
+      this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = $getSkill(Lifecycle.class);
+    }
+    return $castSkill(Lifecycle.class, this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
   }
   
-  protected void onAgentBodyDestroyed(final AgentBody body) {
+  @Extension
+  @ImportedCapacityFeature(DefaultContextInteractions.class)
+  @SyntheticMember
+  private transient ClearableReference<Skill> $CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS;
+  
+  @SyntheticMember
+  @Pure
+  @Inline(value = "$castSkill(DefaultContextInteractions.class, ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $0$getSkill(DefaultContextInteractions.class)) : $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS)", imported = DefaultContextInteractions.class)
+  private DefaultContextInteractions $CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER() {
+    if (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) {
+      this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $getSkill(DefaultContextInteractions.class);
+    }
+    return $castSkill(DefaultContextInteractions.class, this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
   }
   
-  protected List<Influence> computeEndogenousBehaviorInfluences() {
-    return null;
-  }
-  
-  protected List<Percept> computePerceptionsFor(final AgentBody agent) {
-    return null;
-  }
-  
-  protected void applyInfluences(final Collection<MotionInfluence> motionInfluences, final Collection<Influence> otherInfluences, final TimeManager timeManager) {
-  }
-  
-  public Iterable<? extends SituatedObject> getAllObjects() {
-    return null;
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$Initialize(final Initialize occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
   }
   
   @Override
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+    return super.equals(obj);
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+    int result = super.hashCode();
+    return result;
+  }
+  
+  @SyntheticMember
+  public Environment(final UUID parentID, final UUID agentID) {
+    super(parentID, agentID);
+  }
+  
+  @SyntheticMember
+  @Inject
+  @Deprecated
+  public Environment(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
+    super(provider, parentID, agentID);
+  }
+  
+  @SyntheticMember
+  @Inject
+  public Environment(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
+    super(parentID, agentID, skillProvider);
   }
 }

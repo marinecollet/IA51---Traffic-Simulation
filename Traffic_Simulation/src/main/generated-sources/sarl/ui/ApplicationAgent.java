@@ -1,6 +1,5 @@
-import environments.Environment;
-import environments.RoadNetwork;
-import framework.FrameworkLauncher;
+package ui;
+
 import io.sarl.core.Initialize;
 import io.sarl.core.Lifecycle;
 import io.sarl.core.Logging;
@@ -9,13 +8,14 @@ import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import io.sarl.lang.core.Agent;
 import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
+import javafx.stage.Stage;
 import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
@@ -23,42 +23,23 @@ import org.eclipse.xtext.xbase.lib.Pure;
 import ui.Application;
 
 /**
- * @description
- * Agent MainAgent.
+ * @author Thomas Gredin
  * 
- * This agent is used to setup and launch the application.
+ * @description Class that handle all stuff about window that display the feedback of the
+ * animation of the simulation.
  */
 @SarlSpecification("0.7")
 @SarlElementType(18)
 @SuppressWarnings("all")
-public class MainAgent extends FrameworkLauncher {
-  private RoadNetwork rd = new RoadNetwork();
-  
-  /**
-   * Size of the screen
-   */
-  private final float WORLD_SIZE_X = 1280f;
-  
-  private final float WORLD_SIZE_Y = 640f;
-  
+public class ApplicationAgent extends Agent {
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-  }
-  
-  @Override
-  protected boolean initializeSimulation(final List<Object> parameters) {
-    abstract class __MainAgent_0 extends Thread {
-      public abstract void run();
-    }
-    
-    new __MainAgent_0() {
-      public void run() {
-        Application.launch(Application.class);
-      }
-    }.start();
-    Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
-    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawn(Environment.class);
-    return true;
+    Application.launch(Application.class);
+    Application.getInstance().init();
+    Stage _stage = new Stage();
+    Application.getInstance().start(_stage);
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("TERMINE TOI");
   }
   
   @Extension
@@ -99,38 +80,21 @@ public class MainAgent extends FrameworkLauncher {
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
   }
   
-  @Override
-  @Pure
   @SyntheticMember
-  public boolean equals(final Object obj) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
-  }
-  
-  @Override
-  @Pure
-  @SyntheticMember
-  public int hashCode() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
-  }
-  
-  @SyntheticMember
-  public MainAgent(final UUID parentID, final UUID agentID) {
+  public ApplicationAgent(final UUID parentID, final UUID agentID) {
     super(parentID, agentID);
   }
   
   @SyntheticMember
   @Inject
   @Deprecated
-  public MainAgent(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
+  public ApplicationAgent(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
     super(provider, parentID, agentID);
   }
   
   @SyntheticMember
   @Inject
-  public MainAgent(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
+  public ApplicationAgent(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
     super(parentID, agentID, skillProvider);
   }
 }

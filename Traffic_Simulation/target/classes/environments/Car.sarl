@@ -33,11 +33,11 @@ class Car extends Vehicle
 
 		/** Create and add the element to the layer */
 		element = new MapPolygon();
-		element.addPoint(position.x - 10, position.y + 20)
-		element.addPoint(position.x - 10, position.y - 20)
-		element.addPoint(position.x + 10, position.y - 20)
-		element.addPoint(position.x + 10, position.y + 20)
-		
+		element.addPoint(position.x - 5, position.y + 10)
+		element.addPoint(position.x - 5, position.y - 10)
+		element.addPoint(position.x + 5, position.y - 10)
+		element.addPoint(position.x + 5, position.y + 10)
+		element.setColor(0x60c36e)
 		Application.instance.addAgentBodyInLayer(element);
 	}
 	

@@ -32,25 +32,26 @@ public class Car extends Vehicle {
     MapPolygon _mapPolygon = new MapPolygon();
     this.element = _mapPolygon;
     float _x = this.position.getX();
-    float _minus = (_x - 10);
+    float _minus = (_x - 5);
     float _y = this.position.getY();
-    float _plus = (_y + 20);
+    float _plus = (_y + 10);
     this.element.addPoint(_minus, _plus);
     float _x_1 = this.position.getX();
-    float _minus_1 = (_x_1 - 10);
+    float _minus_1 = (_x_1 - 5);
     float _y_1 = this.position.getY();
-    float _minus_2 = (_y_1 - 20);
+    float _minus_2 = (_y_1 - 10);
     this.element.addPoint(_minus_1, _minus_2);
     float _x_2 = this.position.getX();
-    float _plus_1 = (_x_2 + 10);
+    float _plus_1 = (_x_2 + 5);
     float _y_2 = this.position.getY();
-    float _minus_3 = (_y_2 - 20);
+    float _minus_3 = (_y_2 - 10);
     this.element.addPoint(_plus_1, _minus_3);
     float _x_3 = this.position.getX();
-    float _plus_2 = (_x_3 + 10);
+    float _plus_2 = (_x_3 + 5);
     float _y_3 = this.position.getY();
-    float _plus_3 = (_y_3 + 20);
+    float _plus_3 = (_y_3 + 10);
     this.element.addPoint(_plus_2, _plus_3);
+    this.element.setColor(0x60c36e);
     Application.getInstance().addAgentBodyInLayer(this.element);
   }
   

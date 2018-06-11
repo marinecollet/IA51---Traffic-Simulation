@@ -14,6 +14,8 @@ import agents.CarGPSAgent
 import agents.CarMapAgent
 import environments.Environment
 import framework.gui.BehaviorTypeSelector
+import javafx.stage.Stage
+import ui.ApplicationAgent
 
 /**
  * @description
@@ -35,12 +37,7 @@ agent MainAgent extends FrameworkLauncher
 	 */
 	val WORLD_SIZE_X = 1280f
 	val WORLD_SIZE_Y = 640f
-	
-	/*
-	 * Application JavaFX
-	 */
-	var application : Application
-	
+		
 	on Initialize 
 	{
 		// Nothing to do here	
@@ -48,28 +45,21 @@ agent MainAgent extends FrameworkLauncher
 	
 	override initializeSimulation(parameters : List<Object>) : boolean 
 	{
-		val grand = "asset/Belfort.shp";
-		val ville = "asset/Ville.shp";
+		//val grand = "asset/Belfort.shp";
+		//val ville = "asset/Ville.shp";
 
-		var environment = new Environment(WORLD_SIZE_X, WORLD_SIZE_Y)
-
-	
-		// Launch application
-		application = new Application
-		//application.launch(Application, ville)
-
-		Application.launch(Application, ville);
+		(new Thread() {	def run()
+			{
+				Application.launch(Application);
+				
+			}
+		}).start();
 		
-		/*return initializeSimulation(environment, type, application, params) [
-		var agentType = it.type
-				if ("LEADER" == agentType) {
-					return typeof(CarGPSAgent)
-				}
-				if ("FOLLOWER" == agentType) {
-					return typeof(CarMapAgent)
-				}
-				throw new IllegalArgumentException		
-		]*/
+	
+		
+		spawn(Environment)
+		
+		
 		return true;
 	}
 	

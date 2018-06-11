@@ -19,12 +19,6 @@ import org.arakhne.afc.gis.primitive.GISContainer;
 import org.arakhne.afc.nodefx.ZoomablePane;
 import org.eclipse.xtext.xbase.lib.Pure;
 
-/**
- * @author Thomas Gredin
- * 
- * @description Class that handle all stuff about window that display the feedback of the
- * animation of the simulation.
- */
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
@@ -39,6 +33,8 @@ public class Application extends javafx.application.Application {
   private ArrayMapElementLayer<MapPolygon> stopLayer = new ArrayMapElementLayer<MapPolygon>();
   
   private ArrayMapElementLayer<MapCircle> flashlightLayer = new ArrayMapElementLayer<MapCircle>();
+  
+  private boolean isReady = false;
   
   /**
    * Create a singleton mimic to access instance outside
@@ -67,12 +63,6 @@ public class Application extends javafx.application.Application {
     containers.add(this.agentBodyLayer);
     containers.add(this.stopLayer);
     containers.add(this.flashlightLayer);
-    MapPolygon poly = new MapPolygon();
-    poly.addPoint(940050, 2302880);
-    poly.addPoint((940050 - 40), 2302880);
-    poly.addPoint((940050 - 40), (2302880 - 40));
-    poly.addPoint(940050, (2302880 - 40));
-    this.agentBodyLayer.addMapElement(poly);
     GISContainer container = null;
     MultiMapLayer layer = null;
     int _size = containers.size();
@@ -91,6 +81,7 @@ public class Application extends javafx.application.Application {
     root.setCenter(scrollPane);
     primaryStage.setTitle("Traffic simulation !");
     primaryStage.setScene(scene);
+    this.isReady = true;
     primaryStage.show();
   }
   
@@ -131,6 +122,11 @@ public class Application extends javafx.application.Application {
     return this.flashlightLayer.removeMapElement(element);
   }
   
+  @Pure
+  public boolean getIsReady() {
+    return this.isReady;
+  }
+  
   /**
    * @author Thomas Gredin
    * 
@@ -139,6 +135,11 @@ public class Application extends javafx.application.Application {
    */
   @Pure
   public static Application getInstance() {
+    boolean _equals = Objects.equal(Application.instance, null);
+    if (_equals) {
+      Application _application = new Application();
+      Application.instance = _application;
+    }
     return Application.instance;
   }
   
@@ -155,6 +156,8 @@ public class Application extends javafx.application.Application {
     Application other = (Application) obj;
     if (other.dragging != this.dragging)
       return false;
+    if (other.isReady != this.isReady)
+      return false;
     return super.equals(obj);
   }
   
@@ -165,6 +168,7 @@ public class Application extends javafx.application.Application {
     int result = super.hashCode();
     final int prime = 31;
     result = prime * result + (this.dragging ? 1231 : 1237);
+    result = prime * result + (this.isReady ? 1231 : 1237);
     return result;
   }
 }

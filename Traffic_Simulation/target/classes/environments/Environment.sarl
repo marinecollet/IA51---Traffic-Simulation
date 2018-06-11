@@ -19,90 +19,31 @@ import java.text.MessageFormat
 import framework.math.MathUtil
 import java.util.UUID
 import framework.math.Rectangle2f
+import io.sarl.core.Lifecycle
+import io.sarl.core.Initialize
+import agents.CarGPSAgent
+import framework.math.Point2f
+import io.sarl.core.DefaultContextInteractions
 
 /** 
  * @author jerem
  * 
  */
-class Environment extends AbstractEnvironment
+agent Environment
 {
+	uses Lifecycle, DefaultContextInteractions
+	
 	var roadNetwork : RoadNetwork;
 
-	new (width : float, height : float) {
-		super(width, height, new StepTimeManager(500))
-	}
-	
-	/**
-	 * @author Thomas Gredin
-	 * 
-	 * @description
-	 * Method to initialize the environment.
-	 * Here we load the given Shape file and give it to the Application
-	 * that will create the GISContainer to display road segments in
-	 * the window.
-	 */
-	protected def initialize(filepath: String): boolean
-	{
-		/** Load Shape file */
-		roadNetwork = new RoadNetwork();
-		var mapElementLayer: MapElementLayer = roadNetwork.loadShapeFile(filepath);
-		
-		/** Check if there is extracted data */
-		if(mapElementLayer === null)
-		{
-			return false;
+	on Initialize {
+		while(!Application.instance.isReady){
+			println("Chargement JavaFX")
 		}
-
-		/** Give data to application instance */
-		//Application.instance.setupRoadNetworkContainer(mapElementLayer);
 		
-		return true;
+		//Test
+		var car = new Car(new Point2f(940050, 2302880),0,0,0,0)
+		spawnInContextWithID(typeof(CarGPSAgent),car.ID,defaultContext)
+		println("fin");
 	}
-		
-	protected def onAgentBodyCreated(body : AgentBody) 
-	{
-		
-	}
-	
-	protected def onAgentBodyDestroyed(body : AgentBody) 
-	{
-		
-	}
-	
-	protected def computeEndogenousBehaviorInfluences : List<Influence> 
-	{
-		
-	}
-	
-	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> 
-	{
-		
-	}
-	
-	protected def applyInfluences(
-		motionInfluences : Collection<MotionInfluence>, 
-		otherInfluences : Collection<Influence>, 
-		timeManager : TimeManager
-	) 
-	{
-		
-	}
-	
-	def getAllObjects : Iterable<? extends SituatedObject> 
-	{
-		
-	}
-
-	/*def createBody(type : String) {
-		var body = new AgentBody(UUID::randomUUID, new Rectangle2f(new Point2f()), // body
-				5f,						// max linear speed m/s
-		0.5f,						// max linear acceleration (m/s)/s
-		MathUtil::PI / 4f, // max angular speed r/s
-		MathUtil::PI / 10f, // max angular acceleration (r/s)/s
-		null); // no frustum since computePerceptionsFor() is not using this parameter
-		body.name = MessageFormat::format("Body #{0}", this.agentBodyNumber + 1)
-		body.type = type
-		addAgentBody(body, randomPosition, Math::random as float * MathUtil::TWO_PI)
-	}*/
 
 }
