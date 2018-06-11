@@ -9,40 +9,44 @@ import framework.math.Point2f
 import org.arakhne.afc.gis.mapelement.MapElement
 import org.arakhne.afc.gis.mapelement.MapPoint
 import org.arakhne.afc.gis.mapelement.MapCircle
+import ui.Application
 
 /** 
  * @author jerem
  * 
  */
-class Car extends Vehicle{
+class Car extends Vehicle
+{
 	
-	//var rectangle : Rectangle2f;
+	/** Position in the layer */
 	var position : Point2f
 	
+	/** The representation of the car (here a circle) */
 	var element : MapCircle
 	
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
-		maxAngularAcceleration : float) {
-		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration)
-		position = point
+		maxAngularAcceleration : float) 
+	{
+		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration);
+		position = point;
 
-		//rectangle = new Rectangle2f(new Point2f(position.x, position.y - 0.5),
-			//new Point2f(position.x, position.y + 0.5))
-		element = new MapCircle(position.x, position.y,100)
-		println(element.shape)
+		/** Create and add the element to the layer */
+		element = new MapCircle(position.x, position.y,100);
+		Application.instance.addMapElement(element);
 	}
 
 	override moveVehicle(newPos : Point2f)
 	{
-		position = newPos		
-		//super.move(newPos)		
+		position = newPos;		
 	}
 	
-	def getPosition():Point2f{
+	def getPosition():Point2f
+	{
 		return position
 	}
 	
-	def getElement:MapCircle{
+	def getElement:MapCircle
+	{
 		return element
 	}
 }

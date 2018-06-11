@@ -6,9 +6,8 @@ import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import org.arakhne.afc.gis.mapelement.MapCircle;
-import org.arakhne.afc.math.geometry.d2.d.Shape2d;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
+import ui.Application;
 
 /**
  * @author jerem
@@ -17,8 +16,14 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class Car extends Vehicle {
+  /**
+   * Position in the layer
+   */
   private Point2f position;
   
+  /**
+   * The representation of the car (here a circle)
+   */
   private MapCircle element;
   
   public Car(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration) {
@@ -28,7 +33,7 @@ public class Car extends Vehicle {
     float _y = this.position.getY();
     MapCircle _mapCircle = new MapCircle(_x, _y, 100);
     this.element = _mapCircle;
-    InputOutput.<Shape2d<?>>println(this.element.getShape());
+    Application.getInstance().addMapElement(this.element);
   }
   
   @Override
