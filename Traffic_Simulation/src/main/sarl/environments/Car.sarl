@@ -20,12 +20,16 @@ class Car extends Vehicle
 	/** The representation of the car (here a circle) */
 	var element : MapPolygon
 	
+	var perceptionDistance : double
+	
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
 		maxAngularAcceleration : float) 
 	{
 		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration,UUID.randomUUID);
 		position = point;
  
+ 		perceptionDistance = 0
+ 		
  		var longueur = 8
  		var largeur = 4
 		/** Create and add the element to the layer */
@@ -45,6 +49,14 @@ class Car extends Vehicle
 	 * @description
 	 * Do cleaning stuff, must be called before destroying
 	 */
+	 
+	 def getPerceptionDistance{
+	 	return perceptionDistance
+	 }
+	 def setPerceptionDisatnce( perceptionDistance : double){
+	 	this.perceptionDistance = perceptionDistance
+	 }
+	 
 	def cleanUp()
 	{
 		/** Remove the circle from the map elements layer of the application */

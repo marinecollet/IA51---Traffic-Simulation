@@ -27,9 +27,12 @@ public class Car extends Vehicle {
    */
   private MapPolygon element;
   
+  private double perceptionDistance;
+  
   public Car(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration) {
     super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, UUID.randomUUID());
     this.position = point;
+    this.perceptionDistance = 0;
     int longueur = 8;
     int largeur = 4;
     MapPolygon _mapPolygon = new MapPolygon();
@@ -64,6 +67,15 @@ public class Car extends Vehicle {
    * @description
    * Do cleaning stuff, must be called before destroying
    */
+  @Pure
+  public double getPerceptionDistance() {
+    return this.perceptionDistance;
+  }
+  
+  public void setPerceptionDisatnce(final double perceptionDistance) {
+    this.perceptionDistance = perceptionDistance;
+  }
+  
   public boolean cleanUp() {
     return Application.getInstance().removeAgentBodyInLayer(this.element);
   }
@@ -86,6 +98,15 @@ public class Car extends Vehicle {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Car other = (Car) obj;
+    if (Double.doubleToLongBits(other.perceptionDistance) != Double.doubleToLongBits(this.perceptionDistance))
+      return false;
     return super.equals(obj);
   }
   
@@ -94,6 +115,8 @@ public class Car extends Vehicle {
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
+    final int prime = 31;
+    result = prime * result + (int) (Double.doubleToLongBits(this.perceptionDistance) ^ (Double.doubleToLongBits(this.perceptionDistance) >>> 32));
     return result;
   }
   
@@ -109,5 +132,5 @@ public class Car extends Vehicle {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 4996291056L;
+  private final static long serialVersionUID = 1818117938L;
 }
