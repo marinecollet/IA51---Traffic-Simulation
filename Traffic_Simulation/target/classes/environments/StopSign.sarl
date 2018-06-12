@@ -28,23 +28,8 @@ class StopSign extends Panel {
         }
 		
 		element.setColor(0x990000)
-		/*var rad = 10
-		var rad2 = Math.sqrt(rad)
 
-		element.addPoint(position.x, position.y - rad2)
-		element.addPoint(position.x + rad2, position.y - rad2)
-		element.addPoint(position.x + rad, position.y)
-		element.addPoint(position.x + rad2, position.y + rad2)
-		element.addPoint(position.x, position.y + rad)
-		element.addPoint(position.x-rad2, position.y + rad2)
-		element.addPoint(position.x - rad, position.y)
-		element.addPoint(position.x - rad2, position.y - rad2)*/
-		
-		Application.instance.addStopInLayer(element)
-		//element.addPoint(((int) (150 + 50 * t * Math.cos(8 * t * Math.PI)),
-         // (int) (150 + 50 * t * Math.sin(8 * t * Math.PI)));
-          
-          
+		Application.instance.addStopInLayer(element)                 
     }
 	
 }
