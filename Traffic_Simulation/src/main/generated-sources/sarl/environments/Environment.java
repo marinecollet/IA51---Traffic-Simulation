@@ -158,6 +158,16 @@ public class Environment extends Agent {
     }
   }
   
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Update the environment...
+   */
+  @Pure
+  protected void update() {
+  }
+  
   @Extension
   @ImportedCapacityFeature(Lifecycle.class)
   @SyntheticMember

@@ -25,18 +25,17 @@ import ui.ApplicationAgent
  */
 agent MainAgent extends FrameworkLauncher 
 {	
-	uses Lifecycle
-	uses Logging
+	uses Lifecycle;
+	uses Logging;
 	
 	//pour tester
-	var rd = new RoadNetwork
-
+	var rd = new RoadNetwork();
 
 	/*
 	 * Size of the screen
 	 */
-	val WORLD_SIZE_X = 1280f
-	val WORLD_SIZE_Y = 640f
+	val WORLD_SIZE_X = 1280f;
+	val WORLD_SIZE_Y = 640f;
 		
 	on Initialize 
 	{
@@ -45,9 +44,6 @@ agent MainAgent extends FrameworkLauncher
 	
 	override initializeSimulation(parameters : List<Object>) : boolean 
 	{
-		//val grand = "asset/Belfort.shp";
-		//val ville = "asset/Ville.shp";
-
 		(new Thread() {	def run()
 			{
 				Application.launch(Application);
@@ -55,10 +51,8 @@ agent MainAgent extends FrameworkLauncher
 			}
 		}).start();
 		
-		
-		//Thread.sleep(1000)
-		spawn(Environment)
-		
+		/** Spawn the environment that manage all others agents */
+		spawn(Environment);
 		
 		return true;
 	}
