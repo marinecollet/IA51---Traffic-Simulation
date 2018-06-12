@@ -12,9 +12,8 @@ import framework.math.Point2f
  * @author jerem
  * 
  */
-abstract class Vehicle extends AgentBody {//EnvironmentObject {
-	
-	
+abstract class Vehicle extends AgentBody
+{
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
 		maxAngularAcceleration : float) {
 		super(
@@ -28,6 +27,5 @@ abstract class Vehicle extends AgentBody {//EnvironmentObject {
 		)
 	}
 
-	abstract def moveVehicle(newPos : Point2f);
-	
+	abstract def moveVehicle(newPos : Point2f);	
 }

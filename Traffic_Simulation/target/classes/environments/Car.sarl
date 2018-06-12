@@ -13,7 +13,6 @@ import ui.Application
  */
 class Car extends Vehicle
 {
-	
 	/** Position in the layer */
 	var position : Point2f
 	

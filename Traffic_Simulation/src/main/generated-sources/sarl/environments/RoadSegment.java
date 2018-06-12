@@ -17,12 +17,21 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class RoadSegment extends EnvironmentObject {
+  /**
+   * Start connection of the road
+   */
   private final RoadConnection start;
   
+  /**
+   * End connection of the road
+   */
   private final RoadConnection end;
   
   private Rectangle rectangle;
   
+  /**
+   * Contains all environment objects on this road
+   */
   private final ArrayList<EnvironmentObject> objects;
   
   public RoadSegment(final RoadConnection start, final RoadConnection end) {

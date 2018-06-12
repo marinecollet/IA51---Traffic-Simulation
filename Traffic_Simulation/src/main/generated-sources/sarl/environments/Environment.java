@@ -4,6 +4,7 @@ import agents.CarGPSAgent;
 import environments.Car;
 import environments.RoadNetwork;
 import framework.environment.AgentBody;
+import framework.environment.Percept;
 import framework.math.Point2f;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
@@ -20,6 +21,7 @@ import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -64,6 +66,9 @@ public class Environment extends Agent {
   @Pure
   protected void computePerceptions() {
     for (final AgentBody body : this.bodies) {
+      List<Percept> _perceivedObjects = body.getPerceivedObjects();
+      for (final Percept o : _perceivedObjects) {
+      }
     }
   }
   

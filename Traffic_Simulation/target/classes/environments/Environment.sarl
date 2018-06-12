@@ -63,7 +63,12 @@ agent Environment
 	{
 		for(body: bodies)
 		{
-			// compute perceptions for body
+			for(o: body.perceivedObjects)
+			{
+				// Look for road signs
+				
+				// Look for others cars
+			}
 		}
 	}
 }

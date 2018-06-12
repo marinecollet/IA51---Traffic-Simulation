@@ -43,7 +43,7 @@ class RoadNetwork
 	var mapElements: MapElementLayer<?>;
 	
 	def getSegments: ArrayList<RoadSegment>
-	{
+	{	
 		return segments;
 	}
 	
