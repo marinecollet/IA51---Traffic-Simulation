@@ -3,6 +3,7 @@ package environments;
 import agents.CarGPSAgent;
 import environments.Car;
 import environments.RoadNetwork;
+import environments.StopSign;
 import framework.environment.AgentBody;
 import framework.environment.Percept;
 import framework.math.Point2f;
@@ -66,6 +67,10 @@ public class Environment extends Agent {
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawnInContextWithID(CarGPSAgent.class, car.getID(), _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.getDefaultContext());
     this.bodies.add(car);
+    double _minX = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMinX();
+    double _minY = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMinY();
+    Point2f _point2f_1 = new Point2f(_minX, _minY);
+    StopSign stop = new StopSign(_point2f_1);
   }
   
   /**

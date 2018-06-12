@@ -60,6 +60,11 @@ agent Environment
 			new Point2f(network.getMapElementAt(0).geoLocation.toBounds2D.maxX,	network.getMapElementAt(0).geoLocation.toBounds2D.maxY), 0, 0, 0, 0)
 		spawnInContextWithID(typeof(CarGPSAgent),car.ID,defaultContext)
 		bodies.add(car);
+		
+		
+		var stop = new StopSign(
+			new Point2f(network.getMapElementAt(0).geoLocation.toBounds2D.minX,	network.getMapElementAt(0).geoLocation.toBounds2D.minY))
+		
 	}
 
 	/**
