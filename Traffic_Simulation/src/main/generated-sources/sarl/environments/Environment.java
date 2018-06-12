@@ -166,6 +166,8 @@ public class Environment extends Agent {
    */
   @Pure
   protected void update() {
+    for (final AgentBody body : this.bodies) {
+    }
   }
   
   @Extension

@@ -1,9 +1,11 @@
 package environments;
 
 import environments.EnvironmentObject;
+import framework.environment.AgentBody;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import java.util.HashSet;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.eclipse.xtext.xbase.lib.Pure;
 
@@ -28,6 +30,11 @@ public class RoadSegmentData {
    * EnvironmentObject located at the end of the segment
    */
   private EnvironmentObject objectAtEnd;
+  
+  /**
+   * Agent bodies that are present on the segment
+   */
+  private HashSet<AgentBody> bodies;
   
   public RoadSegmentData(final RoadSegment segment) {
     this.segment = segment;

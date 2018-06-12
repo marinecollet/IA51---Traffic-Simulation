@@ -151,6 +151,9 @@ agent Environment
 	 */
 	def update()
 	{
-		
+		for(body: bodies)
+		{
+			
+		}
 	}
 }
