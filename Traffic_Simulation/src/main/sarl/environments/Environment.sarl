@@ -72,9 +72,10 @@ agent Environment
 			}
 		}
 		
+		var stop : StopSign
 		for(key : stops.keySet){
 			if(stops.get(key) > 1)
-				info(stops.get(key))
+				stop = new StopSign(new Point2f(key.x,key.y))
 		}
 
 		//Test
@@ -86,8 +87,8 @@ agent Environment
 		bodies.add(car);
 		
 		
-		var stop = new StopSign(
-			new Point2f(network.getMapElementAt(3).geoLocation.toBounds2D.minX,	network.getMapElementAt(3).geoLocation.toBounds2D.minY))
+		//var stop = new StopSign(
+		//	new Point2f(network.getMapElementAt(3).geoLocation.toBounds2D.minX,	network.getMapElementAt(3).geoLocation.toBounds2D.minY))
 		
 		var flash = new TrafficLight(
 			new Point2f(network.getMapElementAt(2).geoLocation.toBounds2D.minX,

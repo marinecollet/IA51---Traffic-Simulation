@@ -57,7 +57,7 @@ class Application extends javafx.application.Application
 	
 	/** Create a singleton mimic to access instance outside */
 	static var instance : Application;
-
+ 
 	var roadNetworkLayer : MapElementLayer<?> 
 	
 	new()
