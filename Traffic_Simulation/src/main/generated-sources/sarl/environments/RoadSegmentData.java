@@ -4,8 +4,6 @@ import environments.EnvironmentObject;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import java.util.ArrayList;
-import java.util.List;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.eclipse.xtext.xbase.lib.Pure;
 
@@ -16,14 +14,33 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class RoadSegmentData {
+  /**
+   * Targeted segment
+   */
   private RoadSegment segment;
   
-  private List<EnvironmentObject> objectsOnSegment;
+  /**
+   * EnvironmentObject located at the start of the segment
+   */
+  private EnvironmentObject objectAtStart;
+  
+  /**
+   * EnvironmentObject located at the end of the segment
+   */
+  private EnvironmentObject objectAtEnd;
   
   public RoadSegmentData(final RoadSegment segment) {
     this.segment = segment;
-    ArrayList<EnvironmentObject> _arrayList = new ArrayList<EnvironmentObject>();
-    this.objectsOnSegment = _arrayList;
+  }
+  
+  @Pure
+  public EnvironmentObject getObjectAtStart() {
+    return this.objectAtStart;
+  }
+  
+  @Pure
+  public EnvironmentObject getObjectAtEnd() {
+    return this.objectAtEnd;
   }
   
   @Pure
@@ -31,17 +48,12 @@ public class RoadSegmentData {
     return this.segment;
   }
   
-  public boolean addEnvironmentObject(final EnvironmentObject object) {
-    return this.objectsOnSegment.add(object);
+  public void setObjectAtStart(final EnvironmentObject object) {
+    this.objectAtStart = object;
   }
   
-  public boolean removeEnvironmentObject(final EnvironmentObject object) {
-    return this.objectsOnSegment.remove(object);
-  }
-  
-  @Pure
-  public List<EnvironmentObject> getObjectsOnSegment() {
-    return this.objectsOnSegment;
+  public void setObjectAtEnd(final EnvironmentObject object) {
+    this.objectAtEnd = object;
   }
   
   @Override

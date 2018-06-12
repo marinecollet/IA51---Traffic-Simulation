@@ -3,9 +3,7 @@
  */
 package environments
 
-import java.util.ArrayList
 import org.arakhne.afc.gis.road.primitive.RoadSegment
-import java.util.List
 
 /** 
  * @author jerem
@@ -13,34 +11,38 @@ import java.util.List
  */
  
 
- 
 class RoadSegmentData 
 {	
-	
+	/* Targeted segment */
 	var segment : RoadSegment
 	
-	var objectsOnSegment : List<EnvironmentObject>
+	/* EnvironmentObject located at the start of the segment */
+	var objectAtStart : EnvironmentObject
+
+	/* EnvironmentObject located at the end of the segment */
+	var objectAtEnd : EnvironmentObject
 	
 	new(segment : RoadSegment){
 		this.segment = segment
-		
-		objectsOnSegment = new ArrayList<EnvironmentObject>
 	}
 	
-	def getSegment : RoadSegment{
+	def getObjectAtStart {
+		return objectAtStart
+	}
+	
+	def getObjectAtEnd {
+		return objectAtEnd
+	}
+
+	def getSegment {
 		return segment
 	}
 	
-	def addEnvironmentObject(object : EnvironmentObject){
-		objectsOnSegment.add(object)
+	def setObjectAtStart(object : EnvironmentObject) {
+		objectAtStart = object
 	}
-	
-	def removeEnvironmentObject(object : EnvironmentObject){
-		objectsOnSegment.remove(object)
+
+	def setObjectAtEnd(object : EnvironmentObject) {
+		objectAtEnd = object
 	}
-	
-	def getObjectsOnSegment {
-		return objectsOnSegment
-	}
-	
 }
