@@ -19,6 +19,8 @@ import org.arakhne.afc.gis.mapelement.MapElement
 import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
 import io.sarl.core.Logging
+import ^def.SimpleViewer
+import java.io.File
 
 /** 
  * @author Thomas Gredin
@@ -65,10 +67,10 @@ class Application extends javafx.application.Application
 	
 	def init()
 	{
-		var rd = new RoadNetwork
+		//var rd = new RoadNetwork
 		/** Load the shape file content*/
-		roadNetworkLayer = rd.loadShapeFile("asset/Ville.shp");
-		
+		// roadNetworkLayer = rd.loadShapeFile("asset/Ville.shp");
+		roadNetworkLayer = SimpleViewer.loadShapeFile(new File("asset/Ville.shp"))
 	}
 	
 	def start(primaryStage: Stage)

@@ -1,10 +1,11 @@
 package ui;
 
 import com.google.common.base.Objects;
-import environments.RoadNetwork;
+import def.SimpleViewer;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import java.io.File;
 import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -48,8 +49,8 @@ public class Application extends javafx.application.Application {
   }
   
   public void init() {
-    RoadNetwork rd = new RoadNetwork();
-    this.roadNetworkLayer = rd.loadShapeFile("asset/Ville.shp");
+    File _file = new File("asset/Ville.shp");
+    this.roadNetworkLayer = SimpleViewer.loadShapeFile(_file);
   }
   
   public void start(final Stage primaryStage) {

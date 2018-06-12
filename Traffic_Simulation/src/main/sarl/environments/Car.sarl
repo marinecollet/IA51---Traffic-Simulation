@@ -24,7 +24,7 @@ class Car extends Vehicle
 	{
 		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration);
 		position = point;
-
+ 
 		/** Create and add the element to the layer */
 		element = new MapPolygon();
 		element.addPoint(position.x - 2, position.y + 4);

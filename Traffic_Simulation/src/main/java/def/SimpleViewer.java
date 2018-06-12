@@ -54,7 +54,7 @@ public class SimpleViewer extends Application {
 
 	private volatile MapElement selectedRoad;
 
-	private static MapElementLayer<?> loadShapeFile(File file) {
+	public static MapElementLayer<?> loadShapeFile(File file) {
 		try {
 			StandardRoadNetwork network = null;
 			MapElementLayer<MapElement> layer = null;

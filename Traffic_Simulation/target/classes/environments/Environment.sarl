@@ -43,6 +43,7 @@ agent Environment
 	{
 		while(!Application.instance.isReady)
 		{
+			println("")
 		}
 		
 		bodies = new HashSet<AgentBody>();

@@ -26,6 +26,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.Application;
 
@@ -46,6 +47,7 @@ public class Environment extends Agent {
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     while ((!Application.getInstance().getIsReady())) {
+      InputOutput.<String>println("");
     }
     HashSet<AgentBody> _hashSet = new HashSet<AgentBody>();
     this.bodies = _hashSet;
