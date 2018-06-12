@@ -7,6 +7,7 @@ import com.google.common.base.Objects;
 import environments.Car;
 import environments.EnvironmentObject;
 import environments.RoadNetwork;
+import environments.RoadSegmentData;
 import environments.StopSign;
 import environments.TrafficLight;
 import environments.TrafficLightColor;
@@ -60,9 +61,17 @@ public class Environment extends Agent {
   
   private HashSet<EnvironmentObject> environmentObjects;
   
+  /**
+   * Contains all data to draw Road Segments using JavaFX
+   */
   private RoadNetwork roadNetwork;
   
   private RoadNetworkLayer network;
+  
+  /**
+   * Contains all data about road segments
+   */
+  private HashSet<RoadSegmentData> roadSegmentsData;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
@@ -76,10 +85,14 @@ public class Environment extends Agent {
     this.bodies = _hashSet;
     HashSet<EnvironmentObject> _hashSet_1 = new HashSet<EnvironmentObject>();
     this.environmentObjects = _hashSet_1;
+    HashSet<RoadSegmentData> _hashSet_2 = new HashSet<RoadSegmentData>();
+    this.roadSegmentsData = _hashSet_2;
     HashMap<Point2d, Integer> stops = new HashMap<Point2d, Integer>();
     Collection<? extends RoadSegment> _roadSegments = this.network.getRoadNetwork().getRoadSegments();
     for (final RoadSegment seg : _roadSegments) {
       {
+        RoadSegmentData _roadSegmentData = new RoadSegmentData(seg);
+        this.roadSegmentsData.add(_roadSegmentData);
         Iterable<Point2d> pts = seg.points();
         for (final Point2d pt : pts) {
           boolean _containsKey = stops.containsKey(pt);

@@ -49,9 +49,12 @@ agent Environment
 	var bodies: HashSet<AgentBody>;
 	var environmentObjects : HashSet<EnvironmentObject>
 
+	/** Contains all data to draw Road Segments using JavaFX */
 	var roadNetwork : RoadNetwork;
-
-	var network : RoadNetworkLayer // MapElementLayer<?>
+	var network : RoadNetworkLayer; // MapElementLayer<?>
+	
+	/** Contains all data about road segments */
+	var roadSegmentsData: HashSet<RoadSegmentData>;
 
 	on Initialize 
 	{
@@ -63,12 +66,17 @@ agent Environment
 		network = Application.instance.roadNetworkLayer as RoadNetworkLayer
 		bodies = new HashSet<AgentBody>();
 		environmentObjects = new HashSet<EnvironmentObject>()
+		roadSegmentsData = new HashSet<RoadSegmentData>();
 
-		var stops = new HashMap<Point2d, Integer>		
+		var stops = new HashMap<Point2d, Integer>();
 		
 		//Get all road segments and iterate on them to find 
 		//the road connections which are used multiple times
-		for (seg : network.roadNetwork.roadSegments){
+		for (seg : network.roadNetwork.roadSegments)
+		{
+			/** Create and store new RoadSegmentData for the current road segment */
+			roadSegmentsData.add(new RoadSegmentData(seg));
+			
 			var pts = seg.points
 			for (pt : pts) {
 				if (stops.containsKey(pt)) {
