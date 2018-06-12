@@ -32,6 +32,7 @@ import org.arakhne.afc.gis.mapelement.MapElement
 import java.util.Map
 import java.util.HashMap
 import org.arakhne.afc.gis.location.GeoLocation
+import org.arakhne.afc.math.geometry.d2.d.Point2d
 
 /** 
  * @author jerem
@@ -46,36 +47,35 @@ agent Environment
 	
 	var roadNetwork : RoadNetwork;
 
-	var network : MapElementLayer<?>
+	var network : RoadNetworkLayer // MapElementLayer<?>
 
 	on Initialize 
 	{
 		while(!Application.instance.isReady)
 		{
-			//info("attend")
+			info("attend")
 		}
 		
-		network = Application.instance.roadNetworkLayer
+		network = Application.instance.roadNetworkLayer as RoadNetworkLayer
 		bodies = new HashSet<AgentBody>();
 		
-		var stops = new HashMap<GeoLocation, Integer>
-		
-		/* 
-		for(var i = 0 ; i < network.mapElementCount ; i++){
-			var connection = network.getMapElementAt(i).geoLocation
-			
-			println(connection.toBounds2D.center)
-
-			if(stops.containsKey(connection)){
-				stops.replace(connection, (stops.get(connection) + 1) as Integer)
-				info("hop")
-			}
-			else {
-				stops.put(connection, new Integer(1))		
+		var stops = new HashMap<Point2d, Integer>
+				
+		for (seg : network.roadNetwork.roadSegments){
+			var pts = seg.points
+			for (pt : pts) {
+				if (stops.containsKey(pt)) {
+					stops.replace(pt, (stops.get(pt) + 1) as Integer)
+				} else {
+					stops.put(pt, new Integer(1))		
+				}
 			}
 		}
-		info("Tri stops fini")
-		*/
+		
+		for(key : stops.keySet){
+			if(stops.get(key) > 1)
+				info(stops.get(key))
+		}
 
 		//Test
 		var car = new Car(

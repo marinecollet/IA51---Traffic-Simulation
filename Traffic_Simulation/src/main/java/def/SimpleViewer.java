@@ -83,7 +83,7 @@ public class SimpleViewer extends Application {
 					}
 
 					MapElement element;
-
+					
 					while ((element = reader.read()) != null) {
 						if (element instanceof RoadPolyline) {
 							if (network == null) {

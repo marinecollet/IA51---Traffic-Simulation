@@ -26,14 +26,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import javax.inject.Inject;
-import org.arakhne.afc.gis.location.GeoLocation;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
+import org.arakhne.afc.gis.road.layer.RoadNetworkLayer;
+import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.Application;
 
@@ -51,35 +52,45 @@ public class Environment extends Agent {
   
   private RoadNetwork roadNetwork;
   
-  private MapElementLayer<?> network;
+  private RoadNetworkLayer network;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     while ((!Application.getInstance().getIsReady())) {
+      Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+      _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("attend");
     }
-    this.network = Application.getInstance().getRoadNetworkLayer();
+    MapElementLayer<?> _roadNetworkLayer = Application.getInstance().getRoadNetworkLayer();
+    this.network = ((RoadNetworkLayer) _roadNetworkLayer);
     HashSet<AgentBody> _hashSet = new HashSet<AgentBody>();
     this.bodies = _hashSet;
-    HashMap<GeoLocation, Integer> stops = new HashMap<GeoLocation, Integer>();
-    for (int i = 0; (i < this.network.getMapElementCount()); i++) {
+    HashMap<Point2d, Integer> stops = new HashMap<Point2d, Integer>();
+    Collection<? extends RoadSegment> _roadSegments = this.network.getRoadNetwork().getRoadSegments();
+    for (final RoadSegment seg : _roadSegments) {
       {
-        GeoLocation connection = this.network.getMapElementAt(i).getGeoLocation();
-        InputOutput.<Point2d>println(connection.toBounds2D().getCenter());
-        boolean _containsKey = stops.containsKey(connection);
-        if (_containsKey) {
-          Integer _get = stops.get(connection);
-          int _plus = ((_get).intValue() + 1);
-          stops.replace(connection, ((Integer) Integer.valueOf(_plus)));
-          Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-          _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("hop");
-        } else {
-          Integer _integer = new Integer(1);
-          stops.put(connection, _integer);
+        Iterable<Point2d> pts = seg.points();
+        for (final Point2d pt : pts) {
+          boolean _containsKey = stops.containsKey(pt);
+          if (_containsKey) {
+            Integer _get = stops.get(pt);
+            int _plus = ((_get).intValue() + 1);
+            stops.replace(pt, ((Integer) Integer.valueOf(_plus)));
+          } else {
+            Integer _integer = new Integer(1);
+            stops.put(pt, _integer);
+          }
         }
       }
     }
-    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Tri stops fini");
+    Set<Point2d> _keySet = stops.keySet();
+    for (final Point2d key : _keySet) {
+      Integer _get = stops.get(key);
+      boolean _greaterThan = ((_get).intValue() > 1);
+      if (_greaterThan) {
+        Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+        _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info(stops.get(key));
+      }
+    }
     double _maxX = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxX();
     double _maxY = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxY();
     Point2f _point2f = new Point2f(_maxX, _maxY);
