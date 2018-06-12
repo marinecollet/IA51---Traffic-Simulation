@@ -1,0 +1,19 @@
+/** 
+ * 
+ */
+package agents
+
+/** 
+ * @author Marine
+ * 
+ */
+ 
+ /**
+  * Request the A* path
+  */
+event requestAStar
+
+/**
+ * Send the A* path
+ */
+event pathAStar 

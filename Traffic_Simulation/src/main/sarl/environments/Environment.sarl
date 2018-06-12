@@ -33,6 +33,9 @@ import java.util.Map
 import java.util.HashMap
 import org.arakhne.afc.gis.location.GeoLocation
 import org.arakhne.afc.math.geometry.d2.d.Point2d
+import org.arakhne.afc.gis.road.path.astar.RoadAStar
+import agents.pathAStar
+import agents.requestAStar
 
 /** 
  * @author jerem
@@ -104,9 +107,22 @@ agent Environment
 		spawnInContextWithID(typeof(CarGPSAgent),car.ID,defaultContext)
 		bodies.add(car);
 				
-	} 
+	}
 
-	
+	/** 
+	 * @author Marine
+	 * 
+	 * @description
+	 * When the environment receive a perception's request from an agent, he sends back the list of perception
+	 * 
+	 */
+	on requestAStar {
+
+		//
+		var AStar = new RoadAStar();
+		// var path = AStar.solve(RoadConnection startPoint, Point2D<?,?> endPoint,RoadNetwork network);
+		emit(new pathAStar)[it == occurrence.source]; 	// Send the path only to the agent who did the request
+    }
 
 	/**
 	 * @author Thomas Gredin

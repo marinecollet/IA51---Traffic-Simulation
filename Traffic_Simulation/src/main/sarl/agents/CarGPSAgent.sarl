@@ -13,17 +13,20 @@ import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
 import environments.Car
+import io.sarl.core.DefaultContextInteractions
 
 /** 
  * @author jerem
  * 
  */
 agent CarGPSAgent extends VehicleAgent{
-	uses Logging
+	uses Logging, DefaultContextInteractions
 
 	on Initialize {
 		setSkill(new SkillGPSMoving)
 		info("The agent was started.")
+
+		emit(new requestAStar)
 	}
 
 	on Destroy {

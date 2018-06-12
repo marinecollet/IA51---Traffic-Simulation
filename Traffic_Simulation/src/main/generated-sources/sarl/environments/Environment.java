@@ -1,6 +1,9 @@
 package environments;
 
 import agents.CarGPSAgent;
+import agents.pathAStar;
+import agents.requestAStar;
+import com.google.common.base.Objects;
 import environments.Car;
 import environments.EnvironmentObject;
 import environments.RoadNetwork;
@@ -19,9 +22,11 @@ import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import io.sarl.lang.core.Address;
 import io.sarl.lang.core.Agent;
 import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
+import io.sarl.lang.core.Scope;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
@@ -33,6 +38,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.arakhne.afc.gis.road.layer.RoadNetworkLayer;
+import org.arakhne.afc.gis.road.path.astar.RoadAStar;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -125,6 +131,18 @@ public class Environment extends Agent {
     this.bodies.add(car);
   }
   
+  @SyntheticMember
+  private void $behaviorUnit$requestAStar$1(final requestAStar occurrence) {
+    RoadAStar AStar = new RoadAStar();
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    pathAStar _pathAStar = new pathAStar();
+    final Scope<Address> _function = (Address it) -> {
+      Address _source = occurrence.getSource();
+      return Objects.equal(it, _source);
+    };
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_pathAStar, _function);
+  }
+  
   /**
    * @author Thomas Gredin
    * 
@@ -191,6 +209,20 @@ public class Environment extends Agent {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
+  }
+  
+  /**
+   * @author Marine
+   * 
+   * @description
+   * When the environment receive a perception's request from an agent, he sends back the list of perception
+   */
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$requestAStar(final requestAStar occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$requestAStar$1(occurrence));
   }
   
   @Override
