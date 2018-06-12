@@ -128,6 +128,11 @@ public class Application extends javafx.application.Application {
     return this.isReady;
   }
   
+  @Pure
+  public MapElementLayer<?> getRoadNetworkLayer() {
+    return this.roadNetworkLayer;
+  }
+  
   /**
    * @author Thomas Gredin
    * 

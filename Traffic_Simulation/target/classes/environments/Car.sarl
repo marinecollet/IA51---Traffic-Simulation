@@ -25,14 +25,17 @@ class Car extends Vehicle
 		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration);
 		position = point;
  
+ 		var longueur = 8
+ 		var largeur = 4
 		/** Create and add the element to the layer */
 		element = new MapPolygon();
-		element.addPoint(position.x - 2, position.y + 4);
-		element.addPoint(position.x - 2, position.y - 4);
-		element.addPoint(position.x + 2, position.y - 4);
-		element.addPoint(position.x + 2, position.y + 4);
+		element.addPoint(position.x - largeur, position.y + longueur);
+		element.addPoint(position.x - largeur, position.y - longueur);
+		element.addPoint(position.x + largeur, position.y - longueur);
+		element.addPoint(position.x + largeur, position.y + longueur);
 		element.setColor(0x60c36e);
 		Application.instance.addAgentBodyInLayer(element);
+		
 	}
 	
 	/**

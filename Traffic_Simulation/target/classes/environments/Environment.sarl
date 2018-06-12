@@ -25,6 +25,8 @@ import agents.CarGPSAgent
 import framework.math.Point2f
 import io.sarl.core.DefaultContextInteractions
 import java.util.HashSet
+import org.arakhne.afc.gis.road.layer.RoadNetworkLayer
+import io.sarl.core.Logging
 
 /** 
  * @author jerem
@@ -32,12 +34,14 @@ import java.util.HashSet
  */
 agent Environment
 {
-	uses Lifecycle, DefaultContextInteractions
+	uses Lifecycle, DefaultContextInteractions,Logging
 	
 	/** Contains all bodies */
 	var bodies: HashSet<AgentBody>;
 	
 	var roadNetwork : RoadNetwork;
+
+	var network : MapElementLayer<?>
 
 	on Initialize 
 	{
@@ -46,10 +50,14 @@ agent Environment
 			println("")
 		}
 		
+		network = Application.instance.roadNetworkLayer
 		bodies = new HashSet<AgentBody>();
 		
+		info()
+
 		//Test
-		var car = new Car(new Point2f(940050, 2302880),0,0,0,0)
+		var car = new Car(
+			new Point2f(network.getMapElementAt(0).geoLocation.toBounds2D.maxX,	network.getMapElementAt(0).geoLocation.toBounds2D.maxY), 0, 0, 0, 0)
 		spawnInContextWithID(typeof(CarGPSAgent),car.ID,defaultContext)
 		bodies.add(car);
 	}

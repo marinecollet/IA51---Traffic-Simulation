@@ -67,9 +67,6 @@ class Application extends javafx.application.Application
 	
 	def init()
 	{
-		//var rd = new RoadNetwork
-		/** Load the shape file content*/
-		// roadNetworkLayer = rd.loadShapeFile("asset/Ville.shp");
 		roadNetworkLayer = SimpleViewer.loadShapeFile(new File("asset/Ville.shp"))
 	}
 	
@@ -170,6 +167,10 @@ class Application extends javafx.application.Application
 	def getIsReady():boolean
 	{
 		return isReady
+	}
+	
+	def getRoadNetworkLayer : MapElementLayer<?>{
+		return roadNetworkLayer
 	}
 	
 	/**
