@@ -1,12 +1,16 @@
 package environments;
 
+import com.google.common.base.Objects;
 import environments.EnvironmentObject;
 import framework.environment.AgentBody;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.HashSet;
+import java.util.UUID;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -66,6 +70,28 @@ public class RoadSegmentData {
     return this.bodies;
   }
   
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Add an agent body to the Road Segment but before it check if this agent is not already
+   * on it with its UUID.
+   */
+  public boolean appendAgentBody(final AgentBody body) {
+    final Function1<AgentBody, Boolean> _function = (AgentBody el) -> {
+      UUID _iD = el.getID();
+      UUID _iD_1 = body.getID();
+      return Boolean.valueOf(Objects.equal(_iD, _iD_1));
+    };
+    AgentBody _findFirst = IterableExtensions.<AgentBody>findFirst(this.bodies, _function);
+    boolean _notEquals = (!Objects.equal(_findFirst, null));
+    if (_notEquals) {
+      return false;
+    }
+    this.bodies.add(body);
+    return true;
+  }
+  
   public void setObjectAtStart(final EnvironmentObject object) {
     this.objectAtStart = object;
   }
@@ -78,16 +104,14 @@ public class RoadSegmentData {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+    return super.equals(obj);
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+    int result = super.hashCode();
+    return result;
   }
 }

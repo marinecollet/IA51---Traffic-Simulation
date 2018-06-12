@@ -54,6 +54,24 @@ class RoadSegmentData
 		return bodies;
 	}
 	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Add an agent body to the Road Segment but before it check if this agent is not already
+	 * on it with its UUID.
+	 */
+	def appendAgentBody(body: AgentBody): boolean
+	{
+		if(bodies.findFirst[el | el.ID == body.ID] != null)
+		{
+			return false;
+		}
+		
+		bodies.add(body);
+		return true;
+	}
+	
 	def setObjectAtStart(object : EnvironmentObject) {
 		objectAtStart = object
 	}
