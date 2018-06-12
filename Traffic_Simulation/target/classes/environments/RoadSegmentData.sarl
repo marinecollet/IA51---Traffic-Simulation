@@ -72,6 +72,27 @@ class RoadSegmentData
 		return true;
 	}
 	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Remove an AgentBody from the Road Segment using its UUID.
+	 * return false if the body is on the segment end be removed, false
+	 * otherwise.
+	 */
+	def removeAgentBody(body: AgentBody): boolean
+	{
+		var result = bodies.findFirst[el|el.ID == body.ID];
+
+		if(result == null)
+		{
+			return false;
+		}
+		
+		bodies.remove(result);
+		return true;
+	}
+	
 	def setObjectAtStart(object : EnvironmentObject) {
 		objectAtStart = object
 	}

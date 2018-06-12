@@ -92,6 +92,29 @@ public class RoadSegmentData {
     return true;
   }
   
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Remove an AgentBody from the Road Segment using its UUID.
+   * return false if the body is on the segment end be removed, false
+   * otherwise.
+   */
+  public boolean removeAgentBody(final AgentBody body) {
+    final Function1<AgentBody, Boolean> _function = (AgentBody el) -> {
+      UUID _iD = el.getID();
+      UUID _iD_1 = body.getID();
+      return Boolean.valueOf(Objects.equal(_iD, _iD_1));
+    };
+    AgentBody result = IterableExtensions.<AgentBody>findFirst(this.bodies, _function);
+    boolean _equals = Objects.equal(result, null);
+    if (_equals) {
+      return false;
+    }
+    this.bodies.remove(result);
+    return true;
+  }
+  
   public void setObjectAtStart(final EnvironmentObject object) {
     this.objectAtStart = object;
   }
