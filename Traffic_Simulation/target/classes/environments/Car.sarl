@@ -6,6 +6,7 @@ package environments
 import framework.math.Point2f
 import org.arakhne.afc.gis.mapelement.MapPolygon
 import ui.Application
+import java.util.UUID
 
 /** 
  * @author jerem
@@ -22,7 +23,7 @@ class Car extends Vehicle
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
 		maxAngularAcceleration : float) 
 	{
-		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration);
+		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration,UUID.randomUUID);
 		position = point;
  
  		var longueur = 8

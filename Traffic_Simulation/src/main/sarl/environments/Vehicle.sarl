@@ -7,6 +7,7 @@ import java.util.UUID
 import framework.environment.AgentBody
 import framework.math.Rectangle2f
 import framework.math.Point2f
+import framework.environment.Frustum
 
 /** 
  * @author jerem
@@ -15,15 +16,15 @@ import framework.math.Point2f
 abstract class Vehicle extends AgentBody
 {
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
-		maxAngularAcceleration : float) {
+		maxAngularAcceleration : float, uuid : UUID) {
 		super(
-			UUID.randomUUID,
+			uuid,
 			new Rectangle2f(new Point2f(point.x, point.y - 0.5f), new Point2f(point.x, point.y + 0.5f)),
 			maxLinearSpeed,
 			maxLinearAcceleration,
 			maxAngularSpeed,
 			maxAngularAcceleration,
-			null
+			new CarFrustum(uuid)
 		)
 	}
 

@@ -1,5 +1,6 @@
 package environments;
 
+import environments.CarFrustum;
 import framework.environment.AgentBody;
 import framework.math.Point2f;
 import framework.math.Rectangle2f;
@@ -16,11 +17,10 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public abstract class Vehicle extends AgentBody {
-  public Vehicle(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration) {
-    super(
-      UUID.randomUUID(), 
+  public Vehicle(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration, final UUID uuid) {
+    super(uuid, 
       new Rectangle2f(new Point2f(point.getX(), (point.getY() - 0.5f)), new Point2f(point.getX(), (point.getY() + 0.5f))), maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
-      null);
+      new CarFrustum(uuid));
   }
   
   public abstract void moveVehicle(final Point2f newPos);
@@ -37,5 +37,5 @@ public abstract class Vehicle extends AgentBody {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = -617805095L;
+  private final static long serialVersionUID = -748187880L;
 }
