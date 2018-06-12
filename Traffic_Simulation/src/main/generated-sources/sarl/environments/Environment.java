@@ -2,6 +2,7 @@ package environments;
 
 import agents.CarGPSAgent;
 import environments.Car;
+import environments.EnvironmentObject;
 import environments.RoadNetwork;
 import environments.StopSign;
 import environments.TrafficLight;
@@ -51,6 +52,8 @@ public class Environment extends Agent {
    */
   private HashSet<AgentBody> bodies;
   
+  private HashSet<EnvironmentObject> environmentObjects;
+  
   private RoadNetwork roadNetwork;
   
   private RoadNetworkLayer network;
@@ -65,6 +68,8 @@ public class Environment extends Agent {
     this.network = ((RoadNetworkLayer) _roadNetworkLayer);
     HashSet<AgentBody> _hashSet = new HashSet<AgentBody>();
     this.bodies = _hashSet;
+    HashSet<EnvironmentObject> _hashSet_1 = new HashSet<EnvironmentObject>();
+    this.environmentObjects = _hashSet_1;
     HashMap<Point2d, Integer> stops = new HashMap<Point2d, Integer>();
     Collection<? extends RoadSegment> _roadSegments = this.network.getRoadNetwork().getRoadSegments();
     for (final RoadSegment seg : _roadSegments) {
@@ -95,6 +100,7 @@ public class Environment extends Agent {
           Point2f _point2f = new Point2f(_x, _y);
           StopSign _stopSign = new StopSign(_point2f);
           stop = _stopSign;
+          this.environmentObjects.add(stop);
         } else {
           if (((cpt).intValue() > 3)) {
             double _x_1 = key.getX();
@@ -104,6 +110,7 @@ public class Environment extends Agent {
             TrafficLight _trafficLight = new TrafficLight(_point2f_2);
             trafficLight = _trafficLight;
             trafficLight.changeColor(TrafficLightColor.GREEN);
+            this.environmentObjects.add(trafficLight);
           }
         }
       }

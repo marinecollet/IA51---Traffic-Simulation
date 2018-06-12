@@ -44,7 +44,8 @@ agent Environment
 	
 	/** Contains all bodies */
 	var bodies: HashSet<AgentBody>;
-	
+	var environmentObjects : HashSet<EnvironmentObject>
+
 	var roadNetwork : RoadNetwork;
 
 	var network : RoadNetworkLayer // MapElementLayer<?>
@@ -58,9 +59,12 @@ agent Environment
 		
 		network = Application.instance.roadNetworkLayer as RoadNetworkLayer
 		bodies = new HashSet<AgentBody>();
+		environmentObjects = new HashSet<EnvironmentObject>()
+
+		var stops = new HashMap<Point2d, Integer>		
 		
-		var stops = new HashMap<Point2d, Integer>
-				
+		//Get all road segments and iterate on them to find 
+		//the road connections which are used multiple times
 		for (seg : network.roadNetwork.roadSegments){
 			var pts = seg.points
 			for (pt : pts) {
@@ -74,16 +78,20 @@ agent Environment
 		
 		var stop : StopSign
 		var trafficLight : TrafficLight
+		
+		//For each connections, depending on the number, it creates
+		// a stop sign or a traffic light on the map
 		for(key : stops.keySet){
 			var cpt = stops.get(key)
 			if(cpt == 3){
-				//Pour l'instant on ne stock pas le stop
 				stop = new StopSign(new Point2f(key.x,key.y))
+				environmentObjects.add(stop)
 			}
 			else if(cpt > 3){
 				// Idem pour le feu
 				trafficLight = new TrafficLight(new Point2f(new Point2f(key.x, key.y)))
 				trafficLight.changeColor(TrafficLightColor.GREEN)
+				environmentObjects.add(trafficLight)
 			}
 				
 		}
@@ -95,15 +103,6 @@ agent Environment
 			), 0, 0, 0, 0)
 		spawnInContextWithID(typeof(CarGPSAgent),car.ID,defaultContext)
 		bodies.add(car);
-		
-		
-		//var stop = new StopSign(
-		//	new Point2f(network.getMapElementAt(3).geoLocation.toBounds2D.minX,	network.getMapElementAt(3).geoLocation.toBounds2D.minY))
-		
-		//var flash = new TrafficLight(
-		//	new Point2f(network.getMapElementAt(2).geoLocation.toBounds2D.minX,
-		//		network.getMapElementAt(2).geoLocation.toBounds2D.minY))
-				
 				
 	} 
 
