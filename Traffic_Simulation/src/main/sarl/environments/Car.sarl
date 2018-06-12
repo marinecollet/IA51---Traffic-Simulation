@@ -3,14 +3,9 @@
  */
 package environments
 
-import java.util.UUID
-import framework.math.Rectangle2f
 import framework.math.Point2f
-import org.arakhne.afc.gis.mapelement.MapElement
-import org.arakhne.afc.gis.mapelement.MapPoint
-import org.arakhne.afc.gis.mapelement.MapCircle
-import ui.Application
 import org.arakhne.afc.gis.mapelement.MapPolygon
+import ui.Application
 
 /** 
  * @author jerem
@@ -33,11 +28,11 @@ class Car extends Vehicle
 
 		/** Create and add the element to the layer */
 		element = new MapPolygon();
-		element.addPoint(position.x - 5, position.y + 10)
-		element.addPoint(position.x - 5, position.y - 10)
-		element.addPoint(position.x + 5, position.y - 10)
-		element.addPoint(position.x + 5, position.y + 10)
-		element.setColor(0x60c36e)
+		element.addPoint(position.x - 2, position.y + 4);
+		element.addPoint(position.x - 2, position.y - 4);
+		element.addPoint(position.x + 2, position.y - 4);
+		element.addPoint(position.x + 2, position.y + 4);
+		element.setColor(0x60c36e);
 		Application.instance.addAgentBodyInLayer(element);
 	}
 	
@@ -60,11 +55,11 @@ class Car extends Vehicle
 	
 	def getPosition():Point2f
 	{
-		return position
+		return position;
 	}
 	
 	def getElement:MapPolygon
 	{
-		return element
+		return element;
 	}
 }

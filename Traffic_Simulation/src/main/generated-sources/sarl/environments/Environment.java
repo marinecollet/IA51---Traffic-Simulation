@@ -3,6 +3,7 @@ package environments;
 import agents.CarGPSAgent;
 import environments.Car;
 import environments.RoadNetwork;
+import framework.environment.AgentBody;
 import framework.math.Point2f;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
@@ -18,11 +19,11 @@ import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.UUID;
 import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.Application;
 
@@ -33,19 +34,37 @@ import ui.Application;
 @SarlElementType(18)
 @SuppressWarnings("all")
 public class Environment extends Agent {
+  /**
+   * Contains all bodies
+   */
+  private HashSet<AgentBody> bodies;
+  
   private RoadNetwork roadNetwork;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     while ((!Application.getInstance().getIsReady())) {
-      InputOutput.<String>println("Chargement JavaFX");
     }
+    HashSet<AgentBody> _hashSet = new HashSet<AgentBody>();
+    this.bodies = _hashSet;
     Point2f _point2f = new Point2f(940050, 2302880);
     Car car = new Car(_point2f, 0, 0, 0, 0);
     Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawnInContextWithID(CarGPSAgent.class, car.getID(), _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.getDefaultContext());
-    InputOutput.<String>println("fin");
+    this.bodies.add(car);
+  }
+  
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Compute perceptions for each bodies in the environment.
+   */
+  @Pure
+  protected void computePerceptions() {
+    for (final AgentBody body : this.bodies) {
+    }
   }
   
   @Extension

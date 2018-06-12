@@ -24,6 +24,7 @@ import io.sarl.core.Initialize
 import agents.CarGPSAgent
 import framework.math.Point2f
 import io.sarl.core.DefaultContextInteractions
+import java.util.HashSet
 
 /** 
  * @author jerem
@@ -33,17 +34,36 @@ agent Environment
 {
 	uses Lifecycle, DefaultContextInteractions
 	
+	/** Contains all bodies */
+	var bodies: HashSet<AgentBody>;
+	
 	var roadNetwork : RoadNetwork;
 
-	on Initialize {
-		while(!Application.instance.isReady){
-			println("Chargement JavaFX")
+	on Initialize 
+	{
+		while(!Application.instance.isReady)
+		{
 		}
+		
+		bodies = new HashSet<AgentBody>();
 		
 		//Test
 		var car = new Car(new Point2f(940050, 2302880),0,0,0,0)
 		spawnInContextWithID(typeof(CarGPSAgent),car.ID,defaultContext)
-		println("fin");
+		bodies.add(car);
 	}
 
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Compute perceptions for each bodies in the environment.
+	 */
+	def computePerceptions()
+	{
+		for(body: bodies)
+		{
+			// compute perceptions for body
+		}
+	}
 }

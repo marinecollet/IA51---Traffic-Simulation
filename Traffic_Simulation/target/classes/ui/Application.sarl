@@ -51,7 +51,7 @@ class Application extends javafx.application.Application
 	var stopLayer = new ArrayMapElementLayer<MapPolygon>;
 	var flashlightLayer = new ArrayMapElementLayer<MapCircle>;
 	
-	var isReady = false
+	var isReady = false;
 	
 	/** Create a singleton mimic to access instance outside */
 	static var instance : Application;
@@ -145,23 +145,28 @@ class Application extends javafx.application.Application
 		agentBodyLayer.removeMapElement(element);
 	}
 
-	def addStopInLayer(element : MapPolygon) {
+	def addStopInLayer(element : MapPolygon) 
+	{
 		stopLayer.addMapElement(element);
 	}
 
-	def removeStopInLayer(element : MapPolygon) {
+	def removeStopInLayer(element : MapPolygon) 
+	{
 		stopLayer.removeMapElement(element);
 	}
 
-	def addFlashlightInLayer(element : MapCircle) {
+	def addFlashlightInLayer(element : MapCircle) 
+	{
 		flashlightLayer.addMapElement(element);
 	}
 
-	def removeFlashlightInLayer(element : MapCircle) {
+	def removeFlashlightInLayer(element : MapCircle) 
+	{
 		flashlightLayer.removeMapElement(element);
 	}
 	
-	def getIsReady():boolean{
+	def getIsReady():boolean
+	{
 		return isReady
 	}
 	

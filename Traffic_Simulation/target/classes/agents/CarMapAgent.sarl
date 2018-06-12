@@ -19,8 +19,8 @@ import environments.Car
  * 
  */
 agent CarMapAgent extends VehicleAgent {
-	uses Logging
-	uses MovingVehicle
+	uses Logging;
+	uses MovingVehicle;
 	
 	on Initialize {
 		setSkill(new SkillBasicMoving)
