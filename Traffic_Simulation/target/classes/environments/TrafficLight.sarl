@@ -15,6 +15,7 @@ class TrafficLight extends Panel {
 
 	var position : Point2f
 	var element : MapPolygon
+	var state : TrafficLightColor
 
 	new(pos : Point2f) {
 		position = pos
@@ -27,8 +28,24 @@ class TrafficLight extends Panel {
 		}
 
 		element.setColor(0x990000)
-		
+		state = TrafficLightColor.RED
 		Application.instance.addFlashlightInLayer(element)
 	
 	}
+	
+	def changeColor(toState : TrafficLightColor){
+		state = toState
+		switch state{
+			case TrafficLightColor.RED:
+				element.color = 0x990000
+			case TrafficLightColor.ORANGE:
+				element.color = 0xffa500
+			default:
+				element.color = 0x006600
+		}
+	}
+}
+
+enum TrafficLightColor{
+	RED,ORANGE,GREEN
 }

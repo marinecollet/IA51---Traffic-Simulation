@@ -1,6 +1,7 @@
 package environments;
 
 import environments.Panel;
+import environments.TrafficLightColor;
 import framework.math.Point2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
@@ -20,6 +21,8 @@ public class TrafficLight extends Panel {
   
   private MapPolygon element;
   
+  private TrafficLightColor state;
+  
   public TrafficLight(final Point2f pos) {
     this.position = pos;
     MapPolygon _mapPolygon = new MapPolygon();
@@ -36,7 +39,28 @@ public class TrafficLight extends Panel {
       this.element.addPoint(_plus, _plus_1);
     }
     this.element.setColor(0x990000);
+    this.state = TrafficLightColor.RED;
     Application.getInstance().addFlashlightInLayer(this.element);
+  }
+  
+  public void changeColor(final TrafficLightColor toState) {
+    this.state = toState;
+    final TrafficLightColor state = this.state;
+    if (state != null) {
+      switch (state) {
+        case RED:
+          this.element.setColor(0x990000);
+          break;
+        case ORANGE:
+          this.element.setColor(0xffa500);
+          break;
+        default:
+          this.element.setColor(0x006600);
+          break;
+      }
+    } else {
+      this.element.setColor(0x006600);
+    }
   }
   
   @Override
