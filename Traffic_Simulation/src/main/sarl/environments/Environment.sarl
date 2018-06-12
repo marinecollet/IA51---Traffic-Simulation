@@ -73,9 +73,19 @@ agent Environment
 		}
 		
 		var stop : StopSign
+		var trafficLight : TrafficLight
 		for(key : stops.keySet){
-			if(stops.get(key) > 1)
+			var cpt = stops.get(key)
+			if(cpt == 3){
+				//Pour l'instant on ne stock pas le stop
 				stop = new StopSign(new Point2f(key.x,key.y))
+			}
+			else if(cpt > 3){
+				// Idem pour le feu
+				trafficLight = new TrafficLight(new Point2f(new Point2f(key.x, key.y)))
+				trafficLight.changeColor(TrafficLightColor.GREEN)
+			}
+				
 		}
 
 		//Test
@@ -90,9 +100,9 @@ agent Environment
 		//var stop = new StopSign(
 		//	new Point2f(network.getMapElementAt(3).geoLocation.toBounds2D.minX,	network.getMapElementAt(3).geoLocation.toBounds2D.minY))
 		
-		var flash = new TrafficLight(
-			new Point2f(network.getMapElementAt(2).geoLocation.toBounds2D.minX,
-				network.getMapElementAt(2).geoLocation.toBounds2D.minY))
+		//var flash = new TrafficLight(
+		//	new Point2f(network.getMapElementAt(2).geoLocation.toBounds2D.minX,
+		//		network.getMapElementAt(2).geoLocation.toBounds2D.minY))
 				
 				
 	} 
