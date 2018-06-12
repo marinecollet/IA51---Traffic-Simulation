@@ -43,6 +43,17 @@ class RoadSegmentData
 		return segment
 	}
 	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Return the collection of all agent bodies that are on the Road Segment.
+	 */
+	def getAgentBodies(): HashSet<AgentBody>
+	{
+		return bodies;
+	}
+	
 	def setObjectAtStart(object : EnvironmentObject) {
 		objectAtStart = object
 	}
