@@ -3,12 +3,32 @@
  */
 package environments
 
+import framework.math.Point2f
+import ui.Application
+import org.arakhne.afc.gis.mapelement.MapPolygon
 
 /** 
  * @author jerem
  * 
  */
 class TrafficLight extends Panel {
+
+	var position : Point2f
+	var element : MapPolygon
+
+	new(pos : Point2f) {
+		position = pos
+
+		element = new MapPolygon
+
+		for (var i = 0; i < 16; i++) {
+			element.addPoint(position.x + Math.cos(2 * Math.PI / 16 * i + Math.PI / 16) * 8,
+				position.y + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * 8)
+		}
+
+		element.setColor(0x990000)
+		
+		Application.instance.addFlashlightInLayer(element)
 	
-	
+	}
 }

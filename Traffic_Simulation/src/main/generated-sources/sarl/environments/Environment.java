@@ -4,6 +4,7 @@ import agents.CarGPSAgent;
 import environments.Car;
 import environments.RoadNetwork;
 import environments.StopSign;
+import environments.TrafficLight;
 import framework.environment.AgentBody;
 import framework.environment.Percept;
 import framework.math.Point2f;
@@ -71,6 +72,10 @@ public class Environment extends Agent {
     double _minY = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMinY();
     Point2f _point2f_1 = new Point2f(_minX, _minY);
     StopSign stop = new StopSign(_point2f_1);
+    double _minX_1 = this.network.getMapElementAt(2).getGeoLocation().toBounds2D().getMinX();
+    double _minY_1 = this.network.getMapElementAt(2).getGeoLocation().toBounds2D().getMinY();
+    Point2f _point2f_2 = new Point2f(_minX_1, _minY_1);
+    TrafficLight flash = new TrafficLight(_point2f_2);
   }
   
   /**

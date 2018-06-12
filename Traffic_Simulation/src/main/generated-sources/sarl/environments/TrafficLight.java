@@ -5,6 +5,9 @@ import framework.math.Point2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import org.arakhne.afc.gis.mapelement.MapPolygon;
+import org.eclipse.xtext.xbase.lib.Pure;
+import ui.Application;
 
 /**
  * @author jerem
@@ -13,18 +16,41 @@ import io.sarl.lang.annotation.SyntheticMember;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class TrafficLight extends Panel {
-  @SyntheticMember
-  public TrafficLight() {
-    super();
+  private Point2f position;
+  
+  private MapPolygon element;
+  
+  public TrafficLight(final Point2f pos) {
+    this.position = pos;
+    MapPolygon _mapPolygon = new MapPolygon();
+    this.element = _mapPolygon;
+    for (int i = 0; (i < 16); i++) {
+      float _x = this.position.getX();
+      double _cos = Math.cos(((((2 * Math.PI) / 16) * i) + (Math.PI / 16)));
+      double _multiply = (_cos * 8);
+      double _plus = (_x + _multiply);
+      float _y = this.position.getY();
+      double _sin = Math.sin(((((2 * Math.PI) / 16) * i) + (Math.PI / 16)));
+      double _multiply_1 = (_sin * 8);
+      double _plus_1 = (_y + _multiply_1);
+      this.element.addPoint(_plus, _plus_1);
+    }
+    this.element.setColor(0x990000);
+    Application.getInstance().addFlashlightInLayer(this.element);
   }
   
+  @Override
+  @Pure
   @SyntheticMember
-  public TrafficLight(final Point2f _position, final boolean isUpdatable, final boolean isDrawable) {
-    super(_position, isUpdatable, isDrawable);
+  public boolean equals(final Object obj) {
+    return super.equals(obj);
   }
   
+  @Override
+  @Pure
   @SyntheticMember
-  public TrafficLight(final Point2f _position, final Point2f _size, final boolean isUpdatable, final boolean isDrawable) {
-    super(_position, _size, isUpdatable, isDrawable);
+  public int hashCode() {
+    int result = super.hashCode();
+    return result;
   }
 }

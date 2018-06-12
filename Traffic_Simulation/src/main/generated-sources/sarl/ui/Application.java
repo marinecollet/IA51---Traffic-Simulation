@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.arakhne.afc.gis.mapelement.MapCircle;
 import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.arakhne.afc.gis.maplayer.ArrayMapElementLayer;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
@@ -33,7 +32,7 @@ public class Application extends javafx.application.Application {
   
   private ArrayMapElementLayer<MapPolygon> stopLayer = new ArrayMapElementLayer<MapPolygon>();
   
-  private ArrayMapElementLayer<MapCircle> flashlightLayer = new ArrayMapElementLayer<MapCircle>();
+  private ArrayMapElementLayer<MapPolygon> flashlightLayer = new ArrayMapElementLayer<MapPolygon>();
   
   private boolean isReady = false;
   
@@ -115,11 +114,11 @@ public class Application extends javafx.application.Application {
     return this.stopLayer.removeMapElement(element);
   }
   
-  public boolean addFlashlightInLayer(final MapCircle element) {
+  public boolean addFlashlightInLayer(final MapPolygon element) {
     return this.flashlightLayer.addMapElement(element);
   }
   
-  public boolean removeFlashlightInLayer(final MapCircle element) {
+  public boolean removeFlashlightInLayer(final MapPolygon element) {
     return this.flashlightLayer.removeMapElement(element);
   }
   

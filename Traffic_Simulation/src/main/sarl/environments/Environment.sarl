@@ -57,7 +57,9 @@ agent Environment
 
 		//Test
 		var car = new Car(
-			new Point2f(network.getMapElementAt(0).geoLocation.toBounds2D.maxX,	network.getMapElementAt(0).geoLocation.toBounds2D.maxY), 0, 0, 0, 0)
+			new Point2f(network.getMapElementAt(0).geoLocation.toBounds2D.maxX,	
+				network.getMapElementAt(0).geoLocation.toBounds2D.maxY
+			), 0, 0, 0, 0)
 		spawnInContextWithID(typeof(CarGPSAgent),car.ID,defaultContext)
 		bodies.add(car);
 		
@@ -65,7 +67,10 @@ agent Environment
 		var stop = new StopSign(
 			new Point2f(network.getMapElementAt(0).geoLocation.toBounds2D.minX,	network.getMapElementAt(0).geoLocation.toBounds2D.minY))
 		
-	}
+		var flash = new TrafficLight(
+			new Point2f(network.getMapElementAt(2).geoLocation.toBounds2D.minX,
+				network.getMapElementAt(2).geoLocation.toBounds2D.minY))
+	} 
 
 	/**
 	 * @author Thomas Gredin

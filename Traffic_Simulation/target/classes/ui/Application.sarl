@@ -51,7 +51,7 @@ class Application extends javafx.application.Application
 	
 	var agentBodyLayer = new ArrayMapElementLayer<MapPolygon>;
 	var stopLayer = new ArrayMapElementLayer<MapPolygon>;
-	var flashlightLayer = new ArrayMapElementLayer<MapCircle>;
+	var flashlightLayer = new ArrayMapElementLayer<MapPolygon>;
 	
 	var isReady = false;
 	
@@ -154,12 +154,12 @@ class Application extends javafx.application.Application
 		stopLayer.removeMapElement(element);
 	}
 
-	def addFlashlightInLayer(element : MapCircle) 
+	def addFlashlightInLayer(element : MapPolygon) 
 	{
 		flashlightLayer.addMapElement(element);
 	}
 
-	def removeFlashlightInLayer(element : MapCircle) 
+	def removeFlashlightInLayer(element : MapPolygon) 
 	{
 		flashlightLayer.removeMapElement(element);
 	}
