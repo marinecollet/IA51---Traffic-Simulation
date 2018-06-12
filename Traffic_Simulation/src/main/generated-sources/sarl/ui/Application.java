@@ -34,7 +34,7 @@ public class Application extends javafx.application.Application {
   
   private ArrayMapElementLayer<MapPolygon> flashlightLayer = new ArrayMapElementLayer<MapPolygon>();
   
-  private boolean isReady = false;
+  private static boolean isReady = false;
   
   /**
    * Create a singleton mimic to access instance outside
@@ -81,7 +81,7 @@ public class Application extends javafx.application.Application {
     root.setCenter(scrollPane);
     primaryStage.setTitle("Traffic simulation !");
     primaryStage.setScene(scene);
-    this.isReady = true;
+    Application.isReady = true;
     primaryStage.show();
   }
   
@@ -124,7 +124,7 @@ public class Application extends javafx.application.Application {
   
   @Pure
   public boolean getIsReady() {
-    return this.isReady;
+    return Application.isReady;
   }
   
   @Pure
@@ -161,8 +161,6 @@ public class Application extends javafx.application.Application {
     Application other = (Application) obj;
     if (other.dragging != this.dragging)
       return false;
-    if (other.isReady != this.isReady)
-      return false;
     return super.equals(obj);
   }
   
@@ -173,7 +171,6 @@ public class Application extends javafx.application.Application {
     int result = super.hashCode();
     final int prime = 31;
     result = prime * result + (this.dragging ? 1231 : 1237);
-    result = prime * result + (this.isReady ? 1231 : 1237);
     return result;
   }
 }
