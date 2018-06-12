@@ -27,8 +27,7 @@ class TrafficLight extends Panel {
 				position.y + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * 8)
 		}
 
-		element.setColor(0x990000)
-		state = TrafficLightColor.RED
+		changeColor(TrafficLightColor.RED)
 		Application.instance.addFlashlightInLayer(element)
 	
 	}

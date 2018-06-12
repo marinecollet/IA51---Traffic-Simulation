@@ -23,11 +23,14 @@ import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
+import org.arakhne.afc.gis.location.GeoLocation;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
+import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.InputOutput;
@@ -53,13 +56,30 @@ public class Environment extends Agent {
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     while ((!Application.getInstance().getIsReady())) {
-      InputOutput.<String>println("");
     }
     this.network = Application.getInstance().getRoadNetworkLayer();
     HashSet<AgentBody> _hashSet = new HashSet<AgentBody>();
     this.bodies = _hashSet;
+    HashMap<GeoLocation, Integer> stops = new HashMap<GeoLocation, Integer>();
+    for (int i = 0; (i < this.network.getMapElementCount()); i++) {
+      {
+        GeoLocation connection = this.network.getMapElementAt(i).getGeoLocation();
+        InputOutput.<Point2d>println(connection.toBounds2D().getCenter());
+        boolean _containsKey = stops.containsKey(connection);
+        if (_containsKey) {
+          Integer _get = stops.get(connection);
+          int _plus = ((_get).intValue() + 1);
+          stops.replace(connection, ((Integer) Integer.valueOf(_plus)));
+          Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+          _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("hop");
+        } else {
+          Integer _integer = new Integer(1);
+          stops.put(connection, _integer);
+        }
+      }
+    }
     Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info(this);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Tri stops fini");
     double _maxX = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxX();
     double _maxY = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxY();
     Point2f _point2f = new Point2f(_maxX, _maxY);
@@ -68,8 +88,8 @@ public class Environment extends Agent {
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawnInContextWithID(CarGPSAgent.class, car.getID(), _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.getDefaultContext());
     this.bodies.add(car);
-    double _minX = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMinX();
-    double _minY = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMinY();
+    double _minX = this.network.getMapElementAt(3).getGeoLocation().toBounds2D().getMinX();
+    double _minY = this.network.getMapElementAt(3).getGeoLocation().toBounds2D().getMinY();
     Point2f _point2f_1 = new Point2f(_minX, _minY);
     StopSign stop = new StopSign(_point2f_1);
     double _minX_1 = this.network.getMapElementAt(2).getGeoLocation().toBounds2D().getMinX();

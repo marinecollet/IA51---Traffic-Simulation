@@ -38,8 +38,7 @@ public class TrafficLight extends Panel {
       double _plus_1 = (_y + _multiply_1);
       this.element.addPoint(_plus, _plus_1);
     }
-    this.element.setColor(0x990000);
-    this.state = TrafficLightColor.RED;
+    this.changeColor(TrafficLightColor.RED);
     Application.getInstance().addFlashlightInLayer(this.element);
   }
   

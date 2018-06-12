@@ -56,7 +56,7 @@ agent MainAgent extends FrameworkLauncher
 		}).start();
 		
 		
-		
+		Thread.sleep(1000)
 		spawn(Environment)
 		
 		

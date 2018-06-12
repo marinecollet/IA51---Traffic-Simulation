@@ -27,6 +27,11 @@ import io.sarl.core.DefaultContextInteractions
 import java.util.HashSet
 import org.arakhne.afc.gis.road.layer.RoadNetworkLayer
 import io.sarl.core.Logging
+import java.util.ArrayList
+import org.arakhne.afc.gis.mapelement.MapElement
+import java.util.Map
+import java.util.HashMap
+import org.arakhne.afc.gis.location.GeoLocation
 
 /** 
  * @author jerem
@@ -47,13 +52,29 @@ agent Environment
 	{
 		while(!Application.instance.isReady)
 		{
-			println("")
+			//info("attend")
 		}
 		
 		network = Application.instance.roadNetworkLayer
 		bodies = new HashSet<AgentBody>();
 		
-		info()
+		var stops = new HashMap<GeoLocation, Integer>
+		
+		for(var i = 0 ; i < network.mapElementCount ; i++){
+			var connection = network.getMapElementAt(i).geoLocation
+			
+			println(connection.toBounds2D.center)
+
+			if(stops.containsKey(connection)){
+				stops.replace(connection, (stops.get(connection) + 1) as Integer)
+				info("hop")
+			}
+			else {
+				stops.put(connection, new Integer(1))		
+			}
+		}
+		info("Tri stops fini")
+		
 
 		//Test
 		var car = new Car(
@@ -65,12 +86,16 @@ agent Environment
 		
 		
 		var stop = new StopSign(
-			new Point2f(network.getMapElementAt(0).geoLocation.toBounds2D.minX,	network.getMapElementAt(0).geoLocation.toBounds2D.minY))
+			new Point2f(network.getMapElementAt(3).geoLocation.toBounds2D.minX,	network.getMapElementAt(3).geoLocation.toBounds2D.minY))
 		
 		var flash = new TrafficLight(
 			new Point2f(network.getMapElementAt(2).geoLocation.toBounds2D.minX,
 				network.getMapElementAt(2).geoLocation.toBounds2D.minY))
+				
+				
 	} 
+
+	
 
 	/**
 	 * @author Thomas Gredin
