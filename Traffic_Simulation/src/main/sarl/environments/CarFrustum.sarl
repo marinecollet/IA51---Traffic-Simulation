@@ -1,0 +1,21 @@
+/** 
+ * 
+ */
+package environments
+
+import framework.environment.AbstractFrustum
+import framework.math.Point2f
+import framework.math.Vector2f
+import framework.math.Shape2f
+
+/** 
+ * @author jerem
+ * 
+ */
+class CarFrustum extends AbstractFrustum {
+	
+	def toShape(position : Point2f, orientation : Vector2f) : Shape2f<?> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+}
