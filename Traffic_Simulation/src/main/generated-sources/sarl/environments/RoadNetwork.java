@@ -2,8 +2,7 @@ package environments;
 
 import com.google.common.base.Objects;
 import environments.RoadConnection;
-import environments.RoadSegment;
-import framework.math.Point2f;
+import environments.RoadSegmentData;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -13,9 +12,7 @@ import java.io.IOError;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import org.arakhne.afc.gis.coordinate.GeodesicPosition;
 import org.arakhne.afc.gis.io.shape.GISShapeFileReader;
-import org.arakhne.afc.gis.location.GeoLocationPointList;
 import org.arakhne.afc.gis.mapelement.MapElement;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.arakhne.afc.gis.maplayer.TreeMapElementLayer;
@@ -26,14 +23,10 @@ import org.arakhne.afc.gis.road.primitive.RoadNetworkException;
 import org.arakhne.afc.io.dbase.DBaseFileFilter;
 import org.arakhne.afc.io.shape.ESRIBounds;
 import org.arakhne.afc.io.shape.ShapeElementType;
-import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.arakhne.afc.math.geometry.d2.d.Rectangle2d;
 import org.arakhne.afc.vmutil.FileSystem;
-import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.InputOutput;
-import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -43,7 +36,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class RoadNetwork {
-  private ArrayList<RoadSegment> segments = new ArrayList<RoadSegment>();
+  private ArrayList<RoadSegmentData> segments = new ArrayList<RoadSegmentData>();
   
   private ArrayList<RoadConnection> connections = new ArrayList<RoadConnection>();
   
@@ -53,7 +46,7 @@ public class RoadNetwork {
   private MapElementLayer<?> mapElements;
   
   @Pure
-  public ArrayList<RoadSegment> getSegments() {
+  public ArrayList<RoadSegmentData> getSegments() {
     return this.segments;
   }
   
@@ -71,50 +64,8 @@ public class RoadNetwork {
     return this.mapElements;
   }
   
+  @Pure
   public void initMap() {
-    for (final Object mapEl : this.mapElements) {
-      {
-        RoadPolyline tmp = ((RoadPolyline) mapEl);
-        boolean _equals = Objects.equal(tmp, null);
-        if (_equals) {
-          continue;
-        }
-        ArrayList<RoadConnection> listCon = new ArrayList<RoadConnection>();
-        Iterable<Point2d> _points = tmp.points();
-        for (final Point2d pt : _points) {
-          {
-            double _x = pt.getX();
-            double _y = pt.getY();
-            GeodesicPosition geoP = new GeoLocationPointList(_x, _y).toGeodesicPosition();
-            Point2f newPoint = new Point2f(((float) geoP.phi), ((float) geoP.lambda));
-            RoadConnection con = new RoadConnection(newPoint);
-            final Function1<RoadConnection, Boolean> _function = (RoadConnection el) -> {
-              return Boolean.valueOf(((el.getPosition().getX() == newPoint.getX()) && (el.getPosition().getY() == newPoint.getY())));
-            };
-            boolean _exists = IterableExtensions.<RoadConnection>exists(this.connections, _function);
-            boolean _not = (!_exists);
-            if (_not) {
-              this.connections.add(con);
-            }
-            listCon.add(con);
-          }
-        }
-        RoadConnection _get = listCon.get(0);
-        final ArrayList<RoadConnection> _converted_listCon = (ArrayList<RoadConnection>)listCon;
-        int _length = ((Object[])Conversions.unwrapArray(_converted_listCon, Object.class)).length;
-        int _minus = (_length - 1);
-        RoadConnection _get_1 = listCon.get(_minus);
-        RoadSegment rs = new RoadSegment(_get, _get_1);
-        final Function1<RoadSegment, Boolean> _function = (RoadSegment el) -> {
-          return Boolean.valueOf(((Objects.equal(el.getStart().getPosition(), rs.getStart().getPosition()) && Objects.equal(el.getEnd().getPosition(), rs.getEnd().getPosition())) || (Objects.equal(el.getStart().getPosition(), rs.getEnd().getPosition()) && Objects.equal(el.getEnd().getPosition(), rs.getStart().getPosition()))));
-        };
-        boolean _exists = IterableExtensions.<RoadSegment>exists(this.segments, _function);
-        boolean _not = (!_exists);
-        if (_not) {
-          this.segments.add(rs);
-        }
-      }
-    }
   }
   
   public MapElementLayer<?> loadShapeFile(final String filepath) {

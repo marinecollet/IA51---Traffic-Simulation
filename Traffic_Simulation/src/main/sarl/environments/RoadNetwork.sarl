@@ -36,13 +36,13 @@ import framework.math.Point2f
  */
 class RoadNetwork 
 {
-	var segments = new ArrayList<RoadSegment>();
+	var segments = new ArrayList<RoadSegmentData>();
 	var connections = new ArrayList<RoadConnection>();
 	
 	/** Contains all elements loaded from the Shape file */
 	var mapElements: MapElementLayer<?>;
 	
-	def getSegments: ArrayList<RoadSegment>
+	def getSegments : ArrayList<RoadSegmentData>
 	{	
 		return segments;
 	}
@@ -62,7 +62,7 @@ class RoadNetwork
 	}
 	
 	def initMap()
-	{
+	{/*
 		for(mapEl : mapElements)
 		{
 			var tmp = mapEl as RoadPolyline
@@ -83,12 +83,12 @@ class RoadNetwork
 				listCon.add(con)
 			}
 			
-			var rs = new RoadSegment(listCon.get(0), listCon.get(listCon.length - 1))
+			var rs = new RoadSegmentData(listCon.get(0), listCon.get(listCon.length - 1))
 			if (!segments.exists[el|(el.start.position == rs.start.position && el.end.position == rs.end.position) || 
 				(el.start.position == rs.end.position && el.end.position == rs.start.position)
 			])
 				segments.add(rs)
-		}	
+		}	*/
 	}
 	
 	def loadShapeFile(filepath : String) : MapElementLayer<?> 

@@ -1,0 +1,46 @@
+/** 
+ * 
+ */
+package environments
+
+import java.util.ArrayList
+import org.arakhne.afc.gis.road.primitive.RoadSegment
+import java.util.List
+
+/** 
+ * @author jerem
+ * 
+ */
+ 
+
+ 
+class RoadSegmentData 
+{	
+	
+	var segment : RoadSegment
+	
+	var objectsOnSegment : List<EnvironmentObject>
+	
+	new(segment : RoadSegment){
+		this.segment = segment
+		
+		objectsOnSegment = new ArrayList<EnvironmentObject>
+	}
+	
+	def getSegment : RoadSegment{
+		return segment
+	}
+	
+	def addEnvironmentObject(object : EnvironmentObject){
+		objectsOnSegment.add(object)
+	}
+	
+	def removeEnvironmentObject(object : EnvironmentObject){
+		objectsOnSegment.remove(object)
+	}
+	
+	def getObjectsOnSegment {
+		return objectsOnSegment
+	}
+	
+}

@@ -11,7 +11,7 @@ import framework.math.Point2f
  * 
  */
 class RoadConnection {
-
+/* 
 	var position : Point2f
 	
 	var onSegments : ArrayList<RoadSegment>
@@ -29,5 +29,5 @@ class RoadConnection {
 	def addConnectionOnSegment(seg : RoadSegment){
 		onSegments.add(seg)
 	}
-	
+	*/
 }
