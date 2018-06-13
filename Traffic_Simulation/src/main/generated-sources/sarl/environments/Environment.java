@@ -121,7 +121,20 @@ public class Environment extends Agent {
           StopSign _stopSign = new StopSign(_point2f);
           stop = _stopSign;
           this.environmentObjects.add(stop);
-          this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+          HashSet<RoadSegmentData> segments = this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+          for (final RoadSegmentData segment : segments) {
+            Point2d _beginPoint = segment.getBeginPoint();
+            boolean _tripleEquals = (_beginPoint == key);
+            if (_tripleEquals) {
+              segment.setObjectAtStart(stop);
+            } else {
+              Point2d _endPoint = segment.getEndPoint();
+              boolean _tripleEquals_1 = (_endPoint == key);
+              if (_tripleEquals_1) {
+                segment.setObjectAtEnd(stop);
+              }
+            }
+          }
         } else {
           if (((cpt).intValue() > 3)) {
             double _x_1 = key.getX();
@@ -132,6 +145,20 @@ public class Environment extends Agent {
             trafficLight = _trafficLight;
             trafficLight.changeColor(TrafficLightColor.GREEN);
             this.environmentObjects.add(trafficLight);
+            HashSet<RoadSegmentData> segments_1 = this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+            for (final RoadSegmentData segment_1 : segments_1) {
+              Point2d _beginPoint_1 = segment_1.getBeginPoint();
+              boolean _tripleEquals_2 = (_beginPoint_1 == key);
+              if (_tripleEquals_2) {
+                segment_1.setObjectAtStart(trafficLight);
+              } else {
+                Point2d _endPoint_1 = segment_1.getEndPoint();
+                boolean _tripleEquals_3 = (_endPoint_1 == key);
+                if (_tripleEquals_3) {
+                  segment_1.setObjectAtEnd(trafficLight);
+                }
+              }
+            }
           }
         }
       }
