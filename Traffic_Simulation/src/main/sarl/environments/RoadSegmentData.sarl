@@ -6,6 +6,7 @@ package environments
 import org.arakhne.afc.gis.road.primitive.RoadSegment
 import framework.environment.AgentBody
 import java.util.HashSet
+import java.util.UUID
 
 /** 
  * @author jerem
@@ -45,6 +46,17 @@ class RoadSegmentData
 
 	def getSegment {
 		return segment
+	}
+	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Return the UUID of the segment stored.
+	 */
+	def getSegmentUUID(): UUID
+	{
+		return segment.UUID;
 	}
 	
 	/**

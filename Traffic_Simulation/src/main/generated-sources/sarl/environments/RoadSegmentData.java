@@ -66,6 +66,17 @@ public class RoadSegmentData {
    * @author Thomas Gredin
    * 
    * @description
+   * Return the UUID of the segment stored.
+   */
+  @Pure
+  public UUID getSegmentUUID() {
+    return this.segment.getUUID();
+  }
+  
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
    * Return the collection of all agent bodies that are on the Road Segment.
    */
   @Pure
