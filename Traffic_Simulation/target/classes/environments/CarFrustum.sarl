@@ -7,6 +7,8 @@ import framework.environment.AbstractFrustum
 import framework.math.Point2f
 import framework.math.Vector2f
 import framework.math.Shape2f
+import framework.math.Tuple2f
+import framework.math.Rectangle2f
 
 /** 
  * @author jerem
