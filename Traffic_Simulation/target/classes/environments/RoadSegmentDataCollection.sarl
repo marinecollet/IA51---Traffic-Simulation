@@ -1,0 +1,77 @@
+/** 
+ * 
+ */
+package environments
+
+import java.util.HashSet
+import org.arakhne.afc.math.geometry.d2.Point2D
+
+/** 
+ * @author Thomas Gredin
+ * 
+ * @description
+ * This class store a collection of RoadSegmentData and offer multiple
+ * way to sort and get RoadSegmentData using different criteria.
+ */
+class RoadSegmentDataCollection 
+{
+	var collection: HashSet<RoadSegmentData>;
+	
+	new()
+	{
+		collection = new HashSet<RoadSegmentData>();
+	}
+	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Add a RoadSegmentData instance to the collection.
+	 */
+	def add(roadSegmentData: RoadSegmentData)
+	{
+		collection.add(roadSegmentData);
+	}
+
+	/** 
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * remove a RoadSegmentData instance from the collection.
+	 */
+	def remove(roadSegmentData: RoadSegmentData): boolean
+	{
+		if(collection.remove(roadSegmentData))
+		{
+			return true;
+		}
+			
+		return false;
+	}
+	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Return all RoadSegmentData that are a segment that is connected to the
+	 * given road connection. Just need the Point2D instance of the connection.
+	 */
+	def findRoadSegmentsForConnection(connection: Point2D): HashSet<RoadSegmentData>
+	{
+		var segments: HashSet<RoadSegmentData> = new HashSet<RoadSegmentData>();
+		
+		for(sgmt: collection)
+		{
+			for(point: sgmt.segment.points)
+			{
+				if(point === connection)
+				{
+					segments.add(sgmt);
+					continue;
+				}
+			}
+		}
+		
+		return segments;
+	}
+}
