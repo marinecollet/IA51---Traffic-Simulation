@@ -1,5 +1,6 @@
 package environments;
 
+import environments.Car;
 import environments.Cone2f;
 import framework.environment.AbstractFrustum;
 import framework.math.Point2f;
@@ -18,8 +19,10 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class CarFrustum extends AbstractFrustum {
-  public Shape2f<?> toShape(final Point2f position, final Vector2f orientation) {
-    return new Cone2f(position, orientation, 0);
+  public Shape2f<?> toShape(final Car car, final Vector2f orientation) {
+    Point2f _position = car.getPosition();
+    float _perceptionDistance = car.getPerceptionDistance();
+    return new Cone2f(_position, orientation, _perceptionDistance);
   }
   
   @Override
@@ -42,5 +45,5 @@ public class CarFrustum extends AbstractFrustum {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = -46657710L;
+  private final static long serialVersionUID = 1632609770L;
 }

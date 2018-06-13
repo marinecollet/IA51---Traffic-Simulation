@@ -20,15 +20,7 @@
  */
 package framework.gui;
 
-import framework.environment.AgentBody;
-import framework.environment.Frustum;
-import framework.environment.MobileObject;
-import framework.environment.SituatedObject;
-import framework.environment.WorldModelState;
 import framework.gui.FrameworkGUI;
-import framework.math.Point2f;
-import framework.math.Shape2f;
-import framework.math.Vector2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -36,7 +28,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.lang.ref.WeakReference;
@@ -96,41 +87,8 @@ public class WorldPanel extends JPanel {
   }
   
   private void drawObjects(final Graphics2D g2d, final Dimension currentDim) {
-    final WorldModelState state = this.getWindow().getLastWorldState();
-    if ((state == null)) {
-      return;
-    }
-    Iterable<SituatedObject> _objects = state.getObjects();
-    for (final SituatedObject o : _objects) {
-      {
-        Point2f positionOnScreen = this.getWindow().mas2screen(o.getPosition());
-        Vector2f directionOnScreen = null;
-        if ((o instanceof MobileObject)) {
-          directionOnScreen = this.getWindow().mas2screen(((MobileObject)o).getDirection());
-        } else {
-          directionOnScreen = null;
-        }
-        Shape awtShape = this.getWindow().mas2screen(o.getShape());
-        if ((o instanceof AgentBody)) {
-          Frustum frustum = ((AgentBody)o).getFrustum();
-          Shape2f<?> _shape = null;
-          if (frustum!=null) {
-            _shape=frustum.toShape(((AgentBody)o).getPosition(), ((AgentBody)o).getDirection());
-          }
-          Shape2f<?> frustumShape = _shape;
-          this.getWindow().paintAgentBody(g2d, positionOnScreen, directionOnScreen, awtShape, 
-            ((AgentBody)o).getType(), 
-            ((AgentBody)o).getName(), 
-            ((AgentBody)o).getPosition(), 
-            this.getWindow().mas2screen(frustumShape));
-        } else {
-          this.getWindow().paintSituatedObject(g2d, positionOnScreen, directionOnScreen, awtShape, 
-            o.getType(), 
-            o.getName(), 
-            o.getPosition());
-        }
-      }
-    }
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from Point2f to Car");
   }
   
   @Override

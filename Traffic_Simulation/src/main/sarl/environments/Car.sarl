@@ -20,7 +20,7 @@ class Car extends Vehicle
 	/** The representation of the car (here a circle) */
 	var element : MapPolygon
 	
-	var perceptionDistance : double
+	
 	
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
 		maxAngularAcceleration : float) 
@@ -50,10 +50,10 @@ class Car extends Vehicle
 	 * Do cleaning stuff, must be called before destroying
 	 */
 	 
-	 def getPerceptionDistance{
+	 def getPerceptionDistance : float {
 	 	return perceptionDistance
 	 }
-	 def setPerceptionDisatnce( perceptionDistance : double){
+	 def setPerceptionDisatnce( perceptionDistance : float ){
 	 	this.perceptionDistance = perceptionDistance
 	 }
 	 

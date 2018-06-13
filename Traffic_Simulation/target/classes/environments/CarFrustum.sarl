@@ -16,9 +16,9 @@ import framework.math.Rectangle2f
  */
 class CarFrustum extends AbstractFrustum 
 {
-	def toShape(position : Point2f, orientation : Vector2f) : Shape2f<?> 
+	def toShape(car : Car, orientation : Vector2f) : Shape2f<?> 
 	{
 		/** Create frustum shape for given position and orientation */
-		return new Cone2f(position, orientation, 0);
+		return new Cone2f(car.position, orientation, car.getPerceptionDistance());
 	}
 }

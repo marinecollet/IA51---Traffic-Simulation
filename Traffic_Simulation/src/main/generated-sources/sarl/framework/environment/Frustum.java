@@ -20,8 +20,8 @@
  */
 package framework.environment;
 
+import environments.Car;
 import framework.environment.SituatedObject;
-import framework.math.Point2f;
 import framework.math.Shape2f;
 import framework.math.Vector2f;
 import io.sarl.lang.annotation.SarlElementType;
@@ -54,7 +54,7 @@ public interface Frustum extends Serializable, Cloneable {
    * @param orientation the orientation of the owner of the frustum.
    * @return the shape.
    */
-  public abstract Shape2f<?> toShape(final Point2f position, final Vector2f orientation);
+  public abstract Shape2f<?> toShape(final Car car, final Vector2f orientation);
   
   /**
    * Create a filtering iterator.
