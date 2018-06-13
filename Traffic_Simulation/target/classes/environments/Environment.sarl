@@ -54,7 +54,7 @@ agent Environment
 	var network : RoadNetworkLayer; // MapElementLayer<?>
 	
 	/** Contains all data about road segments */
-	var roadSegmentsData: HashSet<RoadSegmentData>;
+	var roadSegmentDataCollection: RoadSegmentDataCollection;
 
 	on Initialize 
 	{
@@ -66,7 +66,7 @@ agent Environment
 		network = Application.instance.roadNetworkLayer as RoadNetworkLayer
 		bodies = new HashSet<AgentBody>();
 		environmentObjects = new HashSet<EnvironmentObject>()
-		roadSegmentsData = new HashSet<RoadSegmentData>();
+		roadSegmentDataCollection= new RoadSegmentDataCollection();
 
 		var stops = new HashMap<Point2d, Integer>();
 		
@@ -91,7 +91,7 @@ agent Environment
 			}
 
 			/** Add the segment data to the collection */
-			roadSegmentsData.add(roadSegmentData);
+			roadSegmentDataCollection.add(roadSegmentData);
 		}
 		
 		var stop : StopSign
@@ -106,6 +106,9 @@ agent Environment
 			{
 				stop = new StopSign(new Point2f(key.x,key.y));
 				environmentObjects.add(stop);
+				
+				/** Get all road segments data that are in this connection */
+				roadSegmentDataCollection.findRoadSegmentsForConnection(key);
 			}
 			else if(cpt > 3)
 			{

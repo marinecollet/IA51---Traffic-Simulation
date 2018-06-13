@@ -8,6 +8,7 @@ import environments.Car;
 import environments.EnvironmentObject;
 import environments.RoadNetwork;
 import environments.RoadSegmentData;
+import environments.RoadSegmentDataCollection;
 import environments.StopSign;
 import environments.TrafficLight;
 import environments.TrafficLightColor;
@@ -71,7 +72,7 @@ public class Environment extends Agent {
   /**
    * Contains all data about road segments
    */
-  private HashSet<RoadSegmentData> roadSegmentsData;
+  private RoadSegmentDataCollection roadSegmentDataCollection;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
@@ -85,8 +86,8 @@ public class Environment extends Agent {
     this.bodies = _hashSet;
     HashSet<EnvironmentObject> _hashSet_1 = new HashSet<EnvironmentObject>();
     this.environmentObjects = _hashSet_1;
-    HashSet<RoadSegmentData> _hashSet_2 = new HashSet<RoadSegmentData>();
-    this.roadSegmentsData = _hashSet_2;
+    RoadSegmentDataCollection _roadSegmentDataCollection = new RoadSegmentDataCollection();
+    this.roadSegmentDataCollection = _roadSegmentDataCollection;
     HashMap<Point2d, Integer> stops = new HashMap<Point2d, Integer>();
     Collection<? extends RoadSegment> _roadSegments = this.network.getRoadNetwork().getRoadSegments();
     for (final RoadSegment seg : _roadSegments) {
@@ -104,7 +105,7 @@ public class Environment extends Agent {
             stops.put(pt, _integer);
           }
         }
-        this.roadSegmentsData.add(roadSegmentData);
+        this.roadSegmentDataCollection.add(roadSegmentData);
       }
     }
     StopSign stop = null;
@@ -120,6 +121,7 @@ public class Environment extends Agent {
           StopSign _stopSign = new StopSign(_point2f);
           stop = _stopSign;
           this.environmentObjects.add(stop);
+          this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
         } else {
           if (((cpt).intValue() > 3)) {
             double _x_1 = key.getX();

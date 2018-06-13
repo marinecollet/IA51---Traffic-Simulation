@@ -9,6 +9,7 @@ import io.sarl.lang.annotation.SyntheticMember;
 import java.util.HashSet;
 import java.util.UUID;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
+import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -71,6 +72,28 @@ public class RoadSegmentData {
   @Pure
   public UUID getID() {
     return this.segment.getUUID();
+  }
+  
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Return the Begin point position of the road segment.
+   */
+  @Pure
+  public Point2d getBeginPoint() {
+    return this.segment.getBeginPoint().getPoint();
+  }
+  
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Return the End point position of the road segment.
+   */
+  @Pure
+  public Point2d getEndPoint() {
+    return this.segment.getEndPoint().getPoint();
   }
   
   /**
