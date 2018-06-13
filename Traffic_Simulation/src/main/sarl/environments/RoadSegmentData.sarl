@@ -54,7 +54,7 @@ class RoadSegmentData
 	 * @description
 	 * Return the UUID of the segment stored.
 	 */
-	def getSegmentUUID(): UUID
+	def getID(): UUID
 	{
 		return segment.UUID;
 	}

@@ -69,7 +69,7 @@ public class RoadSegmentData {
    * Return the UUID of the segment stored.
    */
   @Pure
-  public UUID getSegmentUUID() {
+  public UUID getID() {
     return this.segment.getUUID();
   }
   
