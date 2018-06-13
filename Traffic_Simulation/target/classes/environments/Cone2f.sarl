@@ -7,38 +7,48 @@ import framework.math.Shape2f
 import framework.math.Point2f
 import framework.math.Tuple2f
 import framework.math.Rectangle2f
+import framework.math.Vector2f
 
 /** 
  * @author jerem
  * 
  */
-class Cone2f extends Shape2f<Cone2f> {
-	var start : Point2f
-	var perceptionDistance : float
+class Cone2f extends Shape2f<Cone2f> 
+{
+	var start: Point2f;
+	var perceptionDistance: float;
+	var direction: Vector2f;
 
-	new(position : Point2f, perceptionDistance : float) {
-		start = position
-		this.perceptionDistance = perceptionDistance
+	new(position: Point2f, orientation: Vector2f, perceptionDistance: float) 
+	{
+		start = position;
+		direction = orientation;
+		this.perceptionDistance = perceptionDistance;
 	}
 
-	new(x : float, y : float, perceptionDistance : float) {
+	new(x : float, y : float, perceptionDistance : float) 
+	{
 		start = new Point2f(x, y)
 		this.perceptionDistance = perceptionDistance
 	}
 
-	def intersects(r : Shape2f<?>) : boolean {
+	def intersects(r : Shape2f<?>) : boolean 
+	{
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
-	def translate(vector : Tuple2f<?>) : Cone2f {
+	def translate(vector : Tuple2f<?>) : Cone2f 
+	{
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
-	def getBounds : Rectangle2f {
+	def getBounds : Rectangle2f 
+	{
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
-	def getMaxDemiSize : float {
+	def getMaxDemiSize : float 
+	{
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 

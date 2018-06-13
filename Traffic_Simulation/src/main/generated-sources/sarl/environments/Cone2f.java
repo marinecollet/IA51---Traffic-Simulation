@@ -4,6 +4,7 @@ import framework.math.Point2f;
 import framework.math.Rectangle2f;
 import framework.math.Shape2f;
 import framework.math.Tuple2f;
+import framework.math.Vector2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -20,8 +21,11 @@ public class Cone2f extends Shape2f<Cone2f> {
   
   private float perceptionDistance;
   
-  public Cone2f(final Point2f position, final float perceptionDistance) {
+  private Vector2f direction;
+  
+  public Cone2f(final Point2f position, final Vector2f orientation, final float perceptionDistance) {
     this.start = position;
+    this.direction = orientation;
     this.perceptionDistance = perceptionDistance;
   }
   
@@ -87,5 +91,5 @@ public class Cone2f extends Shape2f<Cone2f> {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 3103730651L;
+  private final static long serialVersionUID = 2989377722L;
 }

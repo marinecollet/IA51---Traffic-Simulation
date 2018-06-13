@@ -1,5 +1,6 @@
 package environments;
 
+import environments.Cone2f;
 import framework.environment.AbstractFrustum;
 import framework.math.Point2f;
 import framework.math.Shape2f;
@@ -18,7 +19,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SuppressWarnings("all")
 public class CarFrustum extends AbstractFrustum {
   public Shape2f<?> toShape(final Point2f position, final Vector2f orientation) {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
+    return new Cone2f(position, orientation, 0);
   }
   
   @Override
