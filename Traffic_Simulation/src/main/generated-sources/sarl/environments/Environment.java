@@ -91,8 +91,7 @@ public class Environment extends Agent {
     Collection<? extends RoadSegment> _roadSegments = this.network.getRoadNetwork().getRoadSegments();
     for (final RoadSegment seg : _roadSegments) {
       {
-        RoadSegmentData _roadSegmentData = new RoadSegmentData(seg);
-        this.roadSegmentsData.add(_roadSegmentData);
+        RoadSegmentData roadSegmentData = new RoadSegmentData(seg);
         Iterable<Point2d> pts = seg.points();
         for (final Point2d pt : pts) {
           boolean _containsKey = stops.containsKey(pt);
@@ -105,6 +104,7 @@ public class Environment extends Agent {
             stops.put(pt, _integer);
           }
         }
+        this.roadSegmentsData.add(roadSegmentData);
       }
     }
     StopSign stop = null;

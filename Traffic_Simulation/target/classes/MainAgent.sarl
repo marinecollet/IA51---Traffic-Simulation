@@ -1,7 +1,3 @@
-/** 
- * 
- */
-
 import environments.RoadNetwork
 import framework.FrameworkLauncher
 import io.sarl.core.Initialize

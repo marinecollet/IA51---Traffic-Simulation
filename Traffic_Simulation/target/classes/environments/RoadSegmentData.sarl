@@ -27,9 +27,12 @@ class RoadSegmentData
 	/** Agent bodies that are present on the segment */
 	var bodies: HashSet<AgentBody>;
 	
+	/**
+	 * Constructor
+	 */
 	new(segment : RoadSegment)
 	{
-		this.segment = segment
+		this.segment = segment;
 	}
 	
 	def getObjectAtStart {

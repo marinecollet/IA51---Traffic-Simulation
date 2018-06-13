@@ -40,6 +40,9 @@ public class RoadSegmentData {
    */
   private HashSet<AgentBody> bodies;
   
+  /**
+   * Constructor
+   */
   public RoadSegmentData(final RoadSegment segment) {
     this.segment = segment;
   }
@@ -127,16 +130,14 @@ public class RoadSegmentData {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+    return super.equals(obj);
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+    int result = super.hashCode();
+    return result;
   }
 }

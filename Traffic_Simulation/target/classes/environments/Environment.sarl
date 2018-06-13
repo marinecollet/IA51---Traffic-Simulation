@@ -74,17 +74,24 @@ agent Environment
 		//the road connections which are used multiple times
 		for (seg : network.roadNetwork.roadSegments)
 		{
-			/** Create and store new RoadSegmentData for the current road segment */
-			roadSegmentsData.add(new RoadSegmentData(seg));
+			/** Create new RoadSegmentData for the current road segment */
+			var roadSegmentData : RoadSegmentData = new RoadSegmentData(seg);
 			
-			var pts = seg.points
-			for (pt : pts) {
-				if (stops.containsKey(pt)) {
-					stops.replace(pt, (stops.get(pt) + 1) as Integer)
-				} else {
-					stops.put(pt, new Integer(1))		
+			var pts = seg.points;
+			for (pt : pts) 
+			{
+				if (stops.containsKey(pt)) 
+				{
+					stops.replace(pt, (stops.get(pt) + 1) as Integer);
+				} 
+				else 
+				{
+					stops.put(pt, new Integer(1));	
 				}
 			}
+
+			/** Add the segment data to the collection */
+			roadSegmentsData.add(roadSegmentData);
 		}
 		
 		var stop : StopSign
@@ -92,19 +99,21 @@ agent Environment
 		
 		//For each connections, depending on the number, it creates
 		// a stop sign or a traffic light on the map
-		for(key : stops.keySet){
-			var cpt = stops.get(key)
-			if(cpt == 3){
-				stop = new StopSign(new Point2f(key.x,key.y))
-				environmentObjects.add(stop)
+		for(key : stops.keySet)
+		{	
+			var cpt = stops.get(key);
+			if(cpt == 3)
+			{
+				stop = new StopSign(new Point2f(key.x,key.y));
+				environmentObjects.add(stop);
 			}
-			else if(cpt > 3){
+			else if(cpt > 3)
+			{
 				// Idem pour le feu
-				trafficLight = new TrafficLight(new Point2f(new Point2f(key.x, key.y)))
-				trafficLight.changeColor(TrafficLightColor.GREEN)
-				environmentObjects.add(trafficLight)
+				trafficLight = new TrafficLight(new Point2f(new Point2f(key.x, key.y)));
+				trafficLight.changeColor(TrafficLightColor.GREEN);
+				environmentObjects.add(trafficLight);
 			}
-				
 		}
 
 		//Test
