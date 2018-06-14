@@ -40,6 +40,8 @@ public class RoadNetwork {
   
   private ArrayList<RoadConnection> connections = new ArrayList<RoadConnection>();
   
+  private StandardRoadNetwork profRoadNetwork;
+  
   /**
    * Contains all elements loaded from the Shape file
    */
@@ -62,6 +64,11 @@ public class RoadNetwork {
   @Pure
   public MapElementLayer<?> getMapElement() {
     return this.mapElements;
+  }
+  
+  @Pure
+  public StandardRoadNetwork getProfRoadNetwork() {
+    return this.profRoadNetwork;
   }
   
   @Pure
@@ -156,6 +163,7 @@ public class RoadNetwork {
       boolean _notEquals = (!Objects.equal(network, null));
       if (_notEquals) {
         RoadNetworkLayer networkLayer = new RoadNetworkLayer(network);
+        this.profRoadNetwork = network;
         this.mapElements = networkLayer;
         return networkLayer;
       }

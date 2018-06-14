@@ -17,7 +17,7 @@ import io.sarl.core.DefaultContextInteractions
 
 /** 
  * @author jerem
- * 
+ *  
  */
 agent CarGPSAgent extends VehicleAgent{
 	uses Logging, DefaultContextInteractions

@@ -163,11 +163,15 @@ agent Environment
 	 * 
 	 */
 	on requestAStar {
-
-		//
+		
+		var startPoint = new Point2d(network.getMapElementAt(0).geoLocation.toBounds2D.maxX,
+			network.getMapElementAt(0).geoLocation.toBounds2D.maxY);
+		var endPoint = new Point2d(network.getMapElementAt(3).geoLocation.toBounds2D.maxX,
+			network.getMapElementAt(3).geoLocation.toBounds2D.maxY); 
 		var AStar = new RoadAStar();
-		// var path = AStar.solve(RoadConnection startPoint, Point2D<?,?> endPoint,RoadNetwork network);
-		emit(new pathAStar)[it == occurrence.source]; 	// Send the path only to the agent who did the request
+		// TODO: Fix issue with road network. 
+		var path = AStar.solve(startPoint, endPoint, roadNetwork.profRoadNetwork);
+		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
     }
 
 	/**

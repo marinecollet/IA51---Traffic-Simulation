@@ -3,6 +3,8 @@
  */
 package agents
 
+import org.arakhne.afc.gis.road.path.RoadPath
+
 /** 
  * @author Marine
  * 
@@ -16,4 +18,10 @@ event requestAStar
 /**
  * Send the A* path
  */
-event pathAStar 
+event pathAStar {
+	val pathReturn : RoadPath;
+	new(p : RoadPath)
+	{
+		this.pathReturn = p;
+	}
+}

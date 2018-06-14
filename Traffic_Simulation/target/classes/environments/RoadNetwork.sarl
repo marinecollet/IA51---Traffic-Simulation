@@ -39,6 +39,8 @@ class RoadNetwork
 	var segments = new ArrayList<RoadSegmentData>();
 	var connections = new ArrayList<RoadConnection>();
 	
+	var profRoadNetwork: StandardRoadNetwork;
+	
 	/** Contains all elements loaded from the Shape file */
 	var mapElements: MapElementLayer<?>;
 	
@@ -59,6 +61,11 @@ class RoadNetwork
 	def getMapElement: MapElementLayer<?>
 	{
 		return mapElements;
+	}
+	
+	def getProfRoadNetwork(): StandardRoadNetwork
+	{
+		return profRoadNetwork;
 	}
 	
 	def initMap()
@@ -133,7 +140,7 @@ class RoadNetwork
 							var sgmt : RoadPolyline = element as RoadPolyline
 							
 							try 
-							{
+							{ 
 								//var car = new Car(new Point2f(sgmt.points.get(1).x - 10, sgmt.points.get(1).y-10),0,0,0,0)
 								//println(sgmt)
 								//sgmt.addAttributes(car.element)
@@ -178,7 +185,8 @@ class RoadNetwork
 			
 			if (network != null) 
 			{
-				var networkLayer: RoadNetworkLayer = new RoadNetworkLayer(network)
+				var networkLayer: RoadNetworkLayer = new RoadNetworkLayer(network);
+				profRoadNetwork = network;
 				mapElements = networkLayer
 				return networkLayer
 			}
