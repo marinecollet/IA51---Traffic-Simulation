@@ -14,6 +14,7 @@ import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
 import environments.Car
 import io.sarl.core.DefaultContextInteractions
+import org.arakhne.afc.gis.road.path.RoadPath
 
 /** 
  * @author jerem
@@ -21,6 +22,9 @@ import io.sarl.core.DefaultContextInteractions
  */
 agent CarGPSAgent extends VehicleAgent{
 	uses Logging, DefaultContextInteractions
+
+
+	var path : RoadPath
 
 	on Initialize {
 		setSkill(new SkillGPSMoving)
@@ -33,6 +37,10 @@ agent CarGPSAgent extends VehicleAgent{
 		// Event trigger when the agent is destroyed from the system.
 		// You should put all the resource releasing statements in this block of code.
 		info("The agent was stopped.")
+	}
+
+	on pathAStar {
+		path = occurrence.pathReturn
 	}
 
 	on AgentSpawned {

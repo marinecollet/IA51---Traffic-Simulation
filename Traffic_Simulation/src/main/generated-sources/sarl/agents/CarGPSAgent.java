@@ -2,6 +2,7 @@ package agents;
 
 import agents.SkillGPSMoving;
 import agents.VehicleAgent;
+import agents.pathAStar;
 import agents.requestAStar;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
@@ -25,6 +26,7 @@ import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
+import org.arakhne.afc.gis.road.path.RoadPath;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -36,6 +38,8 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(18)
 @SuppressWarnings("all")
 public class CarGPSAgent extends VehicleAgent {
+  private RoadPath path;
+  
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     SkillGPSMoving _skillGPSMoving = new SkillGPSMoving();
@@ -54,27 +58,32 @@ public class CarGPSAgent extends VehicleAgent {
   }
   
   @SyntheticMember
-  private void $behaviorUnit$AgentSpawned$2(final AgentSpawned occurrence) {
+  private void $behaviorUnit$pathAStar$2(final pathAStar occurrence) {
+    this.path = occurrence.pathReturn;
   }
   
   @SyntheticMember
-  private void $behaviorUnit$AgentKilled$3(final AgentKilled occurrence) {
+  private void $behaviorUnit$AgentSpawned$3(final AgentSpawned occurrence) {
   }
   
   @SyntheticMember
-  private void $behaviorUnit$ContextJoined$4(final ContextJoined occurrence) {
+  private void $behaviorUnit$AgentKilled$4(final AgentKilled occurrence) {
   }
   
   @SyntheticMember
-  private void $behaviorUnit$ContextLeft$5(final ContextLeft occurrence) {
+  private void $behaviorUnit$ContextJoined$5(final ContextJoined occurrence) {
   }
   
   @SyntheticMember
-  private void $behaviorUnit$MemberJoined$6(final MemberJoined occurrence) {
+  private void $behaviorUnit$ContextLeft$6(final ContextLeft occurrence) {
   }
   
   @SyntheticMember
-  private void $behaviorUnit$MemberLeft$7(final MemberLeft occurrence) {
+  private void $behaviorUnit$MemberJoined$7(final MemberJoined occurrence) {
+  }
+  
+  @SyntheticMember
+  private void $behaviorUnit$MemberLeft$8(final MemberLeft occurrence) {
   }
   
   @Extension
@@ -120,7 +129,7 @@ public class CarGPSAgent extends VehicleAgent {
   private void $guardEvaluator$ContextLeft(final ContextLeft occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextLeft$5(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextLeft$6(occurrence));
   }
   
   @SyntheticMember
@@ -128,7 +137,7 @@ public class CarGPSAgent extends VehicleAgent {
   private void $guardEvaluator$ContextJoined(final ContextJoined occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextJoined$4(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextJoined$5(occurrence));
   }
   
   @SyntheticMember
@@ -136,7 +145,7 @@ public class CarGPSAgent extends VehicleAgent {
   private void $guardEvaluator$MemberLeft(final MemberLeft occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberLeft$7(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberLeft$8(occurrence));
   }
   
   @SyntheticMember
@@ -144,7 +153,7 @@ public class CarGPSAgent extends VehicleAgent {
   private void $guardEvaluator$AgentSpawned(final AgentSpawned occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentSpawned$2(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentSpawned$3(occurrence));
   }
   
   @SyntheticMember
@@ -160,7 +169,15 @@ public class CarGPSAgent extends VehicleAgent {
   private void $guardEvaluator$AgentKilled(final AgentKilled occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentKilled$3(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentKilled$4(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$pathAStar(final pathAStar occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$pathAStar$2(occurrence));
   }
   
   @SyntheticMember
@@ -168,7 +185,22 @@ public class CarGPSAgent extends VehicleAgent {
   private void $guardEvaluator$MemberJoined(final MemberJoined occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberJoined$6(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberJoined$7(occurrence));
+  }
+  
+  @Override
+  @Pure
+  @SyntheticMember
+  public boolean equals(final Object obj) {
+    return super.equals(obj);
+  }
+  
+  @Override
+  @Pure
+  @SyntheticMember
+  public int hashCode() {
+    int result = super.hashCode();
+    return result;
   }
   
   @SyntheticMember
