@@ -169,8 +169,8 @@ agent Environment
 		var endPoint = new Point2d(network.getMapElementAt(3).geoLocation.toBounds2D.maxX,
 			network.getMapElementAt(3).geoLocation.toBounds2D.maxY); 
 		var AStar = new RoadAStar();
-		// TODO: Fix issue with road network. 
-		var path = AStar.solve(startPoint, endPoint, roadNetwork.profRoadNetwork);
+		// TODO: Fix issue with road network. 		
+		var path = AStar.solve(startPoint, endPoint, network.roadNetwork); 
 		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
     }
 

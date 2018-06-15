@@ -183,7 +183,7 @@ public class Environment extends Agent {
     double _maxY_1 = this.network.getMapElementAt(3).getGeoLocation().toBounds2D().getMaxY();
     Point2d endPoint = new Point2d(_maxX_1, _maxY_1);
     RoadAStar AStar = new RoadAStar();
-    RoadPath path = AStar.solve(startPoint, endPoint, this.roadNetwork.getProfRoadNetwork());
+    RoadPath path = AStar.solve(startPoint, endPoint, this.network.getRoadNetwork());
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     pathAStar _pathAStar = new pathAStar(path);
     final Scope<Address> _function = (Address it) -> {
