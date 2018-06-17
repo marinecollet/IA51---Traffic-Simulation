@@ -152,6 +152,13 @@ agent Environment
 			), 0, 0, 0, 0)
 		spawnInContextWithID(typeof(CarGPSAgent),car.ID,defaultContext)
 		bodies.add(car);
+
+		var car2 = new Car(new Point2f(
+			network.getMapElementAt(3).geoLocation.toBounds2D.maxX,
+			network.getMapElementAt(3).geoLocation.toBounds2D.maxY
+		), 0, 0, 0, 0)
+		spawnInContextWithID(typeof(CarGPSAgent), car2.ID, defaultContext)
+		bodies.add(car2);
 				
 	}
 

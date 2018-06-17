@@ -94,7 +94,7 @@ class WorldPanel extends JPanel {
 			var awtShape = this.window.mas2screen(o.shape)
 			if (o instanceof AgentBody) {
 				var frustum = o.frustum
-				var frustumShape = frustum?.toShape(o.position, o.direction)
+				var frustumShape = frustum?.toShape((o.position, o.direction)
 				this.window.paintAgentBody(
 					g2d,
 					positionOnScreen,

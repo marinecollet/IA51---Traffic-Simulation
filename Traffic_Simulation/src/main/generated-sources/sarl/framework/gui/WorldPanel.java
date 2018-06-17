@@ -88,6 +88,7 @@ public class WorldPanel extends JPanel {
   
   private void drawObjects(final Graphics2D g2d, final Dimension currentDim) {
     throw new Error("Unresolved compilation problems:"
+      + "\nmissing \')\' at \',\'"
       + "\nType mismatch: cannot convert from Point2f to Car");
   }
   

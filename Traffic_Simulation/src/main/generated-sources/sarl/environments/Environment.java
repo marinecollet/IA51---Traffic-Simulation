@@ -172,6 +172,14 @@ public class Environment extends Agent {
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawnInContextWithID(CarGPSAgent.class, car.getID(), _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.getDefaultContext());
     this.bodies.add(car);
+    double _maxX_1 = this.network.getMapElementAt(3).getGeoLocation().toBounds2D().getMaxX();
+    double _maxY_1 = this.network.getMapElementAt(3).getGeoLocation().toBounds2D().getMaxY();
+    Point2f _point2f_1 = new Point2f(_maxX_1, _maxY_1);
+    Car car2 = new Car(_point2f_1, 0, 0, 0, 0);
+    Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER_1 = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER_1.spawnInContextWithID(CarGPSAgent.class, car2.getID(), _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.getDefaultContext());
+    this.bodies.add(car2);
   }
   
   @SyntheticMember
@@ -291,17 +299,15 @@ public class Environment extends Agent {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+    return super.equals(obj);
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+    int result = super.hashCode();
+    return result;
   }
   
   @SyntheticMember

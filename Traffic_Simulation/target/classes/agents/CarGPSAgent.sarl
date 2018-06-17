@@ -15,21 +15,26 @@ import io.sarl.core.MemberLeft
 import environments.Car
 import io.sarl.core.DefaultContextInteractions
 import org.arakhne.afc.gis.road.path.RoadPath
+import org.arakhne.afc.gis.road.primitive.RoadSegment
+import framework.environment.PerceptionEvent
+
 
 /** 
- * @author jerem
+ * @author jerem, marine, aurel
  *  
  */
 agent CarGPSAgent extends VehicleAgent{
 	uses Logging, DefaultContextInteractions
 
-
+	var currentRoad : RoadSegment
+	var nextRoad : RoadSegment
+	var lastRoad : RoadSegment
 	var path : RoadPath
 
 	on Initialize {
 		setSkill(new SkillGPSMoving)
 		info("The agent was started.")
-
+		
 		emit(new requestAStar)
 	}
 
@@ -40,10 +45,22 @@ agent CarGPSAgent extends VehicleAgent{
 	}
 
 	on pathAStar {
+		info("a*")
 		path = occurrence.pathReturn
+		/* 
+		var table = path.toArray();
+		for (p : table){
+			p.info();
+		}*/
+		currentRoad = path.firstSegment
+		lastRoad = path.lastSegment
+		//currentRoad.info()
+		lastRoad.info() 
+		
 	}
 
 	on AgentSpawned {
+		info("spawned")
 		// A new agent has been spawned in our context.
 	}
 
@@ -69,5 +86,10 @@ agent CarGPSAgent extends VehicleAgent{
 	on MemberLeft {
 		// Event trigger when an agent leaves one of our shared super-holons.
 		// Sent to all members of the considered super-holon.
+	}
+	on PerceptionEvent {
+		//var s = getSkill(MovingVehicle);
+		
+		//s.moveVehicle()
 	}
 }

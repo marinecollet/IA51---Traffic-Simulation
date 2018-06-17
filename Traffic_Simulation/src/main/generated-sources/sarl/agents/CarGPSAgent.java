@@ -4,6 +4,7 @@ import agents.SkillGPSMoving;
 import agents.VehicleAgent;
 import agents.pathAStar;
 import agents.requestAStar;
+import framework.environment.PerceptionEvent;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
 import io.sarl.core.ContextJoined;
@@ -27,17 +28,24 @@ import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
 import org.arakhne.afc.gis.road.path.RoadPath;
+import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
- * @author jerem
+ * @author jerem, marine, aurel
  */
 @SarlSpecification("0.7")
 @SarlElementType(18)
 @SuppressWarnings("all")
 public class CarGPSAgent extends VehicleAgent {
+  private RoadSegment currentRoad;
+  
+  private RoadSegment nextRoad;
+  
+  private RoadSegment lastRoad;
+  
   private RoadPath path;
   
   @SyntheticMember
@@ -59,11 +67,19 @@ public class CarGPSAgent extends VehicleAgent {
   
   @SyntheticMember
   private void $behaviorUnit$pathAStar$2(final pathAStar occurrence) {
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("a*");
     this.path = occurrence.pathReturn;
+    this.currentRoad = this.path.getFirstSegment();
+    this.lastRoad = this.path.getLastSegment();
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1 = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1.info(this.lastRoad);
   }
   
   @SyntheticMember
   private void $behaviorUnit$AgentSpawned$3(final AgentSpawned occurrence) {
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("spawned");
   }
   
   @SyntheticMember
@@ -84,6 +100,10 @@ public class CarGPSAgent extends VehicleAgent {
   
   @SyntheticMember
   private void $behaviorUnit$MemberLeft$8(final MemberLeft occurrence) {
+  }
+  
+  @SyntheticMember
+  private void $behaviorUnit$PerceptionEvent$9(final PerceptionEvent occurrence) {
   }
   
   @Extension
@@ -162,6 +182,14 @@ public class CarGPSAgent extends VehicleAgent {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Destroy$1(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$PerceptionEvent(final PerceptionEvent occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$PerceptionEvent$9(occurrence));
   }
   
   @SyntheticMember
