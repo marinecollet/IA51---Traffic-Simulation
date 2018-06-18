@@ -24,13 +24,13 @@ agent VehicleAgent {
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
-		info("The agent was started.")
+		info("VehicleAgent was started.")
 	}
 
 	on Destroy {
 		// Event trigger when the agent is destroyed from the system.
 		// You should put all the resource releasing statements in this block of code.
-		info("The agent was stopped.")
+		info("VehicleAgent agent was stopped.")
 	}
 
 	on AgentSpawned {

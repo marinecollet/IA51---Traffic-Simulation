@@ -36,6 +36,10 @@ import org.arakhne.afc.math.geometry.d2.d.Point2d
 import org.arakhne.afc.gis.road.path.astar.RoadAStar
 import agents.pathAStar
 import agents.requestAStar
+import io.sarl.core.Behaviors
+import framework.environment.StopSimulation
+import framework.environment.StartSimulation
+import framework.environment.SimulationAgentReady
 
 /** 
  * @author jerem
@@ -43,7 +47,7 @@ import agents.requestAStar
  */
 agent Environment
 {
-	uses Lifecycle, DefaultContextInteractions,Logging
+	uses Lifecycle, DefaultContextInteractions, Logging, Behaviors
 	
 	/** Contains all bodies */
 	var bodies: HashSet<AgentBody>;
@@ -159,7 +163,34 @@ agent Environment
 		), 0, 0, 0, 0)
 		spawnInContextWithID(typeof(CarGPSAgent), car2.ID, defaultContext)
 		bodies.add(car2);
+		
+		
+		emit(new SimulationAgentReady)
 				
+	}
+
+	on StopSimulation {
+		killMe
+	}
+
+	on StartSimulation {
+		runEnvironmentBehavior
+	}
+
+	def runEnvironmentBehavior {
+		/*this.freeze.set(true)
+		try {
+			this.influences.set(0)
+			this.environment.runBehaviour
+			var delay = this.environment.timeManager.simulationDelay as long
+			if (delay > 0) {
+				Thread::sleep(delay)
+			}
+		} finally {
+			this.freeze.set(false)
+		}
+		notifyAgentsOrDie*/
+		info("runEnvironmentBehavior")
 	}
 
 	/** 

@@ -24,13 +24,13 @@ agent CarMapAgent extends VehicleAgent {
 	
 	on Initialize {
 		setSkill(new SkillBasicMoving)
-		info("The agent was started.")
+		info("CarMapAgent was started.")
 	}
 
 	on Destroy {
 		// Event trigger when the agent is destroyed from the system.
 		// You should put all the resource releasing statements in this block of code.
-		info("The agent was stopped.")
+		info("CarMapAgent was stopped.")
 	}
 
 	/*on Perception {

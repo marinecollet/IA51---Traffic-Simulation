@@ -33,7 +33,7 @@ agent CarGPSAgent extends VehicleAgent{
 
 	on Initialize {
 		setSkill(new SkillGPSMoving)
-		info("The agent was started.")
+		info("CarGPSAgent was started." + this.ID)
 		
 		emit(new requestAStar)
 	}
@@ -41,7 +41,7 @@ agent CarGPSAgent extends VehicleAgent{
 	on Destroy {
 		// Event trigger when the agent is destroyed from the system.
 		// You should put all the resource releasing statements in this block of code.
-		info("The agent was stopped.")
+		info("CarGPSAgent was stopped.")
 	}
 
 	on pathAStar {
@@ -55,12 +55,12 @@ agent CarGPSAgent extends VehicleAgent{
 		currentRoad = path.firstSegment
 		lastRoad = path.lastSegment
 		//currentRoad.info()
-		lastRoad.info() 
+		//lastRoad.info() 
 		
 	}
 
 	on AgentSpawned {
-		info("spawned")
+		info("CarGPSAgent spawned ")
 		// A new agent has been spawned in our context.
 	}
 

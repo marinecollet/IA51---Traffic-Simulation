@@ -12,6 +12,9 @@ import environments.Environment
 import framework.gui.BehaviorTypeSelector
 import javafx.stage.Stage
 import ui.ApplicationAgent
+import framework.environment.SimulationAgentReady
+import framework.environment.StartSimulation
+import io.sarl.core.DefaultContextInteractions
 
 /**
  * @description
@@ -23,6 +26,7 @@ agent MainAgent extends FrameworkLauncher
 {	
 	uses Lifecycle;
 	uses Logging;
+	uses DefaultContextInteractions
 	
 	//pour tester
 	var rd = new RoadNetwork();
@@ -51,6 +55,16 @@ agent MainAgent extends FrameworkLauncher
 		spawn(Environment);
 		
 		return true;
+	}
+
+	on SimulationAgentReady [!occurrence.fromMe] {
+		synchronized (this) {
+			//waitingAgents--
+			//if (waitingAgents <= 0) {
+				emit(new StartSimulation)
+				killMe
+			//}
+		}
 	}
 	
 }
