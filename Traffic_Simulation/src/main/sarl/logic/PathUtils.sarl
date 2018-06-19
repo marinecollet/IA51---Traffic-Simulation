@@ -3,9 +3,23 @@
  */
 package logic
 
+import org.arakhne.afc.math.geometry.d2.d.Point2d
+import org.arakhne.afc.gis.road.primitive.RoadNetwork
+import org.arakhne.afc.gis.road.path.astar.RoadAStar
+import org.arakhne.afc.gis.road.primitive.RoadSegment
+import java.util.ArrayList
+
 /** 
  * @author jerem
  * 
  */
 class PathUtils {
+	static def GPS(startPoint : Point2d, endPoint : Point2d, road : RoadNetwork) : ArrayList<RoadSegment>{
+		var AStar = new RoadAStar();
+		var path = AStar.solve(startPoint, endPoint, road);
+		var newPath : ArrayList<RoadSegment>;
+		newPath = new ArrayList(path.toArray())
+		return newPath;
+	}	
+
 }
