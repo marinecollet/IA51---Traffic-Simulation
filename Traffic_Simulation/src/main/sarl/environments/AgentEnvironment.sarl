@@ -23,6 +23,7 @@ import org.arakhne.afc.gis.road.path.astar.RoadAStar
 import org.arakhne.afc.math.geometry.d2.d.Point2d
 import ui.Application
 import org.arakhne.afc.gis.road.primitive.RoadNetwork
+import logic.PathUtils
 
 /** 
  * @author jerem
@@ -189,9 +190,7 @@ agent AgentEnvironment
 			network.getMapElementAt(0).geoLocation.toBounds2D.maxY);
 		var endPoint = new Point2d(network.getMapElementAt(3).geoLocation.toBounds2D.maxX,
 			network.getMapElementAt(3).geoLocation.toBounds2D.maxY); 
-		var AStar = new RoadAStar();
-		// TODO: Fix issue with road network. 		
-		var path = AStar.solve(startPoint, endPoint, network.roadNetwork); 
+		var path = PathUtils.GPS(startPoint, endPoint, roadNetwork);
 		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
     }
 

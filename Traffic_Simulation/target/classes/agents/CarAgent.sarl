@@ -13,18 +13,23 @@ import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
 import environments.Vehicle
+import io.sarl.core.DefaultContextInteractions
+import agents.requestAStar
+import agents.pathAStar
 
 /** 
  * @author jerem
  * 
  */
 agent CarAgent {
-	uses Logging
+	uses Logging, DefaultContextInteractions
 
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
 		info("VehicleAgent was started.")
+		
+		emit( new requestAStar);
 	}
 
 	on Destroy {
@@ -39,6 +44,10 @@ agent CarAgent {
 
 	on AgentKilled {
 		// A new agent has been killed in our context.
+	}
+	
+	on pathAStar{
+		
 	}
 
 	on ContextJoined {

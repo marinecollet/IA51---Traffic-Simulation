@@ -4,7 +4,8 @@ import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import io.sarl.lang.core.Event;
-import org.arakhne.afc.gis.road.path.RoadPath;
+import java.util.ArrayList;
+import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 
@@ -15,9 +16,9 @@ import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 @SarlElementType(15)
 @SuppressWarnings("all")
 public class pathAStar extends Event {
-  public final RoadPath pathReturn;
+  public final ArrayList<RoadSegment> pathReturn;
   
-  public pathAStar(final RoadPath p) {
+  public pathAStar(final ArrayList<RoadSegment> p) {
     this.pathReturn = p;
   }
   
@@ -47,5 +48,5 @@ public class pathAStar extends Event {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = -1801272198L;
+  private final static long serialVersionUID = -683169894L;
 }

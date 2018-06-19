@@ -1,9 +1,12 @@
 package agents;
 
+import agents.pathAStar;
+import agents.requestAStar;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
 import io.sarl.core.ContextJoined;
 import io.sarl.core.ContextLeft;
+import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Destroy;
 import io.sarl.core.Initialize;
 import io.sarl.core.Logging;
@@ -37,6 +40,9 @@ public class CarAgent extends Agent {
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("VehicleAgent was started.");
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    requestAStar _requestAStar = new requestAStar();
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_requestAStar);
   }
   
   @SyntheticMember
@@ -54,19 +60,23 @@ public class CarAgent extends Agent {
   }
   
   @SyntheticMember
-  private void $behaviorUnit$ContextJoined$4(final ContextJoined occurrence) {
+  private void $behaviorUnit$pathAStar$4(final pathAStar occurrence) {
   }
   
   @SyntheticMember
-  private void $behaviorUnit$ContextLeft$5(final ContextLeft occurrence) {
+  private void $behaviorUnit$ContextJoined$5(final ContextJoined occurrence) {
   }
   
   @SyntheticMember
-  private void $behaviorUnit$MemberJoined$6(final MemberJoined occurrence) {
+  private void $behaviorUnit$ContextLeft$6(final ContextLeft occurrence) {
   }
   
   @SyntheticMember
-  private void $behaviorUnit$MemberLeft$7(final MemberLeft occurrence) {
+  private void $behaviorUnit$MemberJoined$7(final MemberJoined occurrence) {
+  }
+  
+  @SyntheticMember
+  private void $behaviorUnit$MemberLeft$8(final MemberLeft occurrence) {
   }
   
   @Extension
@@ -84,6 +94,21 @@ public class CarAgent extends Agent {
     return $castSkill(Logging.class, this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
   }
   
+  @Extension
+  @ImportedCapacityFeature(DefaultContextInteractions.class)
+  @SyntheticMember
+  private transient ClearableReference<Skill> $CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS;
+  
+  @SyntheticMember
+  @Pure
+  @Inline(value = "$castSkill(DefaultContextInteractions.class, ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $0$getSkill(DefaultContextInteractions.class)) : $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS)", imported = DefaultContextInteractions.class)
+  private DefaultContextInteractions $CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER() {
+    if (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) {
+      this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $getSkill(DefaultContextInteractions.class);
+    }
+    return $castSkill(DefaultContextInteractions.class, this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+  }
+  
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$Initialize(final Initialize occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
@@ -97,7 +122,7 @@ public class CarAgent extends Agent {
   private void $guardEvaluator$ContextLeft(final ContextLeft occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextLeft$5(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextLeft$6(occurrence));
   }
   
   @SyntheticMember
@@ -105,7 +130,7 @@ public class CarAgent extends Agent {
   private void $guardEvaluator$ContextJoined(final ContextJoined occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextJoined$4(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextJoined$5(occurrence));
   }
   
   @SyntheticMember
@@ -113,7 +138,7 @@ public class CarAgent extends Agent {
   private void $guardEvaluator$MemberLeft(final MemberLeft occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberLeft$7(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberLeft$8(occurrence));
   }
   
   @SyntheticMember
@@ -142,10 +167,18 @@ public class CarAgent extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
+  private void $guardEvaluator$pathAStar(final pathAStar occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$pathAStar$4(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
   private void $guardEvaluator$MemberJoined(final MemberJoined occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberJoined$6(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberJoined$7(occurrence));
   }
   
   @SyntheticMember

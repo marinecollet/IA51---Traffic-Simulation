@@ -3,7 +3,8 @@
  */
 package agents
 
-import org.arakhne.afc.gis.road.path.RoadPath
+import java.util.ArrayList
+import org.arakhne.afc.gis.road.primitive.RoadSegment
 
 /** 
  * @author Marine
@@ -19,8 +20,8 @@ event requestAStar
  * Send the A* path
  */
 event pathAStar {
-	val pathReturn : RoadPath;
-	new(p : RoadPath)
+	val pathReturn : ArrayList<RoadSegment>;
+	new(p : ArrayList<RoadSegment>)
 	{
 		this.pathReturn = p;
 	}
