@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
-import ui.Application;
+import ui.ApplicationMap;
 
 /**
  * @description
@@ -53,7 +53,7 @@ public class MainAgent extends FrameworkLauncher {
     
     new __MainAgent_0() {
       public void run() {
-        Application.launch(Application.class);
+        ApplicationMap.launch(ApplicationMap.class);
       }
     }.start();
     Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);

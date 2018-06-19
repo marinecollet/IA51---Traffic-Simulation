@@ -7,7 +7,7 @@ import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.eclipse.xtext.xbase.lib.Pure;
-import ui.Application;
+import ui.ApplicationMap;
 
 /**
  * @author jerem
@@ -36,7 +36,7 @@ public class StopSign extends Panel {
       this.element.addPoint(_plus, _plus_1);
     }
     this.element.setColor(0x990000);
-    Application.getInstance().addStopInLayer(this.element);
+    ApplicationMap.getInstance().addStopInLayer(this.element);
   }
   
   @Override

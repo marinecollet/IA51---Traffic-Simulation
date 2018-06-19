@@ -8,7 +8,7 @@ import io.sarl.lang.annotation.SyntheticMember;
 import java.util.UUID;
 import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.eclipse.xtext.xbase.lib.Pure;
-import ui.Application;
+import ui.ApplicationMap;
 
 /**
  * @author jerem
@@ -56,7 +56,7 @@ public class Car extends Vehicle {
     float _plus_3 = (_y_3 + longueur);
     this.element.addPoint(_plus_2, _plus_3);
     this.element.setColor(0x60c36e);
-    Application.getInstance().addAgentBodyInLayer(this.element);
+    ApplicationMap.getInstance().addAgentBodyInLayer(this.element);
   }
   
   /**
@@ -74,8 +74,8 @@ public class Car extends Vehicle {
     this.perceptionDistance = perceptionDistance;
   }
   
-  public boolean cleanUp() {
-    return Application.getInstance().removeAgentBodyInLayer(this.element);
+  public void cleanUp() {
+    ApplicationMap.getInstance().removeAgentBodyInLayer(this.element);
   }
   
   @Override

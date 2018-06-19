@@ -8,7 +8,7 @@ import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.eclipse.xtext.xbase.lib.Pure;
-import ui.Application;
+import ui.ApplicationMap;
 
 /**
  * @author jerem
@@ -39,7 +39,7 @@ public class TrafficLight extends Panel {
       this.element.addPoint(_plus, _plus_1);
     }
     this.changeColor(TrafficLightColor.RED);
-    Application.getInstance().addFlashlightInLayer(this.element);
+    ApplicationMap.getInstance().addFlashlightInLayer(this.element);
   }
   
   public void changeColor(final TrafficLightColor toState) {

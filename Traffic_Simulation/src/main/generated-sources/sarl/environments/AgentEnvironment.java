@@ -38,14 +38,13 @@ import java.util.Set;
 import java.util.UUID;
 import javax.inject.Inject;
 import logic.PathUtils;
-import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.arakhne.afc.gis.road.layer.RoadNetworkLayer;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
-import ui.Application;
+import ui.ApplicationMap;
 
 /**
  * @author jerem
@@ -61,14 +60,13 @@ public class AgentEnvironment extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    while ((!Application.getInstance().getIsReady())) {
+    while ((!ApplicationMap.getInstance().getIsReady())) {
       Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
       _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.debug("attend");
     }
     CityEnvironment _cityEnvironment = new CityEnvironment();
     this.environment = _cityEnvironment;
-    MapElementLayer<?> _roadNetworkLayer = Application.getInstance().getRoadNetworkLayer();
-    this.environment.setNetwork(((RoadNetworkLayer) _roadNetworkLayer));
+    this.environment.setNetwork(((RoadNetworkLayer) ApplicationMap.getInstance().roadNetworkLayer));
     RoadSegmentDataCollection _roadSegmentDataCollection = new RoadSegmentDataCollection();
     this.environment.setRoadSegmentDataCollection(_roadSegmentDataCollection);
     HashMap<Point2d, Integer> connectionsOccurence = new HashMap<Point2d, Integer>();

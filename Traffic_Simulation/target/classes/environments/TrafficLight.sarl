@@ -4,7 +4,7 @@
 package environments
 
 import framework.math.Point2f
-import ui.Application
+import ui.ApplicationMap
 import org.arakhne.afc.gis.mapelement.MapPolygon
 
 /** 
@@ -28,7 +28,7 @@ class TrafficLight extends Panel {
 		}
 
 		changeColor(TrafficLightColor.RED)
-		Application.instance.addFlashlightInLayer(element)
+		ApplicationMap.instance.addFlashlightInLayer(element)
 	
 	}
 	

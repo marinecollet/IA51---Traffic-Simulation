@@ -68,7 +68,7 @@ class CityEnvironment extends AbstractEnvironment{
 	}
 	
 	def createAgentBody(){
-		
+	
 	}
 	
 	protected def onAgentBodyCreated(body : AgentBody) {

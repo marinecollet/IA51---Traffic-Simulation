@@ -8,11 +8,11 @@ import ui.Application
 import environments.AgentEnvironment
 import framework.gui.BehaviorTypeSelector
 import javafx.stage.Stage
-import ui.ApplicationAgent
 import framework.environment.SimulationAgentReady
 import framework.environment.StartSimulation
 import io.sarl.core.DefaultContextInteractions
 import org.arakhne.afc.gis.road.primitive.RoadNetwork
+import ui.ApplicationMap
 
 /**
  * @description
@@ -44,7 +44,7 @@ agent MainAgent extends FrameworkLauncher
 	{
 		(new Thread() {	def run()
 			{
-				Application.launch(Application);
+				ApplicationMap.launch(ApplicationMap);
 				
 			}
 		}).start();

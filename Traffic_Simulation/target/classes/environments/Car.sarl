@@ -5,7 +5,7 @@ package environments
 
 import framework.math.Point2f
 import org.arakhne.afc.gis.mapelement.MapPolygon
-import ui.Application
+import ui.ApplicationMap
 import java.util.UUID
 
 /** 
@@ -39,7 +39,7 @@ class Car extends Vehicle
 		element.addPoint(position.x + largeur, position.y - longueur);
 		element.addPoint(position.x + largeur, position.y + longueur);
 		element.setColor(0x60c36e);
-		Application.instance.addAgentBodyInLayer(element);
+		ApplicationMap.instance.addAgentBodyInLayer(element);
 		
 	}
 	
@@ -60,7 +60,7 @@ class Car extends Vehicle
 	def cleanUp()
 	{
 		/** Remove the circle from the map elements layer of the application */
-		Application.instance.removeAgentBodyInLayer(element);
+		ApplicationMap.instance.removeAgentBodyInLayer(element);
 	}
 
 	override moveVehicle(newPos : Point2f)

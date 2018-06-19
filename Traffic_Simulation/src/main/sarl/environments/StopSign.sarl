@@ -5,7 +5,7 @@ package environments
 
 import framework.math.Point2f
 import org.arakhne.afc.gis.mapelement.MapPolygon
-import ui.Application
+import ui.ApplicationMap
 
 /** 
  * @author jerem
@@ -29,7 +29,7 @@ class StopSign extends Panel {
 		
 		element.setColor(0x990000)
 
-		Application.instance.addStopInLayer(element)                 
+		ApplicationMap.instance.addStopInLayer(element)                 
     }
 	
 }

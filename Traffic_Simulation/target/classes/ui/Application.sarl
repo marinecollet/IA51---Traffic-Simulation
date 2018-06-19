@@ -27,22 +27,7 @@ import java.io.File
  * @description Class that handle all stuff about window that display the feedback of the
  * animation of the simulation.
  */
- agent ApplicationAgent {
-	uses Lifecycle
-	uses Logging
- 	
- 	on Initialize {
- 		
- 		
- 		
- 		//Thread.
-		Application.launch(Application);
-		Application.instance.init
-		Application.instance.start(new Stage())
-		info("TERMINE TOI");
- 	}
- }
- 
+
 class Application extends javafx.application.Application
 {
 	/** Variable to handle dragging events */
@@ -56,7 +41,7 @@ class Application extends javafx.application.Application
 	
 	/** Create a singleton mimic to access instance outside */
 	static var instance : Application;
- 
+  
 	var roadNetworkLayer : MapElementLayer<?> 
 	
 	new()

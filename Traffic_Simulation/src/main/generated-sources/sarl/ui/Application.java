@@ -19,6 +19,12 @@ import org.arakhne.afc.gis.primitive.GISContainer;
 import org.arakhne.afc.nodefx.ZoomablePane;
 import org.eclipse.xtext.xbase.lib.Pure;
 
+/**
+ * @author Thomas Gredin
+ * 
+ * @description Class that handle all stuff about window that display the feedback of the
+ * animation of the simulation.
+ */
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")

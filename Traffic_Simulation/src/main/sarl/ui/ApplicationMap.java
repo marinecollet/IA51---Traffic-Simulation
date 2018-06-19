@@ -1,4 +1,4 @@
-package def;
+package ui;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +21,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import ui.ApplicationMap;
 
 import org.arakhne.afc.gis.io.shape.GISShapeFileReader;
 import org.arakhne.afc.gis.mapelement.GISElementContainer;
@@ -51,11 +50,27 @@ import org.arakhne.afc.vmutil.FileSystem;
 import org.arakhne.afc.vmutil.json.JsonBuffer;
 import org.arakhne.afc.vmutil.locale.Locale;
 
-public class SimpleViewer extends Application {
+public class ApplicationMap extends Application {
 
 	private volatile boolean dragging;
 
 	private volatile MapElement selectedRoad;
+
+	public ArrayMapElementLayer<MapPolygon> agentBodyLayer = new ArrayMapElementLayer<MapPolygon>();
+	public ArrayMapElementLayer<MapPolygon> stopLayer = new ArrayMapElementLayer<MapPolygon>();
+	public ArrayMapElementLayer<MapPolygon> flashlightLayer = new ArrayMapElementLayer<MapPolygon>();
+	static ApplicationMap instance;
+	public MapElementLayer<?>  roadNetworkLayer; 
+
+	static boolean isReady = false;
+
+	public ApplicationMap() {
+		instance = this;
+	}
+	
+	public void init() {
+		roadNetworkLayer = ApplicationMap.loadShapeFile(new File("asset/Ville.shp"));
+	}
 	
 	public static MapElementLayer<?> loadShapeFile(File file) {
 		try {
@@ -154,7 +169,13 @@ public class SimpleViewer extends Application {
 			{
 				System.exit(0);
 			}
+			
 
+			containers.add(agentBodyLayer);
+			containers.add(stopLayer);
+			containers.add(flashlightLayer);
+			
+			
 			final GISContainer container;
 			if (containers.size() == 1) 
 			{
@@ -178,8 +199,9 @@ public class SimpleViewer extends Application {
 
 			final GisPane scrollPane = new GisPane(container);
 
-			final String mouseLocationPattern = Locale.getString(SimpleViewer.class, "MOUSE_POSITION"); //$NON-NLS-1$
+			final String mouseLocationPattern = Locale.getString(ApplicationMap.class, "MOUSE_POSITION"); //$NON-NLS-1$
 
+			/*
 			scrollPane.setOnMouseMoved(event -> {
 				final Point2d mousePosition = scrollPane.toDocumentPosition(event.getX(), event.getY());
 				messageBar.setText(MessageFormat.format(mouseLocationPattern,
@@ -223,15 +245,17 @@ public class SimpleViewer extends Application {
 				}
 				this.dragging = false;
 			});
-
+			 */
 			root.setCenter(scrollPane);
 			root.setBottom(messageBar);
 
 			final Scene scene = new Scene(root, 1024, 768);
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm()); //$NON-NLS-1$
 
-			primaryStage.setTitle(Locale.getString(SimpleViewer.class, "WINDOW_TITLE", filename.toString())); //$NON-NLS-1$
+			primaryStage.setTitle(Locale.getString(ApplicationMap.class, "IA51 - Road simulation", filename.toString())); //$NON-NLS-1$
 			primaryStage.setScene(scene);
+			isReady = true;
+
 			primaryStage.show();
 		} else {
 			primaryStage.close();
@@ -296,12 +320,78 @@ public class SimpleViewer extends Application {
 		return null;
 	}
 
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Add an element to draw into the map elements layer of the
+	 * window.
+	 */
+	public void addAgentBodyInLayer(MapPolygon element)
+	{
+		agentBodyLayer.addMapElement(element);
+	}
+	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Remove given map element from the map elements layer.
+	 */
+	public void removeAgentBodyInLayer(MapPolygon element)
+	{
+		agentBodyLayer.removeMapElement(element);
+	}
+
+	public void addStopInLayer(MapPolygon element) 
+	{
+		stopLayer.addMapElement(element);
+	}
+
+	public void removeStopInLayer(MapPolygon element) 
+	{
+		stopLayer.removeMapElement(element);
+	}
+
+	public void addFlashlightInLayer(MapPolygon element) 
+	{
+		flashlightLayer.addMapElement(element);
+	}
+
+	public void removeFlashlightInLayer(MapPolygon element) 
+	{
+		flashlightLayer.removeMapElement(element);
+	}
+	
+	public boolean getIsReady()
+	{
+		return isReady;
+	}
+	
+	public MapElementLayer<?> getRoadNetworkLayer(){
+		return roadNetworkLayer;
+	}
+	
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Get the singleton instance of the application
+	 */
+	public static ApplicationMap getInstance()
+	{
+		if(instance == null)
+			instance = new ApplicationMap();
+		return instance;
+	}
+	
+	
 	/** Main program.
 	 *
 	 * @param args the command line arguments.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		launch();
-	}
+	}*/
 
 }
