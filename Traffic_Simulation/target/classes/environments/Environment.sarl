@@ -3,45 +3,227 @@
  */
 package environments
 
-import framework.environment.AbstractEnvironment
+import agents.CarGPSAgent
+import agents.pathAStar
+import agents.requestAStar
 import framework.environment.AgentBody
-import java.util.List
-import framework.environment.Influence
-import framework.environment.Percept
-import java.util.Collection
-import framework.environment.MotionInfluence
-import framework.time.TimeManager
-import framework.environment.SituatedObject
+import framework.environment.SimulationAgentReady
+import framework.environment.StartSimulation
+import framework.environment.StopSimulation
+import framework.math.Point2f
+import io.sarl.core.Behaviors
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Initialize
+import io.sarl.core.Lifecycle
+import io.sarl.core.Logging
+import java.util.HashMap
+import java.util.HashSet
+import org.arakhne.afc.gis.road.layer.RoadNetworkLayer
+import org.arakhne.afc.gis.road.path.astar.RoadAStar
+import org.arakhne.afc.math.geometry.d2.d.Point2d
+import ui.Application
 
-/**
- * @author Thomas Gredin
+/** 
+ * @author jerem
  * 
- * @description
- * Class used by the environment agent.
  */
-class CityEnvironment extends AbstractEnvironment
+agent Environment
 {
-	protected def onAgentBodyCreated(body : AgentBody) 
+	uses Lifecycle, DefaultContextInteractions, Logging, Behaviors
+	
+	/** Contains all bodies */
+	var bodies: HashSet<AgentBody>;
+	var environmentObjects : HashSet<EnvironmentObject>
+
+	/** Contains all data to draw Road Segments using JavaFX */
+	var roadNetwork : RoadNetwork;
+	var network : RoadNetworkLayer; // MapElementLayer<?>
+	
+	/** Contains all data about road segments */
+	var roadSegmentDataCollection: RoadSegmentDataCollection;
+
+	on Initialize 
 	{
+		while(!Application.instance.isReady)
+		{
+			info("attend")
+		}
+		
+		network = Application.instance.roadNetworkLayer as RoadNetworkLayer
+		bodies = new HashSet<AgentBody>();
+		environmentObjects = new HashSet<EnvironmentObject>()
+		roadSegmentDataCollection= new RoadSegmentDataCollection();
+
+		var stops = new HashMap<Point2d, Integer>();
+		
+		//Get all road segments and iterate on them to find 
+		//the road connections which are used multiple times
+		for (seg : network.roadNetwork.roadSegments)
+		{
+			/** Create new RoadSegmentData for the current road segment */
+			var roadSegmentData : RoadSegmentData = new RoadSegmentData(seg);
+			
+			var pts = seg.points;
+			for (pt : pts) 
+			{
+				if (stops.containsKey(pt)) 
+				{
+					stops.replace(pt, (stops.get(pt) + 1) as Integer);
+				} 
+				else 
+				{
+					stops.put(pt, new Integer(1));	
+				}
+			}
+
+			/** Add the segment data to the collection */
+			roadSegmentDataCollection.add(roadSegmentData);
+		}
+		
+		var stop : StopSign
+		var trafficLight : TrafficLight
+		
+		//For each connections, depending on the number, it creates
+		// a stop sign or a traffic light on the map
+		for(key : stops.keySet)
+		{	
+			var cpt = stops.get(key);
+			if(cpt == 3)
+			{
+				stop = new StopSign(new Point2f(key.x,key.y));
+				environmentObjects.add(stop);
+				
+				/** Get all road segments data that are in this connection */
+				var segments = roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+				for(segment: segments)
+				{
+					if(segment.beginPoint === key)
+					{
+						segment.objectAtStart = stop;
+					}
+					else if (segment.endPoint === key) 
+					{
+						segment.objectAtEnd = stop;
+					}
+				}
+			}
+			else if(cpt > 3)
+			{
+				// Idem pour le feu
+				trafficLight = new TrafficLight(new Point2f(new Point2f(key.x, key.y)));
+				trafficLight.changeColor(TrafficLightColor.GREEN);
+				environmentObjects.add(trafficLight);
+
+				/** Get all road segments data that are in this connection
+				 */
+				var segments = roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+				for (segment : segments) 
+				{
+					if (segment.beginPoint === key) 
+					{
+						segment.objectAtStart = trafficLight;
+					} 
+					else if (segment.endPoint === key) 
+					{
+						segment.objectAtEnd = trafficLight;
+					}
+				}
+			}
+		}
+
+		//Test
+		var car = new Car(
+			new Point2f(network.getMapElementAt(0).geoLocation.toBounds2D.maxX,	
+				network.getMapElementAt(0).geoLocation.toBounds2D.maxY
+			), 0, 0, 0, 0)
+		spawnInContextWithID(typeof(CarGPSAgent),car.ID,defaultContext)
+		bodies.add(car);
+
+		var car2 = new Car(new Point2f(
+			network.getMapElementAt(3).geoLocation.toBounds2D.maxX,
+			network.getMapElementAt(3).geoLocation.toBounds2D.maxY
+		), 0, 0, 0, 0)
+		spawnInContextWithID(typeof(CarGPSAgent), car2.ID, defaultContext)
+		bodies.add(car2);
+		
+		
+		emit(new SimulationAgentReady)
+				
+	}
+
+	on StopSimulation {
+		killMe
+	}
+
+	on StartSimulation {
+		runEnvironmentBehavior
+	}
+
+	def runEnvironmentBehavior {
+		/*this.freeze.set(true)
+		try {
+			this.influences.set(0)
+			this.environment.runBehaviour
+			var delay = this.environment.timeManager.simulationDelay as long
+			if (delay > 0) {
+				Thread::sleep(delay)
+			}
+		} finally {
+			this.freeze.set(false)
+		}
+		notifyAgentsOrDie*/
+		info("runEnvironmentBehavior")
+	}
+
+	/** 
+	 * @author Marine
+	 * 
+	 * @description
+	 * When the environment receive a perception's request from an agent, he sends back the list of perception
+	 * 
+	 */
+	on requestAStar 
+	{	
+		var startPoint = new Point2d(network.getMapElementAt(0).geoLocation.toBounds2D.maxX,
+			network.getMapElementAt(0).geoLocation.toBounds2D.maxY);
+		var endPoint = new Point2d(network.getMapElementAt(3).geoLocation.toBounds2D.maxX,
+			network.getMapElementAt(3).geoLocation.toBounds2D.maxY); 
+		var AStar = new RoadAStar();
+		// TODO: Fix issue with road network. 		
+		var path = AStar.solve(startPoint, endPoint, network.roadNetwork); 
+		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
+    }
+
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Compute perceptions for each bodies in the environment.
+	 */
+	def computePerceptions()
+	{
+		for(body: bodies)
+		{
+			for(o: body.perceivedObjects)
+			{
+				// Look for road signs
+				
+				// Look for others cars
+			}
+		}
 	}
 	
-	protected def onAgentBodyDestroyed(body : AgentBody) 
+	/**
+	 * @author Thomas Gredin
+	 * 
+	 * @description
+	 * Update the environment...
+	 */
+	def update()
 	{
-	}
-	
-	protected def computeEndogenousBehaviorInfluences : List<Influence> 
-	{
-	}
-	
-	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> 
-	{
-	}
-	
-	protected def applyInfluences(motionInfluences : Collection<MotionInfluence>, otherInfluences : Collection<Influence>, timeManager : TimeManager) 
-	{
-	}
-	
-	def getAllObjects : Iterable<? extends SituatedObject> 
-	{
+		for(body: bodies)
+		{
+			
+		}
 	}
 }

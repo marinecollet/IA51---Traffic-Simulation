@@ -1,3 +1,4 @@
+import environments.Environment;
 import framework.FrameworkLauncher;
 import framework.environment.SimulationAgentReady;
 import framework.environment.StartSimulation;
@@ -21,6 +22,7 @@ import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
+import ui.Application;
 
 /**
  * @description
@@ -47,8 +49,18 @@ public class MainAgent extends FrameworkLauncher {
   
   @Override
   protected boolean initializeSimulation(final List<Object> parameters) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field Environment is undefined");
+    abstract class __MainAgent_0 extends Thread {
+      public abstract void run();
+    }
+    
+    new __MainAgent_0() {
+      public void run() {
+        Application.launch(Application.class);
+      }
+    }.start();
+    Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
+    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawn(Environment.class);
+    return true;
   }
   
   @SyntheticMember
