@@ -1,18 +1,14 @@
 package environments;
 
-import agents.CarAgent;
 import agents.pathAStar;
 import agents.requestAStar;
 import com.google.common.base.Objects;
-import environments.Car;
-import environments.EnvironmentObject;
+import environments.CityEnvironment;
 import environments.RoadSegmentData;
 import environments.RoadSegmentDataCollection;
 import environments.StopSign;
 import environments.TrafficLight;
 import environments.TrafficLightColor;
-import framework.environment.AgentBody;
-import framework.environment.Percept;
 import framework.environment.SimulationAgentReady;
 import framework.environment.StartSimulation;
 import framework.environment.StopSimulation;
@@ -38,14 +34,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import javax.inject.Inject;
 import logic.PathUtils;
 import org.arakhne.afc.gis.maplayer.MapElementLayer;
 import org.arakhne.afc.gis.road.layer.RoadNetworkLayer;
-import org.arakhne.afc.gis.road.primitive.RoadNetwork;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -61,23 +55,9 @@ import ui.Application;
 @SuppressWarnings("all")
 public class AgentEnvironment extends Agent {
   /**
-   * Contains all bodies
+   * City environment
    */
-  private HashSet<AgentBody> bodies;
-  
-  private HashSet<EnvironmentObject> environmentObjects;
-  
-  /**
-   * Contains all data to draw Road Segments using JavaFX
-   */
-  private RoadNetwork roadNetwork;
-  
-  private RoadNetworkLayer network;
-  
-  /**
-   * Contains all data about road segments
-   */
-  private RoadSegmentDataCollection roadSegmentDataCollection;
+  private CityEnvironment environment;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
@@ -85,16 +65,14 @@ public class AgentEnvironment extends Agent {
       Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
       _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.debug("attend");
     }
+    CityEnvironment _cityEnvironment = new CityEnvironment();
+    this.environment = _cityEnvironment;
     MapElementLayer<?> _roadNetworkLayer = Application.getInstance().getRoadNetworkLayer();
-    this.network = ((RoadNetworkLayer) _roadNetworkLayer);
-    HashSet<AgentBody> _hashSet = new HashSet<AgentBody>();
-    this.bodies = _hashSet;
-    HashSet<EnvironmentObject> _hashSet_1 = new HashSet<EnvironmentObject>();
-    this.environmentObjects = _hashSet_1;
+    this.environment.setNetwork(((RoadNetworkLayer) _roadNetworkLayer));
     RoadSegmentDataCollection _roadSegmentDataCollection = new RoadSegmentDataCollection();
-    this.roadSegmentDataCollection = _roadSegmentDataCollection;
+    this.environment.setRoadSegmentDataCollection(_roadSegmentDataCollection);
     HashMap<Point2d, Integer> connectionsOccurence = new HashMap<Point2d, Integer>();
-    Collection<? extends RoadSegment> _roadSegments = this.network.getRoadNetwork().getRoadSegments();
+    Collection<? extends RoadSegment> _roadSegments = this.environment.getNetwork().getRoadNetwork().getRoadSegments();
     for (final RoadSegment seg : _roadSegments) {
       {
         RoadSegmentData roadSegmentData = new RoadSegmentData(seg);
@@ -110,7 +88,7 @@ public class AgentEnvironment extends Agent {
             connectionsOccurence.put(pt, _integer);
           }
         }
-        this.roadSegmentDataCollection.add(roadSegmentData);
+        this.environment.getRoadSegmentDataCollection().add(roadSegmentData);
       }
     }
     StopSign stop = null;
@@ -125,8 +103,8 @@ public class AgentEnvironment extends Agent {
           Point2f _point2f = new Point2f(_x, _y);
           StopSign _stopSign = new StopSign(_point2f);
           stop = _stopSign;
-          this.environmentObjects.add(stop);
-          HashSet<RoadSegmentData> segments = this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+          this.environment.addEnvironmentObject(stop);
+          HashSet<RoadSegmentData> segments = this.environment.getRoadSegmentDataCollection().findRoadSegmentsForConnection(key);
           for (final RoadSegmentData segment : segments) {
             Point2d _beginPoint = segment.getBeginPoint();
             boolean _tripleEquals = (_beginPoint == key);
@@ -149,8 +127,8 @@ public class AgentEnvironment extends Agent {
             TrafficLight _trafficLight = new TrafficLight(_point2f_2);
             trafficLight = _trafficLight;
             trafficLight.changeColor(TrafficLightColor.GREEN);
-            this.environmentObjects.add(trafficLight);
-            HashSet<RoadSegmentData> segments_1 = this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+            this.environment.addEnvironmentObject(trafficLight);
+            HashSet<RoadSegmentData> segments_1 = this.environment.getRoadSegmentDataCollection().findRoadSegmentsForConnection(key);
             for (final RoadSegmentData segment_1 : segments_1) {
               Point2d _beginPoint_1 = segment_1.getBeginPoint();
               boolean _tripleEquals_2 = (_beginPoint_1 == key);
@@ -168,25 +146,9 @@ public class AgentEnvironment extends Agent {
         }
       }
     }
-    double _maxX = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxX();
-    double _maxY = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxY();
-    Point2f _point2f = new Point2f(_maxX, _maxY);
-    Car car = new Car(_point2f, 0, 0, 0, 0);
-    Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawnInContextWithID(CarAgent.class, car.getID(), _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.getDefaultContext());
-    this.bodies.add(car);
-    double _maxX_1 = this.network.getMapElementAt(3).getGeoLocation().toBounds2D().getMaxX();
-    double _maxY_1 = this.network.getMapElementAt(3).getGeoLocation().toBounds2D().getMaxY();
-    Point2f _point2f_1 = new Point2f(_maxX_1, _maxY_1);
-    Car car2 = new Car(_point2f_1, 0, 0, 0, 0);
-    Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER_1 = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
-    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER_1.spawnInContextWithID(CarAgent.class, car2.getID(), _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.getDefaultContext());
-    this.bodies.add(car2);
-    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     SimulationAgentReady _simulationAgentReady = new SimulationAgentReady();
-    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2.emit(_simulationAgentReady);
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_simulationAgentReady);
   }
   
   @SyntheticMember
@@ -207,13 +169,13 @@ public class AgentEnvironment extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$requestAStar$3(final requestAStar occurrence) {
-    double _maxX = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxX();
-    double _maxY = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxY();
+    double _maxX = this.environment.getNetwork().getMapElementAt(0).getGeoLocation().toBounds2D().getMaxX();
+    double _maxY = this.environment.getNetwork().getMapElementAt(0).getGeoLocation().toBounds2D().getMaxY();
     Point2d startPoint = new Point2d(_maxX, _maxY);
-    double _maxX_1 = this.network.getMapElementAt(3).getGeoLocation().toBounds2D().getMaxX();
-    double _maxY_1 = this.network.getMapElementAt(3).getGeoLocation().toBounds2D().getMaxY();
+    double _maxX_1 = this.environment.getNetwork().getMapElementAt(3).getGeoLocation().toBounds2D().getMaxX();
+    double _maxY_1 = this.environment.getNetwork().getMapElementAt(3).getGeoLocation().toBounds2D().getMaxY();
     Point2d endPoint = new Point2d(_maxX_1, _maxY_1);
-    ArrayList<RoadSegment> path = PathUtils.GPS(startPoint, endPoint, this.roadNetwork);
+    ArrayList<RoadSegment> path = PathUtils.GPS(startPoint, endPoint, this.environment.getRoadNetwork());
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     pathAStar _pathAStar = new pathAStar(path);
     final Scope<Address> _function = (Address it) -> {
@@ -221,33 +183,6 @@ public class AgentEnvironment extends Agent {
       return Objects.equal(it, _source);
     };
     _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_pathAStar, _function);
-  }
-  
-  /**
-   * @author Thomas Gredin
-   * 
-   * @description
-   * Compute perceptions for each bodies in the environment.
-   */
-  @Pure
-  protected void computePerceptions() {
-    for (final AgentBody body : this.bodies) {
-      List<Percept> _perceivedObjects = body.getPerceivedObjects();
-      for (final Percept o : _perceivedObjects) {
-      }
-    }
-  }
-  
-  /**
-   * @author Thomas Gredin
-   * 
-   * @description
-   * Update the environment...
-   */
-  @Pure
-  protected void update() {
-    for (final AgentBody body : this.bodies) {
-    }
   }
   
   @Extension

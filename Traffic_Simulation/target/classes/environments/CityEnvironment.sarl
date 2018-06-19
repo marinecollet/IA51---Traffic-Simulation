@@ -12,6 +12,11 @@ import java.util.Collection
 import framework.environment.MotionInfluence
 import framework.time.TimeManager
 import framework.environment.SituatedObject
+import java.util.ArrayList
+import org.arakhne.afc.gis.road.primitive.RoadNetwork
+import org.arakhne.afc.gis.road.layer.RoadNetworkLayer
+import logic.Map
+import framework.time.StepTimeManager
 
 /** 
  * @author jerem
@@ -19,7 +24,55 @@ import framework.environment.SituatedObject
  */
 class CityEnvironment extends AbstractEnvironment{
 	
+	var environmentObjects : ArrayList<EnvironmentObject>
+
+	/** Contains all data to draw Road Segments using JavaFX */
+	var roadNetwork : RoadNetwork;
+	var network : RoadNetworkLayer; // MapElementLayer<?>
+	
+	/** Contains all data about road segments */
+	var roadSegmentDataCollection : RoadSegmentDataCollection;
+	
+	new(){
+		super(Map.WIDTH, Map.HEIGHT, new StepTimeManager(500))
+		roadSegmentDataCollection = new RoadSegmentDataCollection()
+		environmentObjects = new ArrayList<EnvironmentObject>
+	}
+	
+	def getNetwork() : RoadNetworkLayer{
+		return network
+	}
+
+	def setNetwork(network : RoadNetworkLayer){
+		this.network=network
+	}
+	
+	def getRoadSegmentDataCollection() : RoadSegmentDataCollection{
+		return roadSegmentDataCollection
+	}
+	
+	def setRoadSegmentDataCollection(roadSegmentDataCollection : RoadSegmentDataCollection){
+		this.roadSegmentDataCollection = roadSegmentDataCollection
+	}
+	
+	def getEnvironmentObjects() : ArrayList<EnvironmentObject>{
+		return environmentObjects
+	}
+	
+	def addEnvironmentObject(object : EnvironmentObject) {
+		environmentObjects.add(object)
+	}
+	
+	def getRoadNetwork() : RoadNetwork{
+		return roadNetwork
+	}
+	
+	def createAgentBody(){
+		
+	}
+	
 	protected def onAgentBodyCreated(body : AgentBody) {
+		
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	

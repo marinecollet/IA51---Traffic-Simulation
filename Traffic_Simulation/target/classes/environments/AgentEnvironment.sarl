@@ -32,18 +32,10 @@ import logic.PathUtils
 agent AgentEnvironment
 {
 	uses Lifecycle, DefaultContextInteractions, Logging, Behaviors
+		
+	/* City environment */
+	var environment : CityEnvironment
 	
-	/** Contains all bodies */
-	var bodies: HashSet<AgentBody>;
-	var environmentObjects : HashSet<EnvironmentObject>
-
-	/** Contains all data to draw Road Segments using JavaFX */
-	var roadNetwork : RoadNetwork;
-	var network : RoadNetworkLayer; // MapElementLayer<?>
-	
-	/** Contains all data about road segments */
-	var roadSegmentDataCollection: RoadSegmentDataCollection;
-
 	on Initialize 
 	{
 		while(!Application.instance.isReady)
@@ -51,16 +43,15 @@ agent AgentEnvironment
 			debug("attend")
 		}
 		
-		network = Application.instance.roadNetworkLayer as RoadNetworkLayer
-		bodies = new HashSet<AgentBody>();
-		environmentObjects = new HashSet<EnvironmentObject>()
-		roadSegmentDataCollection= new RoadSegmentDataCollection();
+		environment = new CityEnvironment()
+		environment.network = Application.instance.roadNetworkLayer as RoadNetworkLayer
+		environment.roadSegmentDataCollection = new RoadSegmentDataCollection();
 
 		var connectionsOccurence = new HashMap<Point2d, Integer>();
 		
 		//Get all road segments and iterate on them to find 
 		//the road connections which are used multiple times
-		for (seg : network.roadNetwork.roadSegments)
+		for (seg : environment.network.roadNetwork.roadSegments)
 		{
 			/** Create new RoadSegmentData for the current road segment */
 			var roadSegmentData : RoadSegmentData = new RoadSegmentData(seg);
@@ -79,7 +70,7 @@ agent AgentEnvironment
 			}
 
 			/** Add the segment data to the collection */
-			roadSegmentDataCollection.add(roadSegmentData);
+			environment.roadSegmentDataCollection.add(roadSegmentData);
 		}
 		
 		var stop : StopSign
@@ -93,10 +84,10 @@ agent AgentEnvironment
 			if(cpt == 3)
 			{
 				stop = new StopSign(new Point2f(key.x,key.y));
-				environmentObjects.add(stop);
+				environment.addEnvironmentObject(stop);
 				
 				/** Get all road segments data that are in this connection */
-				var segments = roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+				var segments = environment.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
 				for(segment: segments)
 				{
 					if(segment.beginPoint === key)
@@ -114,11 +105,11 @@ agent AgentEnvironment
 				// Idem pour le feu
 				trafficLight = new TrafficLight(new Point2f(new Point2f(key.x, key.y)));
 				trafficLight.changeColor(TrafficLightColor.GREEN);
-				environmentObjects.add(trafficLight);
+				environment.addEnvironmentObject(trafficLight);
 
 				/** Get all road segments data that are in this connection
 				 */
-				var segments = roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+				var segments = environment.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
 				for (segment : segments) 
 				{
 					if (segment.beginPoint === key) 
@@ -134,11 +125,12 @@ agent AgentEnvironment
 		}
 
 		//Test
-		var car = new Car(
-			new Point2f(network.getMapElementAt(0).geoLocation.toBounds2D.maxX,	
-				network.getMapElementAt(0).geoLocation.toBounds2D.maxY
+		/*var car = new Car(
+			new Point2f(
+			environment.network.getMapElementAt(0).geoLocation.toBounds2D.maxX,
+			environment.network.getMapElementAt(0).geoLocation.toBounds2D.maxY
 			), 0, 0, 0, 0)
-		spawnInContextWithID(typeof(CarAgent),car.ID,defaultContext)
+		spawnInContextWithID(typeof(CarAgent), car.ID, defaultContext)
 		bodies.add(car);
 
 		var car2 = new Car(new Point2f(
@@ -146,7 +138,7 @@ agent AgentEnvironment
 			network.getMapElementAt(3).geoLocation.toBounds2D.maxY
 		), 0, 0, 0, 0)
 		spawnInContextWithID(typeof(CarAgent), car2.ID, defaultContext)
-		bodies.add(car2);
+		bodies.add(car2);*/
 		
 		
 		emit(new SimulationAgentReady)
@@ -186,44 +178,13 @@ agent AgentEnvironment
 	 */
 	on requestAStar 
 	{	
-		var startPoint = new Point2d(network.getMapElementAt(0).geoLocation.toBounds2D.maxX,
-			network.getMapElementAt(0).geoLocation.toBounds2D.maxY);
-		var endPoint = new Point2d(network.getMapElementAt(3).geoLocation.toBounds2D.maxX,
-			network.getMapElementAt(3).geoLocation.toBounds2D.maxY); 
-		var path = PathUtils.GPS(startPoint, endPoint, roadNetwork);
+		var startPoint = new Point2d(environment.network.getMapElementAt(0).geoLocation.toBounds2D.maxX,
+			environment.network.getMapElementAt(0).geoLocation.toBounds2D.maxY);
+		var endPoint = new Point2d(environment.network.getMapElementAt(3).geoLocation.toBounds2D.maxX,
+			environment.network.getMapElementAt(3).geoLocation.toBounds2D.maxY); 
+		var path = PathUtils.GPS(startPoint, endPoint, environment.roadNetwork);
 		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
     }
 
-	/**
-	 * @author Thomas Gredin
-	 * 
-	 * @description
-	 * Compute perceptions for each bodies in the environment.
-	 */
-	def computePerceptions()
-	{
-		for(body: bodies)
-		{
-			for(o: body.perceivedObjects)
-			{
-				// Look for road signs
-				
-				// Look for others cars
-			}
-		}
-	}
-	
-	/**
-	 * @author Thomas Gredin
-	 * 
-	 * @description
-	 * Update the environment...
-	 */
-	def update()
-	{
-		for(body: bodies)
-		{
-			
-		}
-	}
+
 }
