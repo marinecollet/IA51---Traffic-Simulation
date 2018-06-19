@@ -99,7 +99,10 @@ public class CityEnvironment extends AbstractEnvironment {
   }
   
   protected List<Percept> computePerceptionsFor(final AgentBody agent) {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
+    ArrayList<Percept> u = new ArrayList<Percept>();
+    for (final EnvironmentObject o : this.environmentObjects) {
+    }
+    return u;
   }
   
   protected void applyInfluences(final Collection<MotionInfluence> motionInfluences, final Collection<Influence> otherInfluences, final TimeManager timeManager) {

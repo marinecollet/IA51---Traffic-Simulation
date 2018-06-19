@@ -85,7 +85,12 @@ class CityEnvironment extends AbstractEnvironment{
 	}
 	
 	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		var u = new ArrayList<Percept>
+		for(o : environmentObjects){
+			//if(o.position < ^agent) //frustrum inside
+				//mettre dans u
+		}
+		return u
 	}
 	
 	protected def applyInfluences(motionInfluences : Collection<MotionInfluence>, otherInfluences : Collection<Influence>, timeManager : TimeManager) {
