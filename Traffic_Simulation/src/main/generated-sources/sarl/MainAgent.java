@@ -1,4 +1,4 @@
-import environments.Environment;
+import environments.AgentEnvironment;
 import framework.FrameworkLauncher;
 import framework.environment.SimulationAgentReady;
 import framework.environment.StartSimulation;
@@ -57,7 +57,7 @@ public class MainAgent extends FrameworkLauncher {
       }
     }.start();
     Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
-    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawn(Environment.class);
+    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawn(AgentEnvironment.class);
     return true;
   }
   

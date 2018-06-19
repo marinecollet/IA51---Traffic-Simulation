@@ -59,7 +59,7 @@ import ui.Application;
 @SarlSpecification("0.7")
 @SarlElementType(18)
 @SuppressWarnings("all")
-public class Environment extends Agent {
+public class AgentEnvironment extends Agent {
   /**
    * Contains all bodies
    */
@@ -365,20 +365,20 @@ public class Environment extends Agent {
   }
   
   @SyntheticMember
-  public Environment(final UUID parentID, final UUID agentID) {
+  public AgentEnvironment(final UUID parentID, final UUID agentID) {
     super(parentID, agentID);
   }
   
   @SyntheticMember
   @Inject
   @Deprecated
-  public Environment(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
+  public AgentEnvironment(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
     super(provider, parentID, agentID);
   }
   
   @SyntheticMember
   @Inject
-  public Environment(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
+  public AgentEnvironment(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
     super(parentID, agentID, skillProvider);
   }
 }

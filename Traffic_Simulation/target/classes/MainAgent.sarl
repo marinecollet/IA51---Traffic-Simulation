@@ -5,7 +5,7 @@ import io.sarl.core.Logging
 import java.util.List
 import org.arakhne.afc.gis.maplayer.MapElementLayer
 import ui.Application
-import environments.Environment
+import environments.AgentEnvironment
 import framework.gui.BehaviorTypeSelector
 import javafx.stage.Stage
 import ui.ApplicationAgent
@@ -50,7 +50,7 @@ agent MainAgent extends FrameworkLauncher
 		}).start();
 		
 		/** Spawn the environment that manage all others agents */
-		spawn(Environment);
+		spawn(AgentEnvironment);
 		
 		return true;
 	}

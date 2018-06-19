@@ -28,7 +28,7 @@ import org.arakhne.afc.gis.road.primitive.RoadNetwork
  * @author jerem
  * 
  */
-agent Environment
+agent AgentEnvironment
 {
 	uses Lifecycle, DefaultContextInteractions, Logging, Behaviors
 	
