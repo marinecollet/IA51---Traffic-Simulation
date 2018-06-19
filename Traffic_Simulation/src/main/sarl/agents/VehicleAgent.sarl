@@ -18,7 +18,7 @@ import environments.Vehicle
  * @author jerem
  * 
  */
-agent VehicleAgent {
+agent CarAgent {
 	uses Logging
 
 	on Initialize {

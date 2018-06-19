@@ -7,7 +7,6 @@ import javafx.scene.Scene
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
 import org.arakhne.afc.gis.maplayer.MapElementLayer
-import environments.RoadNetwork
 import java.util.ArrayList
 import org.arakhne.afc.gis.primitive.GISContainer
 import org.arakhne.afc.gis.maplayer.MultiMapLayer

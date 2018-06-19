@@ -32,7 +32,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlSpecification("0.7")
 @SarlElementType(18)
 @SuppressWarnings("all")
-public class VehicleAgent extends Agent {
+public class CarAgent extends Agent {
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
@@ -149,20 +149,20 @@ public class VehicleAgent extends Agent {
   }
   
   @SyntheticMember
-  public VehicleAgent(final UUID parentID, final UUID agentID) {
+  public CarAgent(final UUID parentID, final UUID agentID) {
     super(parentID, agentID);
   }
   
   @SyntheticMember
   @Inject
   @Deprecated
-  public VehicleAgent(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
+  public CarAgent(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
     super(provider, parentID, agentID);
   }
   
   @SyntheticMember
   @Inject
-  public VehicleAgent(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
+  public CarAgent(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
     super(parentID, agentID, skillProvider);
   }
 }

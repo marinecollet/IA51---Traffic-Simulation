@@ -34,8 +34,6 @@ import ui.Application;
 @SarlElementType(18)
 @SuppressWarnings("all")
 public class MainAgent extends FrameworkLauncher {
-  private Object rd /* Skipped initializer because of errors */;
-  
   /**
    * Size of the screen
    */
