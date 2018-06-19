@@ -4,7 +4,6 @@ import io.sarl.core.Lifecycle
 import io.sarl.core.Logging
 import java.util.List
 import org.arakhne.afc.gis.maplayer.MapElementLayer
-import ui.Application
 import environments.AgentEnvironment
 import framework.gui.BehaviorTypeSelector
 import javafx.stage.Stage
