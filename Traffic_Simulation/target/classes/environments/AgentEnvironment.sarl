@@ -56,7 +56,7 @@ agent AgentEnvironment
 		environmentObjects = new HashSet<EnvironmentObject>()
 		roadSegmentDataCollection= new RoadSegmentDataCollection();
 
-		var stops = new HashMap<Point2d, Integer>();
+		var connectionsOccurence = new HashMap<Point2d, Integer>();
 		
 		//Get all road segments and iterate on them to find 
 		//the road connections which are used multiple times
@@ -68,13 +68,13 @@ agent AgentEnvironment
 			var pts = seg.points;
 			for (pt : pts) 
 			{
-				if (stops.containsKey(pt)) 
+				if (connectionsOccurence.containsKey(pt)) 
 				{
-					stops.replace(pt, (stops.get(pt) + 1) as Integer);
+					connectionsOccurence.replace(pt, (connectionsOccurence.get(pt) + 1) as Integer);
 				} 
 				else 
 				{
-					stops.put(pt, new Integer(1));	
+					connectionsOccurence.put(pt, new Integer(1));	
 				}
 			}
 
@@ -87,9 +87,9 @@ agent AgentEnvironment
 		
 		//For each connections, depending on the number, it creates
 		// a stop sign or a traffic light on the map
-		for(key : stops.keySet)
+		for(key : connectionsOccurence.keySet)
 		{	
-			var cpt = stops.get(key);
+			var cpt = connectionsOccurence.get(key);
 			if(cpt == 3)
 			{
 				stop = new StopSign(new Point2f(key.x,key.y));

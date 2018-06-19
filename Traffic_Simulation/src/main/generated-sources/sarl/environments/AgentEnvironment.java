@@ -93,21 +93,21 @@ public class AgentEnvironment extends Agent {
     this.environmentObjects = _hashSet_1;
     RoadSegmentDataCollection _roadSegmentDataCollection = new RoadSegmentDataCollection();
     this.roadSegmentDataCollection = _roadSegmentDataCollection;
-    HashMap<Point2d, Integer> stops = new HashMap<Point2d, Integer>();
+    HashMap<Point2d, Integer> connectionsOccurence = new HashMap<Point2d, Integer>();
     Collection<? extends RoadSegment> _roadSegments = this.network.getRoadNetwork().getRoadSegments();
     for (final RoadSegment seg : _roadSegments) {
       {
         RoadSegmentData roadSegmentData = new RoadSegmentData(seg);
         Iterable<Point2d> pts = seg.points();
         for (final Point2d pt : pts) {
-          boolean _containsKey = stops.containsKey(pt);
+          boolean _containsKey = connectionsOccurence.containsKey(pt);
           if (_containsKey) {
-            Integer _get = stops.get(pt);
+            Integer _get = connectionsOccurence.get(pt);
             int _plus = ((_get).intValue() + 1);
-            stops.replace(pt, ((Integer) Integer.valueOf(_plus)));
+            connectionsOccurence.replace(pt, ((Integer) Integer.valueOf(_plus)));
           } else {
             Integer _integer = new Integer(1);
-            stops.put(pt, _integer);
+            connectionsOccurence.put(pt, _integer);
           }
         }
         this.roadSegmentDataCollection.add(roadSegmentData);
@@ -115,10 +115,10 @@ public class AgentEnvironment extends Agent {
     }
     StopSign stop = null;
     TrafficLight trafficLight = null;
-    Set<Point2d> _keySet = stops.keySet();
+    Set<Point2d> _keySet = connectionsOccurence.keySet();
     for (final Point2d key : _keySet) {
       {
-        Integer cpt = stops.get(key);
+        Integer cpt = connectionsOccurence.get(key);
         if (((cpt).intValue() == 3)) {
           double _x = key.getX();
           double _y = key.getY();
