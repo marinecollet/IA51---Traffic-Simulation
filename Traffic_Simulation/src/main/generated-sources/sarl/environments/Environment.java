@@ -6,7 +6,6 @@ import agents.requestAStar;
 import com.google.common.base.Objects;
 import environments.Car;
 import environments.EnvironmentObject;
-import environments.RoadNetwork;
 import environments.RoadSegmentData;
 import environments.RoadSegmentDataCollection;
 import environments.StopSign;
@@ -70,7 +69,7 @@ public class Environment extends Agent {
   /**
    * Contains all data to draw Road Segments using JavaFX
    */
-  private RoadNetwork roadNetwork;
+  private /* RoadNetwork */Object roadNetwork;
   
   private RoadNetworkLayer network;
   
