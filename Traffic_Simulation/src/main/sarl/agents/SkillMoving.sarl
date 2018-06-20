@@ -14,40 +14,47 @@ import framework.math.Point2f
 skill SkillGPSMoving implements MovingVehicle {
 	uses Logging
 
-	def install {
+	def install 
+	{
 		// Function invoked when the skill is installed in the owner.
 		// You should put all the initialization statements in this block of code.
 		info("Installing the skill")
 	}
 
-	def uninstall {
+	def uninstall 
+	{
 		// Function invoked when the skill is uninstalled from the owner.
 		// You should put all the resource release statements in this block of code.
 		info("Uninstalling the skill")
 	}
 	
-	def moveVehicle(from : Point2f, to : Point2f, speed : double) : Point2f {
+	def moveVehicle(from : Point2f, to : Point2f, speed : double) : Point2f 
+	{
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }
 
-skill SkillBasicMoving implements MovingVehicle {
+skill SkillBasicMoving implements MovingVehicle 
+{
 	uses Logging
 
-	def install {
+	def install 
+	{
 		// Function invoked when the skill is installed in the owner.
 		// You should put all the initialization statements in this block of code.
 		info("Installing the skill")
 	}
 
-	def uninstall {
+	def uninstall 
+	{
 		// Function invoked when the skill is uninstalled from the owner.
 		// You should put all the resource release statements in this block of code.
 		info("Uninstalling the skill")
 	}
 
-	def moveVehicle(from : Point2f, to : Point2f, speed : double) : Point2f {
+	def moveVehicle(from : Point2f, to : Point2f, speed : double) : Point2f 
+	{
 		var newPos = new Point2f();
 
 		if (from.x < to.x && from.y < to.y) {

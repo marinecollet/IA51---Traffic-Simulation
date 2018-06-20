@@ -19,8 +19,10 @@ event requestAStar
 /**
  * Send the A* path
  */
-event pathAStar {
+event pathAStar 
+{
 	val pathReturn : ArrayList<RoadSegment>;
+	
 	new(p : ArrayList<RoadSegment>)
 	{
 		this.pathReturn = p;

@@ -42,38 +42,40 @@ class Car extends Vehicle
 		ApplicationMap.instance.addAgentBodyInLayer(element);
 		
 	}
-	
-	/**
+	 
+	 def getPerceptionDistance : float 
+	 {
+	 	return perceptionDistance
+	 }
+	 
+	 def setPerceptionDisatnce(perceptionDistance: float)
+	 {
+	 	this.perceptionDistance = perceptionDistance
+	 }
+
+	/** 
 	 * @author Thomas Gredin
 	 * 
 	 * @description
 	 * Do cleaning stuff, must be called before destroying
 	 */
-	 
-	 def getPerceptionDistance : float {
-	 	return perceptionDistance
-	 }
-	 def setPerceptionDisatnce( perceptionDistance : float ){
-	 	this.perceptionDistance = perceptionDistance
-	 }
-	 
 	def cleanUp()
 	{
 		/** Remove the circle from the map elements layer of the application */
 		ApplicationMap.instance.removeAgentBodyInLayer(element);
 	}
 
-	override moveVehicle(newPos : Point2f)
+	override moveVehicle(newPos: Point2f)
 	{
 		position = newPos;		
 	}
 	
-	def getPosition():Point2f
+	def getPosition(): Point2f
 	{
 		return position;
 	}
 	
-	def getElement:MapPolygon
+	def getElement(): MapPolygon
 	{
 		return element;
 	}

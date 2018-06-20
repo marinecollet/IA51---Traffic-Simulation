@@ -9,8 +9,7 @@ import framework.math.Point2f
  * @author jerem
  * 
  */
-capacity MovingVehicle {
-	
+capacity MovingVehicle 
+{
 	def moveVehicle(from : Point2f, to : Point2f, speed : double) : Point2f
-	
 }

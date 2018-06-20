@@ -59,12 +59,6 @@ public class Car extends Vehicle {
     ApplicationMap.getInstance().addAgentBodyInLayer(this.element);
   }
   
-  /**
-   * @author Thomas Gredin
-   * 
-   * @description
-   * Do cleaning stuff, must be called before destroying
-   */
   @Pure
   public float getPerceptionDistance() {
     return this.perceptionDistance;
@@ -74,6 +68,12 @@ public class Car extends Vehicle {
     this.perceptionDistance = perceptionDistance;
   }
   
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Do cleaning stuff, must be called before destroying
+   */
   public void cleanUp() {
     ApplicationMap.getInstance().removeAgentBodyInLayer(this.element);
   }
