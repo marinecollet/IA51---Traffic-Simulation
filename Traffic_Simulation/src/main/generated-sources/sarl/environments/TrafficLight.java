@@ -62,6 +62,16 @@ public class TrafficLight extends Panel {
     }
   }
   
+  @Pure
+  public TrafficLightColor getState() {
+    return this.state;
+  }
+  
+  @Pure
+  public MapPolygon getElement() {
+    return this.element;
+  }
+  
   @Override
   @Pure
   @SyntheticMember

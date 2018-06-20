@@ -43,6 +43,14 @@ class TrafficLight extends Panel {
 				element.color = 0x006600
 		}
 	}
+	
+	def getState() : TrafficLightColor {
+		return state
+	}
+	
+	def getElement():MapPolygon{
+		return element;
+	}
 }
 
 enum TrafficLightColor{

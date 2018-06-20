@@ -16,6 +16,14 @@ import environments.Vehicle
 import io.sarl.core.DefaultContextInteractions
 import agents.requestAStar
 import agents.pathAStar
+import framework.environment.PerceptionEvent
+import environments.EnvironmentObject
+import java.util.List
+import java.util.ArrayList
+import framework.environment.Percept
+import environments.TrafficLight
+import environments.StopSign
+import environments.TrafficLightColor
 
 /** 
  * @author jerem
@@ -69,4 +77,17 @@ agent CarAgent {
 		// Event trigger when an agent leaves one of our shared super-holons.
 		// Sent to all members of the considered super-holon.
 	}
+	
+	on PerceptionEvent {
+		for(o :occurrence.perceptions){
+			if (o instanceof TrafficLight) {
+				if((o as TrafficLight).state == TrafficLightColor.RED){
+					//Décéléré la voiture
+				}
+			}
+			if (o instanceof StopSign) {
+			}
+		}
+	}
+		
 }

@@ -2,6 +2,12 @@ package agents;
 
 import agents.pathAStar;
 import agents.requestAStar;
+import com.google.common.base.Objects;
+import environments.StopSign;
+import environments.TrafficLight;
+import environments.TrafficLightColor;
+import framework.environment.Percept;
+import framework.environment.PerceptionEvent;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
 import io.sarl.core.ContextJoined;
@@ -77,6 +83,22 @@ public class CarAgent extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$MemberLeft$8(final MemberLeft occurrence) {
+  }
+  
+  @SyntheticMember
+  private void $behaviorUnit$PerceptionEvent$9(final PerceptionEvent occurrence) {
+    for (final Percept o : occurrence.perceptions) {
+      {
+        if ((o instanceof TrafficLight)) {
+          TrafficLightColor _state = ((TrafficLight) o).getState();
+          boolean _equals = Objects.equal(_state, TrafficLightColor.RED);
+          if (_equals) {
+          }
+        }
+        if ((o instanceof StopSign)) {
+        }
+      }
+    }
   }
   
   @Extension
@@ -155,6 +177,14 @@ public class CarAgent extends Agent {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Destroy$1(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$PerceptionEvent(final PerceptionEvent occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$PerceptionEvent$9(occurrence));
   }
   
   @SyntheticMember

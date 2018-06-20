@@ -16,7 +16,7 @@ class EnvironmentObjectCollection  {
 	new() {
 		entities = new ArrayList<EnvironmentObject>();
 	}
-
+ 
 	def getEntities() : ArrayList<EnvironmentObject> {
 		return entities;
 	}

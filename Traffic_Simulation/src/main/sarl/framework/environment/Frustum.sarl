@@ -28,6 +28,7 @@ import framework.math.Point2f
 import framework.math.Shape2f
 import framework.math.Vector2f
 import environments.Car
+import environments.EnvironmentObject
 
 /**
  * Define a field-of-view.
@@ -59,5 +60,7 @@ interface Frustum extends Serializable, Cloneable {
 	 * there is no filtering.
 	 */
 	def filter(iterator : Iterator<D>) : Iterator<D> with D extends SituatedObject 
+	
+
 	
 }

@@ -2,6 +2,7 @@ package environments;
 
 import environments.Vehicle;
 import framework.math.Point2f;
+import framework.math.Vector2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -56,12 +57,9 @@ public class Car extends Vehicle {
     float _plus_3 = (_y_3 + longueur);
     this.element.addPoint(_plus_2, _plus_3);
     this.element.setColor(0x60c36e);
+    Vector2f _vector2f = new Vector2f();
+    this.rectangle = this.getFrustum().toShape(this, _vector2f);
     ApplicationMap.getInstance().addAgentBodyInLayer(this.element);
-  }
-  
-  @Pure
-  public float getPerceptionDistance() {
-    return this.perceptionDistance;
   }
   
   public void setPerceptionDisatnce(final float perceptionDistance) {
@@ -119,5 +117,5 @@ public class Car extends Vehicle {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 5395004028L;
+  private final static long serialVersionUID = 7100667318L;
 }

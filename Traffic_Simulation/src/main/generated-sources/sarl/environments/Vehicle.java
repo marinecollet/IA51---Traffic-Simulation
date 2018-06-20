@@ -4,6 +4,7 @@ import environments.CarFrustum;
 import framework.environment.AgentBody;
 import framework.math.Point2f;
 import framework.math.Rectangle2f;
+import framework.math.Shape2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -19,6 +20,8 @@ import org.eclipse.xtext.xbase.lib.Pure;
 public abstract class Vehicle extends AgentBody {
   protected float perceptionDistance;
   
+  protected Shape2f<?> rectangle;
+  
   public Vehicle(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration, final UUID uuid) {
     super(uuid, 
       new Rectangle2f(new Point2f(point.getX(), (point.getY() - 0.5f)), new Point2f(point.getX(), (point.getY() + 0.5f))), maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
@@ -26,6 +29,16 @@ public abstract class Vehicle extends AgentBody {
   }
   
   public abstract void moveVehicle(final Point2f newPos);
+  
+  @Pure
+  public float getPerceptionDistance() {
+    return this.perceptionDistance;
+  }
+  
+  @Pure
+  public Shape2f<?> getRectangle() {
+    return this.rectangle;
+  }
   
   @Override
   @Pure
@@ -65,5 +78,5 @@ public abstract class Vehicle extends AgentBody {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = -1723241170L;
+  private final static long serialVersionUID = -907312580L;
 }

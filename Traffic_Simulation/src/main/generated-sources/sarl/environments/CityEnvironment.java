@@ -104,10 +104,8 @@ public class CityEnvironment extends AbstractEnvironment {
   }
   
   protected List<Percept> computePerceptionsFor(final AgentBody agent) {
-    ArrayList<Percept> u = new ArrayList<Percept>();
-    for (final EnvironmentObject o : this.environmentObjects) {
-    }
-    return u;
+    throw new Error("Unresolved compilation problems:"
+      + "\nCannot cast from EnvironmentObject to ObjectBody");
   }
   
   protected void applyInfluences(final Collection<MotionInfluence> motionInfluences, final Collection<Influence> otherInfluences, final TimeManager timeManager) {

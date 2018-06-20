@@ -27,6 +27,7 @@ import framework.math.Vector2f
 import framework.math.MathUtil
 import java.util.List
 import java.text.MessageFormat
+import environments.EnvironmentObject
 
 /**
  * Object on the environment.
@@ -34,13 +35,13 @@ import java.text.MessageFormat
  * @author St&eacute;phane GALLAND &lt;stephane.galland@utbm.fr&gt;
  * @version $Name$ $Revision$ $Date$
  */
-class AgentBody extends AbstractMobileObject implements Body {
+ class AgentBody extends AbstractMobileObject implements Body {
 
-	val frustum : Frustum 
+	val frustum : Frustum   
 	
 	transient var motionInfluence : MotionInfluence
 	transient var otherInfluences : List<Influence> = new ArrayList
-	transient var perceptions : List<Percept> = new ArrayList
+	transient var perceptions : List<Percept> = new ArrayList 
 
 	/**
 	 * @param id
@@ -56,7 +57,7 @@ class AgentBody extends AbstractMobileObject implements Body {
 		super(id, shape, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration)
 		assert frustum === null || id == frustum.owner
 		this.frustum = frustum
-		this.type = "BODY"
+		this.type = "BODY"    
 	}
 	
 	override clone : AgentBody {
@@ -175,7 +176,7 @@ class AgentBody extends AbstractMobileObject implements Body {
 		mi
 	}
 
-	/** Set the perceptions.
+	/** Set the perceptions. 
 	 * 
 	 * @param perceptions
 	 */

@@ -54,7 +54,7 @@ abstract class AbstractFrustum implements Frustum {
 	/**
 	 * @author St&eacute;phane GALLAND &lt;stephane.galland@utbm.fr&gt;
 	 * @version $Name$ $Revision$ $Date$
-	 */
+	 */ 
 	private static class PerceiverBodyFilter<D extends SituatedObject> implements Iterator<D> {
 		
 		val enclosing : AbstractFrustum
@@ -91,5 +91,6 @@ abstract class AbstractFrustum implements Frustum {
 		}
 		
 	}
+	
 	
 }

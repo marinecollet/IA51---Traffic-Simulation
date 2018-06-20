@@ -43,7 +43,7 @@ agent MainAgent extends FrameworkLauncher
 	{
 		(new Thread() {	def run()
 			{
-				ApplicationMap.launch(ApplicationMap);
+				ApplicationMap.launch(ApplicationMap); 
 				
 			}
 		}).start();

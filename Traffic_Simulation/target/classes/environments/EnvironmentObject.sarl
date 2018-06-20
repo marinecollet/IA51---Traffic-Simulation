@@ -14,8 +14,8 @@ import javafx.scene.shape.Rectangle
  */
 abstract class EnvironmentObject {
 
-	var updatable : boolean
-	var drawable : boolean
+	var updatable : boolean  
+	var drawable : boolean 
 	
 	var position : Point2f
 	var size : Point2f
@@ -24,7 +24,7 @@ abstract class EnvironmentObject {
 
 	new (_position : Point2f, _size : Point2f, isUpdatable : boolean, isDrawable : boolean) {
 		position = new Point2f(_position.x, _position.y)
-		size = new Point2f(_size.x, _size.y)
+		size = new Point2f(_size.x, _size.y) 
 
 		updatable = isUpdatable
 		drawable = isDrawable
