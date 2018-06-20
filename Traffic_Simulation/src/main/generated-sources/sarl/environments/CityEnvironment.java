@@ -1,5 +1,6 @@
 package environments;
 
+import environments.Car;
 import environments.EnvironmentObject;
 import environments.RoadSegmentDataCollection;
 import framework.environment.AbstractEnvironment;
@@ -8,6 +9,7 @@ import framework.environment.Influence;
 import framework.environment.MotionInfluence;
 import framework.environment.Percept;
 import framework.environment.SituatedObject;
+import framework.math.Point2f;
 import framework.time.StepTimeManager;
 import framework.time.TimeManager;
 import io.sarl.lang.annotation.SarlElementType;
@@ -82,12 +84,15 @@ public class CityEnvironment extends AbstractEnvironment {
     return this.roadNetwork;
   }
   
-  @Pure
   public void createAgentBody() {
+    double _maxX = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxX();
+    double _maxY = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxY();
+    Point2f _point2f = new Point2f(_maxX, _maxY);
+    Car car = new Car(_point2f, 0, 0, 0, 0);
+    this.addAgentBody(car, car.getPosition(), car.getAngle());
   }
   
   protected void onAgentBodyCreated(final AgentBody body) {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
   protected void onAgentBodyDestroyed(final AgentBody body) {

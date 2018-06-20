@@ -46,6 +46,8 @@ agent AgentEnvironment
 		environment.network = ApplicationMap.instance.roadNetworkLayer as RoadNetworkLayer
 		environment.roadSegmentDataCollection = new RoadSegmentDataCollection();
 
+		environment.createAgentBody()
+
 		var connectionsOccurence = new HashMap<Point2d, Integer>();
 		
 		//Get all road segments and iterate on them to find 
@@ -121,6 +123,10 @@ agent AgentEnvironment
 					}
 				}
 			}
+		}
+		
+		for (body : environment.agentBodies) {
+			spawnInContextWithID(typeof(CarAgent), body.ID, defaultContext, null)
 		}
 
 		//Test

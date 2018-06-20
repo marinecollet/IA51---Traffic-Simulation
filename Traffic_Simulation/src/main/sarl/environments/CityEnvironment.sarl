@@ -17,6 +17,7 @@ import org.arakhne.afc.gis.road.primitive.RoadNetwork
 import org.arakhne.afc.gis.road.layer.RoadNetworkLayer
 import logic.Map
 import framework.time.StepTimeManager
+import framework.math.Point2f
 
 /** 
  * @author jerem
@@ -67,13 +68,17 @@ class CityEnvironment extends AbstractEnvironment{
 		return roadNetwork
 	}
 	
-	def createAgentBody(){
-	
+	def createAgentBody() {
+		var car = new Car(new Point2f(
+			network.getMapElementAt(0).geoLocation.toBounds2D.maxX,
+			network.getMapElementAt(0).geoLocation.toBounds2D.maxY
+		), 0, 0, 0, 0)
+		addAgentBody(car,car.position,car.angle)
 	}
 	
 	protected def onAgentBodyCreated(body : AgentBody) {
 		
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		//throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 	protected def onAgentBodyDestroyed(body : AgentBody) {
