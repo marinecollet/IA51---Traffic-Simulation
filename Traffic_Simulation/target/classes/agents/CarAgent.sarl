@@ -57,7 +57,7 @@ agent CarAgent {
 	}
 	
 	on pathAStar{
-		
+		var path = occurrence.pathReturn;
 	}
 
 	on ContextJoined {

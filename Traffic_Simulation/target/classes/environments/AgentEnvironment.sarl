@@ -120,13 +120,14 @@ agent AgentEnvironment
 			}
 			
 		}
-		info(startPosition)
+		var startPoint = new Point2d(startPosition.x, startPosition.y);
 		//environment = new CityEnvironment();
 		
-		//var entryConnections = environment.getEntryExitConnections();
-		//var endPoint = new Point2d(entryConnections.get(3).getPoint());
-		//var path = PathUtils.GPS(startPoint, endPoint, environment.roadNetwork);
-		//emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
+		var entryConnections = environment.getEntryExitConnections();
+		var endPoint = new Point2d(entryConnections.get(3).getPoint());
+		var path = PathUtils.GPS(startPoint, endPoint, environment.roadNetwork);
+	
+		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
     }
 
 

@@ -1,6 +1,7 @@
 package environments;
 
 import agents.CarAgent;
+import agents.pathAStar;
 import agents.requestAStar;
 import com.google.common.base.Objects;
 import environments.CityEnvironment;
@@ -19,14 +20,21 @@ import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import io.sarl.lang.core.Address;
 import io.sarl.lang.core.Agent;
 import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
+import io.sarl.lang.core.Scope;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
+import logic.PathUtils;
+import org.arakhne.afc.gis.road.primitive.RoadConnection;
+import org.arakhne.afc.gis.road.primitive.RoadSegment;
+import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -93,8 +101,20 @@ public class AgentEnvironment extends Agent {
         break;
       }
     }
-    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info(startPosition);
+    float _x = startPosition.getX();
+    float _y = startPosition.getY();
+    Point2d startPoint = new Point2d(_x, _y);
+    ArrayList<RoadConnection> entryConnections = this.environment.getEntryExitConnections();
+    Point2d _point = entryConnections.get(3).getPoint();
+    Point2d endPoint = new Point2d(_point);
+    ArrayList<RoadSegment> path = PathUtils.GPS(startPoint, endPoint, this.environment.getRoadNetwork());
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    pathAStar _pathAStar = new pathAStar(path);
+    final Scope<Address> _function = (Address it) -> {
+      Address _source = occurrence.getSource();
+      return Objects.equal(it, _source);
+    };
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_pathAStar, _function);
   }
   
   @Extension

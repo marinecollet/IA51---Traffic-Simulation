@@ -175,6 +175,7 @@ class CityEnvironment extends AbstractEnvironment{
 		), 0, 0, 0, 0)
 		addAgentBody(car,car.position,car.angle)
 	}
+
 	
 	protected def onAgentBodyCreated(body : AgentBody) {
 		

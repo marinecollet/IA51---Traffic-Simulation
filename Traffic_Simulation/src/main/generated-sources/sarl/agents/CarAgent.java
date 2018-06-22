@@ -23,9 +23,11 @@ import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
+import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -63,6 +65,7 @@ public class CarAgent extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$pathAStar$4(final pathAStar occurrence) {
+    ArrayList<RoadSegment> path = occurrence.pathReturn;
   }
   
   @SyntheticMember
