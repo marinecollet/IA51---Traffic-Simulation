@@ -79,7 +79,7 @@ agent CarAgent {
 	}
 	
 	on PerceptionEvent {
-		for(o :occurrence.perceptions){
+		/*for(o :occurrence.perceptions){
 			if (o instanceof TrafficLight) {
 				if((o as TrafficLight).state == TrafficLightColor.RED){
 					//Décéléré la voiture
@@ -87,7 +87,7 @@ agent CarAgent {
 			}
 			if (o instanceof StopSign) {
 			}
-		}
+		}*/
 	}
 		
 }

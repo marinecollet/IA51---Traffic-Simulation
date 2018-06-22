@@ -2,11 +2,6 @@ package agents;
 
 import agents.pathAStar;
 import agents.requestAStar;
-import com.google.common.base.Objects;
-import environments.StopSign;
-import environments.TrafficLight;
-import environments.TrafficLightColor;
-import framework.environment.Percept;
 import framework.environment.PerceptionEvent;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
@@ -87,18 +82,6 @@ public class CarAgent extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$PerceptionEvent$9(final PerceptionEvent occurrence) {
-    for (final Percept o : occurrence.perceptions) {
-      {
-        if ((o instanceof TrafficLight)) {
-          TrafficLightColor _state = ((TrafficLight) o).getState();
-          boolean _equals = Objects.equal(_state, TrafficLightColor.RED);
-          if (_equals) {
-          }
-        }
-        if ((o instanceof StopSign)) {
-        }
-      }
-    }
   }
   
   @Extension

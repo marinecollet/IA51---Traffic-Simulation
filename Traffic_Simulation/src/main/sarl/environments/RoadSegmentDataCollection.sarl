@@ -5,6 +5,7 @@ package environments
 
 import java.util.HashSet
 import org.arakhne.afc.math.geometry.d2.Point2D
+import org.arakhne.afc.gis.road.primitive.RoadConnection
 
 /** 
  * @author Thomas Gredin
@@ -72,6 +73,21 @@ class RoadSegmentDataCollection
 			}
 		}
 		
+		return segments;
+	}
+
+	def findRoadSegmentsForConnection(connection : RoadConnection) : HashSet<RoadSegmentData> {
+		var segments : HashSet<RoadSegmentData> = new HashSet<RoadSegmentData>();
+
+		for (sgmt : collection) {
+			for (point : sgmt.segment.points) {
+				if (point === connection.point) {
+					segments.add(sgmt);
+					continue;
+				}
+			}
+		}
+
 		return segments;
 	}
 }

@@ -5,6 +5,7 @@ import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.HashSet;
+import org.arakhne.afc.gis.road.primitive.RoadConnection;
 import org.arakhne.afc.math.geometry.d2.Point2D;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -65,6 +66,23 @@ public class RoadSegmentDataCollection {
       Iterable<Point2d> _points = sgmt.getSegment().points();
       for (final Point2d point : _points) {
         if ((point == connection)) {
+          segments.add(sgmt);
+          continue;
+        }
+      }
+    }
+    return segments;
+  }
+  
+  @Pure
+  public HashSet<RoadSegmentData> findRoadSegmentsForConnection(final RoadConnection connection) {
+    HashSet<RoadSegmentData> segments = new HashSet<RoadSegmentData>();
+    for (final RoadSegmentData sgmt : this.collection) {
+      Iterable<Point2d> _points = sgmt.getSegment().points();
+      for (final Point2d point : _points) {
+        Point2d _point = connection.getPoint();
+        boolean _tripleEquals = (point == _point);
+        if (_tripleEquals) {
           segments.add(sgmt);
           continue;
         }

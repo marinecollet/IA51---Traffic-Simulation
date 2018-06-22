@@ -5,16 +5,10 @@ import agents.pathAStar;
 import agents.requestAStar;
 import com.google.common.base.Objects;
 import environments.CityEnvironment;
-import environments.RoadSegmentData;
-import environments.RoadSegmentDataCollection;
-import environments.StopSign;
-import environments.TrafficLight;
-import environments.TrafficLightColor;
 import framework.environment.AgentBody;
 import framework.environment.SimulationAgentReady;
 import framework.environment.StartSimulation;
 import framework.environment.StopSimulation;
-import framework.math.Point2f;
 import io.sarl.core.Behaviors;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
@@ -34,13 +28,9 @@ import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 import javax.inject.Inject;
 import logic.PathUtils;
-import org.arakhne.afc.gis.road.layer.RoadNetworkLayer;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -68,85 +58,7 @@ public class AgentEnvironment extends Agent {
     }
     CityEnvironment _cityEnvironment = new CityEnvironment();
     this.environment = _cityEnvironment;
-    this.environment.setNetwork(((RoadNetworkLayer) ApplicationMap.getInstance().roadNetworkLayer));
-    RoadSegmentDataCollection _roadSegmentDataCollection = new RoadSegmentDataCollection();
-    this.environment.setRoadSegmentDataCollection(_roadSegmentDataCollection);
     this.environment.createAgentBody();
-    HashMap<Point2d, Integer> connectionsOccurence = new HashMap<Point2d, Integer>();
-    Collection<? extends RoadSegment> _roadSegments = this.environment.getNetwork().getRoadNetwork().getRoadSegments();
-    for (final RoadSegment seg : _roadSegments) {
-      {
-        RoadSegmentData roadSegmentData = new RoadSegmentData(seg);
-        Iterable<Point2d> pts = seg.points();
-        for (final Point2d pt : pts) {
-          boolean _containsKey = connectionsOccurence.containsKey(pt);
-          if (_containsKey) {
-            Integer _get = connectionsOccurence.get(pt);
-            int _plus = ((_get).intValue() + 1);
-            connectionsOccurence.replace(pt, ((Integer) Integer.valueOf(_plus)));
-          } else {
-            Integer _integer = new Integer(1);
-            connectionsOccurence.put(pt, _integer);
-          }
-        }
-        this.environment.getRoadSegmentDataCollection().add(roadSegmentData);
-      }
-    }
-    StopSign stop = null;
-    TrafficLight trafficLight = null;
-    Set<Point2d> _keySet = connectionsOccurence.keySet();
-    for (final Point2d key : _keySet) {
-      {
-        Integer cpt = connectionsOccurence.get(key);
-        if (((cpt).intValue() == 3)) {
-          double _x = key.getX();
-          double _y = key.getY();
-          Point2f _point2f = new Point2f(_x, _y);
-          StopSign _stopSign = new StopSign(_point2f);
-          stop = _stopSign;
-          this.environment.addEnvironmentObject(stop);
-          HashSet<RoadSegmentData> segments = this.environment.getRoadSegmentDataCollection().findRoadSegmentsForConnection(key);
-          for (final RoadSegmentData segment : segments) {
-            Point2d _beginPoint = segment.getBeginPoint();
-            boolean _tripleEquals = (_beginPoint == key);
-            if (_tripleEquals) {
-              segment.setObjectAtStart(stop);
-            } else {
-              Point2d _endPoint = segment.getEndPoint();
-              boolean _tripleEquals_1 = (_endPoint == key);
-              if (_tripleEquals_1) {
-                segment.setObjectAtEnd(stop);
-              }
-            }
-          }
-        } else {
-          if (((cpt).intValue() > 3)) {
-            double _x_1 = key.getX();
-            double _y_1 = key.getY();
-            Point2f _point2f_1 = new Point2f(_x_1, _y_1);
-            Point2f _point2f_2 = new Point2f(_point2f_1);
-            TrafficLight _trafficLight = new TrafficLight(_point2f_2);
-            trafficLight = _trafficLight;
-            trafficLight.changeColor(TrafficLightColor.GREEN);
-            this.environment.addEnvironmentObject(trafficLight);
-            HashSet<RoadSegmentData> segments_1 = this.environment.getRoadSegmentDataCollection().findRoadSegmentsForConnection(key);
-            for (final RoadSegmentData segment_1 : segments_1) {
-              Point2d _beginPoint_1 = segment_1.getBeginPoint();
-              boolean _tripleEquals_2 = (_beginPoint_1 == key);
-              if (_tripleEquals_2) {
-                segment_1.setObjectAtStart(trafficLight);
-              } else {
-                Point2d _endPoint_1 = segment_1.getEndPoint();
-                boolean _tripleEquals_3 = (_endPoint_1 == key);
-                if (_tripleEquals_3) {
-                  segment_1.setObjectAtEnd(trafficLight);
-                }
-              }
-            }
-          }
-        }
-      }
-    }
     Iterable<AgentBody> _agentBodies = this.environment.getAgentBodies();
     for (final AgentBody body : _agentBodies) {
       Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
