@@ -2,11 +2,13 @@ package environments;
 
 import agents.CarAgent;
 import agents.requestAStar;
+import com.google.common.base.Objects;
 import environments.CityEnvironment;
 import framework.environment.AgentBody;
 import framework.environment.SimulationAgentReady;
 import framework.environment.StartSimulation;
 import framework.environment.StopSimulation;
+import framework.math.Point2f;
 import io.sarl.core.Behaviors;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
@@ -25,7 +27,6 @@ import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
-import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -51,12 +52,6 @@ public class AgentEnvironment extends Agent {
     }
     CityEnvironment _cityEnvironment = new CityEnvironment();
     this.environment = _cityEnvironment;
-    this.environment.createAgentBody();
-    this.environment.createAgentBody();
-    this.environment.createAgentBody();
-    this.environment.createAgentBody();
-    this.environment.createAgentBody();
-    this.environment.createAgentBody();
     this.environment.createAgentBody();
     Iterable<AgentBody> _agentBodies = this.environment.getAgentBodies();
     for (final AgentBody body : _agentBodies) {
@@ -87,7 +82,19 @@ public class AgentEnvironment extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$requestAStar$3(final requestAStar occurrence) {
-    Point2d startPoint = occurrence.position;
+    UUID agentUUID = occurrence.ID;
+    Point2f startPosition = null;
+    Iterable<AgentBody> _agentBodies = this.environment.getAgentBodies();
+    for (final AgentBody body : _agentBodies) {
+      UUID _iD = body.getID();
+      boolean _equals = Objects.equal(_iD, agentUUID);
+      if (_equals) {
+        startPosition = body.getPosition();
+        break;
+      }
+    }
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info(startPosition);
   }
   
   @Extension

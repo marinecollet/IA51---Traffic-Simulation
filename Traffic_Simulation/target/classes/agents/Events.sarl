@@ -6,6 +6,7 @@ package agents
 import java.util.ArrayList
 import org.arakhne.afc.gis.road.primitive.RoadSegment
 import org.arakhne.afc.math.geometry.d2.d.Point2d
+import java.util.UUID
 
 /** 
  * @author Marine
@@ -17,11 +18,11 @@ import org.arakhne.afc.math.geometry.d2.d.Point2d
   */
 event requestAStar
 {
-	val position : Point2d;
+	val ID : UUID;
 	
-	new(pos : Point2d)
+	new(id : UUID)
 	{
-		this.position = pos;
+		this.ID = id;
 	}
 	
 }

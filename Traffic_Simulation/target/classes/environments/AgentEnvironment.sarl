@@ -47,12 +47,12 @@ agent AgentEnvironment
 		
 		//Test d'ajout d'agent et d'agent body
 		environment.createAgentBody();
+		/*environment.createAgentBody();
 		environment.createAgentBody();
 		environment.createAgentBody();
 		environment.createAgentBody();
 		environment.createAgentBody();
-		environment.createAgentBody();
-		environment.createAgentBody();
+		environment.createAgentBody();*/
 		
 		for (body : environment.agentBodies) {
 			spawnInContextWithID(typeof(CarAgent), body.ID, defaultContext, null)
@@ -110,9 +110,17 @@ agent AgentEnvironment
 	 */
 	on requestAStar 
 	{
-		var startPoint = occurrence.position;
+		var agentUUID = occurrence.ID;
+		var startPosition : Point2f
 
-		
+		for(body : environment.agentBodies){
+			if(body.ID == agentUUID){
+				startPosition = body.position
+				break;	
+			}
+			
+		}
+		info(startPosition)
 		//environment = new CityEnvironment();
 		
 		//var entryConnections = environment.getEntryExitConnections();
