@@ -68,6 +68,7 @@ public class CityEnvironment extends AbstractEnvironment {
     ArrayList<EnvironmentObject> _arrayList = new ArrayList<EnvironmentObject>();
     this.environmentObjects = _arrayList;
     this.network = ((RoadNetworkLayer) ApplicationMap.getInstance().roadNetworkLayer);
+    this.roadNetwork = this.network.getRoadNetwork();
     Collection<? extends RoadSegment> _roadSegments = this.network.getRoadNetwork().getRoadSegments();
     for (final RoadSegment seg : _roadSegments) {
       {

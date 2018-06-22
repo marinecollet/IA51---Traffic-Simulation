@@ -34,7 +34,8 @@ agent AgentEnvironment
 	uses Lifecycle, DefaultContextInteractions, Logging, Behaviors
 		
 	/* City environment */
-	var environment : CityEnvironment
+	var environment : CityEnvironment;
+	
 	
 	on Initialize 
 	{
@@ -108,13 +109,16 @@ agent AgentEnvironment
 	 * 
 	 */
 	on requestAStar 
-	{	
-		var startPoint = new Point2d(environment.network.getMapElementAt(0).geoLocation.toBounds2D.maxX,
-			environment.network.getMapElementAt(0).geoLocation.toBounds2D.maxY);
-		var endPoint = new Point2d(environment.network.getMapElementAt(3).geoLocation.toBounds2D.maxX,
-			environment.network.getMapElementAt(3).geoLocation.toBounds2D.maxY); 
-		var path = PathUtils.GPS(startPoint, endPoint, environment.roadNetwork);
-		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
+	{
+		var startPoint = occurrence.position;
+
+		
+		//environment = new CityEnvironment();
+		
+		//var entryConnections = environment.getEntryExitConnections();
+		//var endPoint = new Point2d(entryConnections.get(3).getPoint());
+		//var path = PathUtils.GPS(startPoint, endPoint, environment.roadNetwork);
+		//emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
     }
 
 

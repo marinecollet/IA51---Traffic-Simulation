@@ -5,6 +5,7 @@ package agents
 
 import java.util.ArrayList
 import org.arakhne.afc.gis.road.primitive.RoadSegment
+import org.arakhne.afc.math.geometry.d2.d.Point2d
 
 /** 
  * @author Marine
@@ -15,6 +16,15 @@ import org.arakhne.afc.gis.road.primitive.RoadSegment
   * Request the A* path
   */
 event requestAStar
+{
+	val position : Point2d;
+	
+	new(pos : Point2d)
+	{
+		this.position = pos;
+	}
+	
+}
 
 /**
  * Send the A* path

@@ -54,7 +54,7 @@ class CityEnvironment extends AbstractEnvironment{
 		environmentObjects = new ArrayList<EnvironmentObject>
 
 		network = ApplicationMap.instance.roadNetworkLayer as RoadNetworkLayer
-
+		roadNetwork = network.roadNetwork;
 		// Get all road segments and iterate on them to find
 		// the road connections which are used multiple times
 		for (seg : network.roadNetwork.roadSegments) {

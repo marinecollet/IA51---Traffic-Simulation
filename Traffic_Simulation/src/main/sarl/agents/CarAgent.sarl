@@ -24,6 +24,8 @@ import framework.environment.Percept
 import environments.TrafficLight
 import environments.StopSign
 import environments.TrafficLightColor
+import environments.Car
+import org.arakhne.afc.math.geometry.d2.d.Point2d
 
 /** 
  * @author jerem
@@ -32,12 +34,17 @@ import environments.TrafficLightColor
 agent CarAgent {
 	uses Logging, DefaultContextInteractions
 
+	var car : Car;
+	
+	
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
 		info("VehicleAgent was started.")
 		
-		emit( new requestAStar);
+		var position = car.getPosition();
+		var position2d = new Point2d(position.x, position.y);
+		emit( new requestAStar(position2d));
 	}
 
 	on Destroy {
