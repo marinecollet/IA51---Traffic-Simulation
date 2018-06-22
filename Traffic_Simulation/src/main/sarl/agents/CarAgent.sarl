@@ -12,34 +12,54 @@ import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
-import environments.Vehicle
 import io.sarl.core.DefaultContextInteractions
 import agents.requestAStar
 import agents.pathAStar
 import framework.environment.PerceptionEvent
-import environments.EnvironmentObject
+
+import motionalgo.SeekAlgorithm
 import java.util.List
-import java.util.ArrayList
 import framework.environment.Percept
-import environments.TrafficLight
-import environments.StopSign
-import environments.TrafficLightColor
-import environments.Car
-import org.arakhne.afc.math.geometry.d2.d.Point2d
+import framework.^agent.MotionAlgorithmOutput
+import framework.environment.Influence
+import framework.environment.DynamicType
+import framework.math.Vector2f
+import framework.^agent.PhysicEnvironment
+import motionalgo.SteeringSeekAlgorithm
+import motionalgo.WanderAlgorithm
+import framework.math.MathUtil
+import motionalgo.SteeringWanderAlgorithm
+import framework.^agent.StandardPhysicEnvironment
+import java.util.UUID
+import framework.math.Point2f
 
 /** 
  * @author jerem
  * 
  */
 agent CarAgent {
-	uses Logging, DefaultContextInteractions
+	uses Logging, DefaultContextInteractions, PhysicEnvironment
+	
+	var seekBehaviour : SeekAlgorithm 
+	var wanderBehaviour : WanderAlgorithm
+	var behaviorType : DynamicType
 	
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
 		info("VehicleAgent was started.")
-
+		behaviorType = DynamicType::STEERING
+		occurrence.overridableInitializationStage
+		this.seekBehaviour = new SteeringSeekAlgorithm
+		this.wanderBehaviour = new SteeringWanderAlgorithm(60f, MathUtil.PI/4f,
+			MathUtil.PI / 10f, MathUtil.PI / 10f, MathUtil.PI / 4f)
+	
 		emit( new requestAStar(ID));
+	}
+
+	def overridableInitializationStage(it : Initialize) : void {
+		var physicSkill = new StandardPhysicEnvironment(it.parameters.get(0) as UUID, it.parameters.get(1) as UUID)
+		setSkill(physicSkill, typeof(PhysicEnvironment))
 	}
 
 	on Destroy {
@@ -81,8 +101,32 @@ agent CarAgent {
 	}
 	
 	on PerceptionEvent {
-		/*for(o :occurrence.perceptions){
-			if (o instanceof TrafficLight) {
+		//var target = occurrence.perceptions.extractTarget
+		//var target : Point2f = occurrence.
+		var target : Point2f = null
+		if (target !== null) {
+			info("non null")
+			// run the seek behaviour
+			this.seekBehaviour.run(
+				occurrence.body.position,
+				occurrence.body.currentLinearSpeed,
+				occurrence.body.maxLinearAcceleration,
+				target
+			).emitInfluence
+		} else {
+			// doNothing
+			// // run the wander behaviour
+			this.wanderBehaviour.run(
+				occurrence.body.position,
+				occurrence.body.direction,
+				occurrence.body.currentLinearSpeed,
+				occurrence.body.maxLinearAcceleration,
+				occurrence.body.currentAngularSpeed,
+				occurrence.body.maxAngularAcceleration
+			).emitInfluence
+}
+		//for(o :occurrence.perceptions){
+			/*if (o instanceof TrafficLight) {
 				if((o as TrafficLight).state == TrafficLightColor.RED){
 					//Décéléré la voiture
 				}
@@ -90,6 +134,17 @@ agent CarAgent {
 			if (o instanceof StopSign) {
 			}
 		}*/
+	}
+
+	def emitInfluence(output : MotionAlgorithmOutput, influences : Influence*) {
+		if (output !== null) {
+			if (output.getType() === DynamicType::STEERING)
+				influenceSteering(output.linear, output.angular, influences)
+			else
+				influenceKinematic(output.linear, output.angular, influences);
+		} else {
+			influenceSteering(new Vector2f, 0f, influences)
+		}
 	}
 		
 }

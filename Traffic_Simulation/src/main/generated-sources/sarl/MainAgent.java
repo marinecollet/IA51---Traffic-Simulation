@@ -1,24 +1,26 @@
 import environments.AgentEnvironment;
-import framework.FrameworkLauncher;
 import framework.environment.SimulationAgentReady;
 import framework.environment.StartSimulation;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
 import io.sarl.core.Lifecycle;
-import io.sarl.core.Logging;
 import io.sarl.lang.annotation.ImportedCapacityFeature;
 import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import io.sarl.lang.core.Agent;
 import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
+import io.sarl.util.OpenEventSpace;
+import io.sarl.util.OpenEventSpaceSpecification;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
+import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -33,7 +35,7 @@ import ui.ApplicationMap;
 @SarlSpecification("0.7")
 @SarlElementType(18)
 @SuppressWarnings("all")
-public class MainAgent extends FrameworkLauncher {
+public class MainAgent extends Agent {
   /**
    * Size of the screen
    */
@@ -43,9 +45,9 @@ public class MainAgent extends FrameworkLauncher {
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
+    this.initializeSimulation(((List<Object>)Conversions.doWrapArray(occurrence.parameters)));
   }
   
-  @Override
   protected boolean initializeSimulation(final List<Object> parameters) {
     abstract class __MainAgent_0 extends Thread {
       public abstract void run();
@@ -56,8 +58,10 @@ public class MainAgent extends FrameworkLauncher {
         ApplicationMap.launch(ApplicationMap.class);
       }
     }.start();
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.getDefaultContext().<OpenEventSpace>getOrCreateSpaceWithID(OpenEventSpaceSpecification.class, this.getID());
     Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
-    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawn(AgentEnvironment.class);
+    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawn(AgentEnvironment.class, this.getID());
     return true;
   }
   
@@ -93,21 +97,6 @@ public class MainAgent extends FrameworkLauncher {
       this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = $getSkill(Lifecycle.class);
     }
     return $castSkill(Lifecycle.class, this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
-  }
-  
-  @Extension
-  @ImportedCapacityFeature(Logging.class)
-  @SyntheticMember
-  private transient ClearableReference<Skill> $CAPACITY_USE$IO_SARL_CORE_LOGGING;
-  
-  @SyntheticMember
-  @Pure
-  @Inline(value = "$castSkill(Logging.class, ($0$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || $0$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_LOGGING = $0$getSkill(Logging.class)) : $0$CAPACITY_USE$IO_SARL_CORE_LOGGING)", imported = Logging.class)
-  private Logging $CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER() {
-    if (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) {
-      this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = $getSkill(Logging.class);
-    }
-    return $castSkill(Logging.class, this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
   }
   
   @Extension

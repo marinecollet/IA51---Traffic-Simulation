@@ -30,6 +30,7 @@ import framework.environment.MotionInfluence;
 import framework.math.Vector2f;
 import io.sarl.core.Behaviors;
 import io.sarl.core.DefaultContextInteractions;
+import io.sarl.core.Logging;
 import io.sarl.lang.annotation.DefaultValue;
 import io.sarl.lang.annotation.DefaultValueSource;
 import io.sarl.lang.annotation.ImportedCapacityFeature;
@@ -161,6 +162,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
       System.arraycopy(otherInfluences, 0, influences, 1, otherInfluences.length);
     }
     InfluenceEvent event = new InfluenceEvent(influences);
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Envoi influence");
     final Scope<Address> _function = (Address it) -> {
       UUID _uUID = it.getUUID();
       return Objects.equal(_uUID, this.environmentID);
@@ -196,6 +199,21 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
       this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = $getSkill(Behaviors.class);
     }
     return $castSkill(Behaviors.class, this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
+  }
+  
+  @Extension
+  @ImportedCapacityFeature(Logging.class)
+  @SyntheticMember
+  private transient ClearableReference<Skill> $CAPACITY_USE$IO_SARL_CORE_LOGGING;
+  
+  @SyntheticMember
+  @Pure
+  @Inline(value = "$castSkill(Logging.class, ($0$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || $0$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_LOGGING = $0$getSkill(Logging.class)) : $0$CAPACITY_USE$IO_SARL_CORE_LOGGING)", imported = Logging.class)
+  private Logging $CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER() {
+    if (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) {
+      this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = $getSkill(Logging.class);
+    }
+    return $castSkill(Logging.class, this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
   }
   
   @Override

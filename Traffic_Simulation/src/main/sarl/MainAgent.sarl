@@ -12,6 +12,8 @@ import framework.environment.StartSimulation
 import io.sarl.core.DefaultContextInteractions
 import org.arakhne.afc.gis.road.primitive.RoadNetwork
 import ui.ApplicationMap
+import java.util.UUID
+import io.sarl.util.OpenEventSpaceSpecification
 
 /**
  * @description
@@ -19,10 +21,10 @@ import ui.ApplicationMap
  * 
  * This agent is used to setup and launch the application.
  */
-agent MainAgent extends FrameworkLauncher 
+agent MainAgent
 {	
 	uses Lifecycle;
-	uses Logging;
+	//uses Logging;
 	uses DefaultContextInteractions
 	
 	//pour tester
@@ -33,13 +35,15 @@ agent MainAgent extends FrameworkLauncher
 	 */
 	val WORLD_SIZE_X = 1280f;
 	val WORLD_SIZE_Y = 640f;
+
+	//var spaceId = UUID.randomUUID();
 		
 	on Initialize 
 	{
-		// Nothing to do here	
+		initializeSimulation(occurrence.parameters)
 	}
 	
-	override initializeSimulation(parameters : List<Object>) : boolean 
+	def initializeSimulation(parameters : List<Object>) : boolean 
 	{
 		(new Thread() {	def run()
 			{
@@ -48,8 +52,11 @@ agent MainAgent extends FrameworkLauncher
 			}
 		}).start();
 		
-		/** Spawn the environment that manage all others agents */
-		spawn(AgentEnvironment);
+		/** Spawn the environment that manage all others agents
+		 */
+		defaultContext.getOrCreateSpaceWithID(OpenEventSpaceSpecification, this.ID);
+
+		spawn(typeof(AgentEnvironment),this.ID)
 		
 		return true;
 	}

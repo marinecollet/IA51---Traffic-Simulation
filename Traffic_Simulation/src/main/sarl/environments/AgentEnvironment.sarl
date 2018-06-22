@@ -24,6 +24,16 @@ import org.arakhne.afc.math.geometry.d2.d.Point2d
 import org.arakhne.afc.gis.road.primitive.RoadNetwork
 import logic.PathUtils
 import ui.ApplicationMap
+import framework.environment.PerceptionEvent
+import framework.environment.Percept
+import framework.time.TimePercept
+import framework.environment.InfluenceEvent
+import java.util.UUID
+import io.sarl.util.OpenEventSpaceSpecification
+import java.util.List
+import java.util.concurrent.atomic.AtomicInteger
+import io.sarl.lang.core.Address
+import io.sarl.util.OpenEventSpace
 
 /** 
  * @author jerem
@@ -35,7 +45,9 @@ agent AgentEnvironment
 		
 	/* City environment */
 	var environment : CityEnvironment;
-	
+	val influences = new AtomicInteger(0)
+	var ^space : OpenEventSpace
+	var myAdr : Address
 	
 	on Initialize 
 	{
@@ -43,6 +55,12 @@ agent AgentEnvironment
 		{
 			debug("attend")
 		}
+		
+		var spaceId = (occurrence.parameters.get(0) as UUID)
+		this.^space = defaultContext.getSpace(spaceId)
+		this.^space.register(asEventListener)
+		this.myAdr = this.^space.getAddress(ID)
+		
 		environment = new CityEnvironment()
 		
 		//Test d'ajout d'agent et d'agent body
@@ -52,29 +70,13 @@ agent AgentEnvironment
 		environment.createAgentBody();
 		environment.createAgentBody();
 		environment.createAgentBody();
-		environment.createAgentBody();*/
-		
+		 * environment.createAgentBody();
+		 */
+		var agentParameters : List<Object> = newArrayList(spaceId, this.ID)
 		for (body : environment.agentBodies) {
-			spawnInContextWithID(typeof(CarAgent), body.ID, defaultContext, null)
+			spawnInContextWithID(typeof(CarAgent), body.ID, defaultContext, agentParameters.toArray)
 		}
-
-		//Test
-		/*var car = new Car(
-			new Point2f(
-			environment.network.getMapElementAt(0).geoLocation.toBounds2D.maxX,
-			environment.network.getMapElementAt(0).geoLocation.toBounds2D.maxY
-			), 0, 0, 0, 0)
-		spawnInContextWithID(typeof(CarAgent), car.ID, defaultContext)
-		bodies.add(car);
-
-		var car2 = new Car(new Point2f(
-			network.getMapElementAt(3).geoLocation.toBounds2D.maxX,
-			network.getMapElementAt(3).geoLocation.toBounds2D.maxY
-		), 0, 0, 0, 0)
-		spawnInContextWithID(typeof(CarAgent), car2.ID, defaultContext)
-		bodies.add(car2);*/
-		emit(new SimulationAgentReady)
-				
+		emit(new SimulationAgentReady)		
 	}
 
 	on StopSimulation {
@@ -99,6 +101,23 @@ agent AgentEnvironment
 		}
 		notifyAgentsOrDie*/
 		info("runEnvironmentBehavior")
+		 notifyAgentsOrDie();
+	}
+	
+	def notifyAgentsOrDie() {
+
+		val timePercept = new TimePercept(
+			this.environment.timeManager.currentTime,
+			this.environment.timeManager.lastStepDuration);
+			
+		for(body : environment.agentBodies){
+			var ev = new PerceptionEvent(
+				body.perceivedObjects,
+				new Percept(body),
+				timePercept
+			);
+			emit(ev)[it.UUID == body.ID]
+		}
 	}
 
 	/** 
@@ -128,7 +147,22 @@ agent AgentEnvironment
 		var path = PathUtils.GPS(startPoint, endPoint, environment.roadNetwork);
 	
 		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
-    }
+	}
+
+	on InfluenceEvent {		
+		for (influence : occurrence.influences) {
+			var id = influence.emitter
+			if (id === null) {
+				id = occurrence.source.UUID
+			}
+			var body = this.environment.getAgentBodyFor(id)
+			body.influence(influence)
+		}
+		var v = this.influences.incrementAndGet
+		if (v >= this.environment.getAgentBodyNumber()) {
+			runEnvironmentBehavior
+		}
+	}
 
 
 }
