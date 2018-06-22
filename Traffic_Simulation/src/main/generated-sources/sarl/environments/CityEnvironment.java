@@ -192,9 +192,13 @@ public class CityEnvironment extends AbstractEnvironment {
   }
   
   public void createAgentBody() {
-    double _maxX = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxX();
-    double _maxY = this.network.getMapElementAt(0).getGeoLocation().toBounds2D().getMaxY();
-    Point2f _point2f = new Point2f(_maxX, _maxY);
+    double _random = Math.random();
+    int _size = this.entryExitConnections.size();
+    double _multiply = (_random * _size);
+    int random = ((int) _multiply);
+    double _x = this.entryExitConnections.get(random).getPoint().getX();
+    double _y = this.entryExitConnections.get(random).getPoint().getY();
+    Point2f _point2f = new Point2f(_x, _y);
     Car car = new Car(_point2f, 0, 0, 0, 0);
     this.addAgentBody(car, car.getPosition(), car.getAngle());
   }

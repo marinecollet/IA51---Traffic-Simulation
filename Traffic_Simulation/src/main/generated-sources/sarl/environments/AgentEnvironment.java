@@ -59,6 +59,12 @@ public class AgentEnvironment extends Agent {
     CityEnvironment _cityEnvironment = new CityEnvironment();
     this.environment = _cityEnvironment;
     this.environment.createAgentBody();
+    this.environment.createAgentBody();
+    this.environment.createAgentBody();
+    this.environment.createAgentBody();
+    this.environment.createAgentBody();
+    this.environment.createAgentBody();
+    this.environment.createAgentBody();
     Iterable<AgentBody> _agentBodies = this.environment.getAgentBodies();
     for (final AgentBody body : _agentBodies) {
       Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);

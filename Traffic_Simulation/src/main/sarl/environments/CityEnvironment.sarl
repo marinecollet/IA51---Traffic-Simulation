@@ -168,9 +168,10 @@ class CityEnvironment extends AbstractEnvironment{
 	}
 	
 	def createAgentBody() {
+		var random = (Math.random()* entryExitConnections.size) as int
 		var car = new Car(new Point2f(
-			network.getMapElementAt(0).geoLocation.toBounds2D.maxX,
-			network.getMapElementAt(0).geoLocation.toBounds2D.maxY
+			entryExitConnections.get(random).point.x,
+			entryExitConnections.get(random).point.y
 		), 0, 0, 0, 0)
 		addAgentBody(car,car.position,car.angle)
 	}
@@ -188,7 +189,7 @@ class CityEnvironment extends AbstractEnvironment{
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> {
+	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> {		
 		var u = new ArrayList<Percept>
 		for(o : environmentObjects){
 			if((o as TrafficLight).element.intersects(((^agent as Vehicle).rectangle) as Shape2d<?>)){

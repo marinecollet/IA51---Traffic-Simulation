@@ -44,13 +44,14 @@ agent AgentEnvironment
 		}
 		environment = new CityEnvironment()
 		
-		//Test d'ajout d'un agent et d'un agent body
-		environment.createAgentBody()
-
-
-
-		
-		
+		//Test d'ajout d'agent et d'agent body
+		environment.createAgentBody();
+		environment.createAgentBody();
+		environment.createAgentBody();
+		environment.createAgentBody();
+		environment.createAgentBody();
+		environment.createAgentBody();
+		environment.createAgentBody();
 		
 		for (body : environment.agentBodies) {
 			spawnInContextWithID(typeof(CarAgent), body.ID, defaultContext, null)
@@ -71,8 +72,6 @@ agent AgentEnvironment
 		), 0, 0, 0, 0)
 		spawnInContextWithID(typeof(CarAgent), car2.ID, defaultContext)
 		bodies.add(car2);*/
-		
-		
 		emit(new SimulationAgentReady)
 				
 	}
