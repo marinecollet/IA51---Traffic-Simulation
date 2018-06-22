@@ -31,6 +31,7 @@ public class SkillGPSMoving extends Skill implements MovingVehicle {
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Uninstalling the skill");
   }
   
+  @Pure
   public Point2f moveVehicle(final Point2f from, final Point2f to, final double speed) {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }

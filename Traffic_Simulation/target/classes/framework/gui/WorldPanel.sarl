@@ -31,6 +31,7 @@ import java.awt.geom.Rectangle2D
 import java.awt.image.BufferedImage
 import java.lang.ref.WeakReference
 import javax.swing.JPanel
+import environments.Car
 
 /** Graphical panel for displaying the world.
  *
@@ -94,7 +95,7 @@ class WorldPanel extends JPanel {
 			var awtShape = this.window.mas2screen(o.shape)
 			if (o instanceof AgentBody) {
 				var frustum = o.frustum
-				var frustumShape = frustum?.toShape((o.position, o.direction)
+				var frustumShape = frustum?.toShape((o as Car), o.direction)
 				this.window.paintAgentBody(
 					g2d,
 					positionOnScreen,

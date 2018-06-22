@@ -97,7 +97,6 @@ public class AgentBody extends AbstractMobileObject implements Body {
   }
   
   @Override
-  @Pure
   public String toString() {
     String label = MessageFormat.format("Body of {0}", this.getID());
     String name = this.getName();
