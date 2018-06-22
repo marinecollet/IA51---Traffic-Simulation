@@ -46,7 +46,7 @@ class CityEnvironment extends AbstractEnvironment{
 	//var connectionsOccurence = new HashMap<Point2d, Integer>();
 	var connectionsOccurence = new HashMap<RoadConnection, Integer>();
 	
-	var entryExitList = new ArrayList<Point2d>(); 
+	var entryExitConnections = new ArrayList<RoadConnection>(); 
 	
 	new(){
 		super(Map.WIDTH, Map.HEIGHT, new StepTimeManager(500))
@@ -94,7 +94,13 @@ class CityEnvironment extends AbstractEnvironment{
 		// a stop sign or a traffic light on the map
 		for (key : connectionsOccurence.keySet) {
 			var cpt = connectionsOccurence.get(key);
-			if (cpt == 3) {
+
+			// The road connection is an entry/exit connection
+			if (cpt == 1){
+				entryExitConnections.add(key);
+			}
+			//If cpt == 3 => stop sign
+			else if (cpt == 3) {
 				stop = new StopSign(new Point2f(key.point.x, key.point.y));
 				addEnvironmentObject(stop);
 
@@ -108,8 +114,9 @@ class CityEnvironment extends AbstractEnvironment{
 						segment.objectAtEnd = stop;
 					}
 				}
-			} else if (cpt > 3) {
-				// Idem pour le feu
+			} 
+			// cpt > 3 => traffic light
+			else if (cpt > 3) {	
 				trafficLight = new TrafficLight(new Point2f(new Point2f(key.point.x, key.point.y)));
 				trafficLight.changeColor(TrafficLightColor.GREEN);
 				addEnvironmentObject(trafficLight);
@@ -154,6 +161,10 @@ class CityEnvironment extends AbstractEnvironment{
 	
 	def getRoadNetwork() : RoadNetwork{
 		return roadNetwork
+	}
+	
+	def getEntryExitConnections : ArrayList<RoadConnection>{
+		return entryExitConnections;
 	}
 	
 	def createAgentBody() {
