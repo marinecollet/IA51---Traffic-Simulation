@@ -17,7 +17,6 @@ import agents.requestAStar
 import agents.pathAStar
 import framework.environment.PerceptionEvent
 
-import motionalgo.SeekAlgorithm
 import java.util.List
 import framework.environment.Percept
 import framework.^agent.MotionAlgorithmOutput
@@ -25,13 +24,11 @@ import framework.environment.Influence
 import framework.environment.DynamicType
 import framework.math.Vector2f
 import framework.^agent.PhysicEnvironment
-import motionalgo.SteeringSeekAlgorithm
-import motionalgo.WanderAlgorithm
 import framework.math.MathUtil
-import motionalgo.SteeringWanderAlgorithm
 import framework.^agent.StandardPhysicEnvironment
 import java.util.UUID
 import framework.math.Point2f
+import framework.environment.InfluenceEvent
 
 /** 
  * @author jerem
@@ -39,9 +36,7 @@ import framework.math.Point2f
  */
 agent CarAgent {
 	uses Logging, DefaultContextInteractions, PhysicEnvironment
-	
-	var seekBehaviour : SeekAlgorithm 
-	var wanderBehaviour : WanderAlgorithm
+
 	var behaviorType : DynamicType
 	
 	
@@ -51,9 +46,6 @@ agent CarAgent {
 		info("VehicleAgent was started.")
 		behaviorType = DynamicType::STEERING
 		occurrence.overridableInitializationStage
-		this.seekBehaviour = new SteeringSeekAlgorithm
-		this.wanderBehaviour = new SteeringWanderAlgorithm(60f, MathUtil.PI/4f,
-			MathUtil.PI / 10f, MathUtil.PI / 10f, MathUtil.PI / 4f)
 	
 		emit( new requestAStar(ID));
 	}
@@ -105,27 +97,7 @@ agent CarAgent {
 		//var target = occurrence.perceptions.extractTarget
 		//var target : Point2f = occurrence.
 		var target : Point2f = null
-		if (target !== null) {
-			info("non null")
-			// run the seek behaviour
-			this.seekBehaviour.run(
-				occurrence.body.position,
-				occurrence.body.currentLinearSpeed, 
-				occurrence.body.maxLinearAcceleration,
-				target
-			).emitInfluence
-		} else {
-			// doNothing
-			// // run the wander behaviour
-			this.wanderBehaviour.run(
-				occurrence.body.position,
-				occurrence.body.direction,
-				occurrence.body.currentLinearSpeed,
-				occurrence.body.maxLinearAcceleration,
-				occurrence.body.currentAngularSpeed, 
-				occurrence.body.maxAngularAcceleration
-			).emitInfluence
-}
+		
 		//for(o :occurrence.perceptions){
 			/*if (o instanceof TrafficLight) {
 				if((o as TrafficLight).state == TrafficLightColor.RED){
@@ -135,6 +107,8 @@ agent CarAgent {
 			if (o instanceof StopSign) {
 			}
 		}*/
+		
+		emit(new InfluenceEvent());
 	}
 
 	def emitInfluence(output : MotionAlgorithmOutput, influences : Influence*) {

@@ -106,7 +106,6 @@ agent AgentEnvironment
 	}
 	
 	def notifyAgentsOrDie() {
-
 		val timePercept = new TimePercept(
 			this.environment.timeManager.currentTime,
 			this.environment.timeManager.lastStepDuration);

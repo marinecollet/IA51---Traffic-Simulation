@@ -7,8 +7,8 @@ import framework.agent.PhysicEnvironment;
 import framework.agent.StandardPhysicEnvironment;
 import framework.environment.DynamicType;
 import framework.environment.Influence;
+import framework.environment.InfluenceEvent;
 import framework.environment.PerceptionEvent;
-import framework.math.MathUtil;
 import framework.math.Point2f;
 import framework.math.Vector2f;
 import io.sarl.core.AgentKilled;
@@ -35,10 +35,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
-import motionalgo.SeekAlgorithm;
-import motionalgo.SteeringSeekAlgorithm;
-import motionalgo.SteeringWanderAlgorithm;
-import motionalgo.WanderAlgorithm;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
@@ -51,10 +47,6 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(18)
 @SuppressWarnings("all")
 public class CarAgent extends Agent {
-  private SeekAlgorithm seekBehaviour;
-  
-  private WanderAlgorithm wanderBehaviour;
-  
   private DynamicType behaviorType;
   
   @SyntheticMember
@@ -63,11 +55,6 @@ public class CarAgent extends Agent {
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("VehicleAgent was started.");
     this.behaviorType = DynamicType.STEERING;
     this.overridableInitializationStage(occurrence);
-    SteeringSeekAlgorithm _steeringSeekAlgorithm = new SteeringSeekAlgorithm();
-    this.seekBehaviour = _steeringSeekAlgorithm;
-    SteeringWanderAlgorithm _steeringWanderAlgorithm = new SteeringWanderAlgorithm(60f, (MathUtil.PI / 4f), 
-      (MathUtil.PI / 10f), (MathUtil.PI / 10f), (MathUtil.PI / 4f));
-    this.wanderBehaviour = _steeringWanderAlgorithm;
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     UUID _iD = this.getID();
     requestAStar _requestAStar = new requestAStar(_iD);
@@ -119,22 +106,9 @@ public class CarAgent extends Agent {
   @SyntheticMember
   private void $behaviorUnit$PerceptionEvent$9(final PerceptionEvent occurrence) {
     Point2f target = null;
-    if ((target != null)) {
-      Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-      _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("non null");
-      this.emitInfluence(this.seekBehaviour.run(
-        occurrence.body.getPosition(), 
-        occurrence.body.getCurrentLinearSpeed(), 
-        occurrence.body.getMaxLinearAcceleration(), target));
-    } else {
-      this.emitInfluence(this.wanderBehaviour.run(
-        occurrence.body.getPosition(), 
-        occurrence.body.getDirection(), 
-        occurrence.body.getCurrentLinearSpeed(), 
-        occurrence.body.getMaxLinearAcceleration(), 
-        occurrence.body.getCurrentAngularSpeed(), 
-        occurrence.body.getMaxAngularAcceleration()));
-    }
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    InfluenceEvent _influenceEvent = new InfluenceEvent();
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_influenceEvent);
   }
   
   protected void emitInfluence(final MotionAlgorithmOutput output, final Influence... influences) {
