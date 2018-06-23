@@ -56,12 +56,13 @@ public class ApplicationMap extends Application {
 
 	private volatile MapElement selectedRoad;
 
-	public ArrayMapElementLayer<MapPolygon> agentBodyLayer = new ArrayMapElementLayer<MapPolygon>();
+	public CarLayer agentBodyLayer = new CarLayer();
+	//public ArrayMapElementLayer<MapPolygon> agentBodyLayer = new ArrayMapElementLayer<MapPolygon>();
 	public ArrayMapElementLayer<MapPolygon> stopLayer = new ArrayMapElementLayer<MapPolygon>();
 	public ArrayMapElementLayer<MapPolygon> flashlightLayer = new ArrayMapElementLayer<MapPolygon>();
 	static ApplicationMap instance;
 	public MapElementLayer<?>  roadNetworkLayer; 
-
+	public GisPane scrollPane;
 	static boolean isReady = false;
 
 	public ApplicationMap() {
@@ -70,6 +71,13 @@ public class ApplicationMap extends Application {
 	
 	public void init() {
 		roadNetworkLayer = ApplicationMap.loadShapeFile(new File("asset/Ville.shp"));
+	}
+	
+	public void update() {
+		agentBodyLayer.update();
+		if(scrollPane != null) {
+			scrollPane.drawContent();
+		}
 	}
 	
 	public static MapElementLayer<?> loadShapeFile(File file) {
@@ -197,7 +205,7 @@ public class ApplicationMap extends Application {
 			final Label messageBar = new Label("");
 			messageBar.setTextAlignment(TextAlignment.CENTER);
 
-			final GisPane scrollPane = new GisPane(container);
+			scrollPane = new GisPane(container);
 
 			final String mouseLocationPattern = Locale.getString(ApplicationMap.class, "MOUSE_POSITION"); //$NON-NLS-1$
 

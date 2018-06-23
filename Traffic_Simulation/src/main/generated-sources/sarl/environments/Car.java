@@ -2,7 +2,6 @@ package environments;
 
 import environments.Vehicle;
 import framework.math.Point2f;
-import framework.math.Vector2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -32,34 +31,6 @@ public class Car extends Vehicle {
     super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, UUID.randomUUID());
     this.position = point;
     this.perceptionDistance = 0;
-    int longueur = 8;
-    int largeur = 4;
-    MapPolygon _mapPolygon = new MapPolygon();
-    this.element = _mapPolygon;
-    float _x = this.position.getX();
-    float _minus = (_x - largeur);
-    float _y = this.position.getY();
-    float _plus = (_y + longueur);
-    this.element.addPoint(_minus, _plus);
-    float _x_1 = this.position.getX();
-    float _minus_1 = (_x_1 - largeur);
-    float _y_1 = this.position.getY();
-    float _minus_2 = (_y_1 - longueur);
-    this.element.addPoint(_minus_1, _minus_2);
-    float _x_2 = this.position.getX();
-    float _plus_1 = (_x_2 + largeur);
-    float _y_2 = this.position.getY();
-    float _minus_3 = (_y_2 - longueur);
-    this.element.addPoint(_plus_1, _minus_3);
-    float _x_3 = this.position.getX();
-    float _plus_2 = (_x_3 + largeur);
-    float _y_3 = this.position.getY();
-    float _plus_3 = (_y_3 + longueur);
-    this.element.addPoint(_plus_2, _plus_3);
-    this.element.setColor(0x60c36e);
-    Vector2f _vector2f = new Vector2f();
-    this.rectangle = this.getFrustum().toShape(this, _vector2f);
-    ApplicationMap.getInstance().addAgentBodyInLayer(this.element);
   }
   
   public void setPerceptionDisatnce(final float perceptionDistance) {

@@ -162,8 +162,6 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
       System.arraycopy(otherInfluences, 0, influences, 1, otherInfluences.length);
     }
     InfluenceEvent event = new InfluenceEvent(influences);
-    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Envoi influence");
     final Scope<Address> _function = (Address it) -> {
       UUID _uUID = it.getUUID();
       return Objects.equal(_uUID, this.environmentID);

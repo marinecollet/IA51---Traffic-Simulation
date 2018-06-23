@@ -31,20 +31,6 @@ class Car extends Vehicle
 		position = point;
  
  		perceptionDistance = 0;
- 		
- 		
- 		var longueur = 8
- 		var largeur = 4
-		/** Create and add the element to the layer */
-		element = new MapPolygon();
-		element.addPoint(position.x - largeur, position.y + longueur);
-		element.addPoint(position.x - largeur, position.y - longueur);
-		element.addPoint(position.x + largeur, position.y - longueur);
-		element.addPoint(position.x + largeur, position.y + longueur);
-		element.setColor(0x60c36e);		
-		rectangle = frustum.toShape(this,new Vector2f())
-		ApplicationMap.instance.addAgentBodyInLayer(element);
-		
 	}  
 	 
 	 

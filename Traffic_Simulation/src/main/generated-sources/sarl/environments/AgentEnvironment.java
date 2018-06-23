@@ -86,6 +86,7 @@ public class AgentEnvironment extends Agent {
     this.myAdr = this.space.getAddress(this.getID());
     CityEnvironment _cityEnvironment = new CityEnvironment();
     this.environment = _cityEnvironment;
+    ApplicationMap.getInstance().agentBodyLayer.setList(this.environment.getAgentBodies());
     this.environment.createAgentBody();
     List<Object> agentParameters = CollectionLiterals.<Object>newArrayList(spaceId, this.getID());
     Iterable<AgentBody> _agentBodies = this.environment.getAgentBodies();
@@ -124,8 +125,7 @@ public class AgentEnvironment extends Agent {
       } finally {
         this.freeze.set(false);
       }
-      Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-      _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("runEnvironmentBehavior");
+      ApplicationMap.getInstance().update();
       this.notifyAgentsOrDie();
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);

@@ -63,6 +63,7 @@ agent AgentEnvironment
 		this.myAdr = this.^space.getAddress(ID)
 		
 		environment = new CityEnvironment()
+		ApplicationMap.instance.agentBodyLayer.list = environment.agentBodies;
 		
 		//Test d'ajout d'agent et d'agent body
 		environment.createAgentBody();
@@ -100,7 +101,7 @@ agent AgentEnvironment
 		} finally {
 			this.freeze.set(false)
 		}
-		info("runEnvironmentBehavior")
+		ApplicationMap.instance.update();
 		notifyAgentsOrDie();
 	}
 	

@@ -94,7 +94,7 @@ skill StandardPhysicEnvironment implements PhysicEnvironment {
 			System::arraycopy(otherInfluences, 0, influences, 1, otherInfluences.length)
 		}
 		var ^event = new InfluenceEvent(influences)
-		info("Envoi influence")
+	
 		this.physicSpace.emit(this.myAdr.UUID, ^event) [it.UUID == this.environmentID]
 	}
 	
