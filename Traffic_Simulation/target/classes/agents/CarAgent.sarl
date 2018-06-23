@@ -29,6 +29,8 @@ import framework.^agent.StandardPhysicEnvironment
 import java.util.UUID
 import framework.math.Point2f
 import framework.environment.InfluenceEvent
+import java.util.ArrayList
+import org.arakhne.afc.gis.road.primitive.RoadSegment
 
 /** 
  * @author jerem
@@ -38,21 +40,15 @@ agent CarAgent {
 	uses Logging, DefaultContextInteractions, PhysicEnvironment
 
 	var behaviorType : DynamicType
-	
+	var path : ArrayList<RoadSegment>
 	
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
 		info("VehicleAgent was started.")
 		behaviorType = DynamicType::STEERING
-		occurrence.overridableInitializationStage
 	
 		emit( new requestAStar(ID));
-	}
-
-	def overridableInitializationStage(it : Initialize) : void {
-		var physicSkill = new StandardPhysicEnvironment(it.parameters.get(0) as UUID, it.parameters.get(1) as UUID)
-		setSkill(physicSkill, typeof(PhysicEnvironment))
 	}
 
 	on Destroy {
@@ -70,7 +66,7 @@ agent CarAgent {
 	}
 	
 	on pathAStar{
-		var path = occurrence.pathReturn;
+		path = occurrence.pathReturn;
 	}
 
 	on ContextJoined {
@@ -111,15 +107,5 @@ agent CarAgent {
 		emit(new InfluenceEvent());
 	}
 
-	def emitInfluence(output : MotionAlgorithmOutput, influences : Influence*) {
-		if (output !== null) {
-			if (output.getType() === DynamicType::STEERING)
-				influenceSteering(output.linear, output.angular, influences)
-			else
-				influenceKinematic(output.linear, output.angular, influences);
-		} else {
-			influenceSteering(new Vector2f, 0f, influences)
-		}
-	}
 		
 }
