@@ -18,7 +18,7 @@ import framework.math.Shape2f
  */
 class StopSign extends Panel { 
 	
-	var position : Point2f
+	var position : Point2f 
 	
 	 
 	new(id : UUID,  name: String, position : Point2f) { 

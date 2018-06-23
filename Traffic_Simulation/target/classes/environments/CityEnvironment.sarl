@@ -197,7 +197,7 @@ class CityEnvironment extends AbstractEnvironment{
 		var u = new ArrayList<Percept>
 		for(o : environmentObjects){
 			if(o.element.intersects(((^agent as Vehicle).rectangle) as Shape2d<?>)){
-				//u.add(new Percept(o)); 
+				u.add(new Percept(o)); 
 			}
 							  
 		} 
@@ -240,7 +240,7 @@ class CityEnvironment extends AbstractEnvironment{
 
 	private static class AnimatAction { 
 
-		val body : AgentBody
+		val body : AgentBody 
 		val move : Vector2f
 		val rotation : float
 

@@ -103,26 +103,17 @@ public class CityEnvironment extends AbstractEnvironment {
     @Pure
     @SyntheticMember
     public boolean equals(final Object obj) {
-      if (this == obj)
-        return true;
-      if (obj == null)
-        return false;
-      if (getClass() != obj.getClass())
-        return false;
-      AnimatAction other = (AnimatAction) obj;
-      if (Float.floatToIntBits(other.rotation) != Float.floatToIntBits(this.rotation))
-        return false;
-      return super.equals(obj);
+      throw new Error("Unresolved compilation problems:"
+        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
     }
     
     @Override
     @Pure
     @SyntheticMember
     public int hashCode() {
-      int result = super.hashCode();
-      final int prime = 31;
-      result = prime * result + Float.floatToIntBits(this.rotation);
-      return result;
+      throw new Error("Unresolved compilation problems:"
+        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
     }
   }
   
@@ -305,6 +296,8 @@ public class CityEnvironment extends AbstractEnvironment {
     for (final EnvironmentObject o : this.environmentObjects) {
       boolean _intersects = o.element.intersects(((Shape2d<?>) ((Vehicle) agent).rectangle));
       if (_intersects) {
+        Percept _percept = new Percept(o);
+        u.add(_percept);
       }
     }
     return u;
@@ -352,14 +345,16 @@ public class CityEnvironment extends AbstractEnvironment {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    return super.equals(obj);
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    int result = super.hashCode();
-    return result;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
 }

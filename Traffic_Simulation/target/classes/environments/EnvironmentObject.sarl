@@ -19,12 +19,8 @@ import org.arakhne.afc.gis.mapelement.MapPolygon
  * 
  */
 abstract class EnvironmentObject extends AbstractSituatedObject {
-
-
 	
-	var position : Point2f
-	var size : Point2f
-
+	 
 	protected var element : MapPolygon  
 		  
 	
@@ -32,11 +28,9 @@ abstract class EnvironmentObject extends AbstractSituatedObject {
 	var type : Serializable 	
 	var points = new ArrayList<Point>
 
+	 
 	
 	
-	def getPosition() : Point2f {
-		return position;
-	}
  
 	new (id : UUID, position : Point2f = null, name : String) { 
 		super(id,new Rectangle2f(new Point2f,new Point2f)) 
@@ -50,19 +44,9 @@ abstract class EnvironmentObject extends AbstractSituatedObject {
 
 
 
-	def getSize() : Point2f {
-		return size;
-	}
+	
 
-	def setSize(_size : Point2f) {
-		size.x = _size.x;
-		size.y = _size.y;
-	}
 
-	def getRect() : Rectangle {
-		var rect = new Rectangle(position.x, position.y, size.x, size.y);
-		return rect;
-	}
 
 
 }

@@ -110,7 +110,7 @@ agent CarAgent {
 			// run the seek behaviour
 			this.seekBehaviour.run(
 				occurrence.body.position,
-				occurrence.body.currentLinearSpeed,
+				occurrence.body.currentLinearSpeed, 
 				occurrence.body.maxLinearAcceleration,
 				target
 			).emitInfluence

@@ -45,7 +45,7 @@ class TrafficLight extends Panel {
 				element.color = 0xffa500
 			default:
 				element.color = 0x006600
-		}
+		} 
 	}
 	
 	def getState() : TrafficLightColor {

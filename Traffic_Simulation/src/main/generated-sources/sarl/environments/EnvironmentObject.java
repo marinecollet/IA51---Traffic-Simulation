@@ -15,7 +15,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
-import javafx.scene.shape.Rectangle;
 import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.eclipse.xtext.xbase.lib.Pure;
 
@@ -26,10 +25,6 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public abstract class EnvironmentObject extends AbstractSituatedObject {
-  private Point2f position;
-  
-  private Point2f size;
-  
   protected MapPolygon element;
   
   private String name;
@@ -37,10 +32,6 @@ public abstract class EnvironmentObject extends AbstractSituatedObject {
   private Serializable type;
   
   private ArrayList<Point> points = new ArrayList<Point>();
-  
-  public Point2f getPosition() {
-    return this.position;
-  }
   
   @DefaultValueSource
   public EnvironmentObject(final UUID id, @DefaultValue("environments.EnvironmentObject#NEW_0") final Point2f position, final String name) {
@@ -55,7 +46,7 @@ public abstract class EnvironmentObject extends AbstractSituatedObject {
     this.name = name;
     this.type = "OBJECT";
     if ((position != null)) {
-      this.position.set(position);
+      this.getPosition().set(position);
     }
   }
   
@@ -65,26 +56,6 @@ public abstract class EnvironmentObject extends AbstractSituatedObject {
   @SyntheticMember
   @SarlSourceCode("null")
   private final static Point2f $DEFAULT_VALUE$NEW_0 = null;
-  
-  @Pure
-  public Point2f getSize() {
-    return this.size;
-  }
-  
-  public void setSize(final Point2f _size) {
-    this.size.setX(_size.getX());
-    this.size.setY(_size.getY());
-  }
-  
-  @Pure
-  public Rectangle getRect() {
-    float _x = this.position.getX();
-    float _y = this.position.getY();
-    float _x_1 = this.size.getX();
-    float _y_1 = this.size.getY();
-    Rectangle rect = new Rectangle(_x, _y, _x_1, _y_1);
-    return rect;
-  }
   
   @DefaultValueUse("java.util.UUID,framework.math.Point2f,java.lang.String")
   @SyntheticMember
@@ -131,5 +102,5 @@ public abstract class EnvironmentObject extends AbstractSituatedObject {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 12878125076L;
+  private final static long serialVersionUID = 3381123413L;
 }
