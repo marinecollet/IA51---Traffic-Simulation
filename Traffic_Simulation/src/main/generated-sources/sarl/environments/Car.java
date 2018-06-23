@@ -21,45 +21,40 @@ public class Car extends Vehicle {
   /**
    * Position in the layer
    */
-  private Point2f position;
+  private final int longueur = 8;
   
-  /**
-   * The representation of the car (here a circle)
-   */
-  private MapPolygon element;
+  private final int largeur = 4;
   
   public Car(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration) {
     super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, UUID.randomUUID());
-    this.position = point;
+    this.setPosition(point);
     this.perceptionDistance = 0;
-    int longueur = 8;
-    int largeur = 4;
     MapPolygon _mapPolygon = new MapPolygon();
     this.element = _mapPolygon;
-    float _x = this.position.getX();
-    float _minus = (_x - largeur);
-    float _y = this.position.getY();
-    float _plus = (_y + longueur);
+    float _x = this.getPosition().getX();
+    float _minus = (_x - this.largeur);
+    float _y = this.getPosition().getY();
+    float _plus = (_y + this.longueur);
     this.element.addPoint(_minus, _plus);
-    float _x_1 = this.position.getX();
-    float _minus_1 = (_x_1 - largeur);
-    float _y_1 = this.position.getY();
-    float _minus_2 = (_y_1 - longueur);
+    float _x_1 = this.getPosition().getX();
+    float _minus_1 = (_x_1 - this.largeur);
+    float _y_1 = this.getPosition().getY();
+    float _minus_2 = (_y_1 - this.longueur);
     this.element.addPoint(_minus_1, _minus_2);
-    float _x_2 = this.position.getX();
-    float _plus_1 = (_x_2 + largeur);
-    float _y_2 = this.position.getY();
-    float _minus_3 = (_y_2 - longueur);
+    float _x_2 = this.getPosition().getX();
+    float _plus_1 = (_x_2 + this.largeur);
+    float _y_2 = this.getPosition().getY();
+    float _minus_3 = (_y_2 - this.longueur);
     this.element.addPoint(_plus_1, _minus_3);
-    float _x_3 = this.position.getX();
-    float _plus_2 = (_x_3 + largeur);
-    float _y_3 = this.position.getY();
-    float _plus_3 = (_y_3 + longueur);
+    float _x_3 = this.getPosition().getX();
+    float _plus_2 = (_x_3 + this.largeur);
+    float _y_3 = this.getPosition().getY();
+    float _plus_3 = (_y_3 + this.longueur);
     this.element.addPoint(_plus_2, _plus_3);
     this.element.setColor(0x60c36e);
     Vector2f _vector2f = new Vector2f();
     this.rectangle = this.getFrustum().toShape(this, _vector2f);
-    ApplicationMap.getInstance().addAgentBodyInLayer(this.element);
+    ApplicationMap.getInstance().addAgentBodyInLayer(this);
   }
   
   public void setPerceptionDisatnce(final float perceptionDistance) {
@@ -78,22 +73,56 @@ public class Car extends Vehicle {
   
   @Override
   public void moveVehicle(final Point2f newPos) {
-    this.position = newPos;
+    this.setPosition(newPos);
   }
   
-  public Point2f getPosition() {
-    return this.position;
-  }
-  
-  @Pure
-  public MapPolygon getElement() {
-    return this.element;
+  /**
+   * def getPosition(): Point2f
+   * {
+   * return ;
+   * }
+   */
+  public void setPolygon() {
+    MapPolygon _mapPolygon = new MapPolygon();
+    this.element = _mapPolygon;
+    float _x = this.getPosition().getX();
+    float _minus = (_x - this.largeur);
+    float _y = this.getPosition().getY();
+    float _plus = (_y + this.longueur);
+    this.element.addPoint(_minus, _plus);
+    float _x_1 = this.getPosition().getX();
+    float _minus_1 = (_x_1 - this.largeur);
+    float _y_1 = this.getPosition().getY();
+    float _minus_2 = (_y_1 - this.longueur);
+    this.element.addPoint(_minus_1, _minus_2);
+    float _x_2 = this.getPosition().getX();
+    float _plus_1 = (_x_2 + this.largeur);
+    float _y_2 = this.getPosition().getY();
+    float _minus_3 = (_y_2 - this.longueur);
+    this.element.addPoint(_plus_1, _minus_3);
+    float _x_3 = this.getPosition().getX();
+    float _plus_2 = (_x_3 + this.largeur);
+    float _y_3 = this.getPosition().getY();
+    float _plus_3 = (_y_3 + this.longueur);
+    this.element.addPoint(_plus_2, _plus_3);
+    this.element.setColor(0x60c36e);
   }
   
   @Override
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Car other = (Car) obj;
+    if (other.longueur != this.longueur)
+      return false;
+    if (other.largeur != this.largeur)
+      return false;
     return super.equals(obj);
   }
   
@@ -102,6 +131,9 @@ public class Car extends Vehicle {
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
+    final int prime = 31;
+    result = prime * result + this.longueur;
+    result = prime * result + this.largeur;
     return result;
   }
   
@@ -117,5 +149,5 @@ public class Car extends Vehicle {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 7100667318L;
+  private final static long serialVersionUID = -1588912496L;
 }

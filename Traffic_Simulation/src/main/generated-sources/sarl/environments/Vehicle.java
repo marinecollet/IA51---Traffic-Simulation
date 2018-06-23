@@ -9,6 +9,7 @@ import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.UUID;
+import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -21,6 +22,11 @@ public abstract class Vehicle extends AgentBody {
   protected float perceptionDistance;
   
   protected Shape2f<?> rectangle;
+  
+  /**
+   * The representation of the car (here a circle)
+   */
+  protected MapPolygon element;
   
   public Vehicle(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration, final UUID uuid) {
     super(uuid, 
@@ -39,6 +45,13 @@ public abstract class Vehicle extends AgentBody {
   public Shape2f<?> getRectangle() {
     return this.rectangle;
   }
+  
+  @Pure
+  public MapPolygon getElement() {
+    return this.element;
+  }
+  
+  public abstract void setPolygon();
   
   @Override
   @Pure
@@ -78,5 +91,5 @@ public abstract class Vehicle extends AgentBody {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = -907312580L;
+  private final static long serialVersionUID = -1365715887L;
 }

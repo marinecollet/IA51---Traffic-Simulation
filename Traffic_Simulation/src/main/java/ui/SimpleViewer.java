@@ -1,4 +1,4 @@
-package def;
+package ui;
 
 import java.io.File;
 import java.io.FileInputStream;

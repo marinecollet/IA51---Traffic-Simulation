@@ -50,13 +50,17 @@ import org.arakhne.afc.vmutil.FileSystem;
 import org.arakhne.afc.vmutil.json.JsonBuffer;
 import org.arakhne.afc.vmutil.locale.Locale;
 
+import environments.Car;
+
 public class ApplicationMap extends Application {
 
 	private volatile boolean dragging;
 
 	private volatile MapElement selectedRoad;
 
-	public ArrayMapElementLayer<MapPolygon> agentBodyLayer = new ArrayMapElementLayer<MapPolygon>();
+	public CarLayer agentBodyLayer = new CarLayer();
+
+	//public ArrayMapElementLayer<MapPolygon> agentBodyLayer = new ArrayMapElementLayer<MapPolygon>();
 	public ArrayMapElementLayer<MapPolygon> stopLayer = new ArrayMapElementLayer<MapPolygon>();
 	public ArrayMapElementLayer<MapPolygon> flashlightLayer = new ArrayMapElementLayer<MapPolygon>();
 	static ApplicationMap instance;
@@ -70,6 +74,10 @@ public class ApplicationMap extends Application {
 	
 	public void init() {
 		roadNetworkLayer = ApplicationMap.loadShapeFile(new File("asset/Ville.shp"));
+	}
+	
+	public void update() {
+		agentBodyLayer.update();
 	}
 	
 	public static MapElementLayer<?> loadShapeFile(File file) {
@@ -319,7 +327,12 @@ public class ApplicationMap extends Application {
 		}
 		return null;
 	}
-
+	
+	public void addAgentBodyInLayer(Car element)
+	{
+		agentBodyLayer.addVehicle(element);
+	}
+	
 	/**
 	 * @author Thomas Gredin
 	 * 
