@@ -39,6 +39,7 @@ import org.arakhne.afc.math.geometry.d2.d.Shape2d;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.ExclusiveRange;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.ApplicationMap;
 
@@ -320,6 +321,7 @@ public class CityEnvironment extends AbstractEnvironment {
     for (final Integer index1 : _doubleDotLessThan) {
       {
         MotionInfluence inf1 = ((MotionInfluence[])Conversions.unwrapArray(motionInfluences, MotionInfluence.class))[(index1).intValue()];
+        InputOutput.<MotionInfluence>println(inf1);
         AgentBody body1 = this.getAgentBodyFor(inf1.getEmitter());
         Vector2f move = null;
         float rotation = 0;

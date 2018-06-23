@@ -31,6 +31,9 @@ import framework.math.Point2f
 import framework.environment.InfluenceEvent
 import java.util.ArrayList
 import org.arakhne.afc.gis.road.primitive.RoadSegment
+import framework.environment.MotionInfluence
+import org.arakhne.afc.math.geometry.d2.d.Point2d
+import java.lang.reflect.Array
 
 /** 
  * @author jerem
@@ -42,12 +45,13 @@ agent CarAgent {
 	var behaviorType : DynamicType
 	var path : ArrayList<RoadSegment>
 	
+	var fromBeginToEnd = true
+	
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
 		info("VehicleAgent was started.")
 		behaviorType = DynamicType::STEERING
-	
 		emit( new requestAStar(ID));
 	}
 
@@ -89,10 +93,11 @@ agent CarAgent {
 		// Sent to all members of the considered super-holon.
 	}
 	
-	on PerceptionEvent {
+	on PerceptionEvent { 
+		
 		//var target = occurrence.perceptions.extractTarget
 		//var target : Point2f = occurrence.
-		var target : Point2f = null
+		//var target : Point2f = null
 		
 		//for(o :occurrence.perceptions){
 			/*if (o instanceof TrafficLight) {
@@ -102,9 +107,37 @@ agent CarAgent {
 			}
 			if (o instanceof StopSign) {
 			}
-		}*/
+		 * }
+		 */
+		 
+		var currentPos = new Point2d(occurrence.body.position.x, occurrence.body.position.y);
+		 
 		
-		emit(new InfluenceEvent());
+		if (currentPos == path.get(0).beginPoint.point ||currentPos == path.get(0).endPoint.point){
+			path.remove(0);
+		}
+		
+		if (currentPos == path.get(0).beginPoint.point){
+			fromBeginToEnd = true;	
+		}
+		else if(currentPos == path.get(0).endPoint.point){
+			fromBeginToEnd = false;
+		}
+
+		var direction : Vector2f
+		if(fromBeginToEnd){
+			direction = new Vector2f(path.get(0).beginPoint.point.x - occurrence.body.position.x, path.get(0).beginPoint.point.y - occurrence.body.position.y);
+		}
+		else{
+			direction =	new Vector2f(path.get(0).endPoint.point.x - occurrence.body.position.x, path.get(0).endPoint.point.y - occurrence.body.position.y); 
+		}
+		var influences = Array::newInstance(typeof(Influence),1) as Influence[];
+		influences.set(0, new MotionInfluence(DynamicType::STEERING, ID, direction, 0))
+		var infEnv = new InfluenceEvent(influences)
+		
+		//infEnv.influences.add()
+		
+		emit(infEnv);
 	}
 
 		

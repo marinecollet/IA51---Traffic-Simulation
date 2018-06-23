@@ -208,7 +208,9 @@ class CityEnvironment extends AbstractEnvironment{
 		otherInfluences : Collection<Influence>, timeManager : TimeManager) {
 		var actions = new ArrayList<AnimatAction>(motionInfluences.size());
 		for (index1 : 0 ..< motionInfluences.size) {
+			
 			var inf1 = motionInfluences.get(index1)
+			println(inf1)
 			var body1 = getAgentBodyFor(inf1.emitter)
 			var move : Vector2f 
 			var rotation : float

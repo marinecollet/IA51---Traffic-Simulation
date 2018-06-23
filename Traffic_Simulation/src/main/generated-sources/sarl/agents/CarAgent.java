@@ -4,9 +4,11 @@ import agents.pathAStar;
 import agents.requestAStar;
 import framework.agent.PhysicEnvironment;
 import framework.environment.DynamicType;
+import framework.environment.Influence;
 import framework.environment.InfluenceEvent;
+import framework.environment.MotionInfluence;
 import framework.environment.PerceptionEvent;
-import framework.math.Point2f;
+import framework.math.Vector2f;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
 import io.sarl.core.ContextJoined;
@@ -27,11 +29,13 @@ import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
+import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -46,6 +50,8 @@ public class CarAgent extends Agent {
   private DynamicType behaviorType;
   
   private ArrayList<RoadSegment> path;
+  
+  private boolean fromBeginToEnd = true;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
@@ -95,10 +101,51 @@ public class CarAgent extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$PerceptionEvent$9(final PerceptionEvent occurrence) {
-    Point2f target = null;
+    float _x = occurrence.body.getPosition().getX();
+    float _y = occurrence.body.getPosition().getY();
+    Point2d currentPos = new Point2d(_x, _y);
+    if ((currentPos.operator_equals(this.path.get(0).getBeginPoint().getPoint()) || currentPos.operator_equals(this.path.get(0).getEndPoint().getPoint()))) {
+      this.path.remove(0);
+    }
+    Point2d _point = this.path.get(0).getBeginPoint().getPoint();
+    boolean _equals = currentPos.operator_equals(_point);
+    if (_equals) {
+      this.fromBeginToEnd = true;
+    } else {
+      Point2d _point_1 = this.path.get(0).getEndPoint().getPoint();
+      boolean _equals_1 = currentPos.operator_equals(_point_1);
+      if (_equals_1) {
+        this.fromBeginToEnd = false;
+      }
+    }
+    Vector2f direction = null;
+    if (this.fromBeginToEnd) {
+      double _x_1 = this.path.get(0).getBeginPoint().getPoint().getX();
+      float _x_2 = occurrence.body.getPosition().getX();
+      double _minus = (_x_1 - _x_2);
+      double _y_1 = this.path.get(0).getBeginPoint().getPoint().getY();
+      float _y_2 = occurrence.body.getPosition().getY();
+      double _minus_1 = (_y_1 - _y_2);
+      Vector2f _vector2f = new Vector2f(_minus, _minus_1);
+      direction = _vector2f;
+    } else {
+      double _x_3 = this.path.get(0).getEndPoint().getPoint().getX();
+      float _x_4 = occurrence.body.getPosition().getX();
+      double _minus_2 = (_x_3 - _x_4);
+      double _y_3 = this.path.get(0).getEndPoint().getPoint().getY();
+      float _y_4 = occurrence.body.getPosition().getY();
+      double _minus_3 = (_y_3 - _y_4);
+      Vector2f _vector2f_1 = new Vector2f(_minus_2, _minus_3);
+      direction = _vector2f_1;
+    }
+    Object _newInstance = Array.newInstance(Influence.class, 1);
+    Influence[] influences = ((Influence[]) _newInstance);
+    UUID _iD = this.getID();
+    MotionInfluence _motionInfluence = new MotionInfluence(DynamicType.STEERING, _iD, direction, 0);
+    influences[0] = _motionInfluence;
+    InfluenceEvent infEnv = new InfluenceEvent(influences);
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-    InfluenceEvent _influenceEvent = new InfluenceEvent();
-    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_influenceEvent);
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(infEnv);
   }
   
   @Extension
@@ -230,6 +277,15 @@ public class CarAgent extends Agent {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    CarAgent other = (CarAgent) obj;
+    if (other.fromBeginToEnd != this.fromBeginToEnd)
+      return false;
     return super.equals(obj);
   }
   
@@ -238,6 +294,8 @@ public class CarAgent extends Agent {
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
+    final int prime = 31;
+    result = prime * result + (this.fromBeginToEnd ? 1231 : 1237);
     return result;
   }
   
