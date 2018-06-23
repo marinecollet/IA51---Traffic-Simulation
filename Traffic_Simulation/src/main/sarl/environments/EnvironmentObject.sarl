@@ -7,59 +7,48 @@ import java.util.ArrayList
 import java.util.UUID
 import framework.math.Point2f
 import javafx.scene.shape.Rectangle
+import framework.environment.AbstractSituatedObject
+import framework.math.Point2f
+import framework.math.Shape2f
+import java.io.Serializable
+import framework.math.Rectangle2f
+import org.arakhne.afc.gis.mapelement.MapPolygon
 
 /** 
  * @author jerem
  * 
  */
-abstract class EnvironmentObject {
+abstract class EnvironmentObject extends AbstractSituatedObject {
 
-	var updatable : boolean  
-	var drawable : boolean 
+
 	
 	var position : Point2f
 	var size : Point2f
+
+	protected var element : MapPolygon  
+		  
 	
+	var name : String
+	var type : Serializable 	
 	var points = new ArrayList<Point>
 
-	new (_position : Point2f, _size : Point2f, isUpdatable : boolean, isDrawable : boolean) {
-		position = new Point2f(_position.x, _position.y)
-		size = new Point2f(_size.x, _size.y) 
-
-		updatable = isUpdatable
-		drawable = isDrawable
-	}
-
-	new (_position : Point2f, isUpdatable : boolean, isDrawable : boolean) {
-		position = new Point2f(_position.x, _position.y)
-		size = new Point2f
-
-		updatable = isUpdatable
-		drawable = isDrawable
-	}
 	
-	new() {
-		position = new Point2f()
-		size = new Point2f
-
-		updatable = false
-		drawable = false
-	}
 	
-
 	def getPosition() : Point2f {
 		return position;
 	}
-
-	def setPosition(_position : Point2f) {
-		position.x = _position.x;
-		position.y = _position.y;
+ 
+	new (id : UUID, position : Point2f = null, name : String) { 
+		super(id,new Rectangle2f(new Point2f,new Point2f)) 
+		assert id !== null
+		this.name = name
+		this.type = "OBJECT" 
+		if (position !== null) {
+			this.position.set(position)
+		} 
 	}
 
-	def move(_offset : Point2f) {
-		position.x = position.x + _offset.x;
-		position.y = position.y + _offset.y;
-	}
+
 
 	def getSize() : Point2f {
 		return size;
@@ -75,11 +64,5 @@ abstract class EnvironmentObject {
 		return rect;
 	}
 
-	def isUpdateble() : boolean {
-		return updatable;
-	}
 
-	def isDrawable() : boolean {
-		return drawable;
-	}
 }

@@ -25,7 +25,7 @@ class Car extends Vehicle
 	
 	
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
-		maxAngularAcceleration : float) 
+		maxAngularAcceleration : float)  
 	{
 		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration,UUID.randomUUID);
 		position = point;
@@ -45,7 +45,7 @@ class Car extends Vehicle
 		rectangle = frustum.toShape(this,new Vector2f())
 		ApplicationMap.instance.addAgentBodyInLayer(element);
 		
-	} 
+	}  
 	 
 	 
 

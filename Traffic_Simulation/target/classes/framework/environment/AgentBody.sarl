@@ -40,7 +40,7 @@ import environments.EnvironmentObject
 	val frustum : Frustum   
 	
 	transient var motionInfluence : MotionInfluence
-	transient var otherInfluences : List<Influence> = new ArrayList
+	transient var otherInfluences : List<Influence> = new ArrayList  
 	transient var perceptions : List<Percept> = new ArrayList 
 
 	/**
@@ -55,11 +55,11 @@ import environments.EnvironmentObject
 	new (id : UUID, shape : Shape2f<?>, maxLinearSpeed : float, maxLinearAcceleration : float,
 			maxAngularSpeed : float, maxAngularAcceleration : float, frustum : Frustum) {
 		super(id, shape, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration)
-		assert frustum === null || id == frustum.owner
+		assert frustum === null || id == frustum.owner   
 		this.frustum = frustum
 		this.type = "BODY"    
-	}
-	
+	} 
+	 
 	override clone : AgentBody {
 		var c = super.clone as AgentBody
 		c.motionInfluence = null

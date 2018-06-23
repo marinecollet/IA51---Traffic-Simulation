@@ -29,7 +29,7 @@ abstract class Vehicle extends AgentBody
 			maxAngularSpeed,
 			maxAngularAcceleration, 
 			new CarFrustum(uuid)
-		)
+		) 
 	}
 
 	def moveVehicle(newPos : Point2f);

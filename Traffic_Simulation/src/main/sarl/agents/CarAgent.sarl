@@ -44,6 +44,7 @@ agent CarAgent {
 	var wanderBehaviour : WanderAlgorithm
 	var behaviorType : DynamicType
 	
+	
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
@@ -121,7 +122,7 @@ agent CarAgent {
 				occurrence.body.direction,
 				occurrence.body.currentLinearSpeed,
 				occurrence.body.maxLinearAcceleration,
-				occurrence.body.currentAngularSpeed,
+				occurrence.body.currentAngularSpeed, 
 				occurrence.body.maxAngularAcceleration
 			).emitInfluence
 }

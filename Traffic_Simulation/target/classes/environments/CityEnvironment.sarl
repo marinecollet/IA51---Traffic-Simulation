@@ -27,6 +27,9 @@ import java.util.HashMap
 import org.arakhne.afc.math.geometry.d2.d.Point2d
 import org.arakhne.afc.gis.road.primitive.RoadSegment
 import org.arakhne.afc.gis.road.primitive.RoadConnection
+import framework.math.Vector2f
+import framework.environment.DynamicType
+import java.util.UUID
 
 /** 
  * @author jerem
@@ -53,7 +56,7 @@ class CityEnvironment extends AbstractEnvironment{
 		roadSegmentDataCollection = new RoadSegmentDataCollection()
 		environmentObjects = new ArrayList<EnvironmentObject>
 
-		network = ApplicationMap.instance.roadNetworkLayer as RoadNetworkLayer
+		network = ApplicationMap.instance.roadNetworkLayer as RoadNetworkLayer 
 		roadNetwork = network.roadNetwork;
 		// Get all road segments and iterate on them to find
 		// the road connections which are used multiple times
@@ -101,8 +104,8 @@ class CityEnvironment extends AbstractEnvironment{
 			}
 			//If cpt == 3 => stop sign
 			else if (cpt == 3) {
-				stop = new StopSign(new Point2f(key.point.x, key.point.y));
-				addEnvironmentObject(stop);
+				stop = new StopSign(UUID.randomUUID, "",new Point2f(key.point.x, key.point.y));
+				addEnvironmentObject(stop); 
 
 				/** Get all road segments data that are in this connection
 				 */
@@ -113,11 +116,11 @@ class CityEnvironment extends AbstractEnvironment{
 					} else if (segment.endPoint === key) {
 						segment.objectAtEnd = stop;
 					}
-				}
+				} 
 			} 
 			// cpt > 3 => traffic light
 			else if (cpt > 3) {	
-				trafficLight = new TrafficLight(new Point2f(new Point2f(key.point.x, key.point.y)));
+				trafficLight = new TrafficLight(UUID.randomUUID, "",new Point2f(new Point2f(key.point.x, key.point.y)));
 				trafficLight.changeColor(TrafficLightColor.GREEN);
 				addEnvironmentObject(trafficLight);
 
@@ -172,7 +175,7 @@ class CityEnvironment extends AbstractEnvironment{
 		var car = new Car(new Point2f(
 			entryExitConnections.get(random).point.x,
 			entryExitConnections.get(random).point.y
-		), 0, 0, 0, 0)
+		), 10, 10, 10, 10)
 		addAgentBody(car,car.position,car.angle)
 	}
 
@@ -193,20 +196,89 @@ class CityEnvironment extends AbstractEnvironment{
 	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> {		
 		var u = new ArrayList<Percept>
 		for(o : environmentObjects){
-			//if((o as TrafficLight).element.intersects(((^agent as Vehicle).rectangle) as Shape2d<?>)){
-				//u.add(new Percept(o as ObjectBody)); 
-			//}
+			if(o.element.intersects(((^agent as Vehicle).rectangle) as Shape2d<?>)){
+				//u.add(new Percept(o)); 
+			}
 							  
 		} 
 		return u;
 	}
 	
-	protected def applyInfluences(motionInfluences : Collection<MotionInfluence>, otherInfluences : Collection<Influence>, timeManager : TimeManager) {
+	protected def applyInfluences(motionInfluences : Collection<MotionInfluence>,
+		otherInfluences : Collection<Influence>, timeManager : TimeManager) {
+		var actions = new ArrayList<AnimatAction>(motionInfluences.size());
+		for (index1 : 0 ..< motionInfluences.size) {
+			var inf1 = motionInfluences.get(index1)
+			var body1 = getAgentBodyFor(inf1.emitter)
+			var move : Vector2f 
+			var rotation : float
+			if (inf1.type === DynamicType.STEERING) {
+				move = body1.computeSteeringTranslation(inf1.linearInfluence, timeManager)
+				rotation = body1.computeSteeringRotation(inf1.angularInfluence, timeManager)
+			} else {
+				move = body1.computeKinematicTranslation(inf1.linearInfluence, timeManager)
+				rotation = body1.computeKinematicRotation(inf1.angularInfluence, timeManager)
+			}
+
+			actions += new AnimatAction(body1, move, rotation)
+
+		}
+
+		// Apply the actions
+		for (action : actions) {
+			var body = action.objectToMove
+			if (body !== null) {
+				body.move(action.translation, action.rotation)
+			}
+		}
 		
 	}
 	
 	def getAllObjects : Iterable<? extends SituatedObject> {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-	
+
+	private static class AnimatAction { 
+
+		val body : AgentBody
+		val move : Vector2f
+		val rotation : float
+
+		/**
+		 * @param object is the animat body.
+		 * @param move is the translation.
+		 * @param rotation is the rotation.
+		 */
+		new (object : AgentBody, move : Vector2f, rotation : float) {
+			this.body = object
+			this.move = move
+			this.rotation = rotation
+		}
+
+		/** Replies the moved object.
+		 * 
+		 * @return the moved object.
+		 */
+		def getObjectToMove : AgentBody {
+			this.body
+		}
+
+		/** Replies the translation.
+		 * 
+		 * @return the translation.
+		 */
+		def getTranslation : Vector2f {
+			this.move
+		}
+
+		/** Replies the rotation.
+		 * 
+		 * @return the rotation.
+		 */
+		def getRotation : float {
+			this.rotation
+		}
+
+	}
+
 }

@@ -24,10 +24,11 @@ import java.io.Serializable
 import java.util.UUID
 
 import com.google.common.base.Objects
-
+import environments.EnvironmentObject
 import framework.math.Point2f
 import framework.math.Shape2f
 import framework.math.Vector2f
+import org.eclipse.osgi.internal.debug.Debug
 
 /**
  * Defined a perception unit.
@@ -57,7 +58,7 @@ class Percept implements MobileObject, Serializable {
 	new (perceivedObject : SituatedObject, type : Serializable = null) {
 		this.objectId = perceivedObject.ID
 		this.name = perceivedObject.name
-		this.shape = perceivedObject.shape
+		this.shape = perceivedObject.shape		
 		this.position = perceivedObject.position.clone
 		var rtype = type ?: perceivedObject.type
 		this.type = rtype ?: perceivedObject.class.name
@@ -84,6 +85,8 @@ class Percept implements MobileObject, Serializable {
 			this.bodyId = null
 		}
 	}
+	
+
 	
 	override clone : Percept {
 		var clone = super.clone as Percept

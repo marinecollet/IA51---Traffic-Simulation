@@ -31,7 +31,7 @@ public class StepTimeManager extends AbstractTimeManager {
 
 	var delay = 10f
 	var t : float
-	val step : float
+	val step : float 
 	
 	/**
 	 * @param stepDuration the duration of one simulation step (in ms)

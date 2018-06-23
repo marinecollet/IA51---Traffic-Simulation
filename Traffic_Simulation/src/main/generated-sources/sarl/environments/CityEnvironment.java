@@ -7,13 +7,16 @@ import environments.RoadSegmentDataCollection;
 import environments.StopSign;
 import environments.TrafficLight;
 import environments.TrafficLightColor;
+import environments.Vehicle;
 import framework.environment.AbstractEnvironment;
 import framework.environment.AgentBody;
+import framework.environment.DynamicType;
 import framework.environment.Influence;
 import framework.environment.MotionInfluence;
 import framework.environment.Percept;
 import framework.environment.SituatedObject;
 import framework.math.Point2f;
+import framework.math.Vector2f;
 import framework.time.StepTimeManager;
 import framework.time.TimeManager;
 import io.sarl.lang.annotation.SarlElementType;
@@ -25,13 +28,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import logic.Map;
 import org.arakhne.afc.gis.road.layer.RoadNetworkLayer;
 import org.arakhne.afc.gis.road.primitive.RoadConnection;
 import org.arakhne.afc.gis.road.primitive.RoadNetwork;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
+import org.arakhne.afc.math.geometry.d2.d.Shape2d;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.ExclusiveRange;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.ApplicationMap;
 
@@ -42,6 +49,83 @@ import ui.ApplicationMap;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class CityEnvironment extends AbstractEnvironment {
+  @SarlSpecification("0.7")
+  @SarlElementType(10)
+  private static class AnimatAction {
+    private final AgentBody body;
+    
+    private final Vector2f move;
+    
+    private final float rotation;
+    
+    /**
+     * @param object is the animat body.
+     * @param move is the translation.
+     * @param rotation is the rotation.
+     */
+    public AnimatAction(final AgentBody object, final Vector2f move, final float rotation) {
+      this.body = object;
+      this.move = move;
+      this.rotation = rotation;
+    }
+    
+    /**
+     * Replies the moved object.
+     * 
+     * @return the moved object.
+     */
+    @Pure
+    public AgentBody getObjectToMove() {
+      return this.body;
+    }
+    
+    /**
+     * Replies the translation.
+     * 
+     * @return the translation.
+     */
+    @Pure
+    public Vector2f getTranslation() {
+      return this.move;
+    }
+    
+    /**
+     * Replies the rotation.
+     * 
+     * @return the rotation.
+     */
+    @Pure
+    public float getRotation() {
+      return this.rotation;
+    }
+    
+    @Override
+    @Pure
+    @SyntheticMember
+    public boolean equals(final Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      AnimatAction other = (AnimatAction) obj;
+      if (Float.floatToIntBits(other.rotation) != Float.floatToIntBits(this.rotation))
+        return false;
+      return super.equals(obj);
+    }
+    
+    @Override
+    @Pure
+    @SyntheticMember
+    public int hashCode() {
+      int result = super.hashCode();
+      final int prime = 31;
+      result = prime * result + Float.floatToIntBits(this.rotation);
+      return result;
+    }
+  }
+  
   private ArrayList<EnvironmentObject> environmentObjects;
   
   /**
@@ -103,10 +187,11 @@ public class CityEnvironment extends AbstractEnvironment {
           this.entryExitConnections.add(key);
         } else {
           if (((cpt).intValue() == 3)) {
+            UUID _randomUUID = UUID.randomUUID();
             double _x = key.getPoint().getX();
             double _y = key.getPoint().getY();
             Point2f _point2f = new Point2f(_x, _y);
-            StopSign _stopSign = new StopSign(_point2f);
+            StopSign _stopSign = new StopSign(_randomUUID, "", _point2f);
             stop = _stopSign;
             this.addEnvironmentObject(stop);
             HashSet<RoadSegmentData> segments = this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
@@ -125,11 +210,12 @@ public class CityEnvironment extends AbstractEnvironment {
             }
           } else {
             if (((cpt).intValue() > 3)) {
+              UUID _randomUUID_1 = UUID.randomUUID();
               double _x_1 = key.getPoint().getX();
               double _y_1 = key.getPoint().getY();
               Point2f _point2f_1 = new Point2f(_x_1, _y_1);
               Point2f _point2f_2 = new Point2f(_point2f_1);
-              TrafficLight _trafficLight = new TrafficLight(_point2f_2);
+              TrafficLight _trafficLight = new TrafficLight(_randomUUID_1, "", _point2f_2);
               trafficLight = _trafficLight;
               trafficLight.changeColor(TrafficLightColor.GREEN);
               this.addEnvironmentObject(trafficLight);
@@ -199,7 +285,7 @@ public class CityEnvironment extends AbstractEnvironment {
     double _x = this.entryExitConnections.get(random).getPoint().getX();
     double _y = this.entryExitConnections.get(random).getPoint().getY();
     Point2f _point2f = new Point2f(_x, _y);
-    Car car = new Car(_point2f, 0, 0, 0, 0);
+    Car car = new Car(_point2f, 10, 10, 10, 10);
     this.addAgentBody(car, car.getPosition(), car.getAngle());
   }
   
@@ -217,11 +303,45 @@ public class CityEnvironment extends AbstractEnvironment {
   protected List<Percept> computePerceptionsFor(final AgentBody agent) {
     ArrayList<Percept> u = new ArrayList<Percept>();
     for (final EnvironmentObject o : this.environmentObjects) {
+      boolean _intersects = o.element.intersects(((Shape2d<?>) ((Vehicle) agent).rectangle));
+      if (_intersects) {
+      }
     }
     return u;
   }
   
   protected void applyInfluences(final Collection<MotionInfluence> motionInfluences, final Collection<Influence> otherInfluences, final TimeManager timeManager) {
+    int _size = motionInfluences.size();
+    ArrayList<CityEnvironment.AnimatAction> actions = new ArrayList<CityEnvironment.AnimatAction>(_size);
+    int _size_1 = motionInfluences.size();
+    ExclusiveRange _doubleDotLessThan = new ExclusiveRange(0, _size_1, true);
+    for (final Integer index1 : _doubleDotLessThan) {
+      {
+        MotionInfluence inf1 = ((MotionInfluence[])Conversions.unwrapArray(motionInfluences, MotionInfluence.class))[(index1).intValue()];
+        AgentBody body1 = this.getAgentBodyFor(inf1.getEmitter());
+        Vector2f move = null;
+        float rotation = 0;
+        DynamicType _type = inf1.getType();
+        boolean _tripleEquals = (_type == DynamicType.STEERING);
+        if (_tripleEquals) {
+          move = this.computeSteeringTranslation(body1, inf1.getLinearInfluence(), timeManager);
+          rotation = this.computeSteeringRotation(body1, inf1.getAngularInfluence(), timeManager);
+        } else {
+          move = this.computeKinematicTranslation(body1, inf1.getLinearInfluence(), timeManager);
+          rotation = this.computeKinematicRotation(body1, inf1.getAngularInfluence(), timeManager);
+        }
+        CityEnvironment.AnimatAction _animatAction = new CityEnvironment.AnimatAction(body1, move, rotation);
+        actions.add(_animatAction);
+      }
+    }
+    for (final CityEnvironment.AnimatAction action : actions) {
+      {
+        AgentBody body = action.getObjectToMove();
+        if ((body != null)) {
+          this.move(body, action.getTranslation(), action.rotation);
+        }
+      }
+    }
   }
   
   public Iterable<? extends SituatedObject> getAllObjects() {

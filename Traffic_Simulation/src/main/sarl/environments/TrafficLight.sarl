@@ -6,6 +6,8 @@ package environments
 import framework.math.Point2f
 import ui.ApplicationMap
 import org.arakhne.afc.gis.mapelement.MapPolygon
+import java.util.UUID
+import java.io.Serializable
 
 /** 
  * @author jerem
@@ -14,11 +16,12 @@ import org.arakhne.afc.gis.mapelement.MapPolygon
 class TrafficLight extends Panel {
 
 	var position : Point2f
-	var element : MapPolygon
-	var state : TrafficLightColor
+	 
+	var state : TrafficLightColor   
 
-	new(pos : Point2f) {
-		position = pos
+	new(id : UUID, name : String, position : Point2f) {
+		super(id, name)
+		this.position = position
 
 		element = new MapPolygon
 
@@ -27,10 +30,11 @@ class TrafficLight extends Panel {
 				position.y + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * 8)
 		}
 
-		changeColor(TrafficLightColor.RED)
+		changeColor(TrafficLightColor.RED) 
 		ApplicationMap.instance.addFlashlightInLayer(element)
-	
+	 
 	}
+	
 	
 	def changeColor(toState : TrafficLightColor){
 		state = toState

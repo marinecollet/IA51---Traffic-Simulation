@@ -42,7 +42,7 @@ abstract class AbstractMobileObject extends AbstractSituatedObject implements Mo
 	val maxAngularAcceleration : float
 	
 	var angle = 0f
-	var currentAngularSpeed = 0f
+	var currentAngularSpeed = 0f 
 	var linearMove = new Vector2f
 
 	/**

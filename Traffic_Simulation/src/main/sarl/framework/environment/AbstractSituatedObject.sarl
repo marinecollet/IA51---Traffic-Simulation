@@ -68,7 +68,7 @@ abstract class AbstractSituatedObject implements SituatedObject, Serializable {
 		this.shape = shape
 		this.position.set(x, y)
 	}
-
+	
 	override clone : AbstractSituatedObject {
 		var clone = super.clone as AbstractSituatedObject
 		clone.position = this.position.clone
