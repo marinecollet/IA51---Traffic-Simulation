@@ -187,23 +187,22 @@ class CityEnvironment extends AbstractEnvironment{
 	}
 	
 	protected def computeEndogenousBehaviorInfluences : List<Influence> {
-		return emptyList
-		//throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> {		
 		var u = new ArrayList<Percept>
 		for(o : environmentObjects){
-			//if((o as TrafficLight).element.intersects(((^agent as Vehicle).rectangle) as Shape2d<?>)){
+			if((o as TrafficLight).element.intersects(((^agent as Vehicle).rectangle) as Shape2d<?>)){
 				//u.add(new Percept(o as ObjectBody)); 
-			//}
+			}
 							  
 		} 
 		return u;
 	}
 	
 	protected def applyInfluences(motionInfluences : Collection<MotionInfluence>, otherInfluences : Collection<Influence>, timeManager : TimeManager) {
-		//throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 	def getAllObjects : Iterable<? extends SituatedObject> {

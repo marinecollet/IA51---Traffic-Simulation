@@ -7,6 +7,7 @@ import environments.RoadSegmentDataCollection;
 import environments.StopSign;
 import environments.TrafficLight;
 import environments.TrafficLightColor;
+import environments.Vehicle;
 import framework.environment.AbstractEnvironment;
 import framework.environment.AgentBody;
 import framework.environment.Influence;
@@ -31,7 +32,7 @@ import org.arakhne.afc.gis.road.primitive.RoadConnection;
 import org.arakhne.afc.gis.road.primitive.RoadNetwork;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
-import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.arakhne.afc.math.geometry.d2.d.Shape2d;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.ApplicationMap;
 
@@ -211,17 +212,21 @@ public class CityEnvironment extends AbstractEnvironment {
   }
   
   protected List<Influence> computeEndogenousBehaviorInfluences() {
-    return CollectionLiterals.<Influence>emptyList();
+    throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
   protected List<Percept> computePerceptionsFor(final AgentBody agent) {
     ArrayList<Percept> u = new ArrayList<Percept>();
     for (final EnvironmentObject o : this.environmentObjects) {
+      boolean _intersects = ((TrafficLight) o).getElement().intersects(((Shape2d<?>) ((Vehicle) agent).rectangle));
+      if (_intersects) {
+      }
     }
     return u;
   }
   
   protected void applyInfluences(final Collection<MotionInfluence> motionInfluences, final Collection<Influence> otherInfluences, final TimeManager timeManager) {
+    throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
   public Iterable<? extends SituatedObject> getAllObjects() {

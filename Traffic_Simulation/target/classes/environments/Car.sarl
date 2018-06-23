@@ -17,10 +17,10 @@ import framework.math.Shape2f
 class Car extends Vehicle 
 {
 	/** Position in the layer */
-	//var position : Point2f
-
-	val longueur = 8
-	val largeur = 4
+	var position : Point2f
+	
+	/** The representation of the car (here a circle) */
+	var element : MapPolygon
 	
 	
 	
@@ -31,17 +31,20 @@ class Car extends Vehicle
 		position = point;
  
  		perceptionDistance = 0;
-
+ 		
+ 		
+ 		var longueur = 8
+ 		var largeur = 4
 		/** Create and add the element to the layer */
-		this.element = new MapPolygon();
+		element = new MapPolygon();
 		element.addPoint(position.x - largeur, position.y + longueur);
 		element.addPoint(position.x - largeur, position.y - longueur);
 		element.addPoint(position.x + largeur, position.y - longueur);
 		element.addPoint(position.x + largeur, position.y + longueur);
 		element.setColor(0x60c36e);		
 		rectangle = frustum.toShape(this,new Vector2f())
-		//ApplicationMap.instance.addAgentBodyInLayer(element);
-		ApplicationMap.instance.addAgentBodyInLayer(this)
+		ApplicationMap.instance.addAgentBodyInLayer(element);
+		
 	} 
 	 
 	 
@@ -71,18 +74,13 @@ class Car extends Vehicle
 		position = newPos;		
 	}
 	
-	/*def getPosition(): Point2f
+	def getPosition(): Point2f
 	{
-		return ;
-	}*/
-	 
-	def setPolygon {
-		this.element = new MapPolygon();
-		element.addPoint(position.x - largeur, position.y + longueur);
-		element.addPoint(position.x - largeur, position.y - longueur);
-		element.addPoint(position.x + largeur, position.y - longueur);
-		element.addPoint(position.x + largeur, position.y + longueur);
-		element.setColor(0x60c36e);		
+		return position;
 	}
 	
+	def getElement(): MapPolygon
+	{
+		return element;
+	}
 }

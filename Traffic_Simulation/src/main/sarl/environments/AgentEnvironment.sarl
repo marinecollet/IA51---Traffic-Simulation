@@ -34,7 +34,6 @@ import java.util.List
 import java.util.concurrent.atomic.AtomicInteger
 import io.sarl.lang.core.Address
 import io.sarl.util.OpenEventSpace
-import java.util.concurrent.atomic.AtomicBoolean
 
 /** 
  * @author jerem
@@ -49,8 +48,6 @@ agent AgentEnvironment
 	val influences = new AtomicInteger(0)
 	var ^space : OpenEventSpace
 	var myAdr : Address
-
-	val freeze = new AtomicBoolean(false)
 	
 	on Initialize 
 	{
@@ -91,7 +88,7 @@ agent AgentEnvironment
 	}
 
 	def runEnvironmentBehavior {
-		this.freeze.set(true)
+		/*this.freeze.set(true)
 		try {
 			this.influences.set(0)
 			this.environment.runBehaviour
@@ -102,10 +99,9 @@ agent AgentEnvironment
 		} finally {
 			this.freeze.set(false)
 		}
-		
-		ApplicationMap.instance.update();
-		//info("runEnvironmentBehavior")
-		notifyAgentsOrDie();
+		notifyAgentsOrDie*/
+		info("runEnvironmentBehavior")
+		 notifyAgentsOrDie();
 	}
 	
 	def notifyAgentsOrDie() {

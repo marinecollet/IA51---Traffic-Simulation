@@ -9,7 +9,6 @@ import framework.math.Rectangle2f
 import framework.math.Point2f
 import framework.environment.Frustum
 import framework.math.Shape2f
-import org.arakhne.afc.gis.mapelement.MapPolygon
 
 /** 
  * @author jerem
@@ -18,11 +17,7 @@ import org.arakhne.afc.gis.mapelement.MapPolygon
 abstract class Vehicle extends AgentBody 
 {
 	protected var perceptionDistance : float
-	protected var rectangle : Shape2f<?>
-
-	/** The representation of the car (here a circle)
-	 */
-	protected var element : MapPolygon
+	protected var rectangle : Shape2f<?>  
 	
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
 		maxAngularAcceleration : float, uuid : UUID) {
@@ -35,7 +30,7 @@ abstract class Vehicle extends AgentBody
 			maxAngularAcceleration, 
 			new CarFrustum(uuid)
 		)
-	} 
+	}
 
 	def moveVehicle(newPos : Point2f);
 
@@ -46,12 +41,8 @@ abstract class Vehicle extends AgentBody
 
 	def getRectangle : Shape2f<?>{
 		return rectangle
-	}
-
-	def getElement() : MapPolygon {
-		return element;
-	}
+	}  
 	
-	abstract def setPolygon();
+	
 	
 }
