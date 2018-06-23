@@ -172,9 +172,12 @@ class CityEnvironment extends AbstractEnvironment{
 	
 	def createAgentBody() {
 		var random = (Math.random()* entryExitConnections.size) as int
+		while (random == 3)
+			random = (Math.random() * entryExitConnections.size) as int
+			
 		var car = new Car(new Point2f(
-			entryExitConnections.get(0).point.x,
-			entryExitConnections.get(0).point.y
+			entryExitConnections.get(random).point.x,
+			entryExitConnections.get(random).point.y
 		), 50, 20, 10, 10)
 		addAgentBody(car,car.position,car.angle)
 	}

@@ -88,6 +88,7 @@ public class AgentEnvironment extends Agent {
     this.environment = _cityEnvironment;
     ApplicationMap.getInstance().agentBodyLayer.setList(this.environment.getAgentBodies());
     this.environment.createAgentBody();
+    this.environment.createAgentBody();
     List<Object> agentParameters = CollectionLiterals.<Object>newArrayList(spaceId, this.getID());
     Iterable<AgentBody> _agentBodies = this.environment.getAgentBodies();
     for (final AgentBody body : _agentBodies) {

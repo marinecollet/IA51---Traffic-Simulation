@@ -73,6 +73,7 @@ agent CarAgent {
 	
 	on pathAStar{
 		path = occurrence.pathReturn;
+		
 	}
 
 	on ContextJoined {
@@ -116,22 +117,11 @@ agent CarAgent {
 		 
 		var currentPos = new Point2d(occurrence.body.position.x, occurrence.body.position.y);
 		 
-		 if(path == null){
+		 if(path == null || path.empty){
 			emit(new InfluenceEvent())
+			return
 		}
 		
-		/*if ((currentPos == path.get(0).beginPoint.point) || (currentPos == path.get(0).endPoint.point)){
-			path.remove(0);
-			length = 0
-		}*/
-		
-		if (currentPos == path.get(0).beginPoint.point){
-			fromBeginToEnd = true;	
-		}
-		else if(currentPos == path.get(0).endPoint.point){
-			fromBeginToEnd = false;
-		}
-
 		var segment = path.get(0)
 		
 		
@@ -147,13 +137,51 @@ agent CarAgent {
 		if(fromBeginToEnd && length >= segment.length){
 			length = segment.length;
 			path.remove(0)
+			
+			if (path.empty) {
+				emit(new InfluenceEvent())
+				return
+			}
+			
+			var distanceB = new Vector2f(path.get(0).beginPoint.point.x - currentPos.x, path.get(0).beginPoint.point.y -
+				currentPos.y)
+			var distanceE = new Vector2f(path.get(0).endPoint.point.x - currentPos.x, path.get(0).endPoint.point.y -
+				currentPos.y)
+
+			if (distanceB < distanceE) {
+				fromBeginToEnd = true;
+			} else {
+				fromBeginToEnd = false;
+			}
+			
+		}
+		else if (!fromBeginToEnd && length <= 0) {
+			length = 0;
+			path.remove(0)
+
+			if (path.empty) {
+				emit(new InfluenceEvent())
+				return
+			}
+
+			var distanceB = new Vector2f(path.get(0).beginPoint.point.x - currentPos.x, path.get(0).beginPoint.point.y -
+				currentPos.y)
+			var distanceE = new Vector2f(path.get(0).endPoint.point.x - currentPos.x, path.get(0).endPoint.point.y -
+				currentPos.y)
+
+			if (distanceB < distanceE) {
+				fromBeginToEnd = true;
+			} else {
+				fromBeginToEnd = false;
+			}
+			
 		}
 		
 		var newPos = new Vector2f(segment.getGeoLocationForDistance(length).x,
 			segment.getGeoLocationForDistance(length).y)
-		var direction = new Vector2f(newPos.x - currentPos.x,newPos.y - currentPos.y)
+		var direction = new Vector2f((newPos.x - currentPos.x)*0.1f,(newPos.y - currentPos.y)*0.1f)
 
-		println(length + " - " + segment.length + " - "+ direction)
+		//println(length + " - " + segment.length + " - "+ direction)
 	
 		if (fromBeginToEnd && length >= segment.length) {
 			length = 0

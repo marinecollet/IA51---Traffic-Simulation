@@ -68,8 +68,8 @@ agent AgentEnvironment
 		
 		//Test d'ajout d'agent et d'agent body
 		environment.createAgentBody();
-		/*environment.createAgentBody();
 		environment.createAgentBody();
+		/*environment.createAgentBody();
 		environment.createAgentBody();
 		environment.createAgentBody();
 		environment.createAgentBody();
