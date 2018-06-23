@@ -29,7 +29,6 @@ class Car extends Vehicle
 	{
 		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration,UUID.randomUUID);
 		position = point;
- 
  		perceptionDistance = 0;
 	}  
 	 

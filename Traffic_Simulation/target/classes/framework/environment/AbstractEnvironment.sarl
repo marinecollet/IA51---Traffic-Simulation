@@ -214,7 +214,7 @@ abstract class AbstractEnvironment implements Environment {
 					motionInfluences,
 					otherInfluences,
 					this.timeManager) 
-		} 
+		}  
 
 		if (this.stateChanged.get) {
 			fireEnvironmentChange
@@ -322,6 +322,7 @@ abstract class AbstractEnvironment implements Environment {
 	protected final def move(obj : MobileObject, instantTranslation : Vector2f, instantRotation : float) {
 		if (obj instanceof AbstractMobileObject) {
 			var duration = this.timeManager.lastStepDuration
+			obj.position += instantTranslation
 			obj.move(instantTranslation.x, instantTranslation.y, duration, this.width, this.height)
 			obj.rotate(instantRotation, duration)
 			stateChanged()

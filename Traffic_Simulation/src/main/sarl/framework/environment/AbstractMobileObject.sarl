@@ -184,7 +184,6 @@ abstract class AbstractMobileObject extends AbstractSituatedObject implements Mo
 		} else {
 			this.linearMove.set(0, 0)
 		}
-
 		return r
 	}
 

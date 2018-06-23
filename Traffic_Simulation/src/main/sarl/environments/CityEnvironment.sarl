@@ -173,9 +173,9 @@ class CityEnvironment extends AbstractEnvironment{
 	def createAgentBody() {
 		var random = (Math.random()* entryExitConnections.size) as int
 		var car = new Car(new Point2f(
-			entryExitConnections.get(random).point.x,
-			entryExitConnections.get(random).point.y
-		), 10, 10, 10, 10)
+			entryExitConnections.get(0).point.x,
+			entryExitConnections.get(0).point.y
+		), 50, 20, 10, 10)
 		addAgentBody(car,car.position,car.angle)
 	}
 
@@ -210,8 +210,9 @@ class CityEnvironment extends AbstractEnvironment{
 		for (index1 : 0 ..< motionInfluences.size) {
 			
 			var inf1 = motionInfluences.get(index1)
-			println(inf1)
 			var body1 = getAgentBodyFor(inf1.emitter)
+			//body1.setPosition(inf1.linearInfluence.x, inf1.linearInfluence.y)
+			//println(inf1)
 			var move : Vector2f 
 			var rotation : float
 			if (inf1.type === DynamicType.STEERING) {
@@ -230,7 +231,9 @@ class CityEnvironment extends AbstractEnvironment{
 		for (action : actions) {
 			var body = action.objectToMove
 			if (body !== null) {
+				body.position += action.translation
 				body.move(action.translation, action.rotation)
+				//body.position = action.translation
 			}
 		}
 		

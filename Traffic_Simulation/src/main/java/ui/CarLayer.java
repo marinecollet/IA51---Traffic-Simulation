@@ -36,7 +36,7 @@ public class CarLayer extends ArrayMapElementLayer<MapElement>{
 	public void update() {
 		this.removeAllMapElements();
 		for(AgentBody c : carList) {
-						
+			//System.out.println(c.getPosition());	
 			MapPolygon poly = new MapPolygon();
 			poly.addPoint(c.getPosition().getX(),c.getPosition().getY());
 			poly.addPoint(c.getPosition().getX(),c.getPosition().getY()-10);

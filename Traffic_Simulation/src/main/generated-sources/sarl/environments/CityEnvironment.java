@@ -39,7 +39,6 @@ import org.arakhne.afc.math.geometry.d2.d.Shape2d;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.ExclusiveRange;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.ApplicationMap;
 
@@ -283,10 +282,10 @@ public class CityEnvironment extends AbstractEnvironment {
     int _size = this.entryExitConnections.size();
     double _multiply = (_random * _size);
     int random = ((int) _multiply);
-    double _x = this.entryExitConnections.get(random).getPoint().getX();
-    double _y = this.entryExitConnections.get(random).getPoint().getY();
+    double _x = this.entryExitConnections.get(0).getPoint().getX();
+    double _y = this.entryExitConnections.get(0).getPoint().getY();
     Point2f _point2f = new Point2f(_x, _y);
-    Car car = new Car(_point2f, 10, 10, 10, 10);
+    Car car = new Car(_point2f, 50, 20, 10, 10);
     this.addAgentBody(car, car.getPosition(), car.getAngle());
   }
   
@@ -321,7 +320,6 @@ public class CityEnvironment extends AbstractEnvironment {
     for (final Integer index1 : _doubleDotLessThan) {
       {
         MotionInfluence inf1 = ((MotionInfluence[])Conversions.unwrapArray(motionInfluences, MotionInfluence.class))[(index1).intValue()];
-        InputOutput.<MotionInfluence>println(inf1);
         AgentBody body1 = this.getAgentBodyFor(inf1.getEmitter());
         Vector2f move = null;
         float rotation = 0;
@@ -342,6 +340,9 @@ public class CityEnvironment extends AbstractEnvironment {
       {
         AgentBody body = action.getObjectToMove();
         if ((body != null)) {
+          Point2f _position = body.getPosition();
+          Vector2f _translation = action.getTranslation();
+          _position.operator_add(_translation);
           this.move(body, action.getTranslation(), action.rotation);
         }
       }

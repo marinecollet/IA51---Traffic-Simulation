@@ -46,6 +46,7 @@ agent CarAgent {
 	var path : ArrayList<RoadSegment>
 	
 	var fromBeginToEnd = true
+	var length : double
 	
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
@@ -53,6 +54,7 @@ agent CarAgent {
 		info("VehicleAgent was started.")
 		behaviorType = DynamicType::STEERING
 		emit( new requestAStar(ID));
+		length = 0
 	}
 
 	on Destroy {
@@ -110,12 +112,18 @@ agent CarAgent {
 		 * }
 		 */
 		 
+		
+		 
 		var currentPos = new Point2d(occurrence.body.position.x, occurrence.body.position.y);
 		 
-		
-		if (currentPos == path.get(0).beginPoint.point ||currentPos == path.get(0).endPoint.point){
-			path.remove(0);
+		 if(path == null){
+			emit(new InfluenceEvent())
 		}
+		
+		/*if ((currentPos == path.get(0).beginPoint.point) || (currentPos == path.get(0).endPoint.point)){
+			path.remove(0);
+			length = 0
+		}*/
 		
 		if (currentPos == path.get(0).beginPoint.point){
 			fromBeginToEnd = true;	
@@ -124,20 +132,47 @@ agent CarAgent {
 			fromBeginToEnd = false;
 		}
 
-		var direction : Vector2f
+		var segment = path.get(0)
+		
+		
+		if (fromBeginToEnd) {
+			length = length + occurrence.body.maxLinearAcceleration*0.01f;
+		}
+		else {
+			length = length - occurrence.body.maxLinearAcceleration*0.01;	
+		}
+		
+		//length = length + occurrence.body.maxLinearAcceleration;
+		
+		if(fromBeginToEnd && length >= segment.length){
+			length = segment.length;
+			path.remove(0)
+		}
+		
+		var newPos = new Vector2f(segment.getGeoLocationForDistance(length).x,
+			segment.getGeoLocationForDistance(length).y)
+		var direction = new Vector2f(newPos.x - currentPos.x,newPos.y - currentPos.y)
+
+		println(length + " - " + segment.length + " - "+ direction)
+	
+		if (fromBeginToEnd && length >= segment.length) {
+			length = 0
+		}
+
+		/*var direction : Vector2f
 		if(fromBeginToEnd){
 			direction = new Vector2f(path.get(0).beginPoint.point.x - occurrence.body.position.x, path.get(0).beginPoint.point.y - occurrence.body.position.y);
 		}
 		else{
 			direction =	new Vector2f(path.get(0).endPoint.point.x - occurrence.body.position.x, path.get(0).endPoint.point.y - occurrence.body.position.y); 
-		}
+		}*/
 		var influences = Array::newInstance(typeof(Influence),1) as Influence[];
-		influences.set(0, new MotionInfluence(DynamicType::STEERING, ID, direction, 0))
+		influences.set(0, new MotionInfluence(DynamicType::STEERING, this.ID, direction, 0))
 		var infEnv = new InfluenceEvent(influences)
 		
 		//infEnv.influences.add()
 		
-		emit(infEnv);
+		emit(infEnv); 
 	}
 
 		

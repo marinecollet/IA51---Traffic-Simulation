@@ -2,6 +2,7 @@ package agents;
 
 import agents.pathAStar;
 import agents.requestAStar;
+import com.google.common.base.Objects;
 import framework.agent.PhysicEnvironment;
 import framework.environment.DynamicType;
 import framework.environment.Influence;
@@ -38,6 +39,7 @@ import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -53,6 +55,8 @@ public class CarAgent extends Agent {
   
   private boolean fromBeginToEnd = true;
   
+  private double length;
+  
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
@@ -62,6 +66,7 @@ public class CarAgent extends Agent {
     UUID _iD = this.getID();
     requestAStar _requestAStar = new requestAStar(_iD);
     _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_requestAStar);
+    this.length = 0;
   }
   
   @SyntheticMember
@@ -104,39 +109,57 @@ public class CarAgent extends Agent {
     float _x = occurrence.body.getPosition().getX();
     float _y = occurrence.body.getPosition().getY();
     Point2d currentPos = new Point2d(_x, _y);
-    if ((currentPos.operator_equals(this.path.get(0).getBeginPoint().getPoint()) || currentPos.operator_equals(this.path.get(0).getEndPoint().getPoint()))) {
-      this.path.remove(0);
+    boolean _equals = Objects.equal(this.path, null);
+    if (_equals) {
+      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+      InfluenceEvent _influenceEvent = new InfluenceEvent();
+      _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_influenceEvent);
     }
     Point2d _point = this.path.get(0).getBeginPoint().getPoint();
-    boolean _equals = currentPos.operator_equals(_point);
-    if (_equals) {
+    boolean _equals_1 = currentPos.operator_equals(_point);
+    if (_equals_1) {
       this.fromBeginToEnd = true;
     } else {
       Point2d _point_1 = this.path.get(0).getEndPoint().getPoint();
-      boolean _equals_1 = currentPos.operator_equals(_point_1);
-      if (_equals_1) {
+      boolean _equals_2 = currentPos.operator_equals(_point_1);
+      if (_equals_2) {
         this.fromBeginToEnd = false;
       }
     }
-    Vector2f direction = null;
+    RoadSegment segment = this.path.get(0);
     if (this.fromBeginToEnd) {
-      double _x_1 = this.path.get(0).getBeginPoint().getPoint().getX();
-      float _x_2 = occurrence.body.getPosition().getX();
-      double _minus = (_x_1 - _x_2);
-      double _y_1 = this.path.get(0).getBeginPoint().getPoint().getY();
-      float _y_2 = occurrence.body.getPosition().getY();
-      double _minus_1 = (_y_1 - _y_2);
-      Vector2f _vector2f = new Vector2f(_minus, _minus_1);
-      direction = _vector2f;
+      float _maxLinearAcceleration = occurrence.body.getMaxLinearAcceleration();
+      float _multiply = (_maxLinearAcceleration * 0.01f);
+      double _plus = (this.length + _multiply);
+      this.length = _plus;
     } else {
-      double _x_3 = this.path.get(0).getEndPoint().getPoint().getX();
-      float _x_4 = occurrence.body.getPosition().getX();
-      double _minus_2 = (_x_3 - _x_4);
-      double _y_3 = this.path.get(0).getEndPoint().getPoint().getY();
-      float _y_4 = occurrence.body.getPosition().getY();
-      double _minus_3 = (_y_3 - _y_4);
-      Vector2f _vector2f_1 = new Vector2f(_minus_2, _minus_3);
-      direction = _vector2f_1;
+      float _maxLinearAcceleration_1 = occurrence.body.getMaxLinearAcceleration();
+      double _multiply_1 = (_maxLinearAcceleration_1 * 0.01);
+      double _minus = (this.length - _multiply_1);
+      this.length = _minus;
+    }
+    if ((this.fromBeginToEnd && (this.length >= segment.getLength()))) {
+      this.length = segment.getLength();
+      this.path.remove(0);
+    }
+    double _x_1 = segment.getGeoLocationForDistance(this.length).getX();
+    double _y_1 = segment.getGeoLocationForDistance(this.length).getY();
+    Vector2f newPos = new Vector2f(_x_1, _y_1);
+    float _x_2 = newPos.getX();
+    double _x_3 = currentPos.getX();
+    double _minus_1 = (_x_2 - _x_3);
+    float _y_2 = newPos.getY();
+    double _y_3 = currentPos.getY();
+    double _minus_2 = (_y_2 - _y_3);
+    Vector2f direction = new Vector2f(_minus_1, _minus_2);
+    String _plus_1 = (Double.valueOf(this.length) + " - ");
+    double _length = segment.getLength();
+    String _plus_2 = (_plus_1 + Double.valueOf(_length));
+    String _plus_3 = (_plus_2 + " - ");
+    String _plus_4 = (_plus_3 + direction);
+    InputOutput.<String>println(_plus_4);
+    if ((this.fromBeginToEnd && (this.length >= segment.getLength()))) {
+      this.length = 0;
     }
     Object _newInstance = Array.newInstance(Influence.class, 1);
     Influence[] influences = ((Influence[]) _newInstance);
@@ -144,8 +167,8 @@ public class CarAgent extends Agent {
     MotionInfluence _motionInfluence = new MotionInfluence(DynamicType.STEERING, _iD, direction, 0);
     influences[0] = _motionInfluence;
     InfluenceEvent infEnv = new InfluenceEvent(influences);
-    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(infEnv);
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.emit(infEnv);
   }
   
   @Extension
@@ -286,6 +309,8 @@ public class CarAgent extends Agent {
     CarAgent other = (CarAgent) obj;
     if (other.fromBeginToEnd != this.fromBeginToEnd)
       return false;
+    if (Double.doubleToLongBits(other.length) != Double.doubleToLongBits(this.length))
+      return false;
     return super.equals(obj);
   }
   
@@ -296,6 +321,7 @@ public class CarAgent extends Agent {
     int result = super.hashCode();
     final int prime = 31;
     result = prime * result + (this.fromBeginToEnd ? 1231 : 1237);
+    result = prime * result + (int) (Double.doubleToLongBits(this.length) ^ (Double.doubleToLongBits(this.length) >>> 32));
     return result;
   }
   

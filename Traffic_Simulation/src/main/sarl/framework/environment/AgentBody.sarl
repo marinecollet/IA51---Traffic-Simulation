@@ -89,7 +89,7 @@ import environments.EnvironmentObject
 	 *
 	 * @param influence the influence.
 	 */
-	def influence(influence : Influence) {
+	def influence(influence : Influence) { 
 		if (influence instanceof MotionInfluence) {
 			if (influence.influencedObject === null || influence.influencedObject == ID) {
 				switch(influence.type) {

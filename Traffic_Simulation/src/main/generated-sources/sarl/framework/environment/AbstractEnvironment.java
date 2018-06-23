@@ -315,7 +315,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the linear instant motion.
    */
-  @Pure
   protected final Vector2f computeSteeringTranslation(final MobileObject obj, final Vector2f move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeSteeringTranslation(move, clock);
@@ -332,7 +331,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the linear instant motion.
    */
-  @Pure
   protected final Vector2f computeKinematicTranslation(final MobileObject obj, final Vector2f move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeKinematicTranslation(move, clock);
@@ -349,7 +347,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the angular instant motion.
    */
-  @Pure
   protected final float computeKinematicRotation(final MobileObject obj, final float move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeKinematicRotation(move, clock);
@@ -366,7 +363,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the angular instant motion.
    */
-  @Pure
   protected final float computeSteeringRotation(final MobileObject obj, final float move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeSteeringRotation(move, clock);
@@ -384,6 +380,8 @@ public abstract class AbstractEnvironment implements Environment {
   protected final void move(final MobileObject obj, final Vector2f instantTranslation, final float instantRotation) {
     if ((obj instanceof AbstractMobileObject)) {
       float duration = this.timeManager.getLastStepDuration();
+      Point2f _position = ((AbstractMobileObject)obj).getPosition();
+      _position.operator_add(instantTranslation);
       ((AbstractMobileObject)obj).move(instantTranslation.getX(), instantTranslation.getY(), duration, this.width, this.height);
       ((AbstractMobileObject)obj).rotate(instantRotation, duration);
       this.stateChanged();
