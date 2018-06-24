@@ -8,7 +8,6 @@ import io.sarl.lang.annotation.SyntheticMember;
 import java.util.UUID;
 import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.eclipse.xtext.xbase.lib.Pure;
-import ui.ApplicationMap;
 
 /**
  * @author jerem
@@ -38,8 +37,9 @@ public class Car extends Vehicle {
    * @description
    * Do cleaning stuff, must be called before destroying
    */
-  public void cleanUp() {
-    ApplicationMap.getInstance().removeAgentBodyInLayer(this.element);
+  public Object cleanUp() {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method removeAgentBodyInLayer(MapPolygon) is undefined for the type ApplicationMap");
   }
   
   @Override

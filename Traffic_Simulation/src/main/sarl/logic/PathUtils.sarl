@@ -15,7 +15,7 @@ import java.util.ArrayList
  */
 class PathUtils {
 	
-	/*
+	/**
 	 * Get the A* path to a destination
 	 */
 	static def GPS(startPoint : Point2d, endPoint : Point2d, road : RoadNetwork) : ArrayList<RoadSegment>{

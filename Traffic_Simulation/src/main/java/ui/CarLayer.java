@@ -78,10 +78,21 @@ public class CarLayer extends ArrayMapElementLayer<MapElement>{
 		}
 	}
 	
+	/**
+	 * Set the binded list
+	 * @param list
+	 */
 	public void setList(Iterable<AgentBody> list) {
 		carList = list;
 	}
 	
+	/**
+	 * Convert a JavaFX color to an hexadecimal color
+	 * @param Red
+	 * @param Green
+	 * @param Blue
+	 * @return
+	 */
 	private int getIntFromColor(double Red, double Green, double Blue){
 	    int R = (int) Math.round(255 * Red);
 	    int G = (int) Math.round(255 * Green);

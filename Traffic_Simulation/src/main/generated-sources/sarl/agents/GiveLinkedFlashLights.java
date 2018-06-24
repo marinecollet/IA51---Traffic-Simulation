@@ -82,7 +82,4 @@ public class GiveLinkedFlashLights extends Event {
     builder.add("left", this.left);
     builder.add("right", this.right);
   }
-  
-  @SyntheticMember
-  private final static long serialVersionUID = -764033070L;
 }

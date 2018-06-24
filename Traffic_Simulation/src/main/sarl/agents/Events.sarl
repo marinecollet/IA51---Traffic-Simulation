@@ -39,7 +39,7 @@ event pathAStar
 	}
 }
 
-/*
+/**
  * Inform the environment that the agent has reached his final point
  */
 event DestinationReached
@@ -51,7 +51,7 @@ event DestinationReached
 	}
 }
 
-/*
+/**
  * Ask the environment for traffic lights in a crossroads
  */
 event AskForLinkedFlashLights
@@ -66,7 +66,7 @@ event AskForLinkedFlashLights
 	}
 }
 
-/*
+/**
  * Send the UUID of 4 different traffic lights
  */
 event GiveLinkedFlashLights
@@ -84,7 +84,7 @@ event GiveLinkedFlashLights
 	}
 }
 
-/*
+/**
  * Send when the environment ask for a changement of traffic light state
  */
 event AskChangementFlashLight
@@ -96,7 +96,7 @@ event AskChangementFlashLight
 	}
 }
 
-/*
+/**
  * Send new traffic lights states
  */
 event ChangeTrafficLight

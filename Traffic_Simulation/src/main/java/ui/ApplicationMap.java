@@ -50,31 +50,50 @@ import org.arakhne.afc.vmutil.FileSystem;
 import org.arakhne.afc.vmutil.json.JsonBuffer;
 import org.arakhne.afc.vmutil.locale.Locale;
 
+/*
+ * JavaFX Applicationof our map
+ */
 public class ApplicationMap extends Application {
 
 	private volatile boolean dragging;
 
 	private volatile MapElement selectedRoad;
-
+	
+	//Contains car's body
 	public CarLayer agentBodyLayer = new CarLayer();
+	
+	//Contains traffic light's body
 	public TrafficLightLayer flashlightLayer = new TrafficLightLayer();
 
-	//public ArrayMapElementLayer<MapPolygon> agentBodyLayer = new ArrayMapElementLayer<MapPolygon>();
+	//Contains stop's body
 	public ArrayMapElementLayer<MapPolygon> stopLayer = new ArrayMapElementLayer<MapPolygon>();
-	//public ArrayMapElementLayer<MapPolygon> flashlightLayer = new ArrayMapElementLayer<MapPolygon>();
-	static ApplicationMap instance;
+	
+	//Contains the road network
 	public MapElementLayer<?>  roadNetworkLayer; 
+	
+	//Singleton pattern
+	static ApplicationMap instance;
+	
+	//Used has a zoomable pane
 	public GisPane scrollPane;
+	
+	//Is the ApplicationMap ready
 	static boolean isReady = false;
 
 	public ApplicationMap() {
 		instance = this;
 	}
 	
+	/**
+	 * Initialize the ApplicationMap by loading a shape file 
+	 */
 	public void init() {
 		roadNetworkLayer = ApplicationMap.loadShapeFile(new File("asset/Ville.shp"));
 	}
 	
+	/**
+	 * Update the application 
+	 */
 	public void update() {
 		agentBodyLayer.update();
 		flashlightLayer.update();
@@ -83,6 +102,9 @@ public class ApplicationMap extends Application {
 		}
 	}
 	
+	/**
+	 * Load a shape file
+	 */
 	public static MapElementLayer<?> loadShapeFile(File file) {
 		try {
 			StandardRoadNetwork network = null;
@@ -147,6 +169,9 @@ public class ApplicationMap extends Application {
 		}
 	}
 
+	/**
+	 * Start and display the window
+	 */
 	@Override
 	@SuppressWarnings({"checkstyle:magicnumber", "checkstyle:regexp", "checkstyle:npathcomplexity",
 		"checkstyle:nestedifdepth", "rawtypes", "unchecked"})
@@ -181,7 +206,7 @@ public class ApplicationMap extends Application {
 				System.exit(0);
 			}
 			
-
+			//Add the different others layers
 			containers.add(agentBodyLayer);
 			containers.add(stopLayer);
 			containers.add(flashlightLayer);
@@ -204,65 +229,10 @@ public class ApplicationMap extends Application {
 
 			
 			final BorderPane root = new BorderPane();
-
-			final Label messageBar = new Label("");
-			messageBar.setTextAlignment(TextAlignment.CENTER);
-
 			scrollPane = new GisPane(container);
-
-			final String mouseLocationPattern = Locale.getString(ApplicationMap.class, "MOUSE_POSITION"); //$NON-NLS-1$
-
-			/*
-			scrollPane.setOnMouseMoved(event -> {
-				final Point2d mousePosition = scrollPane.toDocumentPosition(event.getX(), event.getY());
-				messageBar.setText(MessageFormat.format(mouseLocationPattern,
-						TextUtil.formatDouble(event.getX(), 1),
-						TextUtil.formatDouble(event.getY(), 1),
-						TextUtil.formatDouble(mousePosition.getX(), 4),
-						TextUtil.formatDouble(mousePosition.getY(), 4)));
-			});
-
-			scrollPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
-				this.dragging = true;
-				final Point2d mousePosition = scrollPane.toDocumentPosition(event.getX(), event.getY());
-				messageBar.setText(MessageFormat.format(mouseLocationPattern,
-						TextUtil.formatDouble(event.getX(), 1),
-						TextUtil.formatDouble(event.getY(), 1),
-						TextUtil.formatDouble(mousePosition.getX(), 4),
-						TextUtil.formatDouble(mousePosition.getY(), 4)));
-			});
-
-			scrollPane.setOnMouseReleased(event -> {
-				if (!this.dragging) {
-					final MapElement select1 = this.selectedRoad;
-					this.selectedRoad = null;
-					if (select1 != null) {
-						select1.unsetFlag(FlagContainer.FLAG_SELECTED);
-					}
-					final MapElement select2 = getElementUnderMouse(scrollPane, event.getX(), event.getY());
-					if (select2 != select1) {
-						if (select2 != null) {
-							select2.setFlag(FlagContainer.FLAG_SELECTED);
-							this.selectedRoad = select2;
-							if (event.isControlDown()) {
-								// Force the loading of all the attributes.
-								select2.getAllAttributeNames();
-							}
-							System.out.println(JsonBuffer.toString(select2));
-						}
-						scrollPane.drawContent();
-						event.consume();
-					}
-				}
-				this.dragging = false;
-			});
-			 */
 			root.setCenter(scrollPane);
-			root.setBottom(messageBar);
 
 			final Scene scene = new Scene(root, 1024, 768);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm()); //$NON-NLS-1$
-
 			primaryStage.setTitle(Locale.getString(ApplicationMap.class, "IA51 - Road simulation", filename.toString())); //$NON-NLS-1$
 			primaryStage.setScene(scene);
 			isReady = true;
@@ -332,53 +302,32 @@ public class ApplicationMap extends Application {
 	}
 
 	/**
-	 * @author Thomas Gredin
-	 * 
-	 * @description
-	 * Add an element to draw into the map elements layer of the
-	 * window.
+	 * Add a stop in his corresponding layer
 	 */
-	public void addAgentBodyInLayer(MapPolygon element)
-	{
-		agentBodyLayer.addMapElement(element);
-	}
-	
-	/**
-	 * @author Thomas Gredin
-	 * 
-	 * @description
-	 * Remove given map element from the map elements layer.
-	 */
-	public void removeAgentBodyInLayer(MapPolygon element)
-	{
-		agentBodyLayer.removeMapElement(element);
-	}
-
 	public void addStopInLayer(MapPolygon element) 
 	{
 		stopLayer.addMapElement(element);
 	}
 
+	/**
+	 * Remove a stop in his corresponding layer
+	 */
 	public void removeStopInLayer(MapPolygon element) 
 	{
 		stopLayer.removeMapElement(element);
 	}
 
-	public void addFlashlightInLayer(MapPolygon element) 
-	{
-		flashlightLayer.addMapElement(element);
-	}
-
-	public void removeFlashlightInLayer(MapPolygon element) 
-	{
-		flashlightLayer.removeMapElement(element);
-	}
-	
+	/**
+	 * Is the application ready?
+	 */
 	public boolean getIsReady()
 	{
 		return isReady;
 	}
 	
+	/**
+	 * Get the road network layer
+	 */
 	public MapElementLayer<?> getRoadNetworkLayer(){
 		return roadNetworkLayer;
 	}
@@ -396,13 +345,5 @@ public class ApplicationMap extends Application {
 		return instance;
 	}
 	
-	
-	/** Main program.
-	 *
-	 * @param args the command line arguments.
-	 */
-	/*public static void main(String[] args) {
-		launch();
-	}*/
 
 }

@@ -61,7 +61,4 @@ public class AskForLinkedFlashLights extends Event {
     super.toString(builder);
     builder.add("ID", this.ID);
   }
-  
-  @SyntheticMember
-  private final static long serialVersionUID = 2702576416L;
 }

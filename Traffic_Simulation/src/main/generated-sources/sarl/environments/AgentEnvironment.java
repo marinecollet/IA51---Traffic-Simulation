@@ -1,28 +1,20 @@
 package environments;
 
-import agents.AskChangementFlashLight;
 import agents.AskForLinkedFlashLights;
 import agents.CarAgent;
 import agents.ChangeTrafficLight;
 import agents.DestinationReached;
-import agents.GiveLinkedFlashLights;
 import agents.TrafficLightControllerAgent;
-import agents.pathAStar;
 import agents.requestAStar;
 import com.google.common.base.Objects;
 import environments.CityEnvironment;
-import environments.TrafficLight;
 import environments.TrafficLightColor;
 import framework.environment.AgentBody;
 import framework.environment.Influence;
 import framework.environment.InfluenceEvent;
-import framework.environment.Percept;
-import framework.environment.PerceptionEvent;
 import framework.environment.SimulationAgentReady;
 import framework.environment.StartSimulation;
 import framework.environment.StopSimulation;
-import framework.math.Point2f;
-import framework.time.TimePercept;
 import io.sarl.core.Behaviors;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Destroy;
@@ -49,10 +41,6 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.inject.Inject;
-import logic.PathUtils;
-import org.arakhne.afc.gis.road.primitive.RoadConnection;
-import org.arakhne.afc.gis.road.primitive.RoadSegment;
-import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -175,37 +163,8 @@ public class AgentEnvironment extends Agent {
   }
   
   protected void notifyAgentsOrDie() {
-    float _currentTime = this.environment.getTimeManager().getCurrentTime();
-    float _lastStepDuration = this.environment.getTimeManager().getLastStepDuration();
-    final TimePercept timePercept = new TimePercept(_currentTime, _lastStepDuration);
-    for (final UUID controller : this.trafficLightsControllers) {
-      {
-        float _lastStepDuration_1 = timePercept.getLastStepDuration();
-        AskChangementFlashLight ev = new AskChangementFlashLight(_lastStepDuration_1);
-        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-        final Scope<Address> _function = (Address it) -> {
-          UUID _uUID = it.getUUID();
-          return Objects.equal(_uUID, controller);
-        };
-        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(ev, _function);
-      }
-    }
-    Iterable<AgentBody> _agentBodies = this.environment.getAgentBodies();
-    for (final AgentBody body : _agentBodies) {
-      {
-        List<Percept> _perceivedObjects = body.getPerceivedObjects();
-        Percept _percept = new Percept(body);
-        float _perceptionDistance = body.getPerceptionDistance();
-        PerceptionEvent ev = new PerceptionEvent(_perceivedObjects, _percept, timePercept, _perceptionDistance);
-        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-        final Scope<Address> _function = (Address it) -> {
-          UUID _uUID = it.getUUID();
-          UUID _iD = body.getID();
-          return Objects.equal(_uUID, _iD);
-        };
-        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(ev, _function);
-      }
-    }
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from AskChangementFlashLight to Event");
   }
   
   protected UUID initNewAgent() {
@@ -222,46 +181,8 @@ public class AgentEnvironment extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$requestAStar$3(final requestAStar occurrence) {
-    UUID agentUUID = occurrence.ID;
-    Point2f startPosition = null;
-    Iterable<AgentBody> _agentBodies = this.environment.getAgentBodies();
-    for (final AgentBody body : _agentBodies) {
-      UUID _iD = body.getID();
-      boolean _equals = Objects.equal(_iD, agentUUID);
-      if (_equals) {
-        startPosition = body.getPosition();
-        break;
-      }
-    }
-    float _x = startPosition.getX();
-    float _y = startPosition.getY();
-    Point2d startPoint = new Point2d(_x, _y);
-    ArrayList<RoadConnection> entryConnections = this.environment.getEntryExitConnections();
-    double _random = Math.random();
-    int _size = this.environment.getEntryExitConnections().size();
-    double _multiply = (_random * _size);
-    int random = ((int) _multiply);
-    Point2d _point = entryConnections.get(random).getPoint();
-    Point2d endPoint = new Point2d(_point);
-    while (endPoint.operator_equals(startPoint)) {
-      {
-        double _random_1 = Math.random();
-        int _size_1 = this.environment.getEntryExitConnections().size();
-        double _multiply_1 = (_random_1 * _size_1);
-        random = ((int) _multiply_1);
-        Point2d _point_1 = entryConnections.get(random).getPoint();
-        Point2d _point2d = new Point2d(_point_1);
-        endPoint = _point2d;
-      }
-    }
-    ArrayList<RoadSegment> path = PathUtils.GPS(startPoint, endPoint, this.environment.getRoadNetwork());
-    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-    pathAStar _pathAStar = new pathAStar(path);
-    final Scope<Address> _function = (Address it) -> {
-      Address _source = occurrence.getSource();
-      return Objects.equal(it, _source);
-    };
-    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_pathAStar, _function);
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from pathAStar to Event");
   }
   
   @SyntheticMember
@@ -281,23 +202,8 @@ public class AgentEnvironment extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$AskForLinkedFlashLights$5(final AskForLinkedFlashLights occurrence) {
-    ArrayList<TrafficLight[]> trafficLightsGroups = this.environment.getTrafficLightsGroups();
-    int _size = trafficLightsGroups.size();
-    boolean _greaterThan = (_size > 0);
-    if (_greaterThan) {
-      TrafficLight[] group = trafficLightsGroups.remove(0);
-      UUID _iD = group[0].getID();
-      UUID _iD_1 = group[1].getID();
-      UUID _iD_2 = group[2].getID();
-      UUID _iD_3 = group[3].getID();
-      GiveLinkedFlashLights ev = new GiveLinkedFlashLights(_iD, _iD_1, _iD_2, _iD_3);
-      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-      final Scope<Address> _function = (Address it) -> {
-        UUID _uUID = it.getUUID();
-        return Objects.equal(_uUID, occurrence.ID);
-      };
-      _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(ev, _function);
-    }
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from GiveLinkedFlashLights to Event");
   }
   
   @SyntheticMember
@@ -429,9 +335,8 @@ public class AgentEnvironment extends Agent {
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$requestAStar(final requestAStar occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$requestAStar$3(occurrence));
+    throw new Error("Unresolved compilation problems:"
+      + "\nInvalid type: \'agents.requestAStar\'. Only events can be used after the keyword \'on\'.");
   }
   
   @SyntheticMember
@@ -445,25 +350,22 @@ public class AgentEnvironment extends Agent {
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$AskForLinkedFlashLights(final AskForLinkedFlashLights occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AskForLinkedFlashLights$5(occurrence));
+    throw new Error("Unresolved compilation problems:"
+      + "\nInvalid type: \'agents.AskForLinkedFlashLights\'. Only events can be used after the keyword \'on\'.");
   }
   
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$DestinationReached(final DestinationReached occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$DestinationReached$7(occurrence));
+    throw new Error("Unresolved compilation problems:"
+      + "\nInvalid type: \'agents.DestinationReached\'. Only events can be used after the keyword \'on\'.");
   }
   
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$ChangeTrafficLight(final ChangeTrafficLight occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ChangeTrafficLight$6(occurrence));
+    throw new Error("Unresolved compilation problems:"
+      + "\nInvalid type: \'agents.ChangeTrafficLight\'. Only events can be used after the keyword \'on\'.");
   }
   
   @SyntheticMember

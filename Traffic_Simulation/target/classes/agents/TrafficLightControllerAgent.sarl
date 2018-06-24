@@ -54,7 +54,7 @@ agent TrafficLightControllerAgent {
 		killMe
 	}
 
-	/* 
+	/**
 	 * Send the UUID of 4 different traffic lights
 	 */
 	on GiveLinkedFlashLights
@@ -65,7 +65,7 @@ agent TrafficLightControllerAgent {
 		right = occurrence.right
 	}
 
-	/* 
+	/**
 	 * Send when the environment ask for a changement of traffic light state
 	 */
 	on AskChangementFlashLight

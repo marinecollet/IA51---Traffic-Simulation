@@ -16,15 +16,18 @@ public class TrafficLightLayer extends ArrayMapElementLayer<MapElement> {
 
 	
 	
-	/** Constructor for CarLayer. carList is the collection which contains the cars which need to be rendered.
+	/** Constructor for CarLayer
 	 * 
-	 * @param carList
+	 * @param carList: collection which contains the cars which need to be rendered
 	 */
 	public TrafficLightLayer() {
 		super();
 		this.trafficLightList = new ArrayList<>();
 	}
 	
+	/**
+	 * Update position and state of a traffic light
+	 */
 	public void update() {
 		this.removeAllMapElements();
 		for(TrafficLight tl : trafficLightList) {

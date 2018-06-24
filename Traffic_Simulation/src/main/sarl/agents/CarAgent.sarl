@@ -3,15 +3,10 @@
  */
 package agents
 
-import io.sarl.core.AgentKilled
-import io.sarl.core.AgentSpawned
-import io.sarl.core.ContextJoined
-import io.sarl.core.ContextLeft
 import io.sarl.core.Destroy
 import io.sarl.core.Initialize
 import io.sarl.core.Logging
-import io.sarl.core.MemberJoined
-import io.sarl.core.MemberLeft
+
 import io.sarl.core.DefaultContextInteractions
 import agents.requestAStar
 import agents.pathAStar
@@ -20,7 +15,6 @@ import framework.environment.PerceptionEvent
 import framework.environment.Influence
 import framework.environment.DynamicType
 import framework.math.Vector2f
-import framework.^agent.PhysicEnvironment
 
 import framework.environment.InfluenceEvent
 import java.util.ArrayList
@@ -84,7 +78,7 @@ agent CarAgent {
 		killMe()
 	}
 	
-	/*
+	/**
 	 * Get path to his destination
 	 */
 	on pathAStar{
@@ -92,7 +86,7 @@ agent CarAgent {
 		
 	}
 	
-	/*
+	/**
 	 * Handle the perception of his body
 	 */
 	on PerceptionEvent { 
@@ -225,7 +219,7 @@ agent CarAgent {
 		emit(infEnv); 
 	}
 	
-	/*
+	/**
 	 * Send a DestinationReached event if the agent has reached his destination
 	 */
 	private def destionationReached(){
@@ -235,7 +229,7 @@ agent CarAgent {
 		}
 	}
 	
-	/*
+	/**
 	 * Adapt the direction depending of his location
 	 */
 	private def changeDirection(currentPos : Point2d,segment : RoadSegment) {

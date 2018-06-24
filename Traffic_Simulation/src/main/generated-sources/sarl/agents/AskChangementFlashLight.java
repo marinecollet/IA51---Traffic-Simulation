@@ -55,7 +55,4 @@ public class AskChangementFlashLight extends Event {
     super.toString(builder);
     builder.add("deltaTime", this.deltaTime);
   }
-  
-  @SyntheticMember
-  private final static long serialVersionUID = 1160066922L;
 }
