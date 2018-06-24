@@ -10,10 +10,14 @@ import org.arakhne.afc.gis.road.primitive.RoadSegment
 import java.util.ArrayList
 
 /** 
- * @author jerem
+ * Contains functions about path finding
  * 
  */
 class PathUtils {
+	
+	/*
+	 * Get the A* path to a destination
+	 */
 	static def GPS(startPoint : Point2d, endPoint : Point2d, road : RoadNetwork) : ArrayList<RoadSegment>{
 		var AStar = new RoadAStar();
 		var path = AStar.solve(startPoint, endPoint, road);

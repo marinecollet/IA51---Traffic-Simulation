@@ -14,12 +14,15 @@ import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
- * @author jerem
+ * Contains functions about path finding
  */
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class PathUtils {
+  /**
+   * Get the A* path to a destination
+   */
   @Pure
   public static ArrayList<RoadSegment> GPS(final Point2d startPoint, final Point2d endPoint, final RoadNetwork road) {
     RoadAStar AStar = new RoadAStar();
