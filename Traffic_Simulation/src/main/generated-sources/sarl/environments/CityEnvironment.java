@@ -326,6 +326,9 @@ public class CityEnvironment extends AbstractEnvironment {
     return this.entryExitConnections;
   }
   
+  /**
+   * Create an agent body
+   */
   public UUID createAgentBody() {
     double _random = Math.random();
     int _size = this.entryExitConnections.size();
@@ -375,7 +378,6 @@ public class CityEnvironment extends AbstractEnvironment {
   }
   
   protected void onAgentBodyDestroyed(final AgentBody body) {
-    throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
   protected List<Influence> computeEndogenousBehaviorInfluences() {

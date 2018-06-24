@@ -10,7 +10,7 @@ import org.arakhne.afc.gis.mapelement.MapPolygon;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
- * @author jerem
+ * Car body
  */
 @SarlSpecification("0.7")
 @SarlElementType(10)
@@ -29,17 +29,6 @@ public class Car extends Vehicle {
   public Car(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration, final float perceptionDistance) {
     super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, UUID.randomUUID(), perceptionDistance);
     this.position = point;
-  }
-  
-  /**
-   * @author Thomas Gredin
-   * 
-   * @description
-   * Do cleaning stuff, must be called before destroying
-   */
-  public Object cleanUp() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method removeAgentBodyInLayer(MapPolygon) is undefined for the type ApplicationMap");
   }
   
   @Override
@@ -83,5 +72,5 @@ public class Car extends Vehicle {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 5841091918L;
+  private final static long serialVersionUID = 5050919708L;
 }

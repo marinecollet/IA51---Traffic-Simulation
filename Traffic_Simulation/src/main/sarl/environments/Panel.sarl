@@ -4,10 +4,9 @@
 package environments
 
 /** 
- * @author jerem
+ * Represent a panel on a road
  * 
  */
 abstract class Panel extends EnvironmentObject {
-	
-	
+
 }

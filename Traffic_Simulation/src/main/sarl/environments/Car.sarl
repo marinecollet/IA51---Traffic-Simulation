@@ -5,14 +5,10 @@ package environments
 
 import framework.math.Point2f
 import org.arakhne.afc.gis.mapelement.MapPolygon
-import ui.ApplicationMap
 import java.util.UUID
-import framework.math.Vector2f
-import framework.math.Shape2f
 
 /** 
- * @author jerem
- * 
+ * Car body
  */
 class Car extends Vehicle 
 {
@@ -23,7 +19,6 @@ class Car extends Vehicle
 	var element : MapPolygon
 	
 	 
-	
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
 		maxAngularAcceleration : float, perceptionDistance : float)  
 	{
@@ -32,25 +27,6 @@ class Car extends Vehicle
 		position = point;
  		 
 	}  
-	 
-	 
-
-	 
-	 
-	
-		
-	
-	/** 
-	 * @author Thomas Gredin
-	 * 
-	 * @description
-	 * Do cleaning stuff, must be called before destroying
-	 */
-	def cleanUp()
-	{
-		/** Remove the circle from the map elements layer of the application */
-		ApplicationMap.instance.removeAgentBodyInLayer(element);
-	}
 
 	override moveVehicle(newPos: Point2f)
 	{

@@ -82,8 +82,7 @@ agent CarAgent {
 	 * Get path to his destination
 	 */
 	on pathAStar{
-		path = occurrence.pathReturn;
-		
+		path = occurrence.pathReturn;	
 	}
 	
 	/**

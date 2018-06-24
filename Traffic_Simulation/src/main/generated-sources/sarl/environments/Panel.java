@@ -9,7 +9,7 @@ import java.util.UUID;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
- * @author jerem
+ * Represent a panel on a road
  */
 @SarlSpecification("0.7")
 @SarlElementType(10)

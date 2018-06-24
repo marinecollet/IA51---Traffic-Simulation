@@ -7,19 +7,11 @@ import framework.math.Point2f
 import org.arakhne.afc.gis.mapelement.MapPolygon
 import ui.ApplicationMap
 import java.util.UUID
-import java.io.Serializable
-import java.util.UUID
-import framework.math.Point2f
-import framework.math.Shape2f
 
 /** 
- * @author jerem
- * 
+ * Represent a stop sign on a road
  */
 class StopSign extends Panel { 
-	
-	
-	
 	 
 	new(id : UUID,  name: String, position : Point2f) { 
 		super(id,position, name)  

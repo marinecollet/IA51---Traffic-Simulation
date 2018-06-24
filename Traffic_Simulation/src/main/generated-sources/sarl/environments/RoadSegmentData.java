@@ -15,7 +15,7 @@ import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
- * @author jerem
+ * Data on a road segment
  */
 @SarlSpecification("0.7")
 @SarlElementType(10)

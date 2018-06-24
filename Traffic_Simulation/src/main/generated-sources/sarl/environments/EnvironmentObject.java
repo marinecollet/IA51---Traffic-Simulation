@@ -1,6 +1,5 @@
 package environments;
 
-import environments.Point;
 import framework.environment.AbstractSituatedObject;
 import framework.math.Circle2f;
 import framework.math.Point2f;
@@ -11,20 +10,30 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 import org.arakhne.afc.gis.mapelement.MapPolygon;
+import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
- * @author jerem
+ * Define an environment object
  */
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
 public abstract class EnvironmentObject extends AbstractSituatedObject {
+  /**
+   * Represent an object
+   */
   protected MapPolygon element;
   
+  /**
+   * Name of the object
+   */
   private String name;
   
-  private ArrayList<Point> points = new ArrayList<Point>();
+  /**
+   * Points of the object
+   */
+  private ArrayList<Point2d> points = new ArrayList<Point2d>();
   
   public EnvironmentObject(final UUID id, final Point2f position, final String name) {
     super(id, new Circle2f(position, 2), position);

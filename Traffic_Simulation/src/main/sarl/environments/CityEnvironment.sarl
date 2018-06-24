@@ -19,19 +19,12 @@ import org.arakhne.afc.gis.road.layer.RoadNetworkLayer
 import logic.Map
 import framework.time.StepTimeManager
 import framework.math.Point2f
-import framework.math.Shape2f
-import org.arakhne.afc.math.geometry.d2.Shape2D
-import org.arakhne.afc.math.geometry.d2.d.Shape2d
-import framework.environment.Body
 import ui.ApplicationMap
 import java.util.HashMap
-import org.arakhne.afc.math.geometry.d2.d.Point2d
-import org.arakhne.afc.gis.road.primitive.RoadSegment
 import org.arakhne.afc.gis.road.primitive.RoadConnection
 import framework.math.Vector2f
 import framework.environment.DynamicType
 import java.util.UUID
-import org.w3c.dom.ranges.Range
 import java.lang.reflect.Array
 
 /** 
@@ -209,7 +202,11 @@ class CityEnvironment extends AbstractEnvironment{
 		return entryExitConnections;
 	}
 	
+	/**
+	 * Create an agent body 
+	 */
 	def createAgentBody() : UUID {
+		//Create the agent body in a random position
 		var random = (Math.random()* entryExitConnections.size) as int
 		while (random == 3)
 			random = (Math.random() * entryExitConnections.size) as int
@@ -243,12 +240,11 @@ class CityEnvironment extends AbstractEnvironment{
 	}
 	
 	protected def onAgentBodyCreated(body : AgentBody) {
-		
-		//throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	
 	}
 	
 	protected def onAgentBodyDestroyed(body : AgentBody) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		
 	}
 	
 	protected def computeEndogenousBehaviorInfluences : List<Influence> {

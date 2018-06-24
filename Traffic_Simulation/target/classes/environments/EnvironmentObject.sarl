@@ -6,28 +6,30 @@ package environments
 import java.util.ArrayList
 import java.util.UUID
 import framework.math.Point2f
-import javafx.scene.shape.Rectangle
 import framework.environment.AbstractSituatedObject
-import framework.math.Point2f
-import framework.math.Shape2f
-import java.io.Serializable
-import framework.math.Rectangle2f
 import org.arakhne.afc.gis.mapelement.MapPolygon
 import framework.math.Circle2f
+import org.arakhne.afc.math.geometry.d2.d.Point2d
 
 /** 
- * @author jerem
- * 
+ * Define an environment object
  */
 abstract class EnvironmentObject extends AbstractSituatedObject {
 	
-	 
-	protected var element : MapPolygon  
-		  
+	/*
+	 * Represent an object
+	 */
+	protected var element : MapPolygon;
 	
-	var name : String
+	/*
+	 * Name of the object
+	 */
+	var name : String;
 		
-	var points = new ArrayList<Point>
+	/*
+	 * Points of the object
+	 */
+	var points = new ArrayList<Point2d>();
 
  
 	new (id : UUID, position : Point2f, name : String) { 
@@ -37,12 +39,4 @@ abstract class EnvironmentObject extends AbstractSituatedObject {
 		
 		
 	}
-
-
-
-	
-
-
-
-
 }

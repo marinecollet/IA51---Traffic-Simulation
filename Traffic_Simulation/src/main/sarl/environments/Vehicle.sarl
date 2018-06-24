@@ -5,21 +5,15 @@ package environments
 
 import java.util.UUID
 import framework.environment.AgentBody
-import framework.math.Rectangle2f
 import framework.math.Point2f
-import framework.environment.Frustum
-import framework.math.Shape2f
 import framework.math.Circle2f
 
 /** 
- * @author jerem
- * 
+ * Vehicle
  */
 abstract class Vehicle extends AgentBody 
 {
-	
-	 
-	
+
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
 		maxAngularAcceleration : float, uuid : UUID, perceptionDistance : float) {
 		super(
@@ -36,11 +30,4 @@ abstract class Vehicle extends AgentBody
 
 	def moveVehicle(newPos : Point2f); 
 
-	
-		
-
-
-	
-	
-	
 }

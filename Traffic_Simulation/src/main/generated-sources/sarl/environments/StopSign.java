@@ -11,7 +11,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
 import ui.ApplicationMap;
 
 /**
- * @author jerem
+ * Represent a stop sign on a road
  */
 @SarlSpecification("0.7")
 @SarlElementType(10)

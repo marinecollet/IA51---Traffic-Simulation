@@ -10,11 +10,9 @@ import java.util.UUID
 import org.arakhne.afc.math.geometry.d2.d.Point2d
 
 /** 
- * @author jerem
+ * Data on a road segment
  * 
  */
- 
-
 class RoadSegmentData 
 {	
 	/* Targeted segment */

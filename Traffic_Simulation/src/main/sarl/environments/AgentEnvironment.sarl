@@ -6,7 +6,6 @@ package environments
 import agents.CarAgent
 import agents.pathAStar
 import agents.requestAStar
-import framework.environment.AgentBody
 import framework.environment.SimulationAgentReady
 import framework.environment.StartSimulation
 import framework.environment.StopSimulation
@@ -16,12 +15,7 @@ import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
 import io.sarl.core.Logging
-import java.util.HashMap
-import java.util.HashSet
-import org.arakhne.afc.gis.road.layer.RoadNetworkLayer
-import org.arakhne.afc.gis.road.path.astar.RoadAStar
 import org.arakhne.afc.math.geometry.d2.d.Point2d
-import org.arakhne.afc.gis.road.primitive.RoadNetwork
 import logic.PathUtils
 import ui.ApplicationMap
 import framework.environment.PerceptionEvent
@@ -29,13 +23,11 @@ import framework.environment.Percept
 import framework.time.TimePercept
 import framework.environment.InfluenceEvent
 import java.util.UUID
-import io.sarl.util.OpenEventSpaceSpecification
 import java.util.List
 import java.util.concurrent.atomic.AtomicInteger
 import io.sarl.lang.core.Address
 import io.sarl.util.OpenEventSpace
 import java.util.concurrent.atomic.AtomicBoolean
-import framework.environment.MotionInfluence
 import java.util.ArrayList
 import agents.DestinationReached
 import io.sarl.core.Destroy
@@ -46,7 +38,7 @@ import agents.GiveLinkedFlashLights
 import agents.ChangeTrafficLight
 
 /** 
- * @author jerem
+ * Agent environment
  * 
  */
 agent AgentEnvironment
@@ -55,20 +47,53 @@ agent AgentEnvironment
 		
 	/* City environment */
 	var environment : CityEnvironment;
+	
+	/*
+	 * Influences
+	 */
 	val influences = new AtomicInteger(0)
+	
+	/*
+	 * Current space
+	 */
 	var ^space : OpenEventSpace
+	
+	/*
+	 * Current address
+	 */
 	var myAdr : Address
+	
+	/*
+	 * Is freezing
+	 */
 	val freeze = new AtomicBoolean(false)
+	
+	/*
+	 * SpaceID
+	 */
 	var spaceId : UUID
+	
+	/*
+	 * Delay to spawn a new agent
+	 */
 	var spawnAgentDelay : double
+	
+	/*
+	 * Cars arrived to their destinations
+	 */
 	var carArrived = new ArrayList<UUID>();
+	
+	/*
+	 * Traffic lights controller in the map
+	 */
 	var trafficLightsControllers = new ArrayList<UUID>
 	
 	on Initialize 
 	{
+		//Wait the ApplicationMap ready
 		while(!ApplicationMap.instance.isReady)
 		{
-			debug("attend")
+			debug("wait")
 		}
 		
 		var spaceId = (occurrence.parameters.get(0) as UUID)
@@ -79,27 +104,30 @@ agent AgentEnvironment
 		spawnAgentDelay = 0;
 		
 		environment = new CityEnvironment()
+		
+		//Link the agent bodies and the traffic light to their application layer
 		ApplicationMap.instance.agentBodyLayer.list = environment.agentBodies;
 		ApplicationMap.instance.flashlightLayer.list = environment.trafficLights;
-		//Test d'ajout d'agent et d'agent body
+		
+		//Create a 1st agent to begin
 		environment.createAgentBody();
-		environment.createAgentBody();
-		/*environment.createAgentBody();
-		environment.createAgentBody();
-		environment.createAgentBody();
-		environment.createAgentBody();
-		 * environment.createAgentBody();
-		 */
+		
 		var agentParameters : List<Object> = newArrayList(spaceId, this.ID)
+		
+		//Spawn an agent for a corresponding agent body
 		for (body : environment.agentBodies) {
 			spawnInContextWithID(typeof(CarAgent), body.ID, defaultContext, agentParameters.toArray)
 		}
+		
+		//Spawn each traffic light controller agent
 		for (var i = 0; i < environment.trafficLightsGroups.size; i++) {
 			var tlcontrollerID = UUID.randomUUID
 			spawnInContextWithID(typeof(TrafficLightControllerAgent), tlcontrollerID, defaultContext,
 				agentParameters.toArray)
 			trafficLightsControllers.add(tlcontrollerID);
 		}
+		
+		//Send an event to inform the simulator that the simulation is ready
 		emit(new SimulationAgentReady)		
 	}
 
@@ -111,19 +139,29 @@ agent AgentEnvironment
 		runEnvironmentBehavior
 	}
 
+	/**
+	 * Define the environment behavior
+	 */
 	def runEnvironmentBehavior {
 		
 		this.freeze.set(true)
 		try {
+			//Send an event to kill the car agent if they're to their destination
 			computeCarArrived()
 			carArrived = new ArrayList<UUID>();
+			
 			this.influences.set(0)
+			
+			//Run the environment behavior
 			this.environment.runBehaviour
+			
+			//Calculate the new delay
 			var delay = this.environment.timeManager.simulationDelay as long
 			spawnAgentDelay += delay;
 			if (delay > 0) {
 				Thread::sleep(delay)
 			}
+			//Spawn an new car agent
 			if (spawnAgentDelay > 5000) {
 				initNewAgent();
 				spawnAgentDelay = 0
@@ -131,20 +169,26 @@ agent AgentEnvironment
 		} finally {
 			this.freeze.set(false)
 		}
+		//Update application layers
 		ApplicationMap.instance.update();
 		notifyAgentsOrDie();
 	}
 	
+	/**
+	 * Send event to agents
+	 */
 	def notifyAgentsOrDie() {
 		val timePercept = new TimePercept(
 			this.environment.timeManager.currentTime,
 			this.environment.timeManager.lastStepDuration);
 
+		//Ask for an update for each traffic light controller
 		for (controller : trafficLightsControllers) {
 			var ev = new AskChangementFlashLight(timePercept.lastStepDuration);
 			emit(ev)[it.UUID == controller]
 		}
 		
+		//Send a perception to each agent 
 		for(body : environment.agentBodies){
 			var ev = new PerceptionEvent(
 				body.perceivedObjects,
@@ -156,6 +200,9 @@ agent AgentEnvironment
 		}
 	}
 
+	/**
+	 * Initialize a car 
+	 */
 	def initNewAgent(){
 		var agentID = environment.createAgentBody();
 		var agentParameters : List<Object> = newArrayList(spaceId, this.ID)
@@ -181,21 +228,24 @@ agent AgentEnvironment
 
 		}
 		var startPoint = new Point2d(startPosition.x, startPosition.y);
-		// environment = new CityEnvironment();
 		var entryConnections = environment.getEntryExitConnections();
 
 		var random = (Math.random() * environment.entryExitConnections.size) as int
 		var endPoint = new Point2d(entryConnections.get(random).getPoint());
+		//To be sure that the starting point is not the ending one
 		while (endPoint == startPoint) {
 			random = (Math.random() * environment.entryExitConnections.size) as int
 			endPoint = new Point2d(entryConnections.get(random).getPoint());
 		}
-
 		var path = PathUtils.GPS(startPoint, endPoint, environment.roadNetwork);
 
-		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
+		// Send the path only to the agent who did the request
+		emit(new pathAStar(path))[it == occurrence.source]; 	
 	}
 
+	/**
+	 * Receive influence from car agent
+	 */
 	on InfluenceEvent {
 		for (influence : occurrence.influences) {
 			var id = influence.emitter
@@ -207,7 +257,10 @@ agent AgentEnvironment
 		}
 		waitAllAgentsInfluences
 	}
-
+	
+	/**
+	 * Traffic light controller asks for traffic lights
+	 */
 	on AskForLinkedFlashLights {
 		var trafficLightsGroups = environment.trafficLightsGroups
 		if (trafficLightsGroups.size > 0) {
@@ -217,6 +270,9 @@ agent AgentEnvironment
 		}
 	}
 	
+	/**
+	 * Receive new states for each traffic light
+	 */
 	on ChangeTrafficLight {
 		for (green : occurrence.greens) {
 			this.environment.setStateTrafficLight(TrafficLightColor.GREEN, green);
@@ -230,6 +286,9 @@ agent AgentEnvironment
 		waitAllAgentsInfluences
 	}
 
+	/**
+	 * Wait all agents to send an influence
+	 */
 	def waitAllAgentsInfluences() {
 		var v = this.influences.incrementAndGet
 		if (v >= (this.environment.getAgentBodyNumber() + trafficLightsControllers.size)) {
@@ -237,25 +296,21 @@ agent AgentEnvironment
 		}
 	}
 
+	/**
+	 * When a car has reached his destination 
+	 */
 	on DestinationReached {
-		println("Agent has reached his destination")
+		//println("Agent has reached his destination")
 		carArrived.add(occurrence.ID);
 	}
 
+	/**
+	 * Remove car from the simulation
+	 */
 	def computeCarArrived() {
 		for (car : this.carArrived) {
-			removeAgentFromTheSimulation(car)
+			this.environment.removeAgentBodyFromList(car)
+			emit(new Destroy())[it.UUID == car]
 		}
 	}
-
-	/** 
-	 * Retire un agent de la simulation
-	 * @param UUID de l'agent
-	 */
-	def removeAgentFromTheSimulation(agentID : UUID) : void {
-		//var car = this.environment.agentBodies.findFirst[body | body.ID == id]
-		this.environment.removeAgentBodyFromList(agentID)
-		emit(new Destroy())[it.UUID == agentID]
-	}
-
 }

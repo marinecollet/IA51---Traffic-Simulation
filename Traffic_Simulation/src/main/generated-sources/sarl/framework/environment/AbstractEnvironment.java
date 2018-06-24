@@ -314,7 +314,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the linear instant motion.
    */
-  @Pure
   protected final Vector2f computeSteeringTranslation(final MobileObject obj, final Vector2f move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeSteeringTranslation(move, clock);
@@ -331,7 +330,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the linear instant motion.
    */
-  @Pure
   protected final Vector2f computeKinematicTranslation(final MobileObject obj, final Vector2f move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeKinematicTranslation(move, clock);
@@ -348,7 +346,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the angular instant motion.
    */
-  @Pure
   protected final float computeKinematicRotation(final MobileObject obj, final float move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeKinematicRotation(move, clock);
@@ -365,7 +362,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the angular instant motion.
    */
-  @Pure
   protected final float computeSteeringRotation(final MobileObject obj, final float move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeSteeringRotation(move, clock);

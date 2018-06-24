@@ -1,6 +1,8 @@
 package agents;
 
+import agents.DestinationReached;
 import agents.pathAStar;
+import agents.requestAStar;
 import com.google.common.base.Objects;
 import environments.TrafficLight;
 import environments.TrafficLightColor;
@@ -80,8 +82,12 @@ public class CarAgent extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nType mismatch: cannot convert from requestAStar to Event");
+    this.behaviorType = DynamicType.STEERING;
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    UUID _iD = this.getID();
+    requestAStar _requestAStar = new requestAStar(_iD);
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_requestAStar);
+    this.length = 0;
   }
   
   @SyntheticMember
@@ -237,8 +243,19 @@ public class CarAgent extends Agent {
    * Send a DestinationReached event if the agent has reached his destination
    */
   private boolean destionationReached() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nType mismatch: cannot convert from DestinationReached to Event");
+    boolean _xifexpression = false;
+    if ((!this.isArrived)) {
+      boolean _xblockexpression = false;
+      {
+        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+        UUID _iD = this.getID();
+        DestinationReached _destinationReached = new DestinationReached(_iD);
+        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_destinationReached);
+        _xblockexpression = this.isArrived = true;
+      }
+      _xifexpression = _xblockexpression;
+    }
+    return _xifexpression;
   }
   
   /**
@@ -362,8 +379,9 @@ public class CarAgent extends Agent {
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$pathAStar(final pathAStar occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nInvalid type: \'agents.pathAStar\'. Only events can be used after the keyword \'on\'.");
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$pathAStar$2(occurrence));
   }
   
   @Override
