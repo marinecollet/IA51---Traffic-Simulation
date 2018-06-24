@@ -3,38 +3,51 @@
  */
 package agents
 
-import io.sarl.core.AgentKilled
-import io.sarl.core.AgentSpawned
-import io.sarl.core.ContextJoined
-import io.sarl.core.ContextLeft
+
 import io.sarl.core.Destroy
 import io.sarl.core.Initialize
 import io.sarl.core.Logging
-import io.sarl.core.MemberJoined
-import io.sarl.core.MemberLeft
 import java.util.UUID
 import io.sarl.core.DefaultContextInteractions
 import java.util.ArrayList
 
 /** 
- * @author jerem
+ * Traffic Light controller agent
  * 
  */
 agent TrafficLightControllerAgent {
 	uses Logging, DefaultContextInteractions
 
+	/*
+	 * Top traffic light
+	 */
 	var top : UUID;
+	
+	/*
+	 * Bottom traffic light
+	 */
 	var bottom : UUID;
+	
+	/*
+	 * Left traffic light
+	 */
 	var left : UUID;
+	
+	/*
+	 * Right traffic light
+	 */
 	var right : UUID;
 
+	/*
+	 * Time used for delay each state
+	 */
 	var time : double
 
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
 		info("FlashLightControllerAgent was started.")
-		time = 0
+		time = 0;
 		emit(new AskForLinkedFlashLights(this.ID))
 	}
 
@@ -44,6 +57,9 @@ agent TrafficLightControllerAgent {
 		info("The agent was stopped.")
 	}
 
+	/* 
+	 * Send the UUID of 4 different traffic lights
+	 */
 	on GiveLinkedFlashLights
 	{
 		top = occurrence.top;
@@ -51,41 +67,50 @@ agent TrafficLightControllerAgent {
 		left = occurrence.left;
 		right = occurrence.right
 	}
-	
+
+	/* 
+	 * Send when the environment ask for a changement of traffic light state
+	 */
 	on AskChangementFlashLight
 	{
-		
+		//Increment the delta time
 		time += occurrence.deltaTime;
 		var greens = new ArrayList<UUID>
 		var oranges = new ArrayList<UUID>
 		var reds = new ArrayList<UUID>
 		
+		//Top & botom => green
 		if(time >= 0 && time < 400){
 			greens.add(top);
 			greens.add(bottom);
 		}
+		// Top & botom => orange
 		if(time >= 400 && time < 600){
 			oranges.add(top);
 			oranges.add(bottom);
 		}
+		// Top & botom => red
 		if(time > 600){
 			reds.add(top);
 			reds.add(bottom);
 		}
-
+		// Left & right => green
 		if (time >= 0 && time < 600) {
 			reds.add(left);
 			reds.add(right);
 		}
+		// Left & right => orange
 		if (time >= 600 && time < 1000) {
 			greens.add(left);
 			greens.add(right);
 		}
+		// Left & right => red
 		if (time > 1000) {
 			oranges.add(left);
 			oranges.add(right);
 		}
 		
+		//Reinitialize the delta time
 		if(time >= 1200){
 			time = 0;
 		}

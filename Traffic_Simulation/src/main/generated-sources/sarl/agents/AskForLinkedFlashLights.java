@@ -9,10 +9,16 @@ import java.util.UUID;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 
+/**
+ * Ask the environment for traffic lights in a crossroads
+ */
 @SarlSpecification("0.7")
 @SarlElementType(15)
 @SuppressWarnings("all")
 public class AskForLinkedFlashLights extends Event {
+  /**
+   * UUID of the traffic light controler sender
+   */
   public final UUID ID;
   
   public AskForLinkedFlashLights(final UUID id) {

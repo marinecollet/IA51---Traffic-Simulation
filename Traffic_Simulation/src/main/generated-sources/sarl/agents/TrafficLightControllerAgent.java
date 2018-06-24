@@ -28,20 +28,35 @@ import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
- * @author jerem
+ * Traffic Light controller agent
  */
 @SarlSpecification("0.7")
 @SarlElementType(18)
 @SuppressWarnings("all")
 public class TrafficLightControllerAgent extends Agent {
+  /**
+   * Top traffic light
+   */
   private UUID top;
   
+  /**
+   * Bottom traffic light
+   */
   private UUID bottom;
   
+  /**
+   * Left traffic light
+   */
   private UUID left;
   
+  /**
+   * Right traffic light
+   */
   private UUID right;
   
+  /**
+   * Time used for delay each state
+   */
   private double time;
   
   @SyntheticMember
@@ -146,6 +161,9 @@ public class TrafficLightControllerAgent extends Agent {
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
   }
   
+  /**
+   * Send the UUID of 4 different traffic lights
+   */
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$GiveLinkedFlashLights(final GiveLinkedFlashLights occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
@@ -154,6 +172,9 @@ public class TrafficLightControllerAgent extends Agent {
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$GiveLinkedFlashLights$2(occurrence));
   }
   
+  /**
+   * Send when the environment ask for a changement of traffic light state
+   */
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$AskChangementFlashLight(final AskChangementFlashLight occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {

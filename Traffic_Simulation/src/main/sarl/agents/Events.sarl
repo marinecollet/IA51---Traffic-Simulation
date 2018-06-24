@@ -52,8 +52,14 @@ event DestinationReached
 	}
 }
 
+/*
+ * Ask the environment for traffic lights in a crossroads
+ */
 event AskForLinkedFlashLights
 {
+	/*
+	 * UUID of the traffic light controler sender 
+	 */
 	val ID : UUID
 
 	new(id : UUID) {
@@ -61,6 +67,9 @@ event AskForLinkedFlashLights
 	}
 }
 
+/*
+ * Send the UUID of 4 different traffic lights
+ */
 event GiveLinkedFlashLights
 {
 	var top : UUID;
@@ -76,6 +85,9 @@ event GiveLinkedFlashLights
 	}
 }
 
+/*
+ * Send when the environment ask for a changement of traffic light state
+ */
 event AskChangementFlashLight
 {
 	var deltaTime : double
@@ -85,6 +97,9 @@ event AskChangementFlashLight
 	}
 }
 
+/*
+ * Send new traffic lights states
+ */
 event ChangeTrafficLight
 {
 	var greens : ArrayList<UUID>

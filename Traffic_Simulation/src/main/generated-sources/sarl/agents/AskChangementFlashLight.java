@@ -7,6 +7,9 @@ import io.sarl.lang.core.Event;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 
+/**
+ * Send when the environment ask for a changement of traffic light state
+ */
 @SarlSpecification("0.7")
 @SarlElementType(15)
 @SuppressWarnings("all")
