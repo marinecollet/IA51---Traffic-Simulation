@@ -57,9 +57,11 @@ public class ApplicationMap extends Application {
 	private volatile MapElement selectedRoad;
 
 	public CarLayer agentBodyLayer = new CarLayer();
+	public TrafficLightLayer flashlightLayer = new TrafficLightLayer();
+
 	//public ArrayMapElementLayer<MapPolygon> agentBodyLayer = new ArrayMapElementLayer<MapPolygon>();
 	public ArrayMapElementLayer<MapPolygon> stopLayer = new ArrayMapElementLayer<MapPolygon>();
-	public ArrayMapElementLayer<MapPolygon> flashlightLayer = new ArrayMapElementLayer<MapPolygon>();
+	//public ArrayMapElementLayer<MapPolygon> flashlightLayer = new ArrayMapElementLayer<MapPolygon>();
 	static ApplicationMap instance;
 	public MapElementLayer<?>  roadNetworkLayer; 
 	public GisPane scrollPane;
@@ -75,6 +77,7 @@ public class ApplicationMap extends Application {
 	
 	public void update() {
 		agentBodyLayer.update();
+		flashlightLayer.update();
 		if(scrollPane != null) {
 			scrollPane.drawContent();
 		}

@@ -36,6 +36,7 @@ import io.sarl.lang.core.Address
 import io.sarl.util.OpenEventSpace
 import java.util.concurrent.atomic.AtomicBoolean
 import framework.environment.MotionInfluence
+import java.util.ArrayList
 
 /** 
  * @author jerem
@@ -51,6 +52,7 @@ agent AgentEnvironment
 	var ^space : OpenEventSpace
 	var myAdr : Address
 	val freeze = new AtomicBoolean(false)
+		
 	on Initialize 
 	{
 		while(!ApplicationMap.instance.isReady)
@@ -65,7 +67,7 @@ agent AgentEnvironment
 		
 		environment = new CityEnvironment()
 		ApplicationMap.instance.agentBodyLayer.list = environment.agentBodies;
-		
+		ApplicationMap.instance.flashlightLayer.list = environment.trafficLights;
 		//Test d'ajout d'agent et d'agent body
 		environment.createAgentBody();
 		environment.createAgentBody();

@@ -27,11 +27,11 @@ public class StopSign extends Panel {
     for (int i = 0; (i < 8); i++) {
       float _x = position.getX();
       double _cos = Math.cos(((((2 * Math.PI) / 8) * i) + (Math.PI / 8)));
-      double _multiply = (_cos * 8);
+      double _multiply = (_cos * 2);
       double _plus = (_x + _multiply);
       float _y = position.getY();
       double _sin = Math.sin(((((2 * Math.PI) / 8) * i) + (Math.PI / 8)));
-      double _multiply_1 = (_sin * 8);
+      double _multiply_1 = (_sin * 2);
       double _plus_1 = (_y + _multiply_1);
       this.element.addPoint(_plus, _plus_1);
     }

@@ -87,6 +87,7 @@ public class AgentEnvironment extends Agent {
     CityEnvironment _cityEnvironment = new CityEnvironment();
     this.environment = _cityEnvironment;
     ApplicationMap.getInstance().agentBodyLayer.setList(this.environment.getAgentBodies());
+    ApplicationMap.getInstance().flashlightLayer.setList(this.environment.getTrafficLights());
     this.environment.createAgentBody();
     this.environment.createAgentBody();
     List<Object> agentParameters = CollectionLiterals.<Object>newArrayList(spaceId, this.getID());

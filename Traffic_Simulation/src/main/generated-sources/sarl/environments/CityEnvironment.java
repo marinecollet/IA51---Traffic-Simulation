@@ -101,26 +101,17 @@ public class CityEnvironment extends AbstractEnvironment {
     @Pure
     @SyntheticMember
     public boolean equals(final Object obj) {
-      if (this == obj)
-        return true;
-      if (obj == null)
-        return false;
-      if (getClass() != obj.getClass())
-        return false;
-      AnimatAction other = (AnimatAction) obj;
-      if (Float.floatToIntBits(other.rotation) != Float.floatToIntBits(this.rotation))
-        return false;
-      return super.equals(obj);
+      throw new Error("Unresolved compilation problems:"
+        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
     }
     
     @Override
     @Pure
     @SyntheticMember
     public int hashCode() {
-      int result = super.hashCode();
-      final int prime = 31;
-      result = prime * result + Float.floatToIntBits(this.rotation);
-      return result;
+      throw new Error("Unresolved compilation problems:"
+        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
     }
   }
   
@@ -141,6 +132,8 @@ public class CityEnvironment extends AbstractEnvironment {
   private HashMap<RoadConnection, Integer> connectionsOccurence = new HashMap<RoadConnection, Integer>();
   
   private ArrayList<RoadConnection> entryExitConnections = new ArrayList<RoadConnection>();
+  
+  private ArrayList<TrafficLight> trafficLights = new ArrayList<TrafficLight>();
   
   public CityEnvironment() {
     super(Map.WIDTH, Map.HEIGHT, new StepTimeManager(500));
@@ -216,7 +209,7 @@ public class CityEnvironment extends AbstractEnvironment {
               TrafficLight _trafficLight = new TrafficLight(_randomUUID_1, "", _point2f_2);
               trafficLight = _trafficLight;
               trafficLight.changeColor(TrafficLightColor.GREEN);
-              this.addEnvironmentObject(trafficLight);
+              this.trafficLights.add(trafficLight);
               HashSet<RoadSegmentData> segments_1 = this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
               for (final RoadSegmentData segment_1 : segments_1) {
                 Point2d _beginPoint_1 = segment_1.getBeginPoint();
@@ -293,6 +286,11 @@ public class CityEnvironment extends AbstractEnvironment {
     this.addAgentBody(car, car.getPosition(), car.getAngle());
   }
   
+  @Pure
+  public ArrayList<TrafficLight> getTrafficLights() {
+    return this.trafficLights;
+  }
+  
   protected void onAgentBodyCreated(final AgentBody body) {
   }
   
@@ -356,14 +354,16 @@ public class CityEnvironment extends AbstractEnvironment {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    return super.equals(obj);
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    int result = super.hashCode();
-    return result;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
 }

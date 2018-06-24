@@ -32,8 +32,8 @@ public class TrafficLightLayer extends ArrayMapElementLayer<MapElement> {
 			MapPolygon element = new MapPolygon();
 			
 			for (int i = 0; i < 16; i++) {
-				element.addPoint(tl.getPosition().getX() + Math.cos(2 * Math.PI / 16 * i + Math.PI / 16) * 8,
-					tl.getPosition().getY() + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * 8);
+				element.addPoint(tl.getPosition().getX() + Math.cos(2 * Math.PI / 16 * i + Math.PI / 16) * 2,
+					tl.getPosition().getY() + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * 2);
 			}
 			
 			Color trafficColor;
