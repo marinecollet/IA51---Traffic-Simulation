@@ -26,6 +26,7 @@ import framework.math.Point2f;
 import framework.math.Rectangle2f;
 import framework.math.Shape2f;
 import framework.math.Tuple2f;
+import framework.math.Vector2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -146,6 +147,14 @@ public class Circle2f extends Shape2f<Circle2f> {
   }
   
   @Override
+  public void translate2(final Vector2f vector) {
+    float _x = this.center.x;
+    this.center.x = (_x + vector.x);
+    float _y = this.center.y;
+    this.center.y = (_y + vector.y);
+  }
+  
+  @Override
   public Rectangle2f getBounds() {
     return new Rectangle2f(
       (this.center.x - this.radius), 
@@ -171,5 +180,5 @@ public class Circle2f extends Shape2f<Circle2f> {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 6822381873L;
+  private final static long serialVersionUID = 8465574776L;
 }

@@ -19,8 +19,7 @@ public class TrafficLight extends Panel {
   private TrafficLightColor state;
   
   public TrafficLight(final UUID id, final String name, final Point2f position) {
-    super(id, name);
-    this.setPosition(position);
+    super(id, position, name);
     this.setType("LIGHT");
     this.changeColor(TrafficLightColor.RED);
   }

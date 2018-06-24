@@ -53,6 +53,10 @@ public class Cone2f extends Shape2f<Cone2f> {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
+  public void translate2(final Vector2f vector) {
+    throw new UnsupportedOperationException("TODO: auto-generated method stub");
+  }
+  
   @Override
   @Pure
   @SyntheticMember
@@ -91,5 +95,5 @@ public class Cone2f extends Shape2f<Cone2f> {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 2989377722L;
+  private final static long serialVersionUID = 4632570625L;
 }

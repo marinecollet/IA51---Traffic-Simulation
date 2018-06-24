@@ -18,12 +18,12 @@ import framework.math.Shape2f
  */
 class StopSign extends Panel { 
 	
-	var position : Point2f 
+	
 	
 	 
 	new(id : UUID,  name: String, position : Point2f) { 
-		super(id, name) 
-		this.position = position
+		super(id,position, name)  
+		
 		this.type = "SIGN"
 		element = new MapPolygon
 		 

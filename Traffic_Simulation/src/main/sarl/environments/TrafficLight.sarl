@@ -15,13 +15,13 @@ import java.io.Serializable
  */
 class TrafficLight extends Panel {
 	 
-	var state : TrafficLightColor   
+	var state : TrafficLightColor    
 
 	new(id : UUID, name : String, position : Point2f) {
-		super(id, name)
-		this.position = position
+		super(id,position, name)
+		
 		this.type = "LIGHT"
-		changeColor(TrafficLightColor.RED) 
+		changeColor(TrafficLightColor.RED)   
 	}
 	
 	

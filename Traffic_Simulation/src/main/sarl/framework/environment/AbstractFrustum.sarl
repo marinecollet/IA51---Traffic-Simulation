@@ -48,7 +48,7 @@ abstract class AbstractFrustum implements Frustum {
 	}
 
 	override filter(iterator : Iterator<D>) : Iterator<D> with D extends SituatedObject {
-		new PerceiverBodyFilter(this, iterator)
+		new PerceiverBodyFilter(this, iterator) 
 	}
 	
 	/**

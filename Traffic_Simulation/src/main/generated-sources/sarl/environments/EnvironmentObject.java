@@ -2,16 +2,11 @@ package environments;
 
 import environments.Point;
 import framework.environment.AbstractSituatedObject;
+import framework.math.Circle2f;
 import framework.math.Point2f;
-import framework.math.Rectangle2f;
-import io.sarl.lang.annotation.DefaultValue;
-import io.sarl.lang.annotation.DefaultValueSource;
-import io.sarl.lang.annotation.DefaultValueUse;
 import io.sarl.lang.annotation.SarlElementType;
-import io.sarl.lang.annotation.SarlSourceCode;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
@@ -29,13 +24,10 @@ public abstract class EnvironmentObject extends AbstractSituatedObject {
   
   private String name;
   
-  private Serializable type;
-  
   private ArrayList<Point> points = new ArrayList<Point>();
   
-  @DefaultValueSource
-  public EnvironmentObject(final UUID id, @DefaultValue("environments.EnvironmentObject#NEW_0") final Point2f position, final String name) {
-    super(id, new Rectangle2f(new Point2f(), new Point2f()));
+  public EnvironmentObject(final UUID id, final Point2f position, final String name) {
+    super(id, new Circle2f(position, 2), position);
     class $AssertEvaluator$ {
       final boolean $$result;
       $AssertEvaluator$() {
@@ -44,22 +36,6 @@ public abstract class EnvironmentObject extends AbstractSituatedObject {
     }
     assert new $AssertEvaluator$().$$result;
     this.name = name;
-    if ((position != null)) {
-      this.getPosition().set(position);
-    }
-  }
-  
-  /**
-   * Default value for the parameter position
-   */
-  @SyntheticMember
-  @SarlSourceCode("null")
-  private final static Point2f $DEFAULT_VALUE$NEW_0 = null;
-  
-  @DefaultValueUse("java.util.UUID,framework.math.Point2f,java.lang.String")
-  @SyntheticMember
-  public EnvironmentObject(final UUID id, final String name) {
-    this(id, $DEFAULT_VALUE$NEW_0, name);
   }
   
   @Override
@@ -101,5 +77,5 @@ public abstract class EnvironmentObject extends AbstractSituatedObject {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 3381123413L;
+  private final static long serialVersionUID = 1545366784L;
 }

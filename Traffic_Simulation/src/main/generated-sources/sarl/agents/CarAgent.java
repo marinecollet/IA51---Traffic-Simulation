@@ -4,6 +4,8 @@ import agents.DestinationReached;
 import agents.pathAStar;
 import agents.requestAStar;
 import com.google.common.base.Objects;
+import environments.TrafficLight;
+import environments.TrafficLightColor;
 import framework.agent.PhysicEnvironment;
 import framework.environment.DynamicType;
 import framework.environment.Influence;
@@ -11,6 +13,7 @@ import framework.environment.InfluenceEvent;
 import framework.environment.MotionInfluence;
 import framework.environment.Percept;
 import framework.environment.PerceptionEvent;
+import framework.environment.SituatedObject;
 import framework.math.Point2f;
 import framework.math.Vector2f;
 import io.sarl.core.AgentKilled;
@@ -34,6 +37,7 @@ import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,6 +47,7 @@ import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -135,35 +140,78 @@ public class CarAgent extends Agent {
       this.isBeginning = false;
     }
     float distanceMin = occurrence.perceptionDistance;
-    Percept object = null;
-    for (final Percept o : occurrence.perceptions) {
-      {
-        Point2f _position = occurrence.body.getPosition();
-        Point2f _position_1 = o.getBody().getPosition();
-        float distance = Math.abs(_position.operator_minus(_position_1).length());
-        if (((distance <= distanceMin) && this.path.get(0).contains(new Point2d(o.getPosition().getX(), o.getPosition().getY())))) {
-          object = o;
-          distanceMin = distance;
+    SituatedObject object = null;
+    double accelerationCar = occurrence.body.getMaxLinearAcceleration();
+    boolean _isEmpty = occurrence.perceptions.isEmpty();
+    boolean _not = (!_isEmpty);
+    if (_not) {
+      InputOutput.<Boolean>println(Boolean.valueOf(occurrence.perceptions.isEmpty()));
+      for (final Percept o : occurrence.perceptions) {
+        {
+          Point2f _position = occurrence.body.getPosition();
+          Point2f _position_1 = o.getBody().getPosition();
+          float distance = Math.abs(_position.operator_minus(_position_1).length());
+          if ((distance <= distanceMin)) {
+            object = o.getBody();
+            distanceMin = distance;
+          }
+        }
+      }
+      if ((object != null)) {
+        Serializable _type = object.getType();
+        boolean _equals = Objects.equal(_type, "LIGHT");
+        if (_equals) {
+          TrafficLightColor _state = ((TrafficLight) object).getState();
+          boolean _equals_1 = Objects.equal(_state, TrafficLightColor.RED);
+          if (_equals_1) {
+            float a = occurrence.body.getMaxLinearAcceleration();
+            float v = occurrence.body.getCurrentLinearSpeed();
+            float vf = occurrence.body.getMaxLinearSpeed();
+            int adherence = 4;
+            float s = (((v / 10) * 6) + 10);
+            double _power = Math.pow(v, 2);
+            double b = (_power / (2 * distanceMin));
+            float T = (distanceMin / vf);
+            float deltaV = v;
+            double _power_1 = Math.pow((v / vf), adherence);
+            double _minus = (1 - _power_1);
+            accelerationCar = _minus;
+            float part1 = ((s + (v * T)) / distanceMin);
+            double _sqrt = Math.sqrt((a * b));
+            double _multiply = ((2 * distanceMin) * _sqrt);
+            double part2 = ((v * deltaV) / _multiply);
+            double _accelerationCar = accelerationCar;
+            double _power_2 = Math.pow((part1 + part2), 2);
+            accelerationCar = (_accelerationCar - _power_2);
+            accelerationCar = (accelerationCar * a);
+          } else {
+          }
+        } else {
+          Serializable _type_1 = object.getType();
+          boolean _tripleEquals = (_type_1 == "SIGN");
+          if (_tripleEquals) {
+            accelerationCar = 0;
+          } else {
+            Serializable _type_2 = object.getType();
+            boolean _tripleEquals_1 = (_type_2 == "BODY");
+            if (_tripleEquals_1) {
+            } else {
+              accelerationCar = occurrence.body.getMaxLinearAcceleration();
+            }
+          }
         }
       }
     }
-    double accelerationCar = 0;
     if (this.fromBeginToEnd) {
-      float _maxLinearAcceleration = occurrence.body.getMaxLinearAcceleration();
-      float _multiply = (_maxLinearAcceleration * 0.01f);
-      double _plus = (this.length + _multiply);
-      this.length = _plus;
+      this.length = (this.length + (accelerationCar * 0.01f));
     } else {
-      float _maxLinearAcceleration_1 = occurrence.body.getMaxLinearAcceleration();
-      double _multiply_1 = (_maxLinearAcceleration_1 * 0.01);
-      double _minus = (this.length - _multiply_1);
-      this.length = _minus;
+      this.length = (this.length - (accelerationCar * 0.01));
     }
     if ((this.fromBeginToEnd && (this.length >= segment.getLength()))) {
       this.length = segment.getLength();
       this.path.remove(0);
-      boolean _isEmpty = this.path.isEmpty();
-      if (_isEmpty) {
+      boolean _isEmpty_1 = this.path.isEmpty();
+      if (_isEmpty_1) {
         this.destionationReached();
         DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
         InfluenceEvent _influenceEvent_1 = new InfluenceEvent();
@@ -176,8 +224,8 @@ public class CarAgent extends Agent {
       if (((!this.fromBeginToEnd) && (this.length <= 0))) {
         this.length = 0;
         this.path.remove(0);
-        boolean _isEmpty_1 = this.path.isEmpty();
-        if (_isEmpty_1) {
+        boolean _isEmpty_2 = this.path.isEmpty();
+        if (_isEmpty_2) {
           this.destionationReached();
           DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
           InfluenceEvent _influenceEvent_2 = new InfluenceEvent();
@@ -194,12 +242,12 @@ public class CarAgent extends Agent {
     float _x_2 = newPos.getX();
     double _x_3 = currentPos.getX();
     double _minus_1 = (_x_2 - _x_3);
-    double _multiply_2 = (_minus_1 * 0.1f);
+    double _multiply_1 = (_minus_1 * 0.1f);
     float _y_2 = newPos.getY();
     double _y_3 = currentPos.getY();
     double _minus_2 = (_y_2 - _y_3);
-    double _multiply_3 = (_minus_2 * 0.1f);
-    Vector2f direction = new Vector2f(_multiply_2, _multiply_3);
+    double _multiply_2 = (_minus_2 * 0.1f);
+    Vector2f direction = new Vector2f(_multiply_1, _multiply_2);
     Object _newInstance = Array.newInstance(Influence.class, 1);
     Influence[] influences = ((Influence[]) _newInstance);
     UUID _iD = this.getID();
@@ -410,17 +458,35 @@ public class CarAgent extends Agent {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    CarAgent other = (CarAgent) obj;
+    if (other.fromBeginToEnd != this.fromBeginToEnd)
+      return false;
+    if (Double.doubleToLongBits(other.length) != Double.doubleToLongBits(this.length))
+      return false;
+    if (other.isBeginning != this.isBeginning)
+      return false;
+    if (other.isArrived != this.isArrived)
+      return false;
+    return super.equals(obj);
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+    int result = super.hashCode();
+    final int prime = 31;
+    result = prime * result + (this.fromBeginToEnd ? 1231 : 1237);
+    result = prime * result + (int) (Double.doubleToLongBits(this.length) ^ (Double.doubleToLongBits(this.length) >>> 32));
+    result = prime * result + (this.isBeginning ? 1231 : 1237);
+    result = prime * result + (this.isArrived ? 1231 : 1237);
+    return result;
   }
   
   @SyntheticMember

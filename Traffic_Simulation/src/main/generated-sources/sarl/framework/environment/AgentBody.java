@@ -73,7 +73,7 @@ public class AgentBody extends AbstractMobileObject implements Body {
    * @param maxAngularAcceleration is the maximal angular acceleration.
    * @param frustum the field-of-view associated to the body.
    */
-  public AgentBody(final UUID id, final Shape2f<?> shape, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration, final Frustum frustum) {
+  public AgentBody(final UUID id, final Shape2f<?> shape, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration, final Frustum frustum, final float perceptionDistance) {
     super(id, shape, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration);
     class $AssertEvaluator$ {
       final boolean $$result;
@@ -84,6 +84,7 @@ public class AgentBody extends AbstractMobileObject implements Body {
     assert new $AssertEvaluator$().$$result;
     this.frustum = frustum;
     this.setType("BODY");
+    this.perceptionDistance = perceptionDistance;
   }
   
   @Override
@@ -295,7 +296,7 @@ public class AgentBody extends AbstractMobileObject implements Body {
    * 
    * @param perceptions
    */
-  void setPerceptions(final List<Percept> perceptions) {
+  public void setPerceptions(final List<Percept> perceptions) {
     class $AssertEvaluator$ {
       final boolean $$result;
       $AssertEvaluator$() {
@@ -333,5 +334,5 @@ public class AgentBody extends AbstractMobileObject implements Body {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = -2222718502L;
+  private final static long serialVersionUID = -4781990156L;
 }

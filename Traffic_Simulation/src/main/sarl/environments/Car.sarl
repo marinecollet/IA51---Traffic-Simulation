@@ -22,24 +22,22 @@ class Car extends Vehicle
 	/** The representation of the car (here a circle) */
 	var element : MapPolygon
 	
-	
+	 
 	
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
-		maxAngularAcceleration : float)  
+		maxAngularAcceleration : float, perceptionDistance : float)  
 	{
-		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration,UUID.randomUUID);
+		super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, UUID.randomUUID,
+			perceptionDistance); 
 		position = point;
- 		perceptionDistance = 0;
+ 		 
 	}  
 	 
 	 
 
 	 
 	 
-	 def setPerceptionDisatnce(perceptionDistance: float)
-	 {
-	 	this.perceptionDistance = perceptionDistance
-	 }
+	
 		
 	
 	/** 

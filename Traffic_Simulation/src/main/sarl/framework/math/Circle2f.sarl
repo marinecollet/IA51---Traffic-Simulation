@@ -115,6 +115,12 @@ class Circle2f extends Shape2f<Circle2f> {
 				this.center.y + vector.y,
 				this.radius)
 	}
+
+	override translate2(vector : Vector2f) : void {
+		this.center.x += vector.x
+		this.center.y += vector.y
+		
+	}
 	
 	override getBounds : Rectangle2f {
 		new Rectangle2f(

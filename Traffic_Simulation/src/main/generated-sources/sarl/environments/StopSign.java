@@ -17,11 +17,8 @@ import ui.ApplicationMap;
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class StopSign extends Panel {
-  private Point2f position;
-  
   public StopSign(final UUID id, final String name, final Point2f position) {
-    super(id, name);
-    this.position = position;
+    super(id, position, name);
     this.setType("SIGN");
     MapPolygon _mapPolygon = new MapPolygon();
     this.element = _mapPolygon;
@@ -43,21 +40,6 @@ public class StopSign extends Panel {
   @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final Object obj) {
-    return super.equals(obj);
-  }
-  
-  @Override
-  @Pure
-  @SyntheticMember
-  public int hashCode() {
-    int result = super.hashCode();
-    return result;
-  }
-  
-  @Override
-  @Pure
-  @SyntheticMember
   public StopSign clone() {
     try {
       return (StopSign) super.clone();
@@ -67,5 +49,5 @@ public class StopSign extends Panel {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 124593387L;
+  private final static long serialVersionUID = -1716369708L;
 }

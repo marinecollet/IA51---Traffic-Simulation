@@ -58,6 +58,10 @@ abstract class Shape2f<S extends Shape2f<S>> implements Serializable, Cloneable 
 	 * 
 	 * @return the bounds of the shape.
 	 */
+	abstract def translate2(vector : Vector2f) : void
+
+	
+	
 	abstract def getBounds : Rectangle2f
 
 	/** Replies the biggest demi-size of the shape.

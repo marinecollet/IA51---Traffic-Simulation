@@ -53,11 +53,12 @@ import environments.EnvironmentObject
 	 * @param frustum the field-of-view associated to the body.
 	 */
 	new (id : UUID, shape : Shape2f<?>, maxLinearSpeed : float, maxLinearAcceleration : float,
-			maxAngularSpeed : float, maxAngularAcceleration : float, frustum : Frustum) {
+			maxAngularSpeed : float, maxAngularAcceleration : float, frustum : Frustum, perceptionDistance : float) {
 		super(id, shape, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration)
 		assert frustum === null || id == frustum.owner   
-		this.frustum = frustum
-		this.type = "BODY"    
+		this.frustum = frustum 
+		this.type = "BODY"   
+		this.perceptionDistance = perceptionDistance 
 	} 
 	 
 	override clone : AgentBody {
@@ -86,7 +87,7 @@ import environments.EnvironmentObject
 	}
 	
 	def getPerceptionDistance() : float{
-		return perceptionDistance
+		return perceptionDistance 
 	}
 	
 	/** Invoked to send the given influence to the environment.
@@ -184,7 +185,7 @@ import environments.EnvironmentObject
 	 * 
 	 * @param perceptions
 	 */
-	package def setPerceptions(perceptions : List<Percept>) : void {
+	def setPerceptions(perceptions : List<Percept>) : void {
 		assert perceptions !== null
 		this.perceptions = perceptions
 	}

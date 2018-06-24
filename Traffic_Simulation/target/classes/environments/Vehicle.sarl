@@ -9,6 +9,7 @@ import framework.math.Rectangle2f
 import framework.math.Point2f
 import framework.environment.Frustum
 import framework.math.Shape2f
+import framework.math.Circle2f
 
 /** 
  * @author jerem
@@ -16,30 +17,29 @@ import framework.math.Shape2f
  */
 abstract class Vehicle extends AgentBody 
 {
-	protected var perceptionDistance : float
-	protected var rectangle : Shape2f<?>  
+	
+	 
 	
 	new(point : Point2f, maxLinearSpeed : float, maxLinearAcceleration : float, maxAngularSpeed : float,
-		maxAngularAcceleration : float, uuid : UUID) {
+		maxAngularAcceleration : float, uuid : UUID, perceptionDistance : float) {
 		super(
 			uuid,
-			new Rectangle2f(new Point2f(point.x, point.y - 0.5f), new Point2f(point.x, point.y + 0.5f)),
+			new Circle2f(point,perceptionDistance),
 			maxLinearSpeed,
-			maxLinearAcceleration,
+			maxLinearAcceleration, 
 			maxAngularSpeed,
-			maxAngularAcceleration, 
-			new CarFrustum(uuid)
+			maxAngularAcceleration,    
+			new CarFrustum(uuid),
+			perceptionDistance
 		) 
 	}
 
-	def moveVehicle(newPos : Point2f);
+	def moveVehicle(newPos : Point2f); 
 
 	
 		
 
-	def getRectangle : Shape2f<?>{
-		return rectangle
-	}  
+
 	
 	
 	

@@ -27,14 +27,9 @@ public class Car extends Vehicle {
    */
   private MapPolygon element;
   
-  public Car(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration) {
-    super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, UUID.randomUUID());
+  public Car(final Point2f point, final float maxLinearSpeed, final float maxLinearAcceleration, final float maxAngularSpeed, final float maxAngularAcceleration, final float perceptionDistance) {
+    super(point, maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, UUID.randomUUID(), perceptionDistance);
     this.position = point;
-    this.perceptionDistance = 0;
-  }
-  
-  public void setPerceptionDisatnce(final float perceptionDistance) {
-    this.perceptionDistance = perceptionDistance;
   }
   
   /**
@@ -88,5 +83,5 @@ public class Car extends Vehicle {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 7100667318L;
+  private final static long serialVersionUID = 5841091918L;
 }

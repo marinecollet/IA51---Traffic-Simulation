@@ -161,5 +161,9 @@ class MotionHull2f extends Shape2f<MotionHull2f> {
 	override getMaxDemiSize : float {
 		this.size
 	}
-
+	
+	def translate2(vector : Vector2f) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

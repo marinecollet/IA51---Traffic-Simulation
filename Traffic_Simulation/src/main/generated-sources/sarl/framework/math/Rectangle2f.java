@@ -27,6 +27,7 @@ import framework.math.MotionHull2f;
 import framework.math.Point2f;
 import framework.math.Shape2f;
 import framework.math.Tuple2f;
+import framework.math.Vector2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -45,9 +46,6 @@ public class Rectangle2f extends Shape2f<Rectangle2f> {
   private final Point2f lower = new Point2f();
   
   private final Point2f upper = new Point2f();
-  
-  public Rectangle2f() {
-  }
   
   /**
    * @param p1
@@ -196,6 +194,18 @@ public class Rectangle2f extends Shape2f<Rectangle2f> {
   }
   
   @Override
+  public void translate2(final Vector2f vector) {
+    float _x = this.lower.x;
+    this.lower.x = (_x + vector.x);
+    float _y = this.lower.y;
+    this.lower.y = (_y + vector.y);
+    float _x_1 = this.upper.x;
+    this.upper.x = (_x_1 + vector.x);
+    float _y_1 = this.upper.y;
+    this.upper.y = (_y_1 + vector.y);
+  }
+  
+  @Override
   public Rectangle2f getBounds() {
     return this.clone();
   }
@@ -238,5 +248,5 @@ public class Rectangle2f extends Shape2f<Rectangle2f> {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 10401686529L;
+  private final static long serialVersionUID = 12044877203L;
 }

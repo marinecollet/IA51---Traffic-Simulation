@@ -13,6 +13,7 @@ import framework.math.Shape2f
 import java.io.Serializable
 import framework.math.Rectangle2f
 import org.arakhne.afc.gis.mapelement.MapPolygon
+import framework.math.Circle2f
 
 /** 
  * @author jerem
@@ -25,18 +26,16 @@ abstract class EnvironmentObject extends AbstractSituatedObject {
 		  
 	
 	var name : String
-	var type : Serializable 	
+		
 	var points = new ArrayList<Point>
 
  
-	new (id : UUID, position : Point2f = null, name : String) { 
-		super(id,new Rectangle2f(new Point2f,new Point2f)) 
+	new (id : UUID, position : Point2f, name : String) { 
+		super(id, new Circle2f(position, 2), position)  
 		assert id !== null
-		this.name = name
+		this.name = name 
 		
-		if (position !== null) {
-			this.position.set(position)
-		} 
+		
 	}
 
 

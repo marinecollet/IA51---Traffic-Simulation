@@ -206,6 +206,10 @@ public class MotionHull2f extends Shape2f<MotionHull2f> {
     return this.size;
   }
   
+  public void translate2(final Vector2f vector) {
+    throw new UnsupportedOperationException("TODO: auto-generated method stub");
+  }
+  
   @Override
   @Pure
   @SyntheticMember
@@ -218,5 +222,5 @@ public class MotionHull2f extends Shape2f<MotionHull2f> {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 7103212564L;
+  private final static long serialVersionUID = 8746405467L;
 }

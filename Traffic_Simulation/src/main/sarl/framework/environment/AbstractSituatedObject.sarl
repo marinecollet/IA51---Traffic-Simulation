@@ -125,7 +125,8 @@ abstract class AbstractSituatedObject implements SituatedObject, Serializable {
 	}
 	
 	def getShape : Shape2f<?> {
-		this.shape.translate(this.position)
+		//this.shape.translate(this.position)
+		this.shape
 	}
 
 	override getPosition : Point2f {

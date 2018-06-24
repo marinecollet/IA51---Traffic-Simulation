@@ -315,7 +315,7 @@ abstract class AbstractEnvironment implements Environment {
 			return obj.computeSteeringRotation(move, clock)
 		}
 		throw new IllegalArgumentException("obj") //$NON-NLS-1$
-	}
+	} 
 
 	/** Move the given object.
 	 * 
@@ -325,7 +325,7 @@ abstract class AbstractEnvironment implements Environment {
 	 */
 	protected final def move(obj : MobileObject, instantTranslation : Vector2f, instantRotation : float) {
 		if (obj instanceof AbstractMobileObject) {
-			var duration = this.timeManager.lastStepDuration
+			var duration = this.timeManager.lastStepDuration 
 			obj.position += instantTranslation
 			obj.move(instantTranslation.x, instantTranslation.y, duration, this.width, this.height)
 			obj.rotate(instantRotation, duration)

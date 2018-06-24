@@ -35,10 +35,10 @@ class Rectangle2f extends Shape2f<Rectangle2f> {
 	val lower = new Point2f
 	val upper = new Point2f
 	
+	
 	/**
 	 */
-	new {
-	}
+	
 
 	/**
 	 * @param p1
@@ -51,6 +51,9 @@ class Rectangle2f extends Shape2f<Rectangle2f> {
 		this.upper.set(
 				max(p1.x, p2.x),
 				max(p1.y, p2.y))
+		
+	   
+		
 	}
 
 	/**
@@ -66,6 +69,7 @@ class Rectangle2f extends Shape2f<Rectangle2f> {
 		this.upper.set(
 				max(x1, x2),
 				max(y1, y2))
+		
 	}
 
 	override equals(obj : Object) : boolean {
@@ -147,6 +151,14 @@ class Rectangle2f extends Shape2f<Rectangle2f> {
 				this.upper.x + vector.x,
 				this.upper.y + vector.y)
 	}
+
+	override translate2(vector : Vector2f) : void {
+		this.lower.x += vector.x
+		this.lower.y += vector.y
+		this.upper.x += vector.x
+		this.upper.y += vector.y
+	}
+	
 
 	override getBounds : Rectangle2f {
 		clone

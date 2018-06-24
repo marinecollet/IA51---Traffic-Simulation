@@ -131,8 +131,8 @@ abstract class AbstractMobileObject extends AbstractSituatedObject implements Mo
 	protected def rotate(rotation : float, simulationDuration : float) {
 		assert !Double::isNaN(rotation)
 		assert !Double::isNaN(simulationDuration)
-		this.angle += rotation
-		this.currentAngularSpeed = rotation / simulationDuration
+		this.angle += rotation 
+		this.currentAngularSpeed = rotation / simulationDuration  
 	}
 
 	def setPosition(x : float, y : float) : java.lang.Float {

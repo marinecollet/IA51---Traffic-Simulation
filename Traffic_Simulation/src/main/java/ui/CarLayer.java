@@ -10,7 +10,11 @@ import org.arakhne.afc.gis.maplayer.ArrayMapElementLayer;
 
 import environments.Car;
 import framework.environment.AgentBody;
+import framework.math.Rectangle2f;
+import framework.math.Circle2f;
+import framework.math.Shape2f;
 import javafx.scene.paint.Color;
+
 
 public class CarLayer extends ArrayMapElementLayer<MapElement>{
 
@@ -38,15 +42,39 @@ public class CarLayer extends ArrayMapElementLayer<MapElement>{
 		for(AgentBody c : carList) {
 			
 			MapPolygon poly = new MapPolygon();
+			MapPolygon frustum = new MapPolygon();
+			Shape2f<?> rectangle = c.getShape();  
 			for (int i = 0; i < 16; i++) {
 				poly.addPoint(c.getPosition().getX() + Math.cos(2 * Math.PI / 16 * i + Math.PI / 16) * 5,
 					c.getPosition().getY() + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * 5);
 			}
 			
-			Color carColor = Color.BLUEVIOLET;
-			poly.setColor(getIntFromColor(carColor.getRed(), carColor.getGreen(), carColor.getBlue()));
+			Circle2f cercle = (Circle2f) c.getShape();
+			for (int i = 0; i < 16; i++) {
+				frustum.addPoint(c.getPosition().getX() + Math.cos(2 * Math.PI / 16 * i + Math.PI / 16) * cercle.getRadius(),
+					c.getPosition().getY() + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * cercle.getRadius());
+			}
+			/*
+			frustum.addPoint(rectangle.getBounds().getCenter().getX()+(rectangle.getBounds().getWidth() / 2), rectangle.getBounds().getCenter().getY()+(rectangle.getBounds().getHeight() / 2));
+			frustum.addPoint(rectangle.getBounds().getCenter().getX()+(rectangle.getBounds().getWidth() / 2), rectangle.getBounds().getCenter().getY()-(rectangle.getBounds().getHeight() / 2));
 			
+			frustum.addPoint(rectangle.getBounds().getCenter().getX()-(rectangle.getBounds().getWidth() / 2), rectangle.getBounds().getCenter().getY()-(rectangle.getBounds().getHeight() / 2));
+			frustum.addPoint(rectangle.getBounds().getCenter().getX()-(rectangle.getBounds().getWidth() / 2), rectangle.getBounds().getCenter().getY()+(rectangle.getBounds().getHeight() / 2));
+			
+			
+			frustum.addPoint(c.getPosition().getX()+10, c.getPosition().getY()+10);
+			frustum.addPoint(c.getPosition().getX()+10, c.getPosition().getY()-10);
+			frustum.addPoint(c.getPosition().getX()-10, c.getPosition().getY()+10);
+			frustum.addPoint(c.getPosition().getX()-10, c.getPosition().getY()-10);
+			*/
+			Color carColor = Color.BLUEVIOLET;
+			Color frustumColor = Color.BLUE;
+			poly.setColor(getIntFromColor(carColor.getRed(), carColor.getGreen(), carColor.getBlue()));
+			frustum.setColor(getIntFromColor(frustumColor.getRed(), frustumColor.getGreen(), frustumColor.getBlue()));
+			this.addMapElement(frustum);
 			this.addMapElement(poly);	
+		
+			
 		}
 	}
 	

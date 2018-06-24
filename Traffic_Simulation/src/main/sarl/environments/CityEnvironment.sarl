@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /** 
  * 
  */
@@ -347,3 +348,340 @@ class CityEnvironment extends AbstractEnvironment{
 	}
 
 }
+=======
+/** 
+ * 
+ */
+package environments
+
+import framework.environment.AbstractEnvironment
+import framework.environment.AgentBody
+import java.util.List
+import framework.environment.Influence
+import framework.environment.Percept
+import java.util.Collection
+import framework.environment.MotionInfluence
+import framework.time.TimeManager
+import framework.environment.SituatedObject
+import java.util.ArrayList
+import org.arakhne.afc.gis.road.primitive.RoadNetwork
+import org.arakhne.afc.gis.road.layer.RoadNetworkLayer
+import logic.Map
+import framework.time.StepTimeManager
+import framework.math.Point2f
+import framework.math.Shape2f
+import org.arakhne.afc.math.geometry.d2.Shape2D
+import org.arakhne.afc.math.geometry.d2.d.Shape2d
+import framework.environment.Body
+import ui.ApplicationMap
+import java.util.HashMap
+import org.arakhne.afc.math.geometry.d2.d.Point2d
+import org.arakhne.afc.gis.road.primitive.RoadSegment
+import org.arakhne.afc.gis.road.primitive.RoadConnection
+import framework.math.Vector2f
+import framework.environment.DynamicType
+import java.util.UUID
+import org.w3c.dom.ranges.Range
+
+/** 
+ * @author jerem
+ * 
+ */
+class CityEnvironment extends AbstractEnvironment{
+	
+	var environmentObjects : ArrayList<EnvironmentObject>
+
+	/** Contains all data to draw Road Segments using JavaFX */
+	var roadNetwork : RoadNetwork;
+	var network : RoadNetworkLayer; // MapElementLayer<?>
+	
+	/** Contains all data about road segments */
+	var roadSegmentDataCollection : RoadSegmentDataCollection;
+
+	//var connectionsOccurence = new HashMap<Point2d, Integer>();
+	var connectionsOccurence = new HashMap<RoadConnection, Integer>();
+	
+	var entryExitConnections = new ArrayList<RoadConnection>();
+
+	var trafficLights = new ArrayList<TrafficLight>
+	
+	
+	new(){
+		super(Map.WIDTH, Map.HEIGHT, new StepTimeManager(500))
+		roadSegmentDataCollection = new RoadSegmentDataCollection()
+		environmentObjects = new ArrayList<EnvironmentObject>
+
+		network = ApplicationMap.instance.roadNetworkLayer as RoadNetworkLayer 
+		roadNetwork = network.roadNetwork;
+		// Get all road segments and iterate on them to find
+		// the road connections which are used multiple times
+		for (seg : network.roadNetwork.roadSegments) {
+
+				/** Create new RoadSegmentData for the current road segment
+				 */
+			var roadSegmentData : RoadSegmentData = new RoadSegmentData(seg);
+			/*var pts = seg.points;
+			for (pt : pts) {
+				if (connectionsOccurence.containsKey(pt)) {
+					connectionsOccurence.replace(pt, (connectionsOccurence.get(pt) + 1) as Integer);
+				} else {
+					connectionsOccurence.put(pt, new Integer(1));
+				}
+			}*/
+			if (connectionsOccurence.containsKey(seg.beginPoint)) {
+				connectionsOccurence.replace(seg.beginPoint, (connectionsOccurence.get(seg.beginPoint) + 1) as Integer);
+			} else {
+				connectionsOccurence.put(seg.beginPoint, new Integer(1));
+			}
+
+			if (connectionsOccurence.containsKey(seg.endPoint)) {
+				connectionsOccurence.replace(seg.endPoint, (connectionsOccurence.get(seg.endPoint) + 1) as Integer);
+			} else {
+				connectionsOccurence.put(seg.endPoint, new Integer(1));
+			}
+
+			/** Add the segment data to the collection
+			 */
+			roadSegmentDataCollection.add(roadSegmentData);
+		}
+
+		var stop : StopSign
+		var trafficLight : TrafficLight
+
+		// For each connections, depending on the number, it creates
+		// a stop sign or a traffic light on the map
+		for (key : connectionsOccurence.keySet) 
+		{
+			var cpt = connectionsOccurence.get(key);
+
+			// The road connection is an entry/exit connection
+			if (cpt == 1)
+			{
+				entryExitConnections.add(key);
+			}
+			else if (cpt == 3) 
+			{
+				/** 
+				 * Get all road segments data that are in this connection
+				 */
+				var segments = roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+				
+				var segment = segments.get(Math.round(Math.random() * (segments.length - 1)) as int)
+
+				if (segment.beginPoint == key.point)
+				{
+					stop = new StopSign(UUID.randomUUID, "",
+						new Point2f(segment.segment.getGeoLocationForDistance(6, 6).x,
+							segment.segment.getGeoLocationForDistance(6, 6).y));
+					addEnvironmentObject(stop);
+					segment.objectAtStart = stop;
+				}
+				else if (segment.endPoint == key.point)
+				{
+					stop = new StopSign(UUID.randomUUID, "",
+						new Point2f(segment.segment.getGeoLocationForDistance(segment.segment.length - 6, -6).x,
+							segment.segment.getGeoLocationForDistance(segment.segment.length - 6, -6).y));
+					addEnvironmentObject(stop);
+					segment.objectAtStart = stop;
+				}
+			} 
+			else if (cpt > 3)
+			{
+				/** Get all road segments data that are in this connection
+				 */
+				var segments = roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+				
+				for (segment : segments) 
+				{	
+					if (segment.beginPoint == key.point) 
+					{
+						trafficLight = new TrafficLight(UUID.randomUUID, "",
+							new Point2f(segment.segment.getGeoLocationForDistance(6, 6).x,
+							segment.segment.getGeoLocationForDistance(6, 6).y));
+						trafficLight.changeColor(TrafficLightColor.GREEN);
+						trafficLights.add(trafficLight);
+						
+						segment.objectAtStart = trafficLight;
+					} 
+					else if (segment.endPoint == key.point) 
+					{
+						trafficLight = new TrafficLight(UUID.randomUUID, "",
+							new Point2f(segment.segment.getGeoLocationForDistance(segment.segment.length - 6, -6).x,
+								segment.segment.getGeoLocationForDistance(segment.segment.length - 6, -6).y));
+						trafficLight.changeColor(TrafficLightColor.GREEN);
+						addEnvironmentObject(trafficLight);
+						trafficLights.add(trafficLight);
+						
+						segment.objectAtEnd = trafficLight;
+					}
+				}
+			}
+		}
+	}
+
+	def getNetwork() : RoadNetworkLayer {
+		return network
+	}
+
+	def setNetwork(network : RoadNetworkLayer){
+		this.network=network
+	}
+	
+	def getRoadSegmentDataCollection() : RoadSegmentDataCollection{
+		return roadSegmentDataCollection
+	}
+	
+	def setRoadSegmentDataCollection(roadSegmentDataCollection : RoadSegmentDataCollection){
+		this.roadSegmentDataCollection = roadSegmentDataCollection
+	}
+	
+	def getEnvironmentObjects() : ArrayList<EnvironmentObject>{
+		return environmentObjects
+	}
+	
+	def addEnvironmentObject(object : EnvironmentObject) {
+		environmentObjects.add(object)
+	}
+	
+	def getRoadNetwork() : RoadNetwork{
+		return roadNetwork
+	}
+	
+	def getEntryExitConnections : ArrayList<RoadConnection>{
+		return entryExitConnections;
+	}
+	
+	def createAgentBody() : UUID {
+		var random = (Math.random()* entryExitConnections.size) as int
+		while (random == 3)
+			random = (Math.random() * entryExitConnections.size) as int
+			
+		var car = new Car(new Point2f(
+			entryExitConnections.get(random).point.x,
+			entryExitConnections.get(random).point.y
+		), 50, 20, 10, 10,20)
+		addAgentBody(car,car.position,car.angle)
+		
+		return car.ID;
+	}
+
+	def removeAgentBodyFromList(agentID : UUID) {
+		removeAgentBody(agentID)
+	}
+
+	def getTrafficLights() : ArrayList<TrafficLight>{
+		return trafficLights;
+	}
+	
+	protected def onAgentBodyCreated(body : AgentBody) {
+		
+		//throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	protected def onAgentBodyDestroyed(body : AgentBody) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	protected def computeEndogenousBehaviorInfluences : List<Influence> {
+		return emptyList
+	}
+	
+	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> {		
+		var u = new ArrayList<Percept>
+		for(o : environmentObjects){
+			if((^agent as Vehicle).shape.intersects(o.shape)){
+				//println(o.type)
+				u.add(new Percept(o));  
+				^agent.setPerceptions(u);
+			}
+							  
+		} 
+		return u;
+	}
+	
+	protected def applyInfluences(motionInfluences : Collection<MotionInfluence>,
+		otherInfluences : Collection<Influence>, timeManager : TimeManager) {
+		var actions = new ArrayList<AnimatAction>(motionInfluences.size());
+		for (index1 : 0 ..< motionInfluences.size) {
+			
+			var inf1 = motionInfluences.get(index1)
+			var body1 = getAgentBodyFor(inf1.emitter)
+			//body1.setPosition(inf1.linearInfluence.x, inf1.linearInfluence.y)
+			//println(inf1) 
+			var move : Vector2f 
+			var rotation : float
+			if (inf1.type === DynamicType.STEERING) {
+				move = body1.computeSteeringTranslation(inf1.linearInfluence, timeManager)
+				rotation = body1.computeSteeringRotation(inf1.angularInfluence, timeManager)
+			} else {
+				move = body1.computeKinematicTranslation(inf1.linearInfluence, timeManager)
+				rotation = body1.computeKinematicRotation(inf1.angularInfluence, timeManager)
+			}
+
+			actions += new AnimatAction(body1, move, rotation) 
+
+		}
+
+		// Apply the actions
+		for (action : actions) {
+			var body = action.objectToMove
+			if (body !== null) {
+				
+				body.shape.translate2(action.translation)
+				
+				
+				body.move(action.translation, action.rotation)
+				//body.position = action.translation
+			}
+		}
+	}
+	
+	def getAllObjects : Iterable<? extends SituatedObject> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+
+	private static class AnimatAction { 
+
+		val body : AgentBody 
+		val move : Vector2f
+		val rotation : float
+
+		/**
+		 * @param object is the animat body.
+		 * @param move is the translation.
+		 * @param rotation is the rotation.
+		 */
+		new (object : AgentBody, move : Vector2f, rotation : float) {
+			this.body = object
+			this.move = move
+			this.rotation = rotation
+		}
+
+		/** Replies the moved object.
+		 * 
+		 * @return the moved object.
+		 */
+		def getObjectToMove : AgentBody {
+			this.body
+		}
+
+		/** Replies the translation.
+		 * 
+		 * @return the translation.
+		 */
+		def getTranslation : Vector2f {
+			this.move
+		}
+
+		/** Replies the rotation.
+		 * 
+		 * @return the rotation.
+		 */
+		def getRotation : float {
+			this.rotation
+		}
+
+	}
+
+}
+>>>>>>> Stashed changes

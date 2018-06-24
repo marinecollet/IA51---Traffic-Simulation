@@ -34,6 +34,9 @@ import framework.environment.MotionInfluence
 import org.arakhne.afc.math.geometry.d2.d.Point2d
 import java.lang.reflect.Array
 import io.sarl.core.Lifecycle
+import environments.TrafficLight
+import environments.TrafficLightColor
+import framework.environment.SituatedObject
 
 /** 
  * @author jerem
@@ -130,57 +133,59 @@ agent CarAgent {
 		}
 
 		var distanceMin : float = occurrence.perceptionDistance
-		var object : Percept
-		for (o : occurrence.perceptions) {
-			var distance = Math.abs((occurrence.body.position - o.body.position).length)
-			if (distance <= distanceMin && path.get(0).contains(new Point2d(o.position.x, o.position.y))) {
-				object = o;
-				distanceMin = distance;
+		var object : SituatedObject
+		var accelerationCar : double = occurrence.body.maxLinearAcceleration
+		if (!occurrence.perceptions.isEmpty) {
+			println(occurrence.perceptions.isEmpty)
+			for (o : occurrence.perceptions) {
+				var distance = Math.abs((occurrence.body.position - o.body.position).length)
+				if (distance <= distanceMin) { // && path.get(0).contains(new Point2d(o.position.x, o.position.y))
+					object = o.body;
+					distanceMin = distance;
+				}
 			}
+			
+			
+			if (object !== null) {
+				if (object.type == "LIGHT") {
+					if ((object as TrafficLight).state == TrafficLightColor.RED) {
+						var a = occurrence.body.maxLinearAcceleration
+						var v = occurrence.body.currentLinearSpeed
+						var vf = occurrence.body.maxLinearSpeed
+						var adherence = 4
+						var s = ((v / 10) * 6) + 10
+						var b = (v ** 2) / (2 * distanceMin)
+						var T = distanceMin / vf
+						var deltaV = v
+						accelerationCar = 1 - ((v / vf) ** adherence);
+						var part1 = (s + v * T) / distanceMin
+						var part2 = (v * deltaV) / (2 * distanceMin * (Math.sqrt(a*b)))
+						accelerationCar -= (part1 + part2) ** 2
+						accelerationCar = accelerationCar * a
+					} else {
+					}
+				} else {
+					if (object.type === "SIGN") {
+						accelerationCar = 0;
+					} else {
+						if (object.type === "BODY") { // agent
+						} else {
+							accelerationCar = occurrence.body.maxLinearAcceleration
+						}
+
+					}
+				}		
+			}	
 		}
-
-		var accelerationCar : double
-
-		/* 
-		 * if(object.type == "LIGHT"){ 
-		 * if((object.body as TrafficLight).state == TrafficLightColor.RED){
-		 * var a = occurrence.body.maxLinearAcceleration
-		 * var v = occurrence.body.currentLinearSpeed
-		 * var vf = occurrence.body.maxLinearSpeed
-		 * var adherence = 4
-		 * var s = ((v/10)*6)+10
-		 * var b = (v**2)/(2*distanceMin)
-		 * var T = distanceMin / vf
-		 * var deltaV = v
-		 * accelerationCar = 1 - ((v/vf)**adherence);
-		 * var part1 = (s+v*T)/distanceMin
-		 * var part2 = (v*deltaV)/(2*distanceMin*(Math.sqrt(a*b)))
-		 * accelerationCar -= (part1 + part2)**2
-		 * accelerationCar = accelerationCar * a
-		 * }						
-		 * else{
-		 * 
-		 * }
-		 * }
-		 * else{
-		 * if (object.type === "SIGN") {
-		 * 
-		 * 
-		 * 
-		 * }
-		 * else{
-		 * if (object.type === "BODY") { // agent
-		 * 
-		 * }
-		 * }
-		 * }
-		 */
+			
+		
+		 
 		
 		if (fromBeginToEnd) {
-			length = length + occurrence.body.maxLinearAcceleration*0.01f;
+			length = length + accelerationCar * 0.01f;
 		}
 		else {
-			length = length - occurrence.body.maxLinearAcceleration*0.01;	
+			length = length - accelerationCar * 0.01;	
 		}
 		
 		

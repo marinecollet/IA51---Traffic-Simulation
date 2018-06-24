@@ -187,7 +187,7 @@ public abstract class AbstractSituatedObject implements SituatedObject, Serializ
   }
   
   public Shape2f<?> getShape() {
-    return this.shape.translate(this.position);
+    return this.shape;
   }
   
   @Override

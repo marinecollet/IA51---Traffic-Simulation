@@ -22,6 +22,7 @@ package framework.math;
 
 import framework.math.Rectangle2f;
 import framework.math.Tuple2f;
+import framework.math.Vector2f;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -75,6 +76,8 @@ public abstract class Shape2f<S extends Shape2f<S>> implements Serializable, Clo
    * 
    * @return the bounds of the shape.
    */
+  public abstract void translate2(final Vector2f vector);
+  
   public abstract Rectangle2f getBounds();
   
   /**
@@ -85,5 +88,5 @@ public abstract class Shape2f<S extends Shape2f<S>> implements Serializable, Clo
   public abstract float getMaxDemiSize();
   
   @SyntheticMember
-  private final static long serialVersionUID = 264178593L;
+  private final static long serialVersionUID = 1907371496L;
 }

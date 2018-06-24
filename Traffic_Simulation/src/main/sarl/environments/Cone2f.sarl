@@ -51,5 +51,9 @@ class Cone2f extends Shape2f<Cone2f>
 	{
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-
+	
+	def translate2(vector : Vector2f) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }
