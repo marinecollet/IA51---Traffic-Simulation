@@ -30,6 +30,7 @@ import org.arakhne.afc.gis.road.primitive.RoadConnection
 import framework.math.Vector2f
 import framework.environment.DynamicType
 import java.util.UUID
+import org.w3c.dom.ranges.Range
 
 /** 
  * @author jerem
@@ -113,23 +114,25 @@ class CityEnvironment extends AbstractEnvironment{
 				 * Get all road segments data that are in this connection
 				 */
 				var segments = roadSegmentDataCollection.findRoadSegmentsForConnection(key);
-				println("Segment founds " + segments.length);
 				
-				for (segment : segments) 
+				var segment = segments.get(Math.round(Math.random() * (segments.length - 1)) as int)
+
+				if (segment.beginPoint == key.point)
 				{
-					if (segment.beginPoint == key.point) 
-					{
-						stop = new StopSign(UUID.randomUUID, "", new Point2f(key.point.x, key.point.y));
-						addEnvironmentObject(stop);
-						segment.objectAtStart = stop;
-					} 
-					else if (segment.endPoint == key.point) 
-					{
-						stop = new StopSign(UUID.randomUUID, "", new Point2f(key.point.x, key.point.y));
-						addEnvironmentObject(stop);
-						segment.objectAtEnd = stop;
-					}
-				} 
+					stop = new StopSign(UUID.randomUUID, "",
+						new Point2f(segment.segment.getGeoLocationForDistance(6, 6).x,
+							segment.segment.getGeoLocationForDistance(6, 6).y));
+					addEnvironmentObject(stop);
+					segment.objectAtStart = stop;
+				}
+				else if (segment.endPoint == key.point)
+				{
+					stop = new StopSign(UUID.randomUUID, "",
+						new Point2f(segment.segment.getGeoLocationForDistance(segment.segment.length - 6, -6).x,
+							segment.segment.getGeoLocationForDistance(segment.segment.length - 6, -6).y));
+					addEnvironmentObject(stop);
+					segment.objectAtStart = stop;
+				}
 			} 
 			else if (cpt > 3)
 			{

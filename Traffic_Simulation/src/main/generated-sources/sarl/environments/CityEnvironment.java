@@ -37,7 +37,6 @@ import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.ExclusiveRange;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.ApplicationMap;
 
@@ -102,17 +101,26 @@ public class CityEnvironment extends AbstractEnvironment {
     @Pure
     @SyntheticMember
     public boolean equals(final Object obj) {
-      throw new Error("Unresolved compilation problems:"
-        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
-        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      AnimatAction other = (AnimatAction) obj;
+      if (Float.floatToIntBits(other.rotation) != Float.floatToIntBits(this.rotation))
+        return false;
+      return super.equals(obj);
     }
     
     @Override
     @Pure
     @SyntheticMember
     public int hashCode() {
-      throw new Error("Unresolved compilation problems:"
-        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
+      int result = super.hashCode();
+      final int prime = 31;
+      result = prime * result + Float.floatToIntBits(this.rotation);
+      return result;
     }
   }
   
@@ -181,36 +189,42 @@ public class CityEnvironment extends AbstractEnvironment {
           if (((cpt).intValue() == 3)) {
             HashSet<RoadSegmentData> segments = this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
             final HashSet<RoadSegmentData> _converted_segments = (HashSet<RoadSegmentData>)segments;
-            int _length = ((Object[])Conversions.unwrapArray(_converted_segments, Object.class)).length;
-            String _plus = ("Segment founds " + Integer.valueOf(_length));
-            InputOutput.<String>println(_plus);
-            for (final RoadSegmentData segment : segments) {
-              Point2d _beginPoint = segment.getBeginPoint();
-              Point2d _point = key.getPoint();
-              boolean _equals = _beginPoint.operator_equals(_point);
-              if (_equals) {
-                UUID _randomUUID = UUID.randomUUID();
-                double _x = key.getPoint().getX();
-                double _y = key.getPoint().getY();
-                Point2f _point2f = new Point2f(_x, _y);
-                StopSign _stopSign = new StopSign(_randomUUID, "", _point2f);
-                stop = _stopSign;
+            double _random = Math.random();
+            final HashSet<RoadSegmentData> _converted_segments_1 = (HashSet<RoadSegmentData>)segments;
+            int _length = ((Object[])Conversions.unwrapArray(_converted_segments_1, Object.class)).length;
+            int _minus = (_length - 1);
+            double _multiply = (_random * _minus);
+            long _round = Math.round(_multiply);
+            RoadSegmentData segment = ((RoadSegmentData[])Conversions.unwrapArray(_converted_segments, RoadSegmentData.class))[((int) _round)];
+            Point2d _beginPoint = segment.getBeginPoint();
+            Point2d _point = key.getPoint();
+            boolean _equals = _beginPoint.operator_equals(_point);
+            if (_equals) {
+              UUID _randomUUID = UUID.randomUUID();
+              double _x = segment.getSegment().getGeoLocationForDistance(6, 6).getX();
+              double _y = segment.getSegment().getGeoLocationForDistance(6, 6).getY();
+              Point2f _point2f = new Point2f(_x, _y);
+              StopSign _stopSign = new StopSign(_randomUUID, "", _point2f);
+              stop = _stopSign;
+              this.addEnvironmentObject(stop);
+              segment.setObjectAtStart(stop);
+            } else {
+              Point2d _endPoint = segment.getEndPoint();
+              Point2d _point_1 = key.getPoint();
+              boolean _equals_1 = _endPoint.operator_equals(_point_1);
+              if (_equals_1) {
+                UUID _randomUUID_1 = UUID.randomUUID();
+                double _length_1 = segment.getSegment().getLength();
+                double _minus_1 = (_length_1 - 6);
+                double _x_1 = segment.getSegment().getGeoLocationForDistance(_minus_1, (-6)).getX();
+                double _length_2 = segment.getSegment().getLength();
+                double _minus_2 = (_length_2 - 6);
+                double _y_1 = segment.getSegment().getGeoLocationForDistance(_minus_2, (-6)).getY();
+                Point2f _point2f_1 = new Point2f(_x_1, _y_1);
+                StopSign _stopSign_1 = new StopSign(_randomUUID_1, "", _point2f_1);
+                stop = _stopSign_1;
                 this.addEnvironmentObject(stop);
                 segment.setObjectAtStart(stop);
-              } else {
-                Point2d _endPoint = segment.getEndPoint();
-                Point2d _point_1 = key.getPoint();
-                boolean _equals_1 = _endPoint.operator_equals(_point_1);
-                if (_equals_1) {
-                  UUID _randomUUID_1 = UUID.randomUUID();
-                  double _x_1 = key.getPoint().getX();
-                  double _y_1 = key.getPoint().getY();
-                  Point2f _point2f_1 = new Point2f(_x_1, _y_1);
-                  StopSign _stopSign_1 = new StopSign(_randomUUID_1, "", _point2f_1);
-                  stop = _stopSign_1;
-                  this.addEnvironmentObject(stop);
-                  segment.setObjectAtEnd(stop);
-                }
               }
             }
           } else {
@@ -236,12 +250,12 @@ public class CityEnvironment extends AbstractEnvironment {
                   boolean _equals_3 = _endPoint_1.operator_equals(_point_3);
                   if (_equals_3) {
                     UUID _randomUUID_3 = UUID.randomUUID();
-                    double _length_1 = segment_1.getSegment().getLength();
-                    double _minus = (_length_1 - 6);
-                    double _x_3 = segment_1.getSegment().getGeoLocationForDistance(_minus, (-6)).getX();
-                    double _length_2 = segment_1.getSegment().getLength();
-                    double _minus_1 = (_length_2 - 6);
-                    double _y_3 = segment_1.getSegment().getGeoLocationForDistance(_minus_1, (-6)).getY();
+                    double _length_3 = segment_1.getSegment().getLength();
+                    double _minus_3 = (_length_3 - 6);
+                    double _x_3 = segment_1.getSegment().getGeoLocationForDistance(_minus_3, (-6)).getX();
+                    double _length_4 = segment_1.getSegment().getLength();
+                    double _minus_4 = (_length_4 - 6);
+                    double _y_3 = segment_1.getSegment().getGeoLocationForDistance(_minus_4, (-6)).getY();
                     Point2f _point2f_3 = new Point2f(_x_3, _y_3);
                     TrafficLight _trafficLight_1 = new TrafficLight(_randomUUID_3, "", _point2f_3);
                     trafficLight = _trafficLight_1;
