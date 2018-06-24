@@ -39,3 +39,15 @@ event pathAStar
 		this.pathReturn = p;
 	}
 }
+
+/*
+ * Inform the environment that the agent has reached his final point
+ */
+event DestinationReached
+{
+	val ID : UUID
+	
+	new(id: UUID){
+		this.ID = id;
+	}
+}

@@ -186,6 +186,10 @@ class CityEnvironment extends AbstractEnvironment{
 		addAgentBody(car,car.position,car.angle)
 	}
 
+	def removeAgentBodyFromList(agentID : UUID) {
+		removeAgentBody(agentID)
+	}
+
 	def getTrafficLights() : ArrayList<TrafficLight>{
 		return trafficLights;
 	}

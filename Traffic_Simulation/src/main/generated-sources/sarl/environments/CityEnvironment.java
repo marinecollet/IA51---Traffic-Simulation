@@ -295,6 +295,10 @@ public class CityEnvironment extends AbstractEnvironment {
     this.addAgentBody(car, car.getPosition(), car.getAngle());
   }
   
+  public AgentBody removeAgentBodyFromList(final UUID agentID) {
+    return this.removeAgentBody(agentID);
+  }
+  
   @Pure
   public ArrayList<TrafficLight> getTrafficLights() {
     return this.trafficLights;

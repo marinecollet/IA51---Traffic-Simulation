@@ -126,6 +126,10 @@ abstract class AbstractEnvironment implements Environment {
 		}
 	}
 
+	protected synchronized def removeAgentBody(agentID : UUID) {
+		this.agentBodyList.remove(agentID); 
+	}
+
 	/** Invoked when an agent body is created.
 	 * 
 	 * @param body the body.

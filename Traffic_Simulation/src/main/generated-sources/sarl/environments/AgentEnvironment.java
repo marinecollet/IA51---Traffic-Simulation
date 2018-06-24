@@ -1,6 +1,7 @@
 package environments;
 
 import agents.CarAgent;
+import agents.DestinationReached;
 import agents.pathAStar;
 import agents.requestAStar;
 import com.google.common.base.Objects;
@@ -17,6 +18,7 @@ import framework.math.Point2f;
 import framework.time.TimePercept;
 import io.sarl.core.Behaviors;
 import io.sarl.core.DefaultContextInteractions;
+import io.sarl.core.Destroy;
 import io.sarl.core.Initialize;
 import io.sarl.core.Lifecycle;
 import io.sarl.core.Logging;
@@ -48,6 +50,7 @@ import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.ApplicationMap;
 
@@ -70,6 +73,8 @@ public class AgentEnvironment extends Agent {
   private Address myAdr;
   
   private final AtomicBoolean freeze = new AtomicBoolean(false);
+  
+  private ArrayList<UUID> carArrived = new ArrayList<UUID>();
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
@@ -117,6 +122,9 @@ public class AgentEnvironment extends Agent {
     try {
       this.freeze.set(true);
       try {
+        this.computeCarArrived();
+        ArrayList<UUID> _arrayList = new ArrayList<UUID>();
+        this.carArrived = _arrayList;
         this.influences.set(0);
         this.environment.runBehaviour();
         float _simulationDelay = this.environment.getTimeManager().getSimulationDelay();
@@ -202,6 +210,33 @@ public class AgentEnvironment extends Agent {
     if (_greaterEqualsThan) {
       this.runEnvironmentBehavior();
     }
+  }
+  
+  @SyntheticMember
+  private void $behaviorUnit$DestinationReached$5(final DestinationReached occurrence) {
+    InputOutput.<String>println("Agent has reached his destination");
+    this.carArrived.add(occurrence.ID);
+  }
+  
+  protected void computeCarArrived() {
+    for (final UUID car : this.carArrived) {
+      this.removeAgentFromTheSimulation(car);
+    }
+  }
+  
+  /**
+   * Retire un agent de la simulation
+   * @param UUID de l'agent
+   */
+  protected void removeAgentFromTheSimulation(final UUID agentID) {
+    this.environment.removeAgentBodyFromList(agentID);
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    Destroy _destroy = new Destroy();
+    final Scope<Address> _function = (Address it) -> {
+      UUID _uUID = it.getUUID();
+      return Objects.equal(_uUID, agentID);
+    };
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_destroy, _function);
   }
   
   @Extension
@@ -292,6 +327,14 @@ public class AgentEnvironment extends Agent {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$InfluenceEvent$4(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$DestinationReached(final DestinationReached occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$DestinationReached$5(occurrence));
   }
   
   @SyntheticMember

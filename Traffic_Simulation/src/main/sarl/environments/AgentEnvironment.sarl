@@ -37,6 +37,8 @@ import io.sarl.util.OpenEventSpace
 import java.util.concurrent.atomic.AtomicBoolean
 import framework.environment.MotionInfluence
 import java.util.ArrayList
+import agents.DestinationReached
+import io.sarl.core.Destroy
 
 /** 
  * @author jerem
@@ -53,6 +55,8 @@ agent AgentEnvironment
 	var myAdr : Address
 	val freeze = new AtomicBoolean(false)
 		
+	var carArrived = new ArrayList<UUID>();	
+	
 	on Initialize 
 	{
 		while(!ApplicationMap.instance.isReady)
@@ -63,7 +67,7 @@ agent AgentEnvironment
 		var spaceId = (occurrence.parameters.get(0) as UUID)
 		this.^space = defaultContext.getSpace(spaceId)
 		this.^space.register(asEventListener)
-		this.myAdr = this.^space.getAddress(ID)
+		this.myAdr = this.^space.getAddress(this.ID)
 		
 		environment = new CityEnvironment()
 		ApplicationMap.instance.agentBodyLayer.list = environment.agentBodies;
@@ -93,8 +97,11 @@ agent AgentEnvironment
 	}
 
 	def runEnvironmentBehavior {
+		
 		this.freeze.set(true)
 		try {
+			computeCarArrived()
+			carArrived = new ArrayList<UUID>();
 			this.influences.set(0)
 			this.environment.runBehaviour
 			var delay = this.environment.timeManager.simulationDelay as long
@@ -152,7 +159,7 @@ agent AgentEnvironment
 		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
 	} 
 
-	on InfluenceEvent {		
+	on InfluenceEvent {
 		for (influence : occurrence.influences) {
 			var id = influence.emitter
 			if (id === null) {
@@ -167,5 +174,25 @@ agent AgentEnvironment
 		}
 	}
 
+	on DestinationReached {
+		println("Agent has reached his destination")
+		carArrived.add(occurrence.ID);
+	}
+
+	def computeCarArrived() {
+		for (car : this.carArrived) {
+			removeAgentFromTheSimulation(car)
+		}
+	}
+
+	/** 
+	 * Retire un agent de la simulation
+	 * @param UUID de l'agent
+	 */
+	def removeAgentFromTheSimulation(agentID : UUID) : void {
+		//var car = this.environment.agentBodies.findFirst[body | body.ID == id]
+		this.environment.removeAgentBodyFromList(agentID)
+		emit(new Destroy())[it.UUID == agentID]
+	}
 
 }

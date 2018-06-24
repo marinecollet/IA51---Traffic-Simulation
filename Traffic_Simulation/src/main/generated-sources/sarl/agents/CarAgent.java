@@ -1,5 +1,6 @@
 package agents;
 
+import agents.DestinationReached;
 import agents.pathAStar;
 import agents.requestAStar;
 import com.google.common.base.Objects;
@@ -17,6 +18,7 @@ import io.sarl.core.ContextLeft;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Destroy;
 import io.sarl.core.Initialize;
+import io.sarl.core.Lifecycle;
 import io.sarl.core.Logging;
 import io.sarl.core.MemberJoined;
 import io.sarl.core.MemberLeft;
@@ -56,7 +58,9 @@ public class CarAgent extends Agent {
   
   private double length;
   
-  private boolean isBegging = true;
+  private boolean isBeginning = true;
+  
+  private boolean isArrived = false;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
@@ -73,7 +77,11 @@ public class CarAgent extends Agent {
   @SyntheticMember
   private void $behaviorUnit$Destroy$1(final Destroy occurrence) {
     Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("VehicleAgent agent was stopped.");
+    UUID _iD = this.getID();
+    String _plus = ("VehicleAgent agent was stopped. " + _iD);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info(_plus);
+    Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
+    _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.killMe();
   }
   
   @SyntheticMember
@@ -111,15 +119,18 @@ public class CarAgent extends Agent {
     float _y = occurrence.body.getPosition().getY();
     Point2d currentPos = new Point2d(_x, _y);
     if ((Objects.equal(this.path, null) || this.path.isEmpty())) {
+      if ((!this.isBeginning)) {
+        this.destionationReached();
+      }
       DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
       InfluenceEvent _influenceEvent = new InfluenceEvent();
       _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_influenceEvent);
       return;
     }
     RoadSegment segment = this.path.get(0);
-    if (this.isBegging) {
+    if (this.isBeginning) {
       this.changeDirection(currentPos, segment);
-      this.isBegging = false;
+      this.isBeginning = false;
     }
     if (this.fromBeginToEnd) {
       float _maxLinearAcceleration = occurrence.body.getMaxLinearAcceleration();
@@ -137,6 +148,7 @@ public class CarAgent extends Agent {
       this.path.remove(0);
       boolean _isEmpty = this.path.isEmpty();
       if (_isEmpty) {
+        this.destionationReached();
         DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
         InfluenceEvent _influenceEvent_1 = new InfluenceEvent();
         _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.emit(_influenceEvent_1);
@@ -150,6 +162,7 @@ public class CarAgent extends Agent {
         this.path.remove(0);
         boolean _isEmpty_1 = this.path.isEmpty();
         if (_isEmpty_1) {
+          this.destionationReached();
           DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
           InfluenceEvent _influenceEvent_2 = new InfluenceEvent();
           _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2.emit(_influenceEvent_2);
@@ -179,6 +192,22 @@ public class CarAgent extends Agent {
     InfluenceEvent infEnv = new InfluenceEvent(influences);
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_3 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_3.emit(infEnv);
+  }
+  
+  private boolean destionationReached() {
+    boolean _xifexpression = false;
+    if ((!this.isArrived)) {
+      boolean _xblockexpression = false;
+      {
+        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+        UUID _iD = this.getID();
+        DestinationReached _destinationReached = new DestinationReached(_iD);
+        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_destinationReached);
+        _xblockexpression = this.isArrived = true;
+      }
+      _xifexpression = _xblockexpression;
+    }
+    return _xifexpression;
   }
   
   private double changeDirection(final Point2d currentPos, final RoadSegment segment) {
@@ -266,6 +295,21 @@ public class CarAgent extends Agent {
     return $castSkill(PhysicEnvironment.class, this.$CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT);
   }
   
+  @Extension
+  @ImportedCapacityFeature(Lifecycle.class)
+  @SyntheticMember
+  private transient ClearableReference<Skill> $CAPACITY_USE$IO_SARL_CORE_LIFECYCLE;
+  
+  @SyntheticMember
+  @Pure
+  @Inline(value = "$castSkill(Lifecycle.class, ($0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || $0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = $0$getSkill(Lifecycle.class)) : $0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE)", imported = Lifecycle.class)
+  private Lifecycle $CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER() {
+    if (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) {
+      this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = $getSkill(Lifecycle.class);
+    }
+    return $castSkill(Lifecycle.class, this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
+  }
+  
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$Initialize(final Initialize occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
@@ -350,32 +394,17 @@ public class CarAgent extends Agent {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    CarAgent other = (CarAgent) obj;
-    if (other.fromBeginToEnd != this.fromBeginToEnd)
-      return false;
-    if (Double.doubleToLongBits(other.length) != Double.doubleToLongBits(this.length))
-      return false;
-    if (other.isBegging != this.isBegging)
-      return false;
-    return super.equals(obj);
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + (this.fromBeginToEnd ? 1231 : 1237);
-    result = prime * result + (int) (Double.doubleToLongBits(this.length) ^ (Double.doubleToLongBits(this.length) >>> 32));
-    result = prime * result + (this.isBegging ? 1231 : 1237);
-    return result;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @SyntheticMember
