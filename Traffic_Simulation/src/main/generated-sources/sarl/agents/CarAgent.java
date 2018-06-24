@@ -410,35 +410,17 @@ public class CarAgent extends Agent {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    CarAgent other = (CarAgent) obj;
-    if (other.fromBeginToEnd != this.fromBeginToEnd)
-      return false;
-    if (Double.doubleToLongBits(other.length) != Double.doubleToLongBits(this.length))
-      return false;
-    if (other.isBeginning != this.isBeginning)
-      return false;
-    if (other.isArrived != this.isArrived)
-      return false;
-    return super.equals(obj);
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + (this.fromBeginToEnd ? 1231 : 1237);
-    result = prime * result + (int) (Double.doubleToLongBits(this.length) ^ (Double.doubleToLongBits(this.length) >>> 32));
-    result = prime * result + (this.isBeginning ? 1231 : 1237);
-    result = prime * result + (this.isArrived ? 1231 : 1237);
-    return result;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @SyntheticMember

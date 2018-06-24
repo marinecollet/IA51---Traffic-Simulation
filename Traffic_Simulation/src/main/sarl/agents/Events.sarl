@@ -51,3 +51,49 @@ event DestinationReached
 		this.ID = id;
 	}
 }
+
+event AskForLinkedFlashLights
+{
+	val ID : UUID
+
+	new(id : UUID) {
+		this.ID = id;
+	}
+}
+
+event GiveLinkedFlashLights
+{
+	var top : UUID;
+	var bottom : UUID;
+	var left : UUID;
+	var right : UUID;
+	
+	new(top : UUID, bottom : UUID, left : UUID, right : UUID) {
+		this.top = top;
+		this.bottom = bottom;
+		this.left= left;
+		this.right = right
+	}
+}
+
+event AskChangementFlashLight
+{
+	var deltaTime : double
+	
+	new (deltaTime : double){
+		this.deltaTime = deltaTime;
+	}
+}
+
+event ChangeTrafficLight
+{
+	var greens : ArrayList<UUID>
+	var oranges : ArrayList<UUID>
+	var reds : ArrayList<UUID>
+	
+	new(greens : ArrayList<UUID>, oranges : ArrayList<UUID>, reds : ArrayList<UUID>){
+		this.greens = greens;
+		this.oranges = oranges;
+		this.reds = reds;
+	}
+}

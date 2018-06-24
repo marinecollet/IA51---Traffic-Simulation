@@ -39,6 +39,11 @@ import framework.environment.MotionInfluence
 import java.util.ArrayList
 import agents.DestinationReached
 import io.sarl.core.Destroy
+import agents.TrafficLightControllerAgent
+import agents.AskChangementFlashLight
+import agents.AskForLinkedFlashLights
+import agents.GiveLinkedFlashLights
+import agents.ChangeTrafficLight
 
 /** 
  * @author jerem
@@ -56,7 +61,8 @@ agent AgentEnvironment
 	val freeze = new AtomicBoolean(false)
 	var spaceId : UUID
 	var spawnAgentDelay : double
-	var carArrived = new ArrayList<UUID>();	
+	var carArrived = new ArrayList<UUID>();
+	var trafficLightsControllers = new ArrayList<UUID>
 	
 	on Initialize 
 	{
@@ -87,6 +93,12 @@ agent AgentEnvironment
 		var agentParameters : List<Object> = newArrayList(spaceId, this.ID)
 		for (body : environment.agentBodies) {
 			spawnInContextWithID(typeof(CarAgent), body.ID, defaultContext, agentParameters.toArray)
+		}
+		for (var i = 0; i < environment.trafficLightsGroups.size; i++) {
+			var tlcontrollerID = UUID.randomUUID
+			spawnInContextWithID(typeof(TrafficLightControllerAgent), tlcontrollerID, defaultContext,
+				agentParameters.toArray)
+			trafficLightsControllers.add(tlcontrollerID);
 		}
 		emit(new SimulationAgentReady)		
 	}
@@ -127,7 +139,12 @@ agent AgentEnvironment
 		val timePercept = new TimePercept(
 			this.environment.timeManager.currentTime,
 			this.environment.timeManager.lastStepDuration);
-			
+
+		for (controller : trafficLightsControllers) {
+			var ev = new AskChangementFlashLight(timePercept.lastStepDuration);
+			emit(ev)[it.UUID == controller]
+		}
+		
 		for(body : environment.agentBodies){
 			var ev = new PerceptionEvent(
 				body.perceivedObjects,
@@ -188,8 +205,34 @@ agent AgentEnvironment
 			var body = this.environment.getAgentBodyFor(id)
 			body.influence(influence)
 		}
+		waitAllAgentsInfluences
+	}
+
+	on AskForLinkedFlashLights {
+		var trafficLightsGroups = environment.trafficLightsGroups
+		if (trafficLightsGroups.size > 0) {
+			var group = trafficLightsGroups.remove(0);
+			var ev = new GiveLinkedFlashLights(group.get(0).ID, group.get(1).ID, group.get(2).ID, group.get(3).ID)
+			emit(ev)[it.UUID == occurrence.ID];
+		}
+	}
+	
+	on ChangeTrafficLight {
+		for (green : occurrence.greens) {
+			this.environment.setStateTrafficLight(TrafficLightColor.GREEN, green);
+		}
+		for (orange : occurrence.oranges) {
+			this.environment.setStateTrafficLight(TrafficLightColor.ORANGE, orange);
+		}
+		for (red : occurrence.reds) {
+			this.environment.setStateTrafficLight(TrafficLightColor.RED, red);
+		}
+		waitAllAgentsInfluences
+	}
+
+	def waitAllAgentsInfluences() {
 		var v = this.influences.incrementAndGet
-		if (v >= this.environment.getAgentBodyNumber()) {
+		if (v >= (this.environment.getAgentBodyNumber() + trafficLightsControllers.size)) {
 			runEnvironmentBehavior
 		}
 	}

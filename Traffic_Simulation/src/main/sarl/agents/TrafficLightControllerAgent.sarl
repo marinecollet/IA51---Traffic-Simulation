@@ -12,18 +12,30 @@ import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
+import java.util.UUID
+import io.sarl.core.DefaultContextInteractions
+import java.util.ArrayList
 
 /** 
  * @author jerem
  * 
  */
 agent TrafficLightControllerAgent {
-	uses Logging
+	uses Logging, DefaultContextInteractions
+
+	var top : UUID;
+	var bottom : UUID;
+	var left : UUID;
+	var right : UUID;
+
+	var time : double
 
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
-		info("The agent was started.")
+		info("FlashLightControllerAgent was started.")
+		time = 0
+		emit(new AskForLinkedFlashLights(this.ID))
 	}
 
 	on Destroy {
@@ -32,31 +44,55 @@ agent TrafficLightControllerAgent {
 		info("The agent was stopped.")
 	}
 
-	on AgentSpawned {
-		// A new agent has been spawned in our context.
+	on GiveLinkedFlashLights
+	{
+		top = occurrence.top;
+		bottom = occurrence.bottom
+		left = occurrence.left;
+		right = occurrence.right
 	}
+	
+	on AskChangementFlashLight
+	{
+		
+		time += occurrence.deltaTime;
+		var greens = new ArrayList<UUID>
+		var oranges = new ArrayList<UUID>
+		var reds = new ArrayList<UUID>
+		
+		if(time >= 0 && time < 400){
+			greens.add(top);
+			greens.add(bottom);
+		}
+		if(time >= 400 && time < 600){
+			oranges.add(top);
+			oranges.add(bottom);
+		}
+		if(time > 600){
+			reds.add(top);
+			reds.add(bottom);
+		}
 
-	on AgentKilled {
-		// A new agent has been killed in our context.
+		if (time >= 0 && time < 600) {
+			reds.add(left);
+			reds.add(right);
+		}
+		if (time >= 600 && time < 1000) {
+			greens.add(left);
+			greens.add(right);
+		}
+		if (time > 1000) {
+			oranges.add(left);
+			oranges.add(right);
+		}
+		
+		if(time >= 1200){
+			time = 0;
+		}
+		
+		emit(new ChangeTrafficLight(greens,oranges,reds));
 	}
-
-	on ContextJoined {
-		// Event trigger when an agent of the level joins a shared context.
-		// Sent to a agent of the same level.
-	}
-
-	on ContextLeft {
-		// Event trigger when an agent of the level jleaves a shared context.
-		// Sent to a agent of the same level.
-	}
-
-	on MemberJoined {
-		// Event trigger when an agent joins one of our shared super-holons.
-		// Sent to all members of the considered super-holon.
-	}
-
-	on MemberLeft {
-		// Event trigger when an agent leaves one of our shared super-holons.
-		// Sent to all members of the considered super-holon.
-	}
+	
+	
 }
+

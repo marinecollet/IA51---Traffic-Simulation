@@ -1,5 +1,6 @@
 package environments;
 
+import com.google.common.base.Objects;
 import environments.Car;
 import environments.EnvironmentObject;
 import environments.RoadSegmentData;
@@ -21,6 +22,7 @@ import framework.time.TimeManager;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,6 +39,8 @@ import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.ExclusiveRange;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.ApplicationMap;
 
@@ -144,6 +148,8 @@ public class CityEnvironment extends AbstractEnvironment {
   
   private ArrayList<TrafficLight> trafficLights = new ArrayList<TrafficLight>();
   
+  private ArrayList<TrafficLight[]> trafficLigtsGroups = new ArrayList<TrafficLight[]>();
+  
   public CityEnvironment() {
     super(Map.WIDTH, Map.HEIGHT, new StepTimeManager(500));
     RoadSegmentDataCollection _roadSegmentDataCollection = new RoadSegmentDataCollection();
@@ -230,6 +236,9 @@ public class CityEnvironment extends AbstractEnvironment {
           } else {
             if (((cpt).intValue() > 3)) {
               HashSet<RoadSegmentData> segments_1 = this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+              Object _newInstance = Array.newInstance(TrafficLight.class, 4);
+              TrafficLight[] group = ((TrafficLight[]) _newInstance);
+              int groupIndex = 0;
               for (final RoadSegmentData segment_1 : segments_1) {
                 Point2d _beginPoint_1 = segment_1.getBeginPoint();
                 Point2d _point_2 = key.getPoint();
@@ -244,6 +253,8 @@ public class CityEnvironment extends AbstractEnvironment {
                   trafficLight.changeColor(TrafficLightColor.GREEN);
                   this.trafficLights.add(trafficLight);
                   segment_1.setObjectAtStart(trafficLight);
+                  group[groupIndex] = trafficLight;
+                  groupIndex++;
                 } else {
                   Point2d _endPoint_1 = segment_1.getEndPoint();
                   Point2d _point_3 = key.getPoint();
@@ -262,9 +273,12 @@ public class CityEnvironment extends AbstractEnvironment {
                     trafficLight.changeColor(TrafficLightColor.GREEN);
                     this.trafficLights.add(trafficLight);
                     segment_1.setObjectAtEnd(trafficLight);
+                    group[groupIndex] = trafficLight;
+                    groupIndex++;
                   }
                 }
               }
+              this.trafficLigtsGroups.add(group);
             }
           }
         }
@@ -330,6 +344,23 @@ public class CityEnvironment extends AbstractEnvironment {
   
   public AgentBody removeAgentBodyFromList(final UUID agentID) {
     return this.removeAgentBody(agentID);
+  }
+  
+  @Pure
+  public ArrayList<TrafficLight[]> getTrafficLightsGroups() {
+    return this.trafficLigtsGroups;
+  }
+  
+  public void setStateTrafficLight(final TrafficLightColor state, final UUID trafficLightID) {
+    final Function1<TrafficLight, Boolean> _function = (TrafficLight tl) -> {
+      UUID _iD = tl.getID();
+      return Boolean.valueOf(Objects.equal(_iD, trafficLightID));
+    };
+    TrafficLight trafficLight = IterableExtensions.<TrafficLight>findFirst(this.trafficLights, _function);
+    boolean _notEquals = (!Objects.equal(trafficLight, null));
+    if (_notEquals) {
+      trafficLight.changeColor(state);
+    }
   }
   
   @Pure

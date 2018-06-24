@@ -1,11 +1,18 @@
 package environments;
 
+import agents.AskChangementFlashLight;
+import agents.AskForLinkedFlashLights;
 import agents.CarAgent;
+import agents.ChangeTrafficLight;
 import agents.DestinationReached;
+import agents.GiveLinkedFlashLights;
+import agents.TrafficLightControllerAgent;
 import agents.pathAStar;
 import agents.requestAStar;
 import com.google.common.base.Objects;
 import environments.CityEnvironment;
+import environments.TrafficLight;
+import environments.TrafficLightColor;
 import framework.environment.AgentBody;
 import framework.environment.Influence;
 import framework.environment.InfluenceEvent;
@@ -80,6 +87,8 @@ public class AgentEnvironment extends Agent {
   
   private ArrayList<UUID> carArrived = new ArrayList<UUID>();
   
+  private ArrayList<UUID> trafficLightsControllers = new ArrayList<UUID>();
+  
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     while ((!ApplicationMap.getInstance().getIsReady())) {
@@ -108,6 +117,16 @@ public class AgentEnvironment extends Agent {
       Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
       DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
       _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawnInContextWithID(CarAgent.class, body.getID(), _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.getDefaultContext(), agentParameters.toArray());
+    }
+    for (int i = 0; (i < this.environment.getTrafficLightsGroups().size()); i++) {
+      {
+        UUID tlcontrollerID = UUID.randomUUID();
+        Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER_1 = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
+        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+        _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER_1.spawnInContextWithID(TrafficLightControllerAgent.class, tlcontrollerID, _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2.getDefaultContext(), 
+          agentParameters.toArray());
+        this.trafficLightsControllers.add(tlcontrollerID);
+      }
     }
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     SimulationAgentReady _simulationAgentReady = new SimulationAgentReady();
@@ -159,6 +178,18 @@ public class AgentEnvironment extends Agent {
     float _currentTime = this.environment.getTimeManager().getCurrentTime();
     float _lastStepDuration = this.environment.getTimeManager().getLastStepDuration();
     final TimePercept timePercept = new TimePercept(_currentTime, _lastStepDuration);
+    for (final UUID controller : this.trafficLightsControllers) {
+      {
+        float _lastStepDuration_1 = timePercept.getLastStepDuration();
+        AskChangementFlashLight ev = new AskChangementFlashLight(_lastStepDuration_1);
+        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+        final Scope<Address> _function = (Address it) -> {
+          UUID _uUID = it.getUUID();
+          return Objects.equal(_uUID, controller);
+        };
+        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(ev, _function);
+      }
+    }
     Iterable<AgentBody> _agentBodies = this.environment.getAgentBodies();
     for (final AgentBody body : _agentBodies) {
       {
@@ -245,16 +276,57 @@ public class AgentEnvironment extends Agent {
         body.influence(influence);
       }
     }
+    this.waitAllAgentsInfluences();
+  }
+  
+  @SyntheticMember
+  private void $behaviorUnit$AskForLinkedFlashLights$5(final AskForLinkedFlashLights occurrence) {
+    ArrayList<TrafficLight[]> trafficLightsGroups = this.environment.getTrafficLightsGroups();
+    int _size = trafficLightsGroups.size();
+    boolean _greaterThan = (_size > 0);
+    if (_greaterThan) {
+      TrafficLight[] group = trafficLightsGroups.remove(0);
+      UUID _iD = group[0].getID();
+      UUID _iD_1 = group[1].getID();
+      UUID _iD_2 = group[2].getID();
+      UUID _iD_3 = group[3].getID();
+      GiveLinkedFlashLights ev = new GiveLinkedFlashLights(_iD, _iD_1, _iD_2, _iD_3);
+      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+      final Scope<Address> _function = (Address it) -> {
+        UUID _uUID = it.getUUID();
+        return Objects.equal(_uUID, occurrence.ID);
+      };
+      _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(ev, _function);
+    }
+  }
+  
+  @SyntheticMember
+  private void $behaviorUnit$ChangeTrafficLight$6(final ChangeTrafficLight occurrence) {
+    for (final UUID green : occurrence.greens) {
+      this.environment.setStateTrafficLight(TrafficLightColor.GREEN, green);
+    }
+    for (final UUID orange : occurrence.oranges) {
+      this.environment.setStateTrafficLight(TrafficLightColor.ORANGE, orange);
+    }
+    for (final UUID red : occurrence.reds) {
+      this.environment.setStateTrafficLight(TrafficLightColor.RED, red);
+    }
+    this.waitAllAgentsInfluences();
+  }
+  
+  protected void waitAllAgentsInfluences() {
     int v = this.influences.incrementAndGet();
     int _agentBodyNumber = this.environment.getAgentBodyNumber();
-    boolean _greaterEqualsThan = (v >= _agentBodyNumber);
+    int _size = this.trafficLightsControllers.size();
+    int _plus = (_agentBodyNumber + _size);
+    boolean _greaterEqualsThan = (v >= _plus);
     if (_greaterEqualsThan) {
       this.runEnvironmentBehavior();
     }
   }
   
   @SyntheticMember
-  private void $behaviorUnit$DestinationReached$5(final DestinationReached occurrence) {
+  private void $behaviorUnit$DestinationReached$7(final DestinationReached occurrence) {
     InputOutput.<String>println("Agent has reached his destination");
     this.carArrived.add(occurrence.ID);
   }
@@ -372,10 +444,26 @@ public class AgentEnvironment extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
+  private void $guardEvaluator$AskForLinkedFlashLights(final AskForLinkedFlashLights occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AskForLinkedFlashLights$5(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
   private void $guardEvaluator$DestinationReached(final DestinationReached occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$DestinationReached$5(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$DestinationReached$7(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$ChangeTrafficLight(final ChangeTrafficLight occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ChangeTrafficLight$6(occurrence));
   }
   
   @SyntheticMember

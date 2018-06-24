@@ -31,6 +31,7 @@ import framework.math.Vector2f
 import framework.environment.DynamicType
 import java.util.UUID
 import org.w3c.dom.ranges.Range
+import java.lang.reflect.Array
 
 /** 
  * @author jerem
@@ -53,6 +54,7 @@ class CityEnvironment extends AbstractEnvironment{
 	var entryExitConnections = new ArrayList<RoadConnection>();
 
 	var trafficLights = new ArrayList<TrafficLight>
+	var trafficLigtsGroups = new ArrayList<TrafficLight[]>
 	
 	
 	new(){
@@ -139,6 +141,8 @@ class CityEnvironment extends AbstractEnvironment{
 				/** Get all road segments data that are in this connection
 				 */
 				var segments = roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+				var group = Array::newInstance(typeof(TrafficLight), 4) as TrafficLight[];
+				var groupIndex : int = 0;
 				
 				for (segment : segments) 
 				{	
@@ -151,6 +155,8 @@ class CityEnvironment extends AbstractEnvironment{
 						trafficLights.add(trafficLight);
 						
 						segment.objectAtStart = trafficLight;
+						group.set(groupIndex, trafficLight);
+						groupIndex++;
 					} 
 					else if (segment.endPoint == key.point) 
 					{
@@ -161,8 +167,11 @@ class CityEnvironment extends AbstractEnvironment{
 						trafficLights.add(trafficLight);
 						
 						segment.objectAtEnd = trafficLight;
+						group.set(groupIndex, trafficLight);
+						groupIndex++;
 					}
 				}
+				trafficLigtsGroups.add(group);
 			}
 		}
 	}
@@ -215,6 +224,17 @@ class CityEnvironment extends AbstractEnvironment{
 
 	def removeAgentBodyFromList(agentID : UUID) {
 		removeAgentBody(agentID)
+	}
+
+	def getTrafficLightsGroups : ArrayList<TrafficLight[]> {
+		return trafficLigtsGroups
+	}
+
+	def setStateTrafficLight(state : TrafficLightColor, trafficLightID : UUID) {
+		var trafficLight = trafficLights.findFirst[tl|tl.ID == trafficLightID];
+		if (trafficLight != null) {
+			trafficLight.changeColor(state)
+		}
 	}
 
 	def getTrafficLights() : ArrayList<TrafficLight>{
