@@ -102,26 +102,17 @@ public class CityEnvironment extends AbstractEnvironment {
     @Pure
     @SyntheticMember
     public boolean equals(final Object obj) {
-      if (this == obj)
-        return true;
-      if (obj == null)
-        return false;
-      if (getClass() != obj.getClass())
-        return false;
-      AnimatAction other = (AnimatAction) obj;
-      if (Float.floatToIntBits(other.rotation) != Float.floatToIntBits(this.rotation))
-        return false;
-      return super.equals(obj);
+      throw new Error("Unresolved compilation problems:"
+        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
     }
     
     @Override
     @Pure
     @SyntheticMember
     public int hashCode() {
-      int result = super.hashCode();
-      final int prime = 31;
-      result = prime * result + Float.floatToIntBits(this.rotation);
-      return result;
+      throw new Error("Unresolved compilation problems:"
+        + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
     }
   }
   
@@ -304,7 +295,7 @@ public class CityEnvironment extends AbstractEnvironment {
     return this.entryExitConnections;
   }
   
-  public void createAgentBody() {
+  public UUID createAgentBody() {
     double _random = Math.random();
     int _size = this.entryExitConnections.size();
     double _multiply = (_random * _size);
@@ -320,6 +311,7 @@ public class CityEnvironment extends AbstractEnvironment {
     Point2f _point2f = new Point2f(_x, _y);
     Car car = new Car(_point2f, 50, 20, 10, 10);
     this.addAgentBody(car, car.getPosition(), car.getAngle());
+    return car.getID();
   }
   
   public AgentBody removeAgentBodyFromList(final UUID agentID) {

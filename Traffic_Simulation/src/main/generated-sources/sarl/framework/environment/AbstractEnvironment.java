@@ -147,17 +147,12 @@ public abstract class AbstractEnvironment implements Environment {
   }
   
   protected synchronized void addAgentBody(final AgentBody body, final Point2f position, final float direction) {
-    boolean _get = this.init.get();
-    if (_get) {
-      synchronized (this.agentBodyList) {
-        this.agentBodyList.put(body.getID(), body);
-      }
-      body.setPosition(position);
-      body.setAngle(direction);
-      this.onAgentBodyCreated(body);
-    } else {
-      throw new IllegalStateException("You cannot call this function after the start of the simulation");
+    synchronized (this.agentBodyList) {
+      this.agentBodyList.put(body.getID(), body);
     }
+    body.setPosition(position);
+    body.setAngle(direction);
+    this.onAgentBodyCreated(body);
   }
   
   protected synchronized AgentBody removeAgentBody(final UUID agentID) {
@@ -319,7 +314,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the linear instant motion.
    */
-  @Pure
   protected final Vector2f computeSteeringTranslation(final MobileObject obj, final Vector2f move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeSteeringTranslation(move, clock);
@@ -336,7 +330,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the linear instant motion.
    */
-  @Pure
   protected final Vector2f computeKinematicTranslation(final MobileObject obj, final Vector2f move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeKinematicTranslation(move, clock);
@@ -353,7 +346,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the angular instant motion.
    */
-  @Pure
   protected final float computeKinematicRotation(final MobileObject obj, final float move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeKinematicRotation(move, clock);
@@ -370,7 +362,6 @@ public abstract class AbstractEnvironment implements Environment {
    * @param clock is the simulation time manager
    * @return the angular instant motion.
    */
-  @Pure
   protected final float computeSteeringRotation(final MobileObject obj, final float move, final TimeManager clock) {
     if ((obj instanceof AbstractMobileObject)) {
       return ((AbstractMobileObject)obj).computeSteeringRotation(move, clock);
@@ -402,28 +393,16 @@ public abstract class AbstractEnvironment implements Environment {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    AbstractEnvironment other = (AbstractEnvironment) obj;
-    if (Float.floatToIntBits(other.width) != Float.floatToIntBits(this.width))
-      return false;
-    if (Float.floatToIntBits(other.height) != Float.floatToIntBits(this.height))
-      return false;
-    return super.equals(obj);
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + Float.floatToIntBits(this.width);
-    result = prime * result + Float.floatToIntBits(this.height);
-    return result;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
 }
