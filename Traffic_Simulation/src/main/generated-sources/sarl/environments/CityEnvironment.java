@@ -302,7 +302,7 @@ public class CityEnvironment extends AbstractEnvironment {
     return this.entryExitConnections;
   }
   
-  public void createAgentBody() {
+  public UUID createAgentBody() {
     double _random = Math.random();
     int _size = this.entryExitConnections.size();
     double _multiply = (_random * _size);
@@ -318,6 +318,7 @@ public class CityEnvironment extends AbstractEnvironment {
     Point2f _point2f = new Point2f(_x, _y);
     Car car = new Car(_point2f, 50, 20, 10, 10);
     this.addAgentBody(car, car.getPosition(), car.getAngle());
+    return car.getID();
   }
   
   public AgentBody removeAgentBodyFromList(final UUID agentID) {

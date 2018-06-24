@@ -194,7 +194,7 @@ class CityEnvironment extends AbstractEnvironment{
 		return entryExitConnections;
 	}
 	
-	def createAgentBody() {
+	def createAgentBody() : UUID {
 		var random = (Math.random()* entryExitConnections.size) as int
 		while (random == 3)
 			random = (Math.random() * entryExitConnections.size) as int
@@ -204,6 +204,8 @@ class CityEnvironment extends AbstractEnvironment{
 			entryExitConnections.get(random).point.y
 		), 50, 20, 10, 10)
 		addAgentBody(car,car.position,car.angle)
+		
+		return car.ID;
 	}
 
 	def removeAgentBodyFromList(agentID : UUID) {

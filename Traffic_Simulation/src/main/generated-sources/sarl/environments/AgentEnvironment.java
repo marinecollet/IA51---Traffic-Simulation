@@ -74,6 +74,10 @@ public class AgentEnvironment extends Agent {
   
   private final AtomicBoolean freeze = new AtomicBoolean(false);
   
+  private UUID spaceId;
+  
+  private double spawnAgentDelay;
+  
   private ArrayList<UUID> carArrived = new ArrayList<UUID>();
   
   @SyntheticMember
@@ -89,6 +93,9 @@ public class AgentEnvironment extends Agent {
     Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
     this.space.register(_$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER.asEventListener());
     this.myAdr = this.space.getAddress(this.getID());
+    Object _get_1 = occurrence.parameters[0];
+    spaceId = ((UUID) _get_1);
+    this.spawnAgentDelay = 0;
     CityEnvironment _cityEnvironment = new CityEnvironment();
     this.environment = _cityEnvironment;
     ApplicationMap.getInstance().agentBodyLayer.setList(this.environment.getAgentBodies());
@@ -129,8 +136,14 @@ public class AgentEnvironment extends Agent {
         this.environment.runBehaviour();
         float _simulationDelay = this.environment.getTimeManager().getSimulationDelay();
         long delay = ((long) _simulationDelay);
+        double _spawnAgentDelay = this.spawnAgentDelay;
+        this.spawnAgentDelay = (_spawnAgentDelay + delay);
         if ((delay > 0)) {
           Thread.sleep(delay);
+        }
+        if ((this.spawnAgentDelay > 5000)) {
+          this.initNewAgent();
+          this.spawnAgentDelay = 0;
         }
       } finally {
         this.freeze.set(false);
@@ -163,6 +176,18 @@ public class AgentEnvironment extends Agent {
     }
   }
   
+  protected UUID initNewAgent() {
+    UUID _xblockexpression = null;
+    {
+      UUID agentID = this.environment.createAgentBody();
+      List<Object> agentParameters = CollectionLiterals.<Object>newArrayList(this.spaceId, this.getID());
+      Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
+      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+      _xblockexpression = _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawnInContextWithID(CarAgent.class, agentID, _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.getDefaultContext(), agentParameters.toArray());
+    }
+    return _xblockexpression;
+  }
+  
   @SyntheticMember
   private void $behaviorUnit$requestAStar$3(final requestAStar occurrence) {
     UUID agentUUID = occurrence.ID;
@@ -180,8 +205,23 @@ public class AgentEnvironment extends Agent {
     float _y = startPosition.getY();
     Point2d startPoint = new Point2d(_x, _y);
     ArrayList<RoadConnection> entryConnections = this.environment.getEntryExitConnections();
-    Point2d _point = entryConnections.get(3).getPoint();
+    double _random = Math.random();
+    int _size = this.environment.getEntryExitConnections().size();
+    double _multiply = (_random * _size);
+    int random = ((int) _multiply);
+    Point2d _point = entryConnections.get(random).getPoint();
     Point2d endPoint = new Point2d(_point);
+    while (endPoint.operator_equals(startPoint)) {
+      {
+        double _random_1 = Math.random();
+        int _size_1 = this.environment.getEntryExitConnections().size();
+        double _multiply_1 = (_random_1 * _size_1);
+        random = ((int) _multiply_1);
+        Point2d _point_1 = entryConnections.get(random).getPoint();
+        Point2d _point2d = new Point2d(_point_1);
+        endPoint = _point2d;
+      }
+    }
     ArrayList<RoadSegment> path = PathUtils.GPS(startPoint, endPoint, this.environment.getRoadNetwork());
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     pathAStar _pathAStar = new pathAStar(path);
@@ -357,6 +397,18 @@ public class AgentEnvironment extends Agent {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    AgentEnvironment other = (AgentEnvironment) obj;
+    if (!java.util.Objects.equals(this.spaceId, other.spaceId)) {
+      return false;
+    }
+    if (Double.doubleToLongBits(other.spawnAgentDelay) != Double.doubleToLongBits(this.spawnAgentDelay))
+      return false;
     return super.equals(obj);
   }
   
@@ -365,6 +417,9 @@ public class AgentEnvironment extends Agent {
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
+    final int prime = 31;
+    result = prime * result + java.util.Objects.hashCode(this.spaceId);
+    result = prime * result + (int) (Double.doubleToLongBits(this.spawnAgentDelay) ^ (Double.doubleToLongBits(this.spawnAgentDelay) >>> 32));
     return result;
   }
   

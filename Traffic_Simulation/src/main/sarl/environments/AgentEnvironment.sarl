@@ -54,7 +54,8 @@ agent AgentEnvironment
 	var ^space : OpenEventSpace
 	var myAdr : Address
 	val freeze = new AtomicBoolean(false)
-		
+	var spaceId : UUID
+	var spawnAgentDelay : double
 	var carArrived = new ArrayList<UUID>();	
 	
 	on Initialize 
@@ -68,6 +69,8 @@ agent AgentEnvironment
 		this.^space = defaultContext.getSpace(spaceId)
 		this.^space.register(asEventListener)
 		this.myAdr = this.^space.getAddress(this.ID)
+		spaceId = (occurrence.parameters.get(0) as UUID)
+		spawnAgentDelay = 0;
 		
 		environment = new CityEnvironment()
 		ApplicationMap.instance.agentBodyLayer.list = environment.agentBodies;
@@ -105,8 +108,13 @@ agent AgentEnvironment
 			this.influences.set(0)
 			this.environment.runBehaviour
 			var delay = this.environment.timeManager.simulationDelay as long
+			spawnAgentDelay += delay;
 			if (delay > 0) {
 				Thread::sleep(delay)
+			}
+			if (spawnAgentDelay > 5000) {
+				initNewAgent();
+				spawnAgentDelay = 0
 			}
 		} finally {
 			this.freeze.set(false)
@@ -130,6 +138,12 @@ agent AgentEnvironment
 		}
 	}
 
+	def initNewAgent(){
+		var agentID = environment.createAgentBody();
+		var agentParameters : List<Object> = newArrayList(spaceId, this.ID)
+		spawnInContextWithID(typeof(CarAgent),agentID, defaultContext, agentParameters.toArray)
+	}
+
 	/** 
 	 * @author Marine
 	 * 
@@ -137,27 +151,32 @@ agent AgentEnvironment
 	 * When the environment receive a perception's request from an agent, he sends back the list of perception
 	 * 
 	 */
-	on requestAStar 
-	{
+	on requestAStar {
 		var agentUUID = occurrence.ID;
 		var startPosition : Point2f
 
-		for(body : environment.agentBodies){
-			if(body.ID == agentUUID){
+		for (body : environment.agentBodies) {
+			if (body.ID == agentUUID) {
 				startPosition = body.position
-				break;	
+				break;
 			}
-			
+
 		}
 		var startPoint = new Point2d(startPosition.x, startPosition.y);
-		//environment = new CityEnvironment();
-		
+		// environment = new CityEnvironment();
 		var entryConnections = environment.getEntryExitConnections();
-		var endPoint = new Point2d(entryConnections.get(3).getPoint());
+
+		var random = (Math.random() * environment.entryExitConnections.size) as int
+		var endPoint = new Point2d(entryConnections.get(random).getPoint());
+		while (endPoint == startPoint) {
+			random = (Math.random() * environment.entryExitConnections.size) as int
+			endPoint = new Point2d(entryConnections.get(random).getPoint());
+		}
+
 		var path = PathUtils.GPS(startPoint, endPoint, environment.roadNetwork);
-	
+
 		emit(new pathAStar(path))[it == occurrence.source]; 	// Send the path only to the agent who did the request
-	} 
+	}
 
 	on InfluenceEvent {
 		for (influence : occurrence.influences) {

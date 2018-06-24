@@ -147,17 +147,12 @@ public abstract class AbstractEnvironment implements Environment {
   }
   
   protected synchronized void addAgentBody(final AgentBody body, final Point2f position, final float direction) {
-    boolean _get = this.init.get();
-    if (_get) {
-      synchronized (this.agentBodyList) {
-        this.agentBodyList.put(body.getID(), body);
-      }
-      body.setPosition(position);
-      body.setAngle(direction);
-      this.onAgentBodyCreated(body);
-    } else {
-      throw new IllegalStateException("You cannot call this function after the start of the simulation");
+    synchronized (this.agentBodyList) {
+      this.agentBodyList.put(body.getID(), body);
     }
+    body.setPosition(position);
+    body.setAngle(direction);
+    this.onAgentBodyCreated(body);
   }
   
   protected synchronized AgentBody removeAgentBody(final UUID agentID) {
