@@ -39,7 +39,6 @@ import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -173,18 +172,10 @@ public class CarAgent extends Agent {
     if ((this.fromBeginToEnd && (this.length >= segment.getLength()))) {
       this.length = 0;
     }
-    double _x_4 = currentPos.getX();
-    float _x_5 = direction.getX();
-    double _plus_1 = (_x_4 + _x_5);
-    double _y_4 = currentPos.getY();
-    float _y_5 = direction.getY();
-    double _plus_2 = (_y_4 + _y_5);
-    Point2d tmp = new Point2d(_plus_1, _plus_2);
-    InputOutput.<Boolean>println(Boolean.valueOf(segment.contains(tmp)));
     Object _newInstance = Array.newInstance(Influence.class, 1);
     Influence[] influences = ((Influence[]) _newInstance);
     UUID _iD = this.getID();
-    MotionInfluence _motionInfluence = new MotionInfluence(DynamicType.STEERING, _iD, direction, 0);
+    MotionInfluence _motionInfluence = new MotionInfluence(DynamicType.KINEMATIC, _iD, direction, 0);
     influences[0] = _motionInfluence;
     InfluenceEvent infEnv = new InfluenceEvent(influences);
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_3 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);

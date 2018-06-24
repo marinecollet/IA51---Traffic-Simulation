@@ -26,7 +26,6 @@ import framework.math.Vector2f
 import framework.^agent.PhysicEnvironment
 import framework.math.MathUtil
 import framework.^agent.StandardPhysicEnvironment
-import java.util.UUID
 import framework.math.Point2f
 import framework.environment.InfluenceEvent
 import java.util.ArrayList
@@ -158,16 +157,12 @@ agent CarAgent {
 		var newPos = new Vector2f(segment.getGeoLocationForDistance(length).x,
 			segment.getGeoLocationForDistance(length).y)
 		var direction = new Vector2f((newPos.x - currentPos.x)*0.1f,(newPos.y - currentPos.y)*0.1f)
-
 		//println(length + " - " + segment.length + " - "+ direction)
 	
 		if (fromBeginToEnd && length >= segment.length) {
 			length = 0
 		}
 
-		
-		var tmp = new Point2d(currentPos.x + direction.x,currentPos.y + direction.y);
-		println(segment.contains(tmp))
 
 		/*var direction : Vector2f
 		if(fromBeginToEnd){
@@ -177,18 +172,17 @@ agent CarAgent {
 			direction =	new Vector2f(path.get(0).endPoint.point.x - occurrence.body.position.x, path.get(0).endPoint.point.y - occurrence.body.position.y); 
 		}*/
 		var influences = Array::newInstance(typeof(Influence),1) as Influence[];
-		influences.set(0, new MotionInfluence(DynamicType::STEERING, this.ID, direction, 0))
+		influences.set(0, new MotionInfluence(DynamicType::KINEMATIC, this.ID , direction, 0))
 		var infEnv = new InfluenceEvent(influences)
 		
 		//infEnv.influences.add()
 		
 		emit(infEnv); 
 	}
-	
 	private def changeDirection(currentPos : Point2d) {
-		var distanceB = new Vector2f(path.get(0).beginPoint.point.x - currentPos.x, path.get(0).beginPoint.point.y - currentPos.y)
-		var distanceE = new Vector2f(path.get(0).endPoint.point.x - currentPos.x, path.get(0).endPoint.point.y -
-			currentPos.y)
+		var distanceB = new Vector2f(path.get(0).beginPoint.point.x - currentPos.x,	path.get(0).beginPoint.point.y - currentPos.y)
+
+		var distanceE = new Vector2f(path.get(0).endPoint.point.x - currentPos.x, path.get(0).endPoint.point.y - currentPos.y)
 
 		if (distanceB < distanceE) {
 			fromBeginToEnd = true;
