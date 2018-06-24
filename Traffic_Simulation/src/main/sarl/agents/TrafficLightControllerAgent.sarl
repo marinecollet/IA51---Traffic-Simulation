@@ -3,20 +3,20 @@
  */
 package agents
 
-
 import io.sarl.core.Destroy
 import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import java.util.UUID
 import io.sarl.core.DefaultContextInteractions
 import java.util.ArrayList
+import io.sarl.core.Lifecycle
 
 /** 
  * Traffic Light controller agent
  * 
  */
 agent TrafficLightControllerAgent {
-	uses Logging, DefaultContextInteractions
+	uses Logging, DefaultContextInteractions, Lifecycle
 
 	/*
 	 * Top traffic light
@@ -44,17 +44,14 @@ agent TrafficLightControllerAgent {
 	var time : double
 
 	on Initialize {
-		// Event trigger before the agent begin to live or to be used.
-		// You should put all the initialization statements in this block of code.
-		info("FlashLightControllerAgent was started.")
+		//info("FlashLightControllerAgent was started.")
 		time = 0;
 		emit(new AskForLinkedFlashLights(this.ID))
 	}
 
 	on Destroy {
-		// Event trigger when the agent is destroyed from the system.
-		// You should put all the resource releasing statements in this block of code.
-		info("The agent was stopped.")
+		//info("The agent was stopped.")
+		killMe
 	}
 
 	/* 

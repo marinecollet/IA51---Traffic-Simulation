@@ -5,7 +5,6 @@ package agents
 
 import java.util.ArrayList
 import org.arakhne.afc.gis.road.primitive.RoadSegment
-import org.arakhne.afc.math.geometry.d2.d.Point2d
 import java.util.UUID
 
 /** 

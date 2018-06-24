@@ -6,7 +6,6 @@ import agents.requestAStar;
 import com.google.common.base.Objects;
 import environments.TrafficLight;
 import environments.TrafficLightColor;
-import framework.agent.PhysicEnvironment;
 import framework.environment.DynamicType;
 import framework.environment.Influence;
 import framework.environment.InfluenceEvent;
@@ -16,17 +15,11 @@ import framework.environment.PerceptionEvent;
 import framework.environment.SituatedObject;
 import framework.math.Point2f;
 import framework.math.Vector2f;
-import io.sarl.core.AgentKilled;
-import io.sarl.core.AgentSpawned;
-import io.sarl.core.ContextJoined;
-import io.sarl.core.ContextLeft;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Destroy;
 import io.sarl.core.Initialize;
 import io.sarl.core.Lifecycle;
 import io.sarl.core.Logging;
-import io.sarl.core.MemberJoined;
-import io.sarl.core.MemberLeft;
 import io.sarl.lang.annotation.ImportedCapacityFeature;
 import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
@@ -51,28 +44,44 @@ import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
- * @author jerem
+ * Car Agent
  */
 @SarlSpecification("0.7")
 @SarlElementType(18)
 @SuppressWarnings("all")
 public class CarAgent extends Agent {
+  /**
+   * Type of behavior to follow concerning the movement
+   */
   private DynamicType behaviorType;
   
+  /**
+   * Path to the destination
+   */
   private ArrayList<RoadSegment> path;
   
+  /**
+   * Direction in the segment
+   */
   private boolean fromBeginToEnd = true;
   
+  /**
+   * Length covered in the segment
+   */
   private double length;
   
+  /**
+   * Is the beginning of the travel
+   */
   private boolean isBeginning = true;
   
+  /**
+   * Is the agent arrived at his destination
+   */
   private boolean isArrived = false;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("VehicleAgent was started.");
     this.behaviorType = DynamicType.STEERING;
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     UUID _iD = this.getID();
@@ -83,45 +92,17 @@ public class CarAgent extends Agent {
   
   @SyntheticMember
   private void $behaviorUnit$Destroy$1(final Destroy occurrence) {
-    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    UUID _iD = this.getID();
-    String _plus = ("VehicleAgent agent was stopped. " + _iD);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info(_plus);
     Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
     _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.killMe();
   }
   
   @SyntheticMember
-  private void $behaviorUnit$AgentSpawned$2(final AgentSpawned occurrence) {
-  }
-  
-  @SyntheticMember
-  private void $behaviorUnit$AgentKilled$3(final AgentKilled occurrence) {
-  }
-  
-  @SyntheticMember
-  private void $behaviorUnit$pathAStar$4(final pathAStar occurrence) {
+  private void $behaviorUnit$pathAStar$2(final pathAStar occurrence) {
     this.path = occurrence.pathReturn;
   }
   
   @SyntheticMember
-  private void $behaviorUnit$ContextJoined$5(final ContextJoined occurrence) {
-  }
-  
-  @SyntheticMember
-  private void $behaviorUnit$ContextLeft$6(final ContextLeft occurrence) {
-  }
-  
-  @SyntheticMember
-  private void $behaviorUnit$MemberJoined$7(final MemberJoined occurrence) {
-  }
-  
-  @SyntheticMember
-  private void $behaviorUnit$MemberLeft$8(final MemberLeft occurrence) {
-  }
-  
-  @SyntheticMember
-  private void $behaviorUnit$PerceptionEvent$9(final PerceptionEvent occurrence) {
+  private void $behaviorUnit$PerceptionEvent$3(final PerceptionEvent occurrence) {
     float _x = occurrence.body.getPosition().getX();
     float _y = occurrence.body.getPosition().getY();
     Point2d currentPos = new Point2d(_x, _y);
@@ -258,6 +239,9 @@ public class CarAgent extends Agent {
     _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_3.emit(infEnv);
   }
   
+  /**
+   * Send a DestinationReached event if the agent has reached his destination
+   */
   private boolean destionationReached() {
     boolean _xifexpression = false;
     if ((!this.isArrived)) {
@@ -274,6 +258,9 @@ public class CarAgent extends Agent {
     return _xifexpression;
   }
   
+  /**
+   * Adapt the direction depending of his location
+   */
   private double changeDirection(final Point2d currentPos, final RoadSegment segment) {
     double _xblockexpression = (double) 0;
     {
@@ -345,21 +332,6 @@ public class CarAgent extends Agent {
   }
   
   @Extension
-  @ImportedCapacityFeature(PhysicEnvironment.class)
-  @SyntheticMember
-  private transient ClearableReference<Skill> $CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT;
-  
-  @SyntheticMember
-  @Pure
-  @Inline(value = "$castSkill(PhysicEnvironment.class, ($0$CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT == null || $0$CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT.get() == null) ? ($0$CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT = $0$getSkill(PhysicEnvironment.class)) : $0$CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT)", imported = PhysicEnvironment.class)
-  private PhysicEnvironment $CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT$CALLER() {
-    if (this.$CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT == null || this.$CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT.get() == null) {
-      this.$CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT = $getSkill(PhysicEnvironment.class);
-    }
-    return $castSkill(PhysicEnvironment.class, this.$CAPACITY_USE$FRAMEWORK_AGENT_PHYSICENVIRONMENT);
-  }
-  
-  @Extension
   @ImportedCapacityFeature(Lifecycle.class)
   @SyntheticMember
   private transient ClearableReference<Skill> $CAPACITY_USE$IO_SARL_CORE_LIFECYCLE;
@@ -384,74 +356,32 @@ public class CarAgent extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$ContextLeft(final ContextLeft occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextLeft$6(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$ContextJoined(final ContextJoined occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextJoined$5(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$MemberLeft(final MemberLeft occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberLeft$8(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$AgentSpawned(final AgentSpawned occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentSpawned$2(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
   private void $guardEvaluator$Destroy(final Destroy occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Destroy$1(occurrence));
   }
   
+  /**
+   * Handle the perception of his body
+   */
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$PerceptionEvent(final PerceptionEvent occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$PerceptionEvent$9(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$PerceptionEvent$3(occurrence));
   }
   
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$AgentKilled(final AgentKilled occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentKilled$3(occurrence));
-  }
-  
+  /**
+   * Get path to his destination
+   */
   @SyntheticMember
   @PerceptGuardEvaluator
   private void $guardEvaluator$pathAStar(final pathAStar occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$pathAStar$4(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$MemberJoined(final MemberJoined occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberJoined$7(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$pathAStar$2(occurrence));
   }
   
   @Override

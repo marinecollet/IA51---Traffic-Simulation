@@ -17,16 +17,11 @@ import agents.requestAStar
 import agents.pathAStar
 import framework.environment.PerceptionEvent
 
-import java.util.List
-import framework.environment.Percept
-import framework.^agent.MotionAlgorithmOutput
 import framework.environment.Influence
 import framework.environment.DynamicType
 import framework.math.Vector2f
 import framework.^agent.PhysicEnvironment
-import framework.math.MathUtil
-import framework.^agent.StandardPhysicEnvironment
-import framework.math.Point2f
+
 import framework.environment.InfluenceEvent
 import java.util.ArrayList
 import org.arakhne.afc.gis.road.primitive.RoadSegment
@@ -39,70 +34,67 @@ import environments.TrafficLightColor
 import framework.environment.SituatedObject
 
 /** 
- * @author jerem
- * 
+ * Car Agent
  */
 agent CarAgent {
-	uses Logging, DefaultContextInteractions, PhysicEnvironment, Lifecycle
+	uses Logging, DefaultContextInteractions, Lifecycle
 
+	/*
+	 * Type of behavior to follow concerning the movement
+	 */
 	var behaviorType : DynamicType
+	
+	/*
+	 * Path to the destination
+	 */
 	var path : ArrayList<RoadSegment>
 	
+	/*
+	 * Direction in the segment
+	 */
 	var fromBeginToEnd = true
+	
+	/*
+	 * Length covered in the segment
+	 */
 	var length : double
 	
+	/*
+	 * Is the beginning of the travel
+	 */
 	var isBeginning = true
+	
+	/*
+	 * Is the agent arrived at his destination
+	 */
 	var isArrived = false;
 	
+	
 	on Initialize {
-		// Event trigger before the agent begin to live or to be used.
-		// You should put all the initialization statements in this block of code.
-		info("VehicleAgent was started.")
+		//info("VehicleAgent was started.")
 		behaviorType = DynamicType::STEERING
+		
+		//Ask for a path
 		emit( new requestAStar(this.ID));
 		length = 0
 	}
 
 	on Destroy {
-		// Event trigger when the agent is destroyed from the system.
-		// You should put all the resource releasing statements in this block of code.
-		info("VehicleAgent agent was stopped. " + this.ID)
+		//info("VehicleAgent agent was stopped. " + this.ID)
 		killMe()
 	}
-
-	on AgentSpawned {
-		// A new agent has been spawned in our context.
-	}
-
-	on AgentKilled {
-		// A new agent has been killed in our context.
-	}
 	
+	/*
+	 * Get path to his destination
+	 */
 	on pathAStar{
 		path = occurrence.pathReturn;
 		
 	}
-
-	on ContextJoined {
-		// Event trigger when an agent of the level joins a shared context.
-		// Sent to a agent of the same level.
-	}
-
-	on ContextLeft {
-		// Event trigger when an agent of the level jleaves a shared context.
-		// Sent to a agent of the same level.
-	}
-
-	on MemberJoined {
-		// Event trigger when an agent joins one of our shared super-holons.
-		// Sent to all members of the considered super-holon.
-	}
-
-	on MemberLeft {
-		// Event trigger when an agent leaves one of our shared super-holons.
-		// Sent to all members of the considered super-holon.
-	}
 	
+	/*
+	 * Handle the perception of his body
+	 */
 	on PerceptionEvent { 
 		
 		//for(o :occurrence.perceptions){
@@ -115,10 +107,11 @@ agent CarAgent {
 			}
 		 * }
 			 */
-			 
+		
 		var currentPos = new Point2d(occurrence.body.position.x, occurrence.body.position.y);
-		 
-		 if (path == null || path.empty) {
+		
+		//Is the path is not filled yet or the agent has not been killed 
+		if (path == null || path.empty) {
 			if(!isBeginning){
 				destionationReached();
 			}
@@ -126,7 +119,10 @@ agent CarAgent {
 			return
 		}
 		
+		//Get the current segment
 		var segment = path.get(0)
+		
+		//Adapt the direction depending of his location
 		if (isBeginning) {
 			changeDirection(currentPos,segment);
 			isBeginning = false;
@@ -229,6 +225,9 @@ agent CarAgent {
 		emit(infEnv); 
 	}
 	
+	/*
+	 * Send a DestinationReached event if the agent has reached his destination
+	 */
 	private def destionationReached(){
 		if(!isArrived){
 			emit(new DestinationReached(this.ID));
@@ -236,6 +235,9 @@ agent CarAgent {
 		}
 	}
 	
+	/*
+	 * Adapt the direction depending of his location
+	 */
 	private def changeDirection(currentPos : Point2d,segment : RoadSegment) {
 		var distanceB = new Vector2f(segment.beginPoint.point.x - currentPos.x,	segment.beginPoint.point.y - currentPos.y)
 		var distanceE = new Vector2f(segment.endPoint.point.x - currentPos.x, segment.endPoint.point.y - currentPos.y)

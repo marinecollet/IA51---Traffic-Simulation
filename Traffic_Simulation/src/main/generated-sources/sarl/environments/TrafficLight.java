@@ -10,12 +10,15 @@ import java.util.UUID;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
- * @author jerem
+ * Traffic light
  */
 @SarlSpecification("0.7")
 @SarlElementType(10)
 @SuppressWarnings("all")
 public class TrafficLight extends Panel {
+  /**
+   * State of the traffic light (green, orange or red)
+   */
   private TrafficLightColor state;
   
   public TrafficLight(final UUID id, final String name, final Point2f position) {
@@ -24,10 +27,16 @@ public class TrafficLight extends Panel {
     this.changeColor(TrafficLightColor.RED);
   }
   
+  /**
+   * Change the state of the traffic light
+   */
   public void changeColor(final TrafficLightColor toState) {
     this.state = toState;
   }
   
+  /**
+   * Get the state of the traffic light
+   */
   @Pure
   public TrafficLightColor getState() {
     return this.state;

@@ -4,36 +4,43 @@
 package environments
 
 import framework.math.Point2f
-import ui.ApplicationMap
-import org.arakhne.afc.gis.mapelement.MapPolygon
 import java.util.UUID
-import java.io.Serializable
+
 
 /** 
- * @author jerem
- * 
+ * Traffic light
  */
 class TrafficLight extends Panel {
 	 
+	/*
+	 * State of the traffic light (green, orange or red)
+	 */
 	var state : TrafficLightColor    
 
 	new(id : UUID, name : String, position : Point2f) {
 		super(id,position, name)
-		
 		this.type = "LIGHT"
 		changeColor(TrafficLightColor.RED)   
 	}
 	
-	
+	/*
+	 * Change the state of the traffic light
+	 */
 	def changeColor(toState : TrafficLightColor){
 		state = toState
 	}
 	
+	/*
+	 * Get the state of the traffic light
+	 */
 	def getState() : TrafficLightColor {
 		return state
 	} 
 }
 
+/*
+ * It corresponds to the different state of a traffic light
+ */
 enum TrafficLightColor{
 	RED,ORANGE,GREEN
 }
