@@ -183,8 +183,9 @@ agent CarAgent {
 	private def changeDirection(currentPos : Point2d,segment : RoadSegment) {
 		var distanceB = new Vector2f(segment.beginPoint.point.x - currentPos.x,	segment.beginPoint.point.y - currentPos.y)
 		var distanceE = new Vector2f(segment.endPoint.point.x - currentPos.x, segment.endPoint.point.y - currentPos.y)
-
-		if (distanceB < distanceE) {
+		var normeE = distanceE.length
+		var normeB = distanceB.length
+		if (normeB < normeE) {
 			fromBeginToEnd = true;
 		} else {
 			fromBeginToEnd = false;

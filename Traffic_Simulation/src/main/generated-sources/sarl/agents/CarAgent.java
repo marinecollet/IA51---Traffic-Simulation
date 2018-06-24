@@ -201,9 +201,10 @@ public class CarAgent extends Agent {
       double _y_3 = currentPos.getY();
       double _minus_3 = (_y_2 - _y_3);
       Vector2f distanceE = new Vector2f(_minus_2, _minus_3);
+      float normeE = distanceE.length();
+      float normeB = distanceB.length();
       Object _xifexpression = null;
-      boolean _lessThan = (distanceB.compareTo(distanceE) < 0);
-      if (_lessThan) {
+      if ((normeB < normeE)) {
         _xifexpression = Boolean.valueOf(this.fromBeginToEnd = true);
       } else {
         double _xblockexpression_1 = (double) 0;
