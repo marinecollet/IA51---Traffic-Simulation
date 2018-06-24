@@ -48,12 +48,12 @@ public class CarLayer extends ArrayMapElementLayer<MapElement>{
 				poly.addPoint(c.getPosition().getX() + Math.cos(2 * Math.PI / 16 * i + Math.PI / 16) * 5,
 					c.getPosition().getY() + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * 5);
 			}
-			
+			/*
 			Circle2f cercle = (Circle2f) c.getShape();
 			for (int i = 0; i < 16; i++) {
 				frustum.addPoint(c.getPosition().getX() + Math.cos(2 * Math.PI / 16 * i + Math.PI / 16) * cercle.getRadius(),
 					c.getPosition().getY() + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * cercle.getRadius());
-			}
+			}*/
 			/*
 			frustum.addPoint(rectangle.getBounds().getCenter().getX()+(rectangle.getBounds().getWidth() / 2), rectangle.getBounds().getCenter().getY()+(rectangle.getBounds().getHeight() / 2));
 			frustum.addPoint(rectangle.getBounds().getCenter().getX()+(rectangle.getBounds().getWidth() / 2), rectangle.getBounds().getCenter().getY()-(rectangle.getBounds().getHeight() / 2));
@@ -70,8 +70,8 @@ public class CarLayer extends ArrayMapElementLayer<MapElement>{
 			Color carColor = Color.BLUEVIOLET;
 			Color frustumColor = Color.BLUE;
 			poly.setColor(getIntFromColor(carColor.getRed(), carColor.getGreen(), carColor.getBlue()));
-			frustum.setColor(getIntFromColor(frustumColor.getRed(), frustumColor.getGreen(), frustumColor.getBlue()));
-			this.addMapElement(frustum);
+			//frustum.setColor(getIntFromColor(frustumColor.getRed(), frustumColor.getGreen(), frustumColor.getBlue()));
+			//this.addMapElement(frustum);
 			this.addMapElement(poly);	
 		
 			

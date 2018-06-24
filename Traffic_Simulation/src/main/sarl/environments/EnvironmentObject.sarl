@@ -17,7 +17,7 @@ import org.arakhne.afc.math.geometry.d2.d.Point2d
 abstract class EnvironmentObject extends AbstractSituatedObject {
 	
 	/*
-	 * Represent an object
+	 * Represent an object  
 	 */
 	protected var element : MapPolygon;
 	

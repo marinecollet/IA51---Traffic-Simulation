@@ -120,12 +120,12 @@ agent AgentEnvironment
 		}
 		
 		//Spawn each traffic light controller agent
-		for (var i = 0; i < environment.trafficLightsGroups.size; i++) {
+		/* for (var i = 0; i < environment.trafficLightsGroups.size; i++) {
 			var tlcontrollerID = UUID.randomUUID
 			spawnInContextWithID(typeof(TrafficLightControllerAgent), tlcontrollerID, defaultContext,
 				agentParameters.toArray)
 			trafficLightsControllers.add(tlcontrollerID);
-		}
+		} */
 		
 		//Send an event to inform the simulator that the simulation is ready
 		emit(new SimulationAgentReady)		

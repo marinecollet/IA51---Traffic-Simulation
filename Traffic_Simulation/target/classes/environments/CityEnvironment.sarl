@@ -26,6 +26,7 @@ import framework.math.Vector2f
 import framework.environment.DynamicType
 import java.util.UUID
 import java.lang.reflect.Array
+import framework.math.Circle2f
 
 /** 
  * @author jerem
@@ -252,13 +253,18 @@ class CityEnvironment extends AbstractEnvironment{
 	}
 	
 	protected def computePerceptionsFor(^agent : AgentBody) : List<Percept> {
+		//println("compute")
 		var u = new ArrayList<Percept>
 		for (o : environmentObjects) {
-			if ((^agent as Vehicle).shape.intersects(o.shape)) {
-				// println(o.type)
+			
+			if((^agent.shape as Circle2f).intersects(o.shape as Circle2f))
+			{
+				//println(o.type); 
+				 
 				u.add(new Percept(o));
-				^agent.setPerceptions(u);
-			}
+				^agent.setPerceptions(u); 
+			} 
+			
 
 		}
 		return u;
@@ -291,6 +297,7 @@ class CityEnvironment extends AbstractEnvironment{
 		for (action : actions) {
 			var body = action.objectToMove
 			if (body !== null) {
+				body.shape.translate2(action.translation)
 				body.position += action.translation
 				body.move(action.translation, action.rotation)
 				//body.position = action.translation

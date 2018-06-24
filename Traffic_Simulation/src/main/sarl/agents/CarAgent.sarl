@@ -69,7 +69,7 @@ agent CarAgent {
 		behaviorType = DynamicType::STEERING
 		
 		//Ask for a path
-		emit( new requestAStar(this.ID));
+		emit( new requestAStar(this.ID));  
 		length = 0
 	}
 
@@ -124,17 +124,21 @@ agent CarAgent {
 		var distanceMin : float = occurrence.perceptionDistance
 		var object : SituatedObject
 		var accelerationCar : double = occurrence.body.maxLinearAcceleration
+		 var listAgent : ArrayList = new ArrayList()
 		if (!occurrence.perceptions.isEmpty) {
-			println(occurrence.perceptions.isEmpty)
+			
 			for (o : occurrence.perceptions) {
+				if(o.type === "BODY"){
+					listAgent.add(o.body)
+				}
 				var distance = Math.abs((occurrence.body.position - o.body.position).length)
 				if (distance <= distanceMin) { // && path.get(0).contains(new Point2d(o.position.x, o.position.y))
 					object = o.body;
 					distanceMin = distance;
 				}
 			}
-			
-			
+			var arreter : boolean = false
+			var distanceArret = 10;
 			if (object !== null) { 
 				if (object.type == "LIGHT") {
 					if ((object as TrafficLight).state == TrafficLightColor.RED) {
@@ -152,10 +156,26 @@ agent CarAgent {
 						accelerationCar -= (part1 + part2) ** 2
 						accelerationCar = accelerationCar * a
 					} else {
-					}
+					} 
 				} else {
 					if (object.type === "SIGN") {
-						accelerationCar = 0;
+						var distance = Math.abs((occurrence.body.position - object.position).length)
+						//println(distance)
+						if (distance <= distanceArret) {
+							accelerationCar = 0;
+							
+							arreter = true
+							
+							
+						}
+						
+						if (arreter && listAgent.isEmpty) {
+							//println("in")
+							arreter = false
+							accelerationCar = occurrence.body.maxLinearAcceleration
+						}
+						
+						
 					} else {
 						if (object.type === "BODY") { // agent
 						} else {

@@ -40,7 +40,6 @@ import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -123,12 +122,17 @@ public class CarAgent extends Agent {
     float distanceMin = occurrence.perceptionDistance;
     SituatedObject object = null;
     double accelerationCar = occurrence.body.getMaxLinearAcceleration();
+    ArrayList listAgent = new ArrayList<Object>();
     boolean _isEmpty = occurrence.perceptions.isEmpty();
     boolean _not = (!_isEmpty);
     if (_not) {
-      InputOutput.<Boolean>println(Boolean.valueOf(occurrence.perceptions.isEmpty()));
       for (final Percept o : occurrence.perceptions) {
         {
+          Serializable _type = o.getType();
+          boolean _tripleEquals = (_type == "BODY");
+          if (_tripleEquals) {
+            listAgent.add(o.getBody());
+          }
           Point2f _position = occurrence.body.getPosition();
           Point2f _position_1 = o.getBody().getPosition();
           float distance = Math.abs(_position.operator_minus(_position_1).length());
@@ -138,6 +142,8 @@ public class CarAgent extends Agent {
           }
         }
       }
+      boolean arreter = false;
+      int distanceArret = 10;
       if ((object != null)) {
         Serializable _type = object.getType();
         boolean _equals = Objects.equal(_type, "LIGHT");
@@ -171,7 +177,17 @@ public class CarAgent extends Agent {
           Serializable _type_1 = object.getType();
           boolean _tripleEquals = (_type_1 == "SIGN");
           if (_tripleEquals) {
-            accelerationCar = 0;
+            Point2f _position = occurrence.body.getPosition();
+            Point2f _position_1 = object.getPosition();
+            float distance = Math.abs(_position.operator_minus(_position_1).length());
+            if ((distance <= distanceArret)) {
+              accelerationCar = 0;
+              arreter = true;
+            }
+            if ((arreter && listAgent.isEmpty())) {
+              arreter = false;
+              accelerationCar = occurrence.body.getMaxLinearAcceleration();
+            }
           } else {
             Serializable _type_2 = object.getType();
             boolean _tripleEquals_1 = (_type_2 == "BODY");

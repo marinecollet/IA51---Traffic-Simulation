@@ -8,7 +8,6 @@ import environments.RoadSegmentDataCollection;
 import environments.StopSign;
 import environments.TrafficLight;
 import environments.TrafficLightColor;
-import environments.Vehicle;
 import framework.environment.AbstractEnvironment;
 import framework.environment.AgentBody;
 import framework.environment.DynamicType;
@@ -16,7 +15,9 @@ import framework.environment.Influence;
 import framework.environment.MotionInfluence;
 import framework.environment.Percept;
 import framework.environment.SituatedObject;
+import framework.math.Circle2f;
 import framework.math.Point2f;
+import framework.math.Shape2f;
 import framework.math.Vector2f;
 import framework.time.StepTimeManager;
 import framework.time.TimeManager;
@@ -387,7 +388,9 @@ public class CityEnvironment extends AbstractEnvironment {
   protected List<Percept> computePerceptionsFor(final AgentBody agent) {
     ArrayList<Percept> u = new ArrayList<Percept>();
     for (final EnvironmentObject o : this.environmentObjects) {
-      boolean _intersects = ((Vehicle) agent).getShape().intersects(o.getShape());
+      Shape2f<?> _shape = agent.getShape();
+      Shape2f<?> _shape_1 = o.getShape();
+      boolean _intersects = ((Circle2f) _shape).intersects(((Circle2f) _shape_1));
       if (_intersects) {
         Percept _percept = new Percept(o);
         u.add(_percept);
@@ -425,6 +428,7 @@ public class CityEnvironment extends AbstractEnvironment {
       {
         AgentBody body = action.getObjectToMove();
         if ((body != null)) {
+          body.getShape().translate2(action.getTranslation());
           Point2f _position = body.getPosition();
           Vector2f _translation = action.getTranslation();
           _position.operator_add(_translation);

@@ -46,4 +46,7 @@ public class pathAStar extends Event {
     super.toString(builder);
     builder.add("pathReturn", this.pathReturn);
   }
+  
+  @SyntheticMember
+  private final static long serialVersionUID = -683169894L;
 }

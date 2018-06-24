@@ -54,4 +54,7 @@ public class ChangeTrafficLight extends Event {
     builder.add("oranges", this.oranges);
     builder.add("reds", this.reds);
   }
+  
+  @SyntheticMember
+  private final static long serialVersionUID = 3228547192L;
 }
