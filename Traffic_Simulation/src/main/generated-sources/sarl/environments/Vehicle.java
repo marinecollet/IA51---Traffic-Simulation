@@ -31,11 +31,6 @@ public abstract class Vehicle extends AgentBody {
   public abstract void moveVehicle(final Point2f newPos);
   
   @Pure
-  public float getPerceptionDistance() {
-    return this.perceptionDistance;
-  }
-  
-  @Pure
   public Shape2f<?> getRectangle() {
     return this.rectangle;
   }
@@ -78,5 +73,5 @@ public abstract class Vehicle extends AgentBody {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = -907312580L;
+  private final static long serialVersionUID = 798350710L;
 }

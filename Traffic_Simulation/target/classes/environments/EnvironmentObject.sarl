@@ -33,7 +33,7 @@ abstract class EnvironmentObject extends AbstractSituatedObject {
 		super(id,new Rectangle2f(new Point2f,new Point2f)) 
 		assert id !== null
 		this.name = name
-		this.type = "OBJECT" 
+		
 		if (position !== null) {
 			this.position.set(position)
 		} 

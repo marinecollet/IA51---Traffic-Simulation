@@ -51,6 +51,7 @@ class Percept implements MobileObject, Serializable {
 	val maxAngularAcceleration : float 
 	val currentAngularSpeed : float
 	val name : String 
+	var body : SituatedObject
 	
 	/**
 	 * @param perceivedObject is the perceived object.
@@ -62,6 +63,7 @@ class Percept implements MobileObject, Serializable {
 		this.position = perceivedObject.position.clone
 		var rtype = type ?: perceivedObject.type
 		this.type = rtype ?: perceivedObject.class.name
+		this.body = perceivedObject
 		if (perceivedObject instanceof MobileObject) {
 			this.angle = perceivedObject.angle
 			this.maxAngularAcceleration = perceivedObject.maxAngularAcceleration
@@ -86,7 +88,9 @@ class Percept implements MobileObject, Serializable {
 		}
 	}
 	
-
+	def getBody() : SituatedObject{
+		return body
+	}
 	
 	override clone : Percept {
 		var clone = super.clone as Percept

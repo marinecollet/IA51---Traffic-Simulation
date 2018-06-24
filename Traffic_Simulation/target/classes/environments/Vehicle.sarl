@@ -34,9 +34,7 @@ abstract class Vehicle extends AgentBody
 
 	def moveVehicle(newPos : Point2f);
 
-	def getPerceptionDistance : float {
-		return perceptionDistance 
-	}
+	
 		
 
 	def getRectangle : Shape2f<?>{

@@ -132,7 +132,8 @@ agent AgentEnvironment
 			var ev = new PerceptionEvent(
 				body.perceivedObjects,
 				new Percept(body),
-				timePercept
+				timePercept,
+				body.perceptionDistance 
 			);
 			emit(ev)[it.UUID == body.ID]
 		}

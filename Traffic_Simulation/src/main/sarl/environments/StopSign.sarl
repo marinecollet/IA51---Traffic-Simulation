@@ -24,7 +24,7 @@ class StopSign extends Panel {
 	new(id : UUID,  name: String, position : Point2f) { 
 		super(id, name) 
 		this.position = position
-		
+		this.type = "SIGN"
 		element = new MapPolygon
 		 
 		

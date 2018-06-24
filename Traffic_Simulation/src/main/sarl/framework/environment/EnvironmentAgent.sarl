@@ -104,7 +104,8 @@ agent EnvironmentAgent {
 			var ^event = new PerceptionEvent(
 				body.perceivedObjects,
 				new Percept(body),
-				timePercept)
+				timePercept,
+				body.perceptionDistance) 
 			this.^space.emit(this.myAdr.UUID, ^event) [it.UUID == body.ID]
 		}
 		if (!run) {

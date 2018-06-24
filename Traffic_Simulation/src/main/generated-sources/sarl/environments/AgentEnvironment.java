@@ -164,7 +164,8 @@ public class AgentEnvironment extends Agent {
       {
         List<Percept> _perceivedObjects = body.getPerceivedObjects();
         Percept _percept = new Percept(body);
-        PerceptionEvent ev = new PerceptionEvent(_perceivedObjects, _percept, timePercept);
+        float _perceptionDistance = body.getPerceptionDistance();
+        PerceptionEvent ev = new PerceptionEvent(_perceivedObjects, _percept, timePercept, _perceptionDistance);
         DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
         final Scope<Address> _function = (Address it) -> {
           UUID _uUID = it.getUUID();

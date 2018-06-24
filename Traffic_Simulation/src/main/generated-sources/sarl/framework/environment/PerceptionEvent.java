@@ -45,16 +45,28 @@ public class PerceptionEvent extends Event {
   
   public final List<Percept> perceptions;
   
-  public PerceptionEvent(final List<Percept> p, final Percept b, final TimePercept t) {
+  public float perceptionDistance;
+  
+  public PerceptionEvent(final List<Percept> p, final Percept b, final TimePercept t, final float perceptionDistance) {
     this.perceptions = p;
     this.body = b;
     this.time = t;
+    this.perceptionDistance = perceptionDistance;
   }
   
   @Override
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    PerceptionEvent other = (PerceptionEvent) obj;
+    if (Float.floatToIntBits(other.perceptionDistance) != Float.floatToIntBits(this.perceptionDistance))
+      return false;
     return super.equals(obj);
   }
   
@@ -63,6 +75,8 @@ public class PerceptionEvent extends Event {
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
+    final int prime = 31;
+    result = prime * result + Float.floatToIntBits(this.perceptionDistance);
     return result;
   }
   
@@ -76,8 +90,9 @@ public class PerceptionEvent extends Event {
     builder.add("body", this.body);
     builder.add("time", this.time);
     builder.add("perceptions", this.perceptions);
+    builder.add("perceptionDistance", this.perceptionDistance);
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 2824671890L;
+  private final static long serialVersionUID = 2630670636L;
 }

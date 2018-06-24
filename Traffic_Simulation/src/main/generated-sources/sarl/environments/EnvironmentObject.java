@@ -44,7 +44,6 @@ public abstract class EnvironmentObject extends AbstractSituatedObject {
     }
     assert new $AssertEvaluator$().$$result;
     this.name = name;
-    this.type = "OBJECT";
     if ((position != null)) {
       this.getPosition().set(position);
     }

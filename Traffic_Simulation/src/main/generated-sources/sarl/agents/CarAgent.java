@@ -9,7 +9,9 @@ import framework.environment.DynamicType;
 import framework.environment.Influence;
 import framework.environment.InfluenceEvent;
 import framework.environment.MotionInfluence;
+import framework.environment.Percept;
 import framework.environment.PerceptionEvent;
+import framework.math.Point2f;
 import framework.math.Vector2f;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
@@ -132,6 +134,20 @@ public class CarAgent extends Agent {
       this.changeDirection(currentPos, segment);
       this.isBeginning = false;
     }
+    float distanceMin = occurrence.perceptionDistance;
+    Percept object = null;
+    for (final Percept o : occurrence.perceptions) {
+      {
+        Point2f _position = occurrence.body.getPosition();
+        Point2f _position_1 = o.getBody().getPosition();
+        float distance = Math.abs(_position.operator_minus(_position_1).length());
+        if (((distance <= distanceMin) && this.path.get(0).contains(new Point2d(o.getPosition().getX(), o.getPosition().getY())))) {
+          object = o;
+          distanceMin = distance;
+        }
+      }
+    }
+    double accelerationCar = 0;
     if (this.fromBeginToEnd) {
       float _maxLinearAcceleration = occurrence.body.getMaxLinearAcceleration();
       float _multiply = (_maxLinearAcceleration * 0.01f);

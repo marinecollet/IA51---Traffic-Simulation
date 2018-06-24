@@ -56,6 +56,8 @@ import org.eclipse.xtext.xbase.lib.StringExtensions;
 public class AgentBody extends AbstractMobileObject implements Body {
   private final Frustum frustum;
   
+  private float perceptionDistance;
+  
   private transient MotionInfluence motionInfluence;
   
   private transient List<Influence> otherInfluences = new ArrayList<Influence>();
@@ -116,6 +118,11 @@ public class AgentBody extends AbstractMobileObject implements Body {
   @Pure
   public Frustum getFrustum() {
     return this.frustum;
+  }
+  
+  @Pure
+  public float getPerceptionDistance() {
+    return this.perceptionDistance;
   }
   
   /**
@@ -303,6 +310,15 @@ public class AgentBody extends AbstractMobileObject implements Body {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    AgentBody other = (AgentBody) obj;
+    if (Float.floatToIntBits(other.perceptionDistance) != Float.floatToIntBits(this.perceptionDistance))
+      return false;
     return super.equals(obj);
   }
   
@@ -311,9 +327,11 @@ public class AgentBody extends AbstractMobileObject implements Body {
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
+    final int prime = 31;
+    result = prime * result + Float.floatToIntBits(this.perceptionDistance);
     return result;
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 457998078L;
+  private final static long serialVersionUID = -2222718502L;
 }

@@ -37,8 +37,8 @@ import environments.EnvironmentObject
  */
  class AgentBody extends AbstractMobileObject implements Body {
 
-	val frustum : Frustum   
-	
+	val frustum : Frustum
+	var perceptionDistance : float
 	transient var motionInfluence : MotionInfluence
 	transient var otherInfluences : List<Influence> = new ArrayList  
 	transient var perceptions : List<Percept> = new ArrayList 
@@ -83,6 +83,10 @@ import environments.EnvironmentObject
 	 */
 	def getFrustum : Frustum {
 		this.frustum
+	}
+	
+	def getPerceptionDistance() : float{
+		return perceptionDistance
 	}
 	
 	/** Invoked to send the given influence to the environment.

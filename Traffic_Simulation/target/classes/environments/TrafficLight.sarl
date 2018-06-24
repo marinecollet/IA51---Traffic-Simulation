@@ -20,7 +20,7 @@ class TrafficLight extends Panel {
 	new(id : UUID, name : String, position : Point2f) {
 		super(id, name)
 		this.position = position
-
+		this.type = "LIGHT"
 		changeColor(TrafficLightColor.RED) 
 	}
 	

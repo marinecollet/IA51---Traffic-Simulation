@@ -76,6 +76,8 @@ public class Percept implements MobileObject, Serializable {
   
   private final String name;
   
+  private SituatedObject body;
+  
   /**
    * @param perceivedObject is the perceived object.
    */
@@ -101,6 +103,7 @@ public class Percept implements MobileObject, Serializable {
       _elvis_1 = _name;
     }
     this.type = _elvis_1;
+    this.body = perceivedObject;
     if ((perceivedObject instanceof MobileObject)) {
       this.angle = ((MobileObject)perceivedObject).getAngle();
       this.maxAngularAcceleration = ((MobileObject)perceivedObject).getMaxAngularAcceleration();
@@ -131,6 +134,11 @@ public class Percept implements MobileObject, Serializable {
   @SyntheticMember
   @SarlSourceCode("null")
   private final static Serializable $DEFAULT_VALUE$NEW_0 = null;
+  
+  @Pure
+  public SituatedObject getBody() {
+    return this.body;
+  }
   
   @Override
   public Percept clone() {
@@ -303,5 +311,5 @@ public class Percept implements MobileObject, Serializable {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 14111333118L;
+  private final static long serialVersionUID = 14511889873L;
 }

@@ -22,6 +22,7 @@ public class StopSign extends Panel {
   public StopSign(final UUID id, final String name, final Point2f position) {
     super(id, name);
     this.position = position;
+    this.setType("SIGN");
     MapPolygon _mapPolygon = new MapPolygon();
     this.element = _mapPolygon;
     for (int i = 0; (i < 8); i++) {

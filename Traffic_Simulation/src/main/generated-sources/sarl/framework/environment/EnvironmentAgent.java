@@ -164,7 +164,8 @@ public class EnvironmentAgent extends Agent {
         run = true;
         List<Percept> _perceivedObjects = body.getPerceivedObjects();
         Percept _percept = new Percept(body);
-        PerceptionEvent event = new PerceptionEvent(_perceivedObjects, _percept, timePercept);
+        float _perceptionDistance = body.getPerceptionDistance();
+        PerceptionEvent event = new PerceptionEvent(_perceivedObjects, _percept, timePercept, _perceptionDistance);
         final Scope<Address> _function = (Address it) -> {
           UUID _uUID = it.getUUID();
           UUID _iD = body.getID();

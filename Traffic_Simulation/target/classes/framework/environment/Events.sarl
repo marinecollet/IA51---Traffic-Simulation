@@ -31,10 +31,12 @@ event PerceptionEvent {
 	val body : Percept
 	val time : TimePercept
 	val perceptions : List<Percept>
-	new (p : List<Percept>, b : Percept, t : TimePercept) {
+	var perceptionDistance : float
+	new (p : List<Percept>, b : Percept, t : TimePercept,perceptionDistance : float){
 		this.perceptions = p
 		this.body = b
 		this.time = t
+		this.perceptionDistance = perceptionDistance
 	}
 } 
 
