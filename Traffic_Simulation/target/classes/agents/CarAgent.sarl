@@ -146,7 +146,7 @@ agent CarAgent {
 			}
 			
 			
-			if (object !== null) {
+			if (object !== null) { 
 				if (object.type == "LIGHT") {
 					if ((object as TrafficLight).state == TrafficLightColor.RED) {
 						var a = occurrence.body.maxLinearAcceleration
