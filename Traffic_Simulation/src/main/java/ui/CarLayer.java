@@ -36,17 +36,15 @@ public class CarLayer extends ArrayMapElementLayer<MapElement>{
 	public void update() {
 		this.removeAllMapElements();
 		for(AgentBody c : carList) {
-			//System.out.println(c.getPosition());	
+			
 			MapPolygon poly = new MapPolygon();
 			poly.addPoint(c.getPosition().getX(),c.getPosition().getY());
 			poly.addPoint(c.getPosition().getX(),c.getPosition().getY()-10);
 			poly.addPoint(c.getPosition().getX()-10,c.getPosition().getY());
+			
 			Color carColor = Color.BLUEVIOLET;
 			poly.setColor(getIntFromColor(carColor.getRed(), carColor.getGreen(), carColor.getBlue()));
-			// TODO : check filters
-			MapCircle mapCircle = new MapCircle(c.getPosition().getX(),c.getPosition().getY(), 3);
-			//Color carColor = Color.YELLOW;
-			mapCircle.setColor(getIntFromColor(carColor.getRed(), carColor.getGreen(), carColor.getBlue()));
+			
 			this.addMapElement(poly);	
 		}
 	}

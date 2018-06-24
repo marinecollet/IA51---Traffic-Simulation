@@ -161,7 +161,7 @@ agent CarAgent {
 		//println(length + " - " + segment.length + " - "+ direction)
 
 		var influences = Array::newInstance(typeof(Influence),1) as Influence[];
-		influences.set(0, new MotionInfluence(DynamicType::KINEMATIC, this.ID , direction, 0))
+		influences.set(0, new MotionInfluence(DynamicType::KINEMATIC, this.ID , direction, 180f))
 		var infEnv = new InfluenceEvent(influences)
 		
 		//infEnv.influences.add()

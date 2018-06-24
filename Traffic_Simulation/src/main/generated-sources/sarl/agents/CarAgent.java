@@ -174,7 +174,7 @@ public class CarAgent extends Agent {
     Object _newInstance = Array.newInstance(Influence.class, 1);
     Influence[] influences = ((Influence[]) _newInstance);
     UUID _iD = this.getID();
-    MotionInfluence _motionInfluence = new MotionInfluence(DynamicType.KINEMATIC, _iD, direction, 0);
+    MotionInfluence _motionInfluence = new MotionInfluence(DynamicType.KINEMATIC, _iD, direction, 180f);
     influences[0] = _motionInfluence;
     InfluenceEvent infEnv = new InfluenceEvent(influences);
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_3 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
