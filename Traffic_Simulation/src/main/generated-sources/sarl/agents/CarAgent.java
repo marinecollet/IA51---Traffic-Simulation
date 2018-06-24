@@ -110,10 +110,6 @@ public class CarAgent extends Agent {
     float _x = occurrence.body.getPosition().getX();
     float _y = occurrence.body.getPosition().getY();
     Point2d currentPos = new Point2d(_x, _y);
-    if (this.isBegging) {
-      this.changeDirection(currentPos);
-      this.isBegging = false;
-    }
     if ((Objects.equal(this.path, null) || this.path.isEmpty())) {
       DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
       InfluenceEvent _influenceEvent = new InfluenceEvent();
@@ -121,6 +117,10 @@ public class CarAgent extends Agent {
       return;
     }
     RoadSegment segment = this.path.get(0);
+    if (this.isBegging) {
+      this.changeDirection(currentPos, segment);
+      this.isBegging = false;
+    }
     if (this.fromBeginToEnd) {
       float _maxLinearAcceleration = occurrence.body.getMaxLinearAcceleration();
       float _multiply = (_maxLinearAcceleration * 0.01f);
@@ -142,7 +142,8 @@ public class CarAgent extends Agent {
         _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.emit(_influenceEvent_1);
         return;
       }
-      this.changeDirection(currentPos);
+      segment = this.path.get(0);
+      this.changeDirection(currentPos, segment);
     } else {
       if (((!this.fromBeginToEnd) && (this.length <= 0))) {
         this.length = 0;
@@ -154,7 +155,8 @@ public class CarAgent extends Agent {
           _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2.emit(_influenceEvent_2);
           return;
         }
-        this.changeDirection(currentPos);
+        segment = this.path.get(0);
+        this.changeDirection(currentPos, segment);
       }
     }
     double _x_1 = segment.getGeoLocationForDistance(this.length).getX();
@@ -182,20 +184,20 @@ public class CarAgent extends Agent {
     _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_3.emit(infEnv);
   }
   
-  private Object changeDirection(final Point2d currentPos) {
+  private Object changeDirection(final Point2d currentPos, final RoadSegment segment) {
     Object _xblockexpression = null;
     {
-      double _x = this.path.get(0).getBeginPoint().getPoint().getX();
+      double _x = segment.getBeginPoint().getPoint().getX();
       double _x_1 = currentPos.getX();
       double _minus = (_x - _x_1);
-      double _y = this.path.get(0).getBeginPoint().getPoint().getY();
+      double _y = segment.getBeginPoint().getPoint().getY();
       double _y_1 = currentPos.getY();
       double _minus_1 = (_y - _y_1);
       Vector2f distanceB = new Vector2f(_minus, _minus_1);
-      double _x_2 = this.path.get(0).getEndPoint().getPoint().getX();
+      double _x_2 = segment.getEndPoint().getPoint().getX();
       double _x_3 = currentPos.getX();
       double _minus_2 = (_x_2 - _x_3);
-      double _y_2 = this.path.get(0).getEndPoint().getPoint().getY();
+      double _y_2 = segment.getEndPoint().getPoint().getY();
       double _y_3 = currentPos.getY();
       double _minus_3 = (_y_2 - _y_3);
       Vector2f distanceE = new Vector2f(_minus_2, _minus_3);
@@ -207,7 +209,7 @@ public class CarAgent extends Agent {
         double _xblockexpression_1 = (double) 0;
         {
           this.fromBeginToEnd = false;
-          _xblockexpression_1 = this.length = this.path.get(0).getLength();
+          _xblockexpression_1 = this.length = segment.getLength();
         }
         _xifexpression = Double.valueOf(_xblockexpression_1);
       }

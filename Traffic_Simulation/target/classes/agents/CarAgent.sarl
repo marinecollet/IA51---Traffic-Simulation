@@ -109,12 +109,8 @@ agent CarAgent {
 			}
 		 * }
 			 */
+			 
 		var currentPos = new Point2d(occurrence.body.position.x, occurrence.body.position.y);
-		 
-		if(isBegging){
-			changeDirection(currentPos);
-			isBegging = false;
-		}	 
 		 
 		 if(path == null || path.empty){
 			emit(new InfluenceEvent())
@@ -122,7 +118,10 @@ agent CarAgent {
 		}
 		
 		var segment = path.get(0)
-		
+		if (isBegging) {
+			changeDirection(currentPos,segment);
+			isBegging = false;
+		}	
 		
 		if (fromBeginToEnd) {
 			length = length + occurrence.body.maxLinearAcceleration*0.01f;
@@ -140,22 +139,24 @@ agent CarAgent {
 				emit(new InfluenceEvent())
 				return
 			}
-			changeDirection(currentPos)
+			segment = path.get(0);
+			
+			changeDirection(currentPos,segment)
 			
 		}
 		else if (!fromBeginToEnd && length <= 0) {
 			length = 0;
 			path.remove(0)
-
+			
 			if (path.empty) {
 				emit(new InfluenceEvent())
 				return
 			}
-			changeDirection(currentPos)
+			segment = path.get(0);
+			changeDirection(currentPos,segment)
 		}
 		
-		var newPos = new Vector2f(segment.getGeoLocationForDistance(length).x,
-			segment.getGeoLocationForDistance(length).y)
+		var newPos = new Vector2f(segment.getGeoLocationForDistance(length).x, segment.getGeoLocationForDistance(length).y)
 		var direction = new Vector2f((newPos.x - currentPos.x)*0.1f,(newPos.y - currentPos.y)*0.1f)
 		//println(length + " - " + segment.length + " - "+ direction)
 	
@@ -179,16 +180,15 @@ agent CarAgent {
 		
 		emit(infEnv); 
 	}
-	private def changeDirection(currentPos : Point2d) {
-		var distanceB = new Vector2f(path.get(0).beginPoint.point.x - currentPos.x,	path.get(0).beginPoint.point.y - currentPos.y)
-
-		var distanceE = new Vector2f(path.get(0).endPoint.point.x - currentPos.x, path.get(0).endPoint.point.y - currentPos.y)
+	private def changeDirection(currentPos : Point2d,segment : RoadSegment) {
+		var distanceB = new Vector2f(segment.beginPoint.point.x - currentPos.x,	segment.beginPoint.point.y - currentPos.y)
+		var distanceE = new Vector2f(segment.endPoint.point.x - currentPos.x, segment.endPoint.point.y - currentPos.y)
 
 		if (distanceB < distanceE) {
 			fromBeginToEnd = true;
 		} else {
 			fromBeginToEnd = false;
-			length = path.get(0).length;
+			length = segment.length;
 		}
 	}
 
