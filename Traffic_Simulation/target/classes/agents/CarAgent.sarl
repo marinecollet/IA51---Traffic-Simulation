@@ -48,6 +48,8 @@ agent CarAgent {
 	var fromBeginToEnd = true
 	var length : double
 	
+	var isBegging = true
+	
 	on Initialize {
 		// Event trigger before the agent begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
@@ -98,10 +100,6 @@ agent CarAgent {
 	
 	on PerceptionEvent { 
 		
-		//var target = occurrence.perceptions.extractTarget
-		//var target : Point2f = occurrence.
-		//var target : Point2f = null
-		
 		//for(o :occurrence.perceptions){
 			/*if (o instanceof TrafficLight) {
 				if((o as TrafficLight).state == TrafficLightColor.RED){
@@ -111,11 +109,13 @@ agent CarAgent {
 			if (o instanceof StopSign) {
 			}
 		 * }
-		 */
-		 
-		
-		 
+			 */
 		var currentPos = new Point2d(occurrence.body.position.x, occurrence.body.position.y);
+		 
+		if(isBegging){
+			changeDirection(currentPos);
+			isBegging = false;
+		}	 
 		 
 		 if(path == null || path.empty){
 			emit(new InfluenceEvent())
@@ -132,7 +132,6 @@ agent CarAgent {
 			length = length - occurrence.body.maxLinearAcceleration*0.01;	
 		}
 		
-		//length = length + occurrence.body.maxLinearAcceleration;
 		
 		if(fromBeginToEnd && length >= segment.length){
 			length = segment.length;
@@ -142,17 +141,7 @@ agent CarAgent {
 				emit(new InfluenceEvent())
 				return
 			}
-			
-			var distanceB = new Vector2f(path.get(0).beginPoint.point.x - currentPos.x, path.get(0).beginPoint.point.y -
-				currentPos.y)
-			var distanceE = new Vector2f(path.get(0).endPoint.point.x - currentPos.x, path.get(0).endPoint.point.y -
-				currentPos.y)
-
-			if (distanceB < distanceE) {
-				fromBeginToEnd = true;
-			} else {
-				fromBeginToEnd = false;
-			}
+			changeDirection(currentPos)
 			
 		}
 		else if (!fromBeginToEnd && length <= 0) {
@@ -163,18 +152,7 @@ agent CarAgent {
 				emit(new InfluenceEvent())
 				return
 			}
-
-			var distanceB = new Vector2f(path.get(0).beginPoint.point.x - currentPos.x, path.get(0).beginPoint.point.y -
-				currentPos.y)
-			var distanceE = new Vector2f(path.get(0).endPoint.point.x - currentPos.x, path.get(0).endPoint.point.y -
-				currentPos.y)
-
-			if (distanceB < distanceE) {
-				fromBeginToEnd = true;
-			} else {
-				fromBeginToEnd = false;
-			}
-			
+			changeDirection(currentPos)
 		}
 		
 		var newPos = new Vector2f(segment.getGeoLocationForDistance(length).x,
@@ -186,6 +164,10 @@ agent CarAgent {
 		if (fromBeginToEnd && length >= segment.length) {
 			length = 0
 		}
+
+		
+		var tmp = new Point2d(currentPos.x + direction.x,currentPos.y + direction.y);
+		println(segment.contains(tmp))
 
 		/*var direction : Vector2f
 		if(fromBeginToEnd){
@@ -201,6 +183,19 @@ agent CarAgent {
 		//infEnv.influences.add()
 		
 		emit(infEnv); 
+	}
+	
+	private def changeDirection(currentPos : Point2d) {
+		var distanceB = new Vector2f(path.get(0).beginPoint.point.x - currentPos.x, path.get(0).beginPoint.point.y - currentPos.y)
+		var distanceE = new Vector2f(path.get(0).endPoint.point.x - currentPos.x, path.get(0).endPoint.point.y -
+			currentPos.y)
+
+		if (distanceB < distanceE) {
+			fromBeginToEnd = true;
+		} else {
+			fromBeginToEnd = false;
+			length = path.get(0).length;
+		}
 	}
 
 		

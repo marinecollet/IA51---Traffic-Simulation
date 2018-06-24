@@ -39,6 +39,7 @@ import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -55,6 +56,8 @@ public class CarAgent extends Agent {
   private boolean fromBeginToEnd = true;
   
   private double length;
+  
+  private boolean isBegging = true;
   
   @SyntheticMember
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
@@ -108,6 +111,10 @@ public class CarAgent extends Agent {
     float _x = occurrence.body.getPosition().getX();
     float _y = occurrence.body.getPosition().getY();
     Point2d currentPos = new Point2d(_x, _y);
+    if (this.isBegging) {
+      this.changeDirection(currentPos);
+      this.isBegging = false;
+    }
     if ((Objects.equal(this.path, null) || this.path.isEmpty())) {
       DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
       InfluenceEvent _influenceEvent = new InfluenceEvent();
@@ -136,26 +143,7 @@ public class CarAgent extends Agent {
         _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.emit(_influenceEvent_1);
         return;
       }
-      double _x_1 = this.path.get(0).getBeginPoint().getPoint().getX();
-      double _x_2 = currentPos.getX();
-      double _minus_1 = (_x_1 - _x_2);
-      double _y_1 = this.path.get(0).getBeginPoint().getPoint().getY();
-      double _y_2 = currentPos.getY();
-      double _minus_2 = (_y_1 - _y_2);
-      Vector2f distanceB = new Vector2f(_minus_1, _minus_2);
-      double _x_3 = this.path.get(0).getEndPoint().getPoint().getX();
-      double _x_4 = currentPos.getX();
-      double _minus_3 = (_x_3 - _x_4);
-      double _y_3 = this.path.get(0).getEndPoint().getPoint().getY();
-      double _y_4 = currentPos.getY();
-      double _minus_4 = (_y_3 - _y_4);
-      Vector2f distanceE = new Vector2f(_minus_3, _minus_4);
-      boolean _lessThan = (distanceB.compareTo(distanceE) < 0);
-      if (_lessThan) {
-        this.fromBeginToEnd = true;
-      } else {
-        this.fromBeginToEnd = false;
-      }
+      this.changeDirection(currentPos);
     } else {
       if (((!this.fromBeginToEnd) && (this.length <= 0))) {
         this.length = 0;
@@ -167,43 +155,32 @@ public class CarAgent extends Agent {
           _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2.emit(_influenceEvent_2);
           return;
         }
-        double _x_5 = this.path.get(0).getBeginPoint().getPoint().getX();
-        double _x_6 = currentPos.getX();
-        double _minus_5 = (_x_5 - _x_6);
-        double _y_5 = this.path.get(0).getBeginPoint().getPoint().getY();
-        double _y_6 = currentPos.getY();
-        double _minus_6 = (_y_5 - _y_6);
-        Vector2f distanceB_1 = new Vector2f(_minus_5, _minus_6);
-        double _x_7 = this.path.get(0).getEndPoint().getPoint().getX();
-        double _x_8 = currentPos.getX();
-        double _minus_7 = (_x_7 - _x_8);
-        double _y_7 = this.path.get(0).getEndPoint().getPoint().getY();
-        double _y_8 = currentPos.getY();
-        double _minus_8 = (_y_7 - _y_8);
-        Vector2f distanceE_1 = new Vector2f(_minus_7, _minus_8);
-        boolean _lessThan_1 = (distanceB_1.compareTo(distanceE_1) < 0);
-        if (_lessThan_1) {
-          this.fromBeginToEnd = true;
-        } else {
-          this.fromBeginToEnd = false;
-        }
+        this.changeDirection(currentPos);
       }
     }
-    double _x_9 = segment.getGeoLocationForDistance(this.length).getX();
-    double _y_9 = segment.getGeoLocationForDistance(this.length).getY();
-    Vector2f newPos = new Vector2f(_x_9, _y_9);
-    float _x_10 = newPos.getX();
-    double _x_11 = currentPos.getX();
-    double _minus_9 = (_x_10 - _x_11);
-    double _multiply_2 = (_minus_9 * 0.1f);
-    float _y_10 = newPos.getY();
-    double _y_11 = currentPos.getY();
-    double _minus_10 = (_y_10 - _y_11);
-    double _multiply_3 = (_minus_10 * 0.1f);
+    double _x_1 = segment.getGeoLocationForDistance(this.length).getX();
+    double _y_1 = segment.getGeoLocationForDistance(this.length).getY();
+    Vector2f newPos = new Vector2f(_x_1, _y_1);
+    float _x_2 = newPos.getX();
+    double _x_3 = currentPos.getX();
+    double _minus_1 = (_x_2 - _x_3);
+    double _multiply_2 = (_minus_1 * 0.1f);
+    float _y_2 = newPos.getY();
+    double _y_3 = currentPos.getY();
+    double _minus_2 = (_y_2 - _y_3);
+    double _multiply_3 = (_minus_2 * 0.1f);
     Vector2f direction = new Vector2f(_multiply_2, _multiply_3);
     if ((this.fromBeginToEnd && (this.length >= segment.getLength()))) {
       this.length = 0;
     }
+    double _x_4 = currentPos.getX();
+    float _x_5 = direction.getX();
+    double _plus_1 = (_x_4 + _x_5);
+    double _y_4 = currentPos.getY();
+    float _y_5 = direction.getY();
+    double _plus_2 = (_y_4 + _y_5);
+    Point2d tmp = new Point2d(_plus_1, _plus_2);
+    InputOutput.<Boolean>println(Boolean.valueOf(segment.contains(tmp)));
     Object _newInstance = Array.newInstance(Influence.class, 1);
     Influence[] influences = ((Influence[]) _newInstance);
     UUID _iD = this.getID();
@@ -212,6 +189,40 @@ public class CarAgent extends Agent {
     InfluenceEvent infEnv = new InfluenceEvent(influences);
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_3 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
     _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_3.emit(infEnv);
+  }
+  
+  private Object changeDirection(final Point2d currentPos) {
+    Object _xblockexpression = null;
+    {
+      double _x = this.path.get(0).getBeginPoint().getPoint().getX();
+      double _x_1 = currentPos.getX();
+      double _minus = (_x - _x_1);
+      double _y = this.path.get(0).getBeginPoint().getPoint().getY();
+      double _y_1 = currentPos.getY();
+      double _minus_1 = (_y - _y_1);
+      Vector2f distanceB = new Vector2f(_minus, _minus_1);
+      double _x_2 = this.path.get(0).getEndPoint().getPoint().getX();
+      double _x_3 = currentPos.getX();
+      double _minus_2 = (_x_2 - _x_3);
+      double _y_2 = this.path.get(0).getEndPoint().getPoint().getY();
+      double _y_3 = currentPos.getY();
+      double _minus_3 = (_y_2 - _y_3);
+      Vector2f distanceE = new Vector2f(_minus_2, _minus_3);
+      Object _xifexpression = null;
+      boolean _lessThan = (distanceB.compareTo(distanceE) < 0);
+      if (_lessThan) {
+        _xifexpression = Boolean.valueOf(this.fromBeginToEnd = true);
+      } else {
+        double _xblockexpression_1 = (double) 0;
+        {
+          this.fromBeginToEnd = false;
+          _xblockexpression_1 = this.length = this.path.get(0).getLength();
+        }
+        _xifexpression = Double.valueOf(_xblockexpression_1);
+      }
+      _xblockexpression = ((Object)_xifexpression);
+    }
+    return _xblockexpression;
   }
   
   @Extension
@@ -354,6 +365,8 @@ public class CarAgent extends Agent {
       return false;
     if (Double.doubleToLongBits(other.length) != Double.doubleToLongBits(this.length))
       return false;
+    if (other.isBegging != this.isBegging)
+      return false;
     return super.equals(obj);
   }
   
@@ -365,6 +378,7 @@ public class CarAgent extends Agent {
     final int prime = 31;
     result = prime * result + (this.fromBeginToEnd ? 1231 : 1237);
     result = prime * result + (int) (Double.doubleToLongBits(this.length) ^ (Double.doubleToLongBits(this.length) >>> 32));
+    result = prime * result + (this.isBegging ? 1231 : 1237);
     return result;
   }
   
