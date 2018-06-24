@@ -98,43 +98,63 @@ class CityEnvironment extends AbstractEnvironment{
 
 		// For each connections, depending on the number, it creates
 		// a stop sign or a traffic light on the map
-		for (key : connectionsOccurence.keySet) {
+		for (key : connectionsOccurence.keySet) 
+		{
 			var cpt = connectionsOccurence.get(key);
 
 			// The road connection is an entry/exit connection
-			if (cpt == 1){
+			if (cpt == 1)
+			{
 				entryExitConnections.add(key);
 			}
-			//If cpt == 3 => stop sign
-			else if (cpt == 3) {
-				stop = new StopSign(UUID.randomUUID, "",new Point2f(key.point.x, key.point.y));
-				addEnvironmentObject(stop); 
-
-				/** Get all road segments data that are in this connection
+			else if (cpt == 3) 
+			{
+				/** 
+				 * Get all road segments data that are in this connection
 				 */
 				var segments = roadSegmentDataCollection.findRoadSegmentsForConnection(key);
-				for (segment : segments) {
-					if (segment.beginPoint === key) {
+				println("Segment founds " + segments.length);
+				
+				for (segment : segments) 
+				{
+					if (segment.beginPoint == key.point) 
+					{
+						stop = new StopSign(UUID.randomUUID, "", new Point2f(key.point.x, key.point.y));
+						addEnvironmentObject(stop);
 						segment.objectAtStart = stop;
-					} else if (segment.endPoint === key) {
+					} 
+					else if (segment.endPoint == key.point) 
+					{
+						stop = new StopSign(UUID.randomUUID, "", new Point2f(key.point.x, key.point.y));
+						addEnvironmentObject(stop);
 						segment.objectAtEnd = stop;
 					}
 				} 
 			} 
-			// cpt > 3 => traffic light
-			else if (cpt > 3) {	
-				trafficLight = new TrafficLight(UUID.randomUUID, "",new Point2f(new Point2f(key.point.x, key.point.y)));
-				trafficLight.changeColor(TrafficLightColor.GREEN);
-				trafficLights.add(trafficLight);
-				//addEnvironmentObject(trafficLight);
-
+			else if (cpt > 3)
+			{
 				/** Get all road segments data that are in this connection
 				 */
 				var segments = roadSegmentDataCollection.findRoadSegmentsForConnection(key);
-				for (segment : segments) {
-					if (segment.beginPoint === key) {
+				
+				for (segment : segments) 
+				{	
+					if (segment.beginPoint == key.point) 
+					{
+						trafficLight = new TrafficLight(UUID.randomUUID, "",
+							new Point2f(new Point2f(key.point.x, key.point.y)));
+						trafficLight.changeColor(TrafficLightColor.GREEN);
+						trafficLights.add(trafficLight);
+						
 						segment.objectAtStart = trafficLight;
-					} else if (segment.endPoint === key) {
+					} 
+					else if (segment.endPoint == key.point) 
+					{
+						trafficLight = new TrafficLight(UUID.randomUUID, "",
+							new Point2f(new Point2f(key.point.x, key.point.y)));
+						trafficLight.changeColor(TrafficLightColor.GREEN);
+						trafficLights.add(trafficLight);
+						
 						segment.objectAtEnd = trafficLight;
 					}
 				}
@@ -250,7 +270,6 @@ class CityEnvironment extends AbstractEnvironment{
 				//body.position = action.translation
 			}
 		}
-		
 	}
 	
 	def getAllObjects : Iterable<? extends SituatedObject> {

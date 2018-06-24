@@ -8,6 +8,7 @@ import java.util.HashSet;
 import org.arakhne.afc.gis.road.primitive.RoadConnection;
 import org.arakhne.afc.math.geometry.d2.Point2D;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
+import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -26,6 +27,17 @@ public class RoadSegmentDataCollection {
   public RoadSegmentDataCollection() {
     HashSet<RoadSegmentData> _hashSet = new HashSet<RoadSegmentData>();
     this.collection = _hashSet;
+  }
+  
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Get the amount of road segments.
+   */
+  @Pure
+  public int getLength() {
+    return ((Object[])Conversions.unwrapArray(this.collection, Object.class)).length;
   }
   
   /**
@@ -65,7 +77,8 @@ public class RoadSegmentDataCollection {
     for (final RoadSegmentData sgmt : this.collection) {
       Iterable<Point2d> _points = sgmt.getSegment().points();
       for (final Point2d point : _points) {
-        if ((point == connection)) {
+        boolean _equals = point.operator_equals(connection);
+        if (_equals) {
           segments.add(sgmt);
           continue;
         }
@@ -74,6 +87,13 @@ public class RoadSegmentDataCollection {
     return segments;
   }
   
+  /**
+   * @author Thomas Gredin
+   * 
+   * @description
+   * Return all RoadSegmentData that are a segment that is connected to the
+   * given road connection. Just need the Point2D instance of the connection.
+   */
   @Pure
   public HashSet<RoadSegmentData> findRoadSegmentsForConnection(final RoadConnection connection) {
     HashSet<RoadSegmentData> segments = new HashSet<RoadSegmentData>();
@@ -81,8 +101,8 @@ public class RoadSegmentDataCollection {
       Iterable<Point2d> _points = sgmt.getSegment().points();
       for (final Point2d point : _points) {
         Point2d _point = connection.getPoint();
-        boolean _tripleEquals = (point == _point);
-        if (_tripleEquals) {
+        boolean _equals = point.operator_equals(_point);
+        if (_equals) {
           segments.add(sgmt);
           continue;
         }

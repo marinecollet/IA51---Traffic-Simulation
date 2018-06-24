@@ -37,6 +37,7 @@ import org.arakhne.afc.math.geometry.d2.d.Point2d;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.ExclusiveRange;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.Pure;
 import ui.ApplicationMap;
 
@@ -187,48 +188,72 @@ public class CityEnvironment extends AbstractEnvironment {
           this.entryExitConnections.add(key);
         } else {
           if (((cpt).intValue() == 3)) {
-            UUID _randomUUID = UUID.randomUUID();
-            double _x = key.getPoint().getX();
-            double _y = key.getPoint().getY();
-            Point2f _point2f = new Point2f(_x, _y);
-            StopSign _stopSign = new StopSign(_randomUUID, "", _point2f);
-            stop = _stopSign;
-            this.addEnvironmentObject(stop);
             HashSet<RoadSegmentData> segments = this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
+            final HashSet<RoadSegmentData> _converted_segments = (HashSet<RoadSegmentData>)segments;
+            int _length = ((Object[])Conversions.unwrapArray(_converted_segments, Object.class)).length;
+            String _plus = ("Segment founds " + Integer.valueOf(_length));
+            InputOutput.<String>println(_plus);
             for (final RoadSegmentData segment : segments) {
               Point2d _beginPoint = segment.getBeginPoint();
-              boolean _tripleEquals = (_beginPoint == key);
-              if (_tripleEquals) {
+              Point2d _point = key.getPoint();
+              boolean _equals = _beginPoint.operator_equals(_point);
+              if (_equals) {
+                UUID _randomUUID = UUID.randomUUID();
+                double _x = key.getPoint().getX();
+                double _y = key.getPoint().getY();
+                Point2f _point2f = new Point2f(_x, _y);
+                StopSign _stopSign = new StopSign(_randomUUID, "", _point2f);
+                stop = _stopSign;
+                this.addEnvironmentObject(stop);
                 segment.setObjectAtStart(stop);
               } else {
                 Point2d _endPoint = segment.getEndPoint();
-                boolean _tripleEquals_1 = (_endPoint == key);
-                if (_tripleEquals_1) {
+                Point2d _point_1 = key.getPoint();
+                boolean _equals_1 = _endPoint.operator_equals(_point_1);
+                if (_equals_1) {
+                  UUID _randomUUID_1 = UUID.randomUUID();
+                  double _x_1 = key.getPoint().getX();
+                  double _y_1 = key.getPoint().getY();
+                  Point2f _point2f_1 = new Point2f(_x_1, _y_1);
+                  StopSign _stopSign_1 = new StopSign(_randomUUID_1, "", _point2f_1);
+                  stop = _stopSign_1;
+                  this.addEnvironmentObject(stop);
                   segment.setObjectAtEnd(stop);
                 }
               }
             }
           } else {
             if (((cpt).intValue() > 3)) {
-              UUID _randomUUID_1 = UUID.randomUUID();
-              double _x_1 = key.getPoint().getX();
-              double _y_1 = key.getPoint().getY();
-              Point2f _point2f_1 = new Point2f(_x_1, _y_1);
-              Point2f _point2f_2 = new Point2f(_point2f_1);
-              TrafficLight _trafficLight = new TrafficLight(_randomUUID_1, "", _point2f_2);
-              trafficLight = _trafficLight;
-              trafficLight.changeColor(TrafficLightColor.GREEN);
-              this.trafficLights.add(trafficLight);
               HashSet<RoadSegmentData> segments_1 = this.roadSegmentDataCollection.findRoadSegmentsForConnection(key);
               for (final RoadSegmentData segment_1 : segments_1) {
                 Point2d _beginPoint_1 = segment_1.getBeginPoint();
-                boolean _tripleEquals_2 = (_beginPoint_1 == key);
-                if (_tripleEquals_2) {
+                Point2d _point_2 = key.getPoint();
+                boolean _equals_2 = _beginPoint_1.operator_equals(_point_2);
+                if (_equals_2) {
+                  UUID _randomUUID_2 = UUID.randomUUID();
+                  double _x_2 = key.getPoint().getX();
+                  double _y_2 = key.getPoint().getY();
+                  Point2f _point2f_2 = new Point2f(_x_2, _y_2);
+                  Point2f _point2f_3 = new Point2f(_point2f_2);
+                  TrafficLight _trafficLight = new TrafficLight(_randomUUID_2, "", _point2f_3);
+                  trafficLight = _trafficLight;
+                  trafficLight.changeColor(TrafficLightColor.GREEN);
+                  this.trafficLights.add(trafficLight);
                   segment_1.setObjectAtStart(trafficLight);
                 } else {
                   Point2d _endPoint_1 = segment_1.getEndPoint();
-                  boolean _tripleEquals_3 = (_endPoint_1 == key);
-                  if (_tripleEquals_3) {
+                  Point2d _point_3 = key.getPoint();
+                  boolean _equals_3 = _endPoint_1.operator_equals(_point_3);
+                  if (_equals_3) {
+                    UUID _randomUUID_3 = UUID.randomUUID();
+                    double _x_3 = key.getPoint().getX();
+                    double _y_3 = key.getPoint().getY();
+                    Point2f _point2f_4 = new Point2f(_x_3, _y_3);
+                    Point2f _point2f_5 = new Point2f(_point2f_4);
+                    TrafficLight _trafficLight_1 = new TrafficLight(_randomUUID_3, "", _point2f_5);
+                    trafficLight = _trafficLight_1;
+                    trafficLight.changeColor(TrafficLightColor.GREEN);
+                    this.trafficLights.add(trafficLight);
                     segment_1.setObjectAtEnd(trafficLight);
                   }
                 }
