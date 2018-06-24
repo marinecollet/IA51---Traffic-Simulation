@@ -159,19 +159,7 @@ agent CarAgent {
 		var newPos = new Vector2f(segment.getGeoLocationForDistance(length).x, segment.getGeoLocationForDistance(length).y)
 		var direction = new Vector2f((newPos.x - currentPos.x)*0.1f,(newPos.y - currentPos.y)*0.1f)
 		//println(length + " - " + segment.length + " - "+ direction)
-	
-		if (fromBeginToEnd && length >= segment.length) {
-			length = 0
-		}
 
-
-		/*var direction : Vector2f
-		if(fromBeginToEnd){
-			direction = new Vector2f(path.get(0).beginPoint.point.x - occurrence.body.position.x, path.get(0).beginPoint.point.y - occurrence.body.position.y);
-		}
-		else{
-			direction =	new Vector2f(path.get(0).endPoint.point.x - occurrence.body.position.x, path.get(0).endPoint.point.y - occurrence.body.position.y); 
-		}*/
 		var influences = Array::newInstance(typeof(Influence),1) as Influence[];
 		influences.set(0, new MotionInfluence(DynamicType::KINEMATIC, this.ID , direction, 0))
 		var infEnv = new InfluenceEvent(influences)
@@ -187,6 +175,7 @@ agent CarAgent {
 		var normeB = distanceB.length
 		if (normeB < normeE) {
 			fromBeginToEnd = true;
+			length = 0;
 		} else {
 			fromBeginToEnd = false;
 			length = segment.length;

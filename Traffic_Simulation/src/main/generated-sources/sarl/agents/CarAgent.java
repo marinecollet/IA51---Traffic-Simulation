@@ -171,9 +171,6 @@ public class CarAgent extends Agent {
     double _minus_2 = (_y_2 - _y_3);
     double _multiply_3 = (_minus_2 * 0.1f);
     Vector2f direction = new Vector2f(_multiply_2, _multiply_3);
-    if ((this.fromBeginToEnd && (this.length >= segment.getLength()))) {
-      this.length = 0;
-    }
     Object _newInstance = Array.newInstance(Influence.class, 1);
     Influence[] influences = ((Influence[]) _newInstance);
     UUID _iD = this.getID();
@@ -184,8 +181,8 @@ public class CarAgent extends Agent {
     _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_3.emit(infEnv);
   }
   
-  private Object changeDirection(final Point2d currentPos, final RoadSegment segment) {
-    Object _xblockexpression = null;
+  private double changeDirection(final Point2d currentPos, final RoadSegment segment) {
+    double _xblockexpression = (double) 0;
     {
       double _x = segment.getBeginPoint().getPoint().getX();
       double _x_1 = currentPos.getX();
@@ -203,18 +200,23 @@ public class CarAgent extends Agent {
       Vector2f distanceE = new Vector2f(_minus_2, _minus_3);
       float normeE = distanceE.length();
       float normeB = distanceB.length();
-      Object _xifexpression = null;
+      double _xifexpression = (double) 0;
       if ((normeB < normeE)) {
-        _xifexpression = Boolean.valueOf(this.fromBeginToEnd = true);
-      } else {
         double _xblockexpression_1 = (double) 0;
         {
-          this.fromBeginToEnd = false;
-          _xblockexpression_1 = this.length = segment.getLength();
+          this.fromBeginToEnd = true;
+          _xblockexpression_1 = this.length = 0;
         }
-        _xifexpression = Double.valueOf(_xblockexpression_1);
+        _xifexpression = _xblockexpression_1;
+      } else {
+        double _xblockexpression_2 = (double) 0;
+        {
+          this.fromBeginToEnd = false;
+          _xblockexpression_2 = this.length = segment.getLength();
+        }
+        _xifexpression = _xblockexpression_2;
       }
-      _xblockexpression = ((Object)_xifexpression);
+      _xblockexpression = _xifexpression;
     }
     return _xblockexpression;
   }
