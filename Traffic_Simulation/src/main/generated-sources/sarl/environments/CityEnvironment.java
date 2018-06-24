@@ -7,7 +7,6 @@ import environments.RoadSegmentDataCollection;
 import environments.StopSign;
 import environments.TrafficLight;
 import environments.TrafficLightColor;
-import environments.Vehicle;
 import framework.environment.AbstractEnvironment;
 import framework.environment.AgentBody;
 import framework.environment.DynamicType;
@@ -35,7 +34,6 @@ import org.arakhne.afc.gis.road.primitive.RoadConnection;
 import org.arakhne.afc.gis.road.primitive.RoadNetwork;
 import org.arakhne.afc.gis.road.primitive.RoadSegment;
 import org.arakhne.afc.math.geometry.d2.d.Point2d;
-import org.arakhne.afc.math.geometry.d2.d.Shape2d;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.ExclusiveRange;
@@ -309,11 +307,6 @@ public class CityEnvironment extends AbstractEnvironment {
   protected List<Percept> computePerceptionsFor(final AgentBody agent) {
     ArrayList<Percept> u = new ArrayList<Percept>();
     for (final EnvironmentObject o : this.environmentObjects) {
-      boolean _intersects = o.element.intersects(((Shape2d<?>) ((Vehicle) agent).rectangle));
-      if (_intersects) {
-        Percept _percept = new Percept(o);
-        u.add(_percept);
-      }
     }
     return u;
   }

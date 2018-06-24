@@ -14,8 +14,6 @@ import java.io.Serializable
  * 
  */
 class TrafficLight extends Panel {
-
-	var position : Point2f
 	 
 	var state : TrafficLightColor   
 
@@ -23,38 +21,17 @@ class TrafficLight extends Panel {
 		super(id, name)
 		this.position = position
 
-		element = new MapPolygon
-
-		for (var i = 0; i < 16; i++) {
-			element.addPoint(position.x + Math.cos(2 * Math.PI / 16 * i + Math.PI / 16) * 8,
-				position.y + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * 8)
-		}
-
 		changeColor(TrafficLightColor.RED) 
-		ApplicationMap.instance.addFlashlightInLayer(element)
-	 
 	}
 	
 	
 	def changeColor(toState : TrafficLightColor){
 		state = toState
-		switch state{
-			case TrafficLightColor.RED:
-				element.color = 0x990000
-			case TrafficLightColor.ORANGE:
-				element.color = 0xffa500
-			default:
-				element.color = 0x006600
-		} 
 	}
 	
 	def getState() : TrafficLightColor {
 		return state
-	}
-	
-	def getElement():MapPolygon{
-		return element;
-	}
+	} 
 }
 
 enum TrafficLightColor{
