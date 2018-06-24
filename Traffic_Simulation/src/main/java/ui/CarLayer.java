@@ -38,9 +38,10 @@ public class CarLayer extends ArrayMapElementLayer<MapElement>{
 		for(AgentBody c : carList) {
 			
 			MapPolygon poly = new MapPolygon();
-			poly.addPoint(c.getPosition().getX(),c.getPosition().getY());
-			poly.addPoint(c.getPosition().getX(),c.getPosition().getY()-10);
-			poly.addPoint(c.getPosition().getX()-10,c.getPosition().getY());
+			for (int i = 0; i < 16; i++) {
+				poly.addPoint(c.getPosition().getX() + Math.cos(2 * Math.PI / 16 * i + Math.PI / 16) * 5,
+					c.getPosition().getY() + Math.sin(2 * Math.PI / 16 * i + Math.PI / 16) * 5);
+			}
 			
 			Color carColor = Color.BLUEVIOLET;
 			poly.setColor(getIntFromColor(carColor.getRed(), carColor.getGreen(), carColor.getBlue()));
