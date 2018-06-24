@@ -142,7 +142,8 @@ class CityEnvironment extends AbstractEnvironment{
 					if (segment.beginPoint == key.point) 
 					{
 						trafficLight = new TrafficLight(UUID.randomUUID, "",
-							new Point2f(new Point2f(key.point.x, key.point.y)));
+							new Point2f(segment.segment.getGeoLocationForDistance(6, 6).x,
+							segment.segment.getGeoLocationForDistance(6, 6).y));
 						trafficLight.changeColor(TrafficLightColor.GREEN);
 						trafficLights.add(trafficLight);
 						
@@ -151,7 +152,8 @@ class CityEnvironment extends AbstractEnvironment{
 					else if (segment.endPoint == key.point) 
 					{
 						trafficLight = new TrafficLight(UUID.randomUUID, "",
-							new Point2f(new Point2f(key.point.x, key.point.y)));
+							new Point2f(segment.segment.getGeoLocationForDistance(segment.segment.length - 6, -6).x,
+								segment.segment.getGeoLocationForDistance(segment.segment.length - 6, -6).y));
 						trafficLight.changeColor(TrafficLightColor.GREEN);
 						trafficLights.add(trafficLight);
 						

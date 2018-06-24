@@ -231,11 +231,10 @@ public class CityEnvironment extends AbstractEnvironment {
                 boolean _equals_2 = _beginPoint_1.operator_equals(_point_2);
                 if (_equals_2) {
                   UUID _randomUUID_2 = UUID.randomUUID();
-                  double _x_2 = key.getPoint().getX();
-                  double _y_2 = key.getPoint().getY();
+                  double _x_2 = segment_1.getSegment().getGeoLocationForDistance(6, 6).getX();
+                  double _y_2 = segment_1.getSegment().getGeoLocationForDistance(6, 6).getY();
                   Point2f _point2f_2 = new Point2f(_x_2, _y_2);
-                  Point2f _point2f_3 = new Point2f(_point2f_2);
-                  TrafficLight _trafficLight = new TrafficLight(_randomUUID_2, "", _point2f_3);
+                  TrafficLight _trafficLight = new TrafficLight(_randomUUID_2, "", _point2f_2);
                   trafficLight = _trafficLight;
                   trafficLight.changeColor(TrafficLightColor.GREEN);
                   this.trafficLights.add(trafficLight);
@@ -246,11 +245,14 @@ public class CityEnvironment extends AbstractEnvironment {
                   boolean _equals_3 = _endPoint_1.operator_equals(_point_3);
                   if (_equals_3) {
                     UUID _randomUUID_3 = UUID.randomUUID();
-                    double _x_3 = key.getPoint().getX();
-                    double _y_3 = key.getPoint().getY();
-                    Point2f _point2f_4 = new Point2f(_x_3, _y_3);
-                    Point2f _point2f_5 = new Point2f(_point2f_4);
-                    TrafficLight _trafficLight_1 = new TrafficLight(_randomUUID_3, "", _point2f_5);
+                    double _length_1 = segment_1.getSegment().getLength();
+                    double _minus = (_length_1 - 6);
+                    double _x_3 = segment_1.getSegment().getGeoLocationForDistance(_minus, (-6)).getX();
+                    double _length_2 = segment_1.getSegment().getLength();
+                    double _minus_1 = (_length_2 - 6);
+                    double _y_3 = segment_1.getSegment().getGeoLocationForDistance(_minus_1, (-6)).getY();
+                    Point2f _point2f_3 = new Point2f(_x_3, _y_3);
+                    TrafficLight _trafficLight_1 = new TrafficLight(_randomUUID_3, "", _point2f_3);
                     trafficLight = _trafficLight_1;
                     trafficLight.changeColor(TrafficLightColor.GREEN);
                     this.trafficLights.add(trafficLight);
