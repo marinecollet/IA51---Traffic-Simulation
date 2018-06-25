@@ -41,8 +41,8 @@ public class StartSimulation extends Event {
   }
   
   @SyntheticMember
-  public StartSimulation(final Address source) {
-    super(source);
+  public StartSimulation(final Address arg0) {
+    super(arg0);
   }
   
   @SyntheticMember

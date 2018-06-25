@@ -248,20 +248,20 @@ public class TrafficLightControllerAgent extends Agent {
   }
   
   @SyntheticMember
-  public TrafficLightControllerAgent(final UUID parentID, final UUID agentID) {
-    super(parentID, agentID);
+  public TrafficLightControllerAgent(final UUID arg0, final UUID arg1) {
+    super(arg0, arg1);
   }
   
   @SyntheticMember
-  @Inject
   @Deprecated
-  public TrafficLightControllerAgent(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
-    super(provider, parentID, agentID);
+  @Inject
+  public TrafficLightControllerAgent(final BuiltinCapacitiesProvider arg0, final UUID arg1, final UUID arg2) {
+    super(arg0, arg1, arg2);
   }
   
   @SyntheticMember
   @Inject
-  public TrafficLightControllerAgent(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
-    super(parentID, agentID, skillProvider);
+  public TrafficLightControllerAgent(final UUID arg0, final UUID arg1, final DynamicSkillProvider arg2) {
+    super(arg0, arg1, arg2);
   }
 }

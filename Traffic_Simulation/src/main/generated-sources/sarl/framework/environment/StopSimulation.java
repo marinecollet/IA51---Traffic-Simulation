@@ -41,8 +41,8 @@ public class StopSimulation extends Event {
   }
   
   @SyntheticMember
-  public StopSimulation(final Address source) {
-    super(source);
+  public StopSimulation(final Address arg0) {
+    super(arg0);
   }
   
   @SyntheticMember

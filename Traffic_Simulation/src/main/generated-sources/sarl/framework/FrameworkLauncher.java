@@ -178,20 +178,20 @@ public abstract class FrameworkLauncher extends Agent {
   }
   
   @SyntheticMember
-  public FrameworkLauncher(final UUID parentID, final UUID agentID) {
-    super(parentID, agentID);
+  public FrameworkLauncher(final UUID arg0, final UUID arg1) {
+    super(arg0, arg1);
   }
   
   @SyntheticMember
-  @Inject
   @Deprecated
-  public FrameworkLauncher(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
-    super(provider, parentID, agentID);
+  @Inject
+  public FrameworkLauncher(final BuiltinCapacitiesProvider arg0, final UUID arg1, final UUID arg2) {
+    super(arg0, arg1, arg2);
   }
   
   @SyntheticMember
   @Inject
-  public FrameworkLauncher(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
-    super(parentID, agentID, skillProvider);
+  public FrameworkLauncher(final UUID arg0, final UUID arg1, final DynamicSkillProvider arg2) {
+    super(arg0, arg1, arg2);
   }
 }

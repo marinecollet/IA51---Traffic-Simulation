@@ -5,11 +5,13 @@ public class Map {
 	/*
 	 * Width of the map
 	 */
+	
 	public static final int WIDTH = 1280;
 	
 	/*
 	 * Height of the map
 	 */
+	
 	public static final int HEIGHT = 720;
 	
 	/*

@@ -41,8 +41,8 @@ public class SimulationAgentReady extends Event {
   }
   
   @SyntheticMember
-  public SimulationAgentReady(final Address source) {
-    super(source);
+  public SimulationAgentReady(final Address arg0) {
+    super(arg0);
   }
   
   @SyntheticMember
